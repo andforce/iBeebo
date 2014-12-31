@@ -9,9 +9,11 @@ import java.util.List;
 import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask;
 import lib.org.zarroboogs.weibo.login.javabean.RequestResultBean;
 import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask.OnDoorOpenListener;
+import lib.org.zarroboogs.weibo.login.utils.Constaces;
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginCallBack;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
@@ -263,7 +265,17 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
     private void fetchWeiBa() {
         showDialogForWeiBo();
         String url = "http://appsrc.sinaapp.com/";
-        getAsyncHttpClient().get(url, new AsyncHttpResponseHandler() {
+        Header[] srcHeaders = new Header[] {
+                new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
+                new BasicHeader("Accept-Encoding", "gzip,deflate,sdch"),
+                new BasicHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4"),
+                new BasicHeader("Cache-Control", "no-cache"),
+                new BasicHeader("Connection", "keep-alive"),
+                new BasicHeader("Host", "appsrc.sinaapp.com"),
+                new BasicHeader("Pragma", "no-cache"),
+                new BasicHeader("User-Agent", Constaces.User_Agent),
+        };
+        getAsyncHttpClient().get(getApplicationContext(), url, srcHeaders, null, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
