@@ -3,6 +3,7 @@ package org.zarroboogs.weibo.setting.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import org.zarroboogs.weibo.R;
@@ -11,15 +12,15 @@ import org.zarroboogs.weibo.setting.fragment.WaterMarkFragment;
 
 import com.umeng.analytics.MobclickAgent;
 
-/**
- * User: qii Date: 12-10-24
- */
 public class WaterMarkPrefActivity extends AbstractAppActivity {
+	private Toolbar mWaterMarkToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting_activity_layout);
+        setContentView(R.layout.water_mark_setting_layout);
+        mWaterMarkToolbar = (Toolbar) findViewById(R.id.waterMarkToolbar);
+        mWaterMarkToolbar.setTitle("图片水印");
         // getActionBar().setDisplayShowHomeEnabled(false);
         // getActionBar().setDisplayShowTitleEnabled(true);
         // getActionBar().setDisplayHomeAsUpEnabled(true);

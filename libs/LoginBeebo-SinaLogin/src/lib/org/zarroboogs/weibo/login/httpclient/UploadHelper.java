@@ -114,7 +114,7 @@ public class UploadHelper {
         String unMark = "http://picupload.service.weibo.com/interface/pic_upload.php?app="
                 + "miniblog&data=1&mime=image/png&ct=0.2805887470021844";
 
-        mAsyncHttpClient.post(mContext.getApplicationContext(), unMark, getHeader, reqEntity, contentType,
+        mAsyncHttpClient.post(mContext.getApplicationContext(), markUrl, getHeader, reqEntity, contentType,
                 new AsyncHttpResponseHandler() {
 
                     @Override
