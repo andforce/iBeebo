@@ -124,7 +124,6 @@
 
     <style name="listViewMultiImageView">
         <item name="android:padding">3dp</item>
-        <item name="android:background">@drawable/about_item_bg_normal</item>
         <item name="android:scaleType">centerCrop</item>
         <item name="android:layout_height">90dp</item>
         <item name="android:layout_width">90dp</item>

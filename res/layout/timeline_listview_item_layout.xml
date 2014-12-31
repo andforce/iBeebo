@@ -126,7 +126,7 @@
             android:background="@drawable/about_item_bg_normal"
             android:clickable="true"
             android:padding="2dp"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             android:visibility="visible" />
 
         <GridLayout

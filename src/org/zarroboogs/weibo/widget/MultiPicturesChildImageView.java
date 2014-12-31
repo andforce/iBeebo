@@ -27,17 +27,14 @@ public class MultiPicturesChildImageView extends PerformanceImageView implements
 
     public MultiPicturesChildImageView(Context context) {
         this(context, null);
-        setScaleType(ScaleType.FIT_XY);
     }
 
     public MultiPicturesChildImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-        setScaleType(ScaleType.FIT_XY);
     }
 
     public MultiPicturesChildImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setScaleType(ScaleType.FIT_XY);
         init(context);
     }
 
