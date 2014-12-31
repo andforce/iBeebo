@@ -32,10 +32,13 @@ import org.zarroboogs.weibo.bean.WeibaTree;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.dialogfragment.SaveDraftDialog;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
+import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
+import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
@@ -82,6 +85,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -95,7 +99,8 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
 
     public static final String LOGIN_TAG = "START_SEND_WEIBO ";
     protected static final String TAG = "WeiboMainActivity  ";
-    RelativeLayout mEmotionRelativeLayout;
+    private SmileyPicker mSmileyPicker = null;
+
     Map<Integer, String> map = new HashMap<Integer, String>();
     InputMethodManager imm = null;
     MaterialEditText mEditText;
@@ -206,11 +211,19 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
         mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
         mRootView = (RelativeLayout) findViewById(R.id.container);
         mEditText = (com.rengwuxian.materialedittext.MaterialEditText) findViewById(R.id.weiboContentET);
-        mEmotionRelativeLayout = (RelativeLayout) findViewById(R.id.smileLayout_ref);
+        mSmileyPicker = (SmileyPicker) findViewById(R.id.smileLayout_ref);
+        mSmileyPicker.setEditText(this, mRootView, mEditText);
+        mEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideSmileyPicker(true);
+            }
+        });
+
         smileButton = (ImageButton) findViewById(R.id.smileImgButton);
         mSendBtn = (ImageButton) findViewById(R.id.sendWeiBoBtn);
 
-        findAllEmotionImageView((ViewGroup) findViewById(R.id.emotionTL));
+        // findAllEmotionImageView((ViewGroup) findViewById(R.id.emotionTL));
         mSelectPhoto.setOnClickListener(this);
         smileButton.setOnClickListener(this);
         mSendBtn.setOnClickListener(this);
@@ -437,35 +450,35 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
         getAppSrcSharedPreference().unregisterOnSharedPreferenceChangeListener(this);
     }
 
-    private void findAllEmotionImageView(ViewGroup vg) {
-        int count = vg.getChildCount();
-        for (int i = 0; i < count; i++) {
-            View v = vg.getChildAt(i);
-            if (v instanceof TableRow) {
-                findAllEmotionImageView((TableRow) v);
-            } else {
-                ((ImageView) v).setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        String text = ((ImageView) v).getContentDescription() + "";
-                        int index = mEditText.getSelectionStart();// 获取光标所在位置
-                        Editable edit = mEditText.getEditableText();// 获取EditText的文字
-                        if (index < 0 || index >= edit.length()) {
-                            edit.append(text);
-                        } else {
-                            edit.insert(index, text);// 光标所在位置插入文字
-                        }
-                        String content = mEditText.getText().toString();
-                        TimeLineUtility.addEmotions(mEditText, content);
-                        mEditText.setSelection(index + text.length());
-                    }
-                });
-                mEmotionArrayList.add((ImageView) v);
-            }
-        }
-    }
+    // private void findAllEmotionImageView(ViewGroup vg) {
+    // int count = vg.getChildCount();
+    // for (int i = 0; i < count; i++) {
+    // View v = vg.getChildAt(i);
+    // if (v instanceof TableRow) {
+    // findAllEmotionImageView((TableRow) v);
+    // } else {
+    // ((ImageView) v).setOnClickListener(new OnClickListener() {
+    //
+    // @Override
+    // public void onClick(View v) {
+    // // TODO Auto-generated method stub
+    // String text = ((ImageView) v).getContentDescription() + "";
+    // int index = mEditText.getSelectionStart();// 获取光标所在位置
+    // Editable edit = mEditText.getEditableText();// 获取EditText的文字
+    // if (index < 0 || index >= edit.length()) {
+    // edit.append(text);
+    // } else {
+    // edit.insert(index, text);// 光标所在位置插入文字
+    // }
+    // String content = mEditText.getText().toString();
+    // TimeLineUtility.addEmotions(mEditText, content);
+    // mEditText.setSelection(index + text.length());
+    // }
+    // });
+    // mEmotionArrayList.add((ImageView) v);
+    // }
+    // }
+    // }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -519,12 +532,11 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
 
     @Override
     public void onBackPressed() {
-        // TODO Auto-generated method stub
-        if (!(mEmotionRelativeLayout.getVisibility() == View.GONE)) {
-            mEmotionRelativeLayout.setVisibility(View.GONE);
-            return;
+        if (mSmileyPicker.isShown()) {
+            hideSmileyPicker(false);
+        } else {
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
 
     public void startLogIn() {
@@ -638,11 +650,16 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
                 imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
                 mHandler.postDelayed(new Runnable() {
                     public void run() {
-                        if (mEmotionRelativeLayout.getVisibility() == View.GONE) {
-                            mEmotionRelativeLayout.setVisibility(View.VISIBLE);
+                        if (mSmileyPicker.isShown()) {
+                            hideSmileyPicker(true);
                         } else {
-                            mEmotionRelativeLayout.setVisibility(View.GONE);
+                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(WeiboMainActivity.this));
                         }
+                        // if (mEmotionRelativeLayout.getVisibility() == View.GONE) {
+                        // mEmotionRelativeLayout.setVisibility(View.VISIBLE);
+                        // } else {
+                        // mEmotionRelativeLayout.setVisibility(View.GONE);
+                        // }
                     }
                 }, 100);
 
@@ -659,23 +676,51 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
 
     }
 
+    private void showSmileyPicker(boolean showAnimation) {
+        this.mSmileyPicker.show(this, showAnimation);
+    }
+
+    public void hideSmileyPicker(boolean showKeyBoard) {
+        if (this.mSmileyPicker.isShown()) {
+            if (showKeyBoard) {
+                // this time softkeyboard is hidden
+                RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.mEditText
+                        .getLayoutParams();
+                localLayoutParams.height = mSmileyPicker.getTop();
+                this.mSmileyPicker.hide(this);
+
+                SmileyPickerUtility.showKeyBoard(mEditText);
+                mEditText.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // unlockContainerHeightDelayed();
+                    }
+                }, 200L);
+            } else {
+                this.mSmileyPicker.hide(this);
+                // unlockContainerHeightDelayed();
+            }
+        }
+
+    }
+
     @Override
     public void onGlobalLayout() {
         // TODO Auto-generated method stub
 
-        Rect r = new Rect();
-        mEmotionRelativeLayout.getWindowVisibleDisplayFrame(r);
-
-        int heightDiff = mEmotionRelativeLayout.getRootView().getHeight() - (r.bottom - r.top);
-        if (heightDiff > 100) {
-            // if more than 100 pixels, its probably a keyboard...
-            Log.d("WEIBO_INPUT", "++++++++");
-            mEmotionRelativeLayout.setVisibility(View.GONE);
-            isKeyBoardShowed = true;
-        } else {
-            Log.d("WEIBO_INPUT", "---------");
-            isKeyBoardShowed = false;
-        }
+        // Rect r = new Rect();
+        // mEmotionRelativeLayout.getWindowVisibleDisplayFrame(r);
+        //
+        // int heightDiff = mEmotionRelativeLayout.getRootView().getHeight() - (r.bottom - r.top);
+        // if (heightDiff > 100) {
+        // // if more than 100 pixels, its probably a keyboard...
+        // Log.d("WEIBO_INPUT", "++++++++");
+        // mEmotionRelativeLayout.setVisibility(View.GONE);
+        // isKeyBoardShowed = true;
+        // } else {
+        // Log.d("WEIBO_INPUT", "---------");
+        // isKeyBoardShowed = false;
+        // }
 
     }
 
