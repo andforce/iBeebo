@@ -7,11 +7,11 @@
             android:summary="1.0 alpha"
             android:title="@string/pref_version_title" />
         <Preference
-            android:summary="github.com/andforce/WeiboWeiBaTong"
+            android:summary="github.com/andforce/Beebo"
             android:title="@string/pref_github_title" >
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/andforce/WeiboWeiBaTong" />
+                android:data="https://github.com/andforce/Beebo" />
         </Preference>
         <Preference
             android:summary="GPL v3.0"
