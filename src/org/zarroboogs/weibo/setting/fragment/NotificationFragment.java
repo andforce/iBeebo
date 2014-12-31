@@ -1,7 +1,6 @@
 
 package org.zarroboogs.weibo.setting.fragment;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,10 +12,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.othercomponent.AppNewMsgAlarm;
@@ -26,9 +21,6 @@ import org.zarroboogs.weibo.setting.activity.SettingActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: qii Date: 12-10-24
- */
 public class NotificationFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Preference frequency;
@@ -53,21 +45,18 @@ public class NotificationFragment extends PreferenceFragment implements SharedPr
         preferenceList.add(findPreference(SettingActivity.ENABLE_LED));
         preferenceList.add(findPreference(SettingActivity.ENABLE_RINGTONE));
 
-        View title = getActivity().getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
-        Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
-        // getActivity().getActionBar().setCustomView(title, new
-        // ActionBar.LayoutParams(Gravity.RIGHT));
-        // getActivity().getActionBar().setDisplayShowCustomEnabled(true);
+//        View title = getActivity().getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
+//        Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
+//
+//        switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                SettingUtils.setEnableFetchMSG(isChecked);
+//                switchPre(isChecked);
+//            }
+//        });
 
-        switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingUtils.setEnableFetchMSG(isChecked);
-                switchPre(isChecked);
-            }
-        });
-
-        switchBtn.setChecked(SettingUtils.getEnableFetchMSG());
+//        switchBtn.setChecked(SettingUtils.getEnableFetchMSG());
         switchPre(SettingUtils.getEnableFetchMSG());
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
