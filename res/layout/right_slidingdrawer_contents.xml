@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff2f2f2f" >
+
+    <LinearLayout
+        android:id="@+id/rightBottomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:baselineAligned="false"
+        android:divider="@drawable/drawer_menu_divider"
+        android:dividerPadding="0dp"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:showDividers="middle" >
+
+        <Button
+            android:id="@+id/btn_location"
+            style="@style/drawerMenuButton"
+            android:layout_width="match_parent"
+            android:layout_weight="0"
+            android:drawableLeft="@drawable/ic_menu_location"
+            android:text="@string/nearby"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_profile"
+            style="@style/drawerMenuButton"
+            android:layout_width="match_parent"
+            android:layout_weight="0"
+            android:drawableLeft="@drawable/ic_menu_profile"
+            android:text="@string/profile" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            style="@style/drawerMenuButton"
+            android:layout_width="match_parent"
+            android:layout_weight="0"
+            android:drawableLeft="@drawable/ic_menu_logout"
+            android:text="@string/logout" />
+
+        <Button
+            android:id="@+id/btn_setting"
+            style="@style/drawerMenuButton"
+            android:layout_width="match_parent"
+            android:layout_weight="0"
+            android:drawableLeft="@drawable/ic_menu_settings"
+            android:text="@string/setting" />
+    </LinearLayout>
+
+    <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView
+        android:id="@+id/rightGroupListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rightBottomView"
+        android:layout_gravity="center"
+        android:fastScrollEnabled="false"
+        android:overScrollMode="never"
+        android:scrollingCache="true"
+        android:smoothScrollbar="true"
+        android:visibility="visible" />
+
+</RelativeLayout>

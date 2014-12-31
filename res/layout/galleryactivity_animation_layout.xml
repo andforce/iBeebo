@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent">
+
+    <org.zarroboogs.weibo.support.gallery.ViewPagerFixed
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+
+
+    <LinearLayout
+            android:fitsSystemWindows="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="@dimen/index_text_margin_bottom"
+            android:gravity="bottom"
+            android:id="@+id/position_layout"
+            android:orientation="horizontal"
+            android:baselineAligned="true">
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="1"
+                android:id="@+id/position"
+                android:textColor="@color/white"
+                android:shadowColor="@color/dark_gray"
+                android:shadowDy="1"
+                android:shadowRadius="1"
+                android:textSize="35sp"/>
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="/"
+                android:shadowColor="@color/dark_gray"
+                android:shadowDy="1"
+                android:shadowRadius="1"
+                android:textColor="@color/white"
+                android:textSize="24sp"/>
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="1"
+                android:id="@+id/sum"
+                android:shadowColor="@color/dark_gray"
+                android:shadowDy="1"
+                android:shadowRadius="1"
+                android:textColor="@color/white"
+                android:textSize="24sp"/>
+
+    </LinearLayout>
+
+
+</FrameLayout>

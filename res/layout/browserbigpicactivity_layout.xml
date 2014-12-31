@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <FrameLayout
+        android:id="@+id/fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:minHeight="200dp"
+        android:minWidth="100dp" >
+
+        <org.zarroboogs.weibo.widget.CircleProgressView
+            android:id="@+id/pb"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <WebView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layerType="software" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/image_options"
+        android:layout_width="fill_parent"
+        android:layout_height="50.0dip"
+        android:layout_gravity="bottom"
+        android:background="#77000000"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/image_options_buttons"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/browser_pic_bottom_button_layout_padding"
+            android:paddingRight="@dimen/browser_pic_bottom_button_layout_padding" >
+
+            <ImageButton
+                android:id="@+id/ib_refresh"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:background="@drawable/actionbar_item_blue"
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scaleType="centerInside"
+                android:src="@drawable/refresh_light"
+                android:tag="external" />
+
+            <ImageButton
+                android:id="@+id/ib_copy"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:background="@drawable/actionbar_item_blue"
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_menu_copy"
+                android:tag="copy" />
+
+            <ImageButton
+                android:id="@+id/ib_share"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:background="@drawable/actionbar_item_blue"
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_menu_share"
+                android:tag="share" />
+
+            <ImageButton
+                android:id="@+id/ib_save"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:background="@drawable/actionbar_item_blue"
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_menu_download"
+                android:tag="save" />
+
+            <ImageButton
+                android:id="@+id/ib_hd"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:background="@drawable/actionbar_item_blue"
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_menu_large_image"
+                android:tag="hd" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

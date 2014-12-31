@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/location_mv"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_below="@id/location"
+    android:layout_marginTop="4dp"
+    android:visibility="gone"/>

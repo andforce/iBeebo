@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#EFEFEF"
+    android:orientation="vertical" >
+
+    <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView
+        android:id="@+id/left_menu_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fastScrollEnabled="false"
+        android:overScrollMode="never"
+        android:scrollingCache="true"
+        android:smoothScrollbar="true"
+        android:visibility="visible" />
+
+</LinearLayout>

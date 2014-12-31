@@ -1,0 +1,210 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="org.weibo.demo.MainActivity" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/writeWeiboToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimary"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:minHeight="?attr/actionBarSize" />
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/writeWeiboDrawerL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/writeWeiboToolBar" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <include
+                android:id="@+id/smileLayout_ref"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_alignParentBottom="true"
+                layout="@layout/smile_layout"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/action_layout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_above="@+id/smileLayout_ref"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_marginBottom="-5dp"
+                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="-5dp"
+                android:background="@drawable/bottom_action_bg" >
+
+                <ImageButton
+                    android:id="@+id/sendWeiBoBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bottom_selector"
+                    android:src="@drawable/send_dark"
+                    tools:ignore="ContentDescription" />
+
+                <ImageButton
+                    android:id="@+id/imageButton1"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bottom_selector"
+                    android:src="@drawable/camera_dark_off"
+                    tools:ignore="ContentDescription" />
+
+                <ImageButton
+                    android:id="@+id/smileImgButton"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imageButton1"
+                    android:background="@drawable/bottom_selector"
+                    android:src="@drawable/emoticon_dark"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/weiTextCountTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/sendWeiBoBtn"
+                    android:layout_centerVertical="true"
+                    android:text="@string/send_weibo"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mainBoady"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/action_layout"
+                android:layout_below="@id/writeWeiboToolBar"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/card_bg"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/editAppSrc"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/bottom_selector"
+                    android:orientation="vertical" >
+
+                    <Button
+                        android:id="@+id/appSrcBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/bottom_selector" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@null"
+                        android:paddingRight="5dp"
+                        android:src="@drawable/ic_edit_dark" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@null"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/pet_gray" />
+
+                    <View
+                        android:id="@+id/devider"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_above="@id/appSrcBtn"
+                        android:background="#FFCDCDCD" />
+                </RelativeLayout>
+
+                <ScrollView
+                    android:id="@+id/scrollView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/editAppSrc"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignWithParentIfMissing="true"
+                    android:focusable="true" >
+
+                    <RelativeLayout
+                        android:id="@+id/editTextLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/weiboContentET"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#00000000"
+                            android:ems="10"
+                            app:hideUnderline="true"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:minHeight="180dp"
+                            android:padding="10dp" >
+                        </com.rengwuxian.materialedittext.MaterialEditText>
+
+                        <include
+                            android:id="@+id/sendImgTL_ref"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_below="@id/weiboContentET"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="bottom"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            layout="@layout/send_pic_layout" />
+                    </RelativeLayout>
+                </ScrollView>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/drawerLeft"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start"
+            android:background="#EFEFEF"
+            android:orientation="vertical" >
+
+            <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView
+                android:id="@+id/left_menu_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:fastScrollEnabled="false"
+                android:overScrollMode="never"
+                android:scrollingCache="true"
+                android:smoothScrollbar="true"
+                android:visibility="visible" />
+        </LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>

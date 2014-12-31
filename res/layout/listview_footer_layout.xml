@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:orientation="horizontal"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+        >
+
+    <ProgressBar android:id="@+id/loading_progressbar"
+                 android:visibility="gone"
+                 android:layout_gravity="center_horizontal"
+                 android:layout_marginBottom="5.5dp"
+                 android:layout_width="40dp"
+                 android:layout_height="40dp"
+                 style="?android:progressBarStyle"/>
+
+    <TextView android:layout_gravity="center_horizontal"
+              android:visibility="gone"
+              android:layout_width="wrap_content"
+              android:layout_marginBottom="5.5dp"
+              android:layout_height="40dp"
+              android:text="@string/click_to_load_older_message"
+              android:id="@+id/laod_failed"
+              android:gravity="center"/>
+</FrameLayout>

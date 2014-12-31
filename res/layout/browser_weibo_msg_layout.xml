@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.zarroboogs.weibo.widget.SwipeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootSwipLayout"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent" >
+
+<!--     <android.support.v7.widget.Toolbar
+        android:id="@+id/browserToolBar"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:title="@string/app_name" /> -->
+
+
+
+    <!--
+       requiresFadingEdge may have performance problem in some low price phones, but I like it.
+       use overScrollMode to disable blue boundaries at the top and the bottom of listview
+       because it is pull to refresh listview
+    -->
+
+    <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView
+        android:id="@+id/pullToFreshView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fastScrollEnabled="false"
+        android:overScrollMode="never"
+        android:scrollingCache="true"
+        android:smoothScrollbar="true"
+        android:visibility="visible" />
+
+</org.zarroboogs.weibo.widget.SwipeFrameLayout>

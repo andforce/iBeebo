@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/smileLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/emoticon_keyboard_background" >
+
+    <TableLayout
+        android:id="@+id/emotionTL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/ImageButton35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[爱你]"
+                android:padding="3dp"
+                android:src="@drawable/d_aini" />
+
+            <ImageView
+                android:id="@+id/ImageButton06"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[拜拜]"
+                android:padding="3dp"
+                android:src="@drawable/d_baibai" />
+
+            <ImageView
+                android:id="@+id/ImageButton05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[鄙视]"
+                android:padding="3dp"
+                android:src="@drawable/d_bishi" />
+
+            <ImageView
+                android:id="@+id/ImageButton04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[闭嘴]"
+                android:padding="3dp"
+                android:src="@drawable/d_bizui" />
+
+            <ImageView
+                android:id="@+id/ImageButton03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[吃惊]"
+                android:padding="3dp"
+                android:src="@drawable/d_chijing" />
+
+            <ImageView
+                android:id="@+id/ImageButton02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[doge]"
+                android:padding="3dp"
+                android:src="@drawable/d_doge" />
+
+            <ImageView
+                android:id="@+id/ImageButton01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[感冒]"
+                android:padding="3dp"
+                android:src="@drawable/d_ganmao" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/ImageButton13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[鼓掌]"
+                android:padding="3dp"
+                android:src="@drawable/d_guzhang" />
+
+            <ImageView
+                android:id="@+id/ImageButton12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[哈哈]"
+                android:padding="3dp"
+                android:src="@drawable/d_haha" />
+
+            <ImageView
+                android:id="@+id/ImageButton11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[汗]"
+                android:padding="3dp"
+                android:src="@drawable/d_han" />
+
+            <ImageView
+                android:id="@+id/ImageButton10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[黑线]"
+                android:padding="3dp"
+                android:src="@drawable/d_heixian" />
+
+            <ImageView
+                android:id="@+id/ImageButton09"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[哼]"
+                android:padding="3dp"
+                android:src="@drawable/d_heng" />
+
+            <ImageView
+                android:id="@+id/ImageButton08"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[花心]"
+                android:padding="3dp"
+                android:src="@drawable/d_huaxin" />
+
+            <ImageView
+                android:id="@+id/ImageButton07"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[可怜]"
+                android:padding="3dp"
+                android:src="@drawable/d_kelian" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/ImageButton20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[酷]"
+                android:padding="3dp"
+                android:src="@drawable/d_ku" />
+
+            <ImageView
+                android:id="@+id/ImageButton19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[困]"
+                android:padding="3dp"
+                android:src="@drawable/d_kun" />
+
+            <ImageView
+                android:id="@+id/ImageButton18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[泪]"
+                android:padding="3dp"
+                android:src="@drawable/d_lei" />
+
+            <ImageView
+                android:id="@+id/ImageButton17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[怒骂]"
+                android:padding="3dp"
+                android:src="@drawable/d_numa" />
+
+            <ImageView
+                android:id="@+id/ImageButton16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[钱]"
+                android:padding="3dp"
+                android:src="@drawable/d_qian" />
+
+            <ImageView
+                android:id="@+id/ImageButton15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[亲亲]"
+                android:padding="3dp"
+                android:src="@drawable/d_qinqin" />
+
+            <ImageView
+                android:id="@+id/ImageButton14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[生病]"
+                android:padding="3dp"
+                android:src="@drawable/d_shengbing" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/ImageButton27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[衰]"
+                android:padding="3dp"
+                android:src="@drawable/d_shuai" />
+
+            <ImageView
+                android:id="@+id/ImageButton26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[睡觉]"
+                android:padding="3dp"
+                android:src="@drawable/d_shuijiao" />
+
+            <ImageView
+                android:id="@+id/ImageButton25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[太开心]"
+                android:padding="3dp"
+                android:src="@drawable/d_taikaixin" />
+
+            <ImageView
+                android:id="@+id/ImageButton24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[偷笑]"
+                android:padding="3dp"
+                android:src="@drawable/d_touxiao" />
+
+            <ImageView
+                android:id="@+id/ImageButton23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[吐]"
+                android:padding="3dp"
+                android:src="@drawable/d_tu" />
+
+            <ImageView
+                android:id="@+id/ImageButton22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[挖鼻屎]"
+                android:padding="3dp"
+                android:src="@drawable/d_wabishi" />
+
+            <ImageView
+                android:id="@+id/ImageButton21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[委屈]"
+                android:padding="3dp"
+                android:src="@drawable/d_weiqu" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/ImageButton34"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[嘻嘻]"
+                android:padding="3dp"
+                android:src="@drawable/d_xixi" />
+
+            <ImageView
+                android:id="@+id/ImageButton33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[阴险]"
+                android:padding="3dp"
+                android:src="@drawable/d_yinxian" />
+
+            <ImageView
+                android:id="@+id/ImageButton32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[疑问]"
+                android:padding="3dp"
+                android:src="@drawable/d_yiwen" />
+
+            <ImageView
+                android:id="@+id/ImageButton31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[右哼哼]"
+                android:padding="3dp"
+                android:src="@drawable/d_youhengheng" />
+
+            <ImageView
+                android:id="@+id/ImageButton30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[晕]"
+                android:padding="3dp"
+                android:src="@drawable/d_yun" />
+
+            <ImageView
+                android:id="@+id/ImageButton28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[抓狂]"
+                android:padding="3dp"
+                android:src="@drawable/d_zhuakuang" />
+
+            <ImageView
+                android:id="@+id/ImageButton29"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_selector"
+                android:contentDescription="[左哼哼]"
+                android:padding="3dp"
+                android:src="@drawable/d_zuohengheng" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

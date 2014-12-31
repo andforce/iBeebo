@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sendImgTL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#00000000" >
+
+    <RelativeLayout
+        android:id="@+id/sendPicRow01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="invisible" >
+
+        <ImageView
+            android:id="@+id/IVRow102"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/about_item_bg_normal"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_dark_off"
+            android:visibility="visible"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/IVRow101"
+            android:padding="5dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@id/IVRow102"
+            android:background="@drawable/about_item_bg_normal"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_dark_off"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/IVRow103"
+            android:padding="5dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/IVRow102"
+            android:background="@drawable/about_item_bg_normal"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_dark_off"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sendPicRow02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/IVRow202"
+            android:layout_width="80dp"
+            android:padding="5dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/about_item_bg_normal"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_dark_off"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:padding="5dp"
+            android:id="@+id/IVRow201"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@id/IVRow202"
+            android:background="@drawable/about_item_bg_normal"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_dark_off"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:padding="5dp"
+            android:id="@+id/IVRow203"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/IVRow202"
+            android:background="@drawable/about_item_bg_normal"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_dark_off"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sendPicRow03"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <ImageView
+            android:padding="5dp"
+            android:id="@+id/IVRow302"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/about_item_bg_normal"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_dark_off"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:padding="5dp"
+            android:id="@+id/IVRow301"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@id/IVRow302"
+            android:background="@drawable/about_item_bg_normal"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_dark_off"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/IVRow303"
+            android:layout_width="80dp"
+            android:padding="5dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/IVRow302"
+            android:background="@drawable/about_item_bg_normal"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_dark_off"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+</TableLayout>

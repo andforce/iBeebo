@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:useDefaultMargins="true" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/loginToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/hack_login" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/loginToolBar"
+        android:orientation="vertical" >
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/baseLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/unameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/baseLine"
+            android:layout_below="@id/baseLine"
+            android:gravity="right"
+            android:text="@string/login_email"
+            android:textColor="#333333" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/unameTv"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:hint="邮箱/手机号" />
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/passwordTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/username"
+            android:layout_below="@id/username"
+            android:gravity="right"
+            android:text="@string/login_password"
+            android:textColor="#333333" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/passwordTv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:ems="10"
+            android:hint="请输入密码"
+            android:inputType="textPassword" />
+    </RelativeLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="80dp"
+        android:alignmentMode="alignBounds"
+        android:columnCount="2"
+        android:columnOrderPreserved="false"
+        android:orientation="horizontal"
+        android:useDefaultMargins="true"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/imagedoor"
+            android:layout_width="100px"
+            android:layout_height="40px"
+            android:scaleType="fitXY"
+            android:src="@drawable/ab_bottom_solid_inverse_holo"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/doorimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:ems="10"
+            android:hint="请输入验证码"
+            android:visibility="gone" />
+    </GridLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="#7F1E90FF"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:text="@string/first_login_tips" />
+    </RelativeLayout>
+
+</RelativeLayout>
