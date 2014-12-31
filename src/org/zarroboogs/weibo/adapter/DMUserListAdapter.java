@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.adapter;
 
 import org.zarroboogs.utils.Constants;
@@ -37,254 +38,255 @@ import java.util.List;
  */
 public class DMUserListAdapter extends BaseAdapter {
 
-	private List<DMUserBean> bean;
+    private List<DMUserBean> bean;
 
-	private Fragment fragment;
+    private Fragment fragment;
 
-	private LayoutInflater inflater;
+    private LayoutInflater inflater;
 
-	private ListView listView;
+    private ListView listView;
 
-	private TimeLineBitmapDownloader commander;
+    private TimeLineBitmapDownloader commander;
 
-	public DMUserListAdapter(Fragment fragment, List<DMUserBean> bean, ListView listView) {
-		this.bean = bean;
-		this.commander = TimeLineBitmapDownloader.getInstance();
-		this.inflater = fragment.getActivity().getLayoutInflater();
-		this.listView = listView;
-		this.fragment = fragment;
+    public DMUserListAdapter(Fragment fragment, List<DMUserBean> bean, ListView listView) {
+        this.bean = bean;
+        this.commander = TimeLineBitmapDownloader.getInstance();
+        this.inflater = fragment.getActivity().getLayoutInflater();
+        this.listView = listView;
+        this.fragment = fragment;
 
-	}
+    }
 
-	protected Activity getActivity() {
-		return fragment.getActivity();
-	}
+    protected Activity getActivity() {
+        return fragment.getActivity();
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		DMViewHolder holder = null;
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        DMViewHolder holder = null;
 
-		if (convertView == null || convertView.getTag() == null) {
+        if (convertView == null || convertView.getTag() == null) {
 
-			convertView = initSimpleLayout(parent);
-			holder = buildHolder(convertView);
-			convertView.setTag(R.drawable.beebo_launcher + getItemViewType(position), holder);
+            convertView = initSimpleLayout(parent);
+            holder = buildHolder(convertView);
+            convertView.setTag(R.drawable.beebo_launcher + getItemViewType(position), holder);
 
-		} else {
-			holder = (DMViewHolder) convertView.getTag();
-		}
+        } else {
+            holder = (DMViewHolder) convertView.getTag();
+        }
 
-		configViewFont(holder);
-		bindViewData(holder, position);
+        configViewFont(holder);
+        bindViewData(holder, position);
 
-		return convertView;
-	}
+        return convertView;
+    }
 
-	private View initSimpleLayout(ViewGroup parent) {
-		View convertView;
-		convertView = inflater.inflate(R.layout.dm_user_list_listview_item_layout, parent, false);
+    private View initSimpleLayout(ViewGroup parent) {
+        View convertView;
+        convertView = inflater.inflate(R.layout.dm_user_list_listview_item_layout, parent, false);
 
-		return convertView;
-	}
+        return convertView;
+    }
 
-	private DMViewHolder buildHolder(View convertView) {
-		DMViewHolder holder = new DMViewHolder();
-		holder.username = ViewUtility.findViewById(convertView, R.id.username);
-		TextPaint tp = holder.username.getPaint();
-		tp.setFakeBoldText(true);
-		holder.content = ViewUtility.findViewById(convertView, R.id.content);
-		holder.time = ViewUtility.findViewById(convertView, R.id.time);
-		holder.avatar = (TimeLineAvatarImageView) convertView.findViewById(R.id.avatar);
-		return holder;
-	}
+    private DMViewHolder buildHolder(View convertView) {
+        DMViewHolder holder = new DMViewHolder();
+        holder.username = ViewUtility.findViewById(convertView, R.id.username);
+        TextPaint tp = holder.username.getPaint();
+        tp.setFakeBoldText(true);
+        holder.content = ViewUtility.findViewById(convertView, R.id.content);
+        holder.time = ViewUtility.findViewById(convertView, R.id.time);
+        holder.avatar = (TimeLineAvatarImageView) convertView.findViewById(R.id.avatar);
+        return holder;
+    }
 
-	private void configViewFont(DMViewHolder holder) {
+    private void configViewFont(DMViewHolder holder) {
 
-		int prefFontSizeSp = SettingUtils.getFontSize();
-		float currentWidgetTextSizePx;
+        int prefFontSizeSp = SettingUtils.getFontSize();
+        float currentWidgetTextSizePx;
 
-		currentWidgetTextSizePx = holder.time.getTextSize();
+        currentWidgetTextSizePx = holder.time.getTextSize();
 
-		if (Utility.sp2px(prefFontSizeSp - 3) != currentWidgetTextSizePx) {
-			holder.time.setTextSize(prefFontSizeSp - 3);
-		}
+        if (Utility.sp2px(prefFontSizeSp - 3) != currentWidgetTextSizePx) {
+            holder.time.setTextSize(prefFontSizeSp - 3);
+        }
 
-		currentWidgetTextSizePx = holder.content.getTextSize();
+        currentWidgetTextSizePx = holder.content.getTextSize();
 
-		if (Utility.sp2px(prefFontSizeSp) != currentWidgetTextSizePx) {
-			holder.content.setTextSize(prefFontSizeSp);
-			holder.username.setTextSize(prefFontSizeSp);
-
-		}
-	}
-
-	protected void bindViewData(DMViewHolder holder, int position) {
-
-		final DMUserBean msg = bean.get(position);
-		UserBean user = msg.getUser();
-		if (user != null) {
-			holder.username.setVisibility(View.VISIBLE);
-			buildUsername(holder, user);
-
-			buildAvatar(holder.avatar, position, user);
-
-		} else {
-			holder.username.setVisibility(View.INVISIBLE);
-			holder.avatar.setVisibility(View.INVISIBLE);
-		}
-
-		if (!TextUtils.isEmpty(msg.getListViewSpannableString())) {
-			holder.content.setText(msg.getListViewSpannableString());
-		} else {
-			TimeLineUtility.addJustHighLightLinks(msg);
-			holder.content.setText(msg.getListViewSpannableString());
-		}
-
-		bindOnTouchListener(holder);
-
-		String time = msg.getListviewItemShowTime();
-
-		if (!holder.time.getText().toString().equals(time)) {
-			holder.time.setText(time);
-		}
-		holder.time.setTag(msg.getId());
+        if (Utility.sp2px(prefFontSizeSp) != currentWidgetTextSizePx) {
+            holder.content.setTextSize(prefFontSizeSp);
+            holder.username.setTextSize(prefFontSizeSp);
+
+        }
+    }
+
+    protected void bindViewData(DMViewHolder holder, int position) {
+
+        final DMUserBean msg = bean.get(position);
+        UserBean user = msg.getUser();
+        if (user != null) {
+            holder.username.setVisibility(View.VISIBLE);
+            buildUsername(holder, user);
+
+            buildAvatar(holder.avatar, position, user);
+
+        } else {
+            holder.username.setVisibility(View.INVISIBLE);
+            holder.avatar.setVisibility(View.INVISIBLE);
+        }
+
+        if (!TextUtils.isEmpty(msg.getListViewSpannableString())) {
+            holder.content.setText(msg.getListViewSpannableString());
+        } else {
+            TimeLineUtility.addJustHighLightLinks(msg);
+            holder.content.setText(msg.getListViewSpannableString());
+        }
+
+        bindOnTouchListener(holder);
+
+        String time = msg.getListviewItemShowTime();
+
+        if (!holder.time.getText().toString().equals(time)) {
+            holder.time.setText(time);
+        }
+        holder.time.setTag(msg.getId());
+
+    }
+
+    private void buildUsername(DMViewHolder holder, UserBean user) {
+
+        if (!TextUtils.isEmpty(user.getRemark())) {
+            holder.username.setText(new StringBuilder(user.getScreen_name()).append("(").append(user.getRemark())
+                    .append(")").toString());
+        } else {
+            holder.username.setText(user.getScreen_name());
+        }
+    }
 
-	}
-
-	private void buildUsername(DMViewHolder holder, UserBean user) {
+    private void bindOnTouchListener(DMViewHolder holder) {
+        holder.username.setClickable(false);
+        holder.time.setClickable(false);
+        holder.content.setClickable(false);
 
-		if (!TextUtils.isEmpty(user.getRemark())) {
-			holder.username.setText(new StringBuilder(user.getScreen_name()).append("(").append(user.getRemark()).append(")").toString());
-		} else {
-			holder.username.setText(user.getScreen_name());
-		}
-	}
+        if (holder.content != null) {
+            holder.content.setOnTouchListener(onTouchListener);
+        }
 
-	private void bindOnTouchListener(DMViewHolder holder) {
-		holder.username.setClickable(false);
-		holder.time.setClickable(false);
-		holder.content.setClickable(false);
+    }
+
+    protected List<DMUserBean> getList() {
+        return bean;
+    }
 
-		if (holder.content != null) {
-			holder.content.setOnTouchListener(onTouchListener);
-		}
+    public boolean hasStableIds() {
+        return true;
+    }
 
-	}
-
-	protected List<DMUserBean> getList() {
-		return bean;
-	}
+    @Override
+    public int getCount() {
+
+        if (getList() != null) {
+            return getList().size();
+        } else {
+            return 0;
+        }
+    }
 
-	public boolean hasStableIds() {
-		return true;
-	}
+    @Override
+    public Object getItem(int position) {
+        if (position >= 0 && getList() != null && getList().size() > 0 && position < getList().size()) {
+            return getList().get(position);
+        }
+        return null;
+    }
 
-	@Override
-	public int getCount() {
+    @Override
+    public long getItemId(int position) {
+        if (getList() != null && getList().get(position) != null && getList().size() > 0 && position < getList().size()) {
+            return Long.valueOf(getList().get(position).getId());
+        } else {
+            return -1;
+        }
+    }
 
-		if (getList() != null) {
-			return getList().size();
-		} else {
-			return 0;
-		}
-	}
+    protected void buildAvatar(ImageView view, int position, final UserBean user) {
+        ((IWeiciyuanDrawable) view).checkVerified(user);
+        String image_url = user.getProfile_image_url();
+        if (!TextUtils.isEmpty(image_url)) {
+            view.setVisibility(View.VISIBLE);
+            commander.downloadAvatar(view, user, (AbsBaseTimeLineFragment) fragment);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                    intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                    intent.putExtra("user", user);
+                    getActivity().startActivity(intent);
+                }
+            });
 
-	@Override
-	public Object getItem(int position) {
-		if (position >= 0 && getList() != null && getList().size() > 0 && position < getList().size()) {
-			return getList().get(position);
-		}
-		return null;
-	}
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
 
-	@Override
-	public long getItemId(int position) {
-		if (getList() != null && getList().get(position) != null && getList().size() > 0 && position < getList().size()) {
-			return Long.valueOf(getList().get(position).getId());
-		} else {
-			return -1;
-		}
-	}
+    private static class DMViewHolder {
 
-	protected void buildAvatar(ImageView view, int position, final UserBean user) {
-		((IWeiciyuanDrawable) view).checkVerified(user);
-		String image_url = user.getProfile_image_url();
-		if (!TextUtils.isEmpty(image_url)) {
-			view.setVisibility(View.VISIBLE);
-			commander.downloadAvatar(view, user, (AbsBaseTimeLineFragment) fragment);
-			view.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-					intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-					intent.putExtra("user", user);
-					getActivity().startActivity(intent);
-				}
-			});
+        TextView username;
 
-		} else {
-			view.setVisibility(View.GONE);
-		}
-	}
+        TextView content;
 
-	private static class DMViewHolder {
+        TextView time;
 
-		TextView username;
+        TimeLineAvatarImageView avatar;
 
-		TextView content;
+    }
 
-		TextView time;
+    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
 
-		TimeLineAvatarImageView avatar;
+        ClickableTextViewMentionLinkOnTouchListener listener = new ClickableTextViewMentionLinkOnTouchListener();
 
-	}
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
 
-	private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+            DMViewHolder holder = getViewHolderByView(v);
 
-		ClickableTextViewMentionLinkOnTouchListener listener = new ClickableTextViewMentionLinkOnTouchListener();
+            if (holder == null) {
+                return false;
+            }
 
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
+            boolean hasActionMode = ((AbsBaseTimeLineFragment) fragment).hasActionMode();
 
-			DMViewHolder holder = getViewHolderByView(v);
+            return !hasActionMode && listener.onTouch(v, event);
 
-			if (holder == null) {
-				return false;
-			}
+        }
+    };
 
-			boolean hasActionMode = ((AbsBaseTimeLineFragment) fragment).hasActionMode();
+    private DMViewHolder getViewHolderByView(View view) {
+        try {
+            final int position = listView.getPositionForView(view);
+            if (position == ListView.INVALID_POSITION) {
+                return null;
+            }
+            return getViewHolderByView(position);
+        } catch (NullPointerException e) {
 
-			return !hasActionMode && listener.onTouch(v, event);
+        }
+        return null;
+    }
 
-		}
-	};
+    private DMViewHolder getViewHolderByView(int position) {
 
-	private DMViewHolder getViewHolderByView(View view) {
-		try {
-			final int position = listView.getPositionForView(view);
-			if (position == ListView.INVALID_POSITION) {
-				return null;
-			}
-			return getViewHolderByView(position);
-		} catch (NullPointerException e) {
+        int wantedPosition = position - 1;
+        int firstPosition = listView.getFirstVisiblePosition() - listView.getHeaderViewsCount();
+        int wantedChild = wantedPosition - firstPosition;
 
-		}
-		return null;
-	}
+        if (wantedChild < 0 || wantedChild >= listView.getChildCount()) {
+            return null;
+        }
 
-	private DMViewHolder getViewHolderByView(int position) {
+        View wantedView = listView.getChildAt(wantedChild);
+        DMViewHolder holder = (DMViewHolder) wantedView.getTag(R.drawable.beebo_launcher + getItemViewType(position));
+        return holder;
 
-		int wantedPosition = position - 1;
-		int firstPosition = listView.getFirstVisiblePosition() - listView.getHeaderViewsCount();
-		int wantedChild = wantedPosition - firstPosition;
-
-		if (wantedChild < 0 || wantedChild >= listView.getChildCount()) {
-			return null;
-		}
-
-		View wantedView = listView.getChildAt(wantedChild);
-		DMViewHolder holder = (DMViewHolder) wantedView.getTag(R.drawable.beebo_launcher + getItemViewType(position));
-		return holder;
-
-	}
+    }
 }

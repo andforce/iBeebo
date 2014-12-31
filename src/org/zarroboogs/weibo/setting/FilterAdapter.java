@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.setting;
 
 import org.zarroboogs.weibo.R;
@@ -17,54 +18,54 @@ import java.util.List;
  */
 public class FilterAdapter extends BaseAdapter {
 
-	private int checkedBG;
+    private int checkedBG;
 
-	private int defaultBG;
+    private int defaultBG;
 
-	private Activity activity;
+    private Activity activity;
 
-	private List<String> list;
+    private List<String> list;
 
-	private ListView listView;
+    private ListView listView;
 
-	public FilterAdapter(Activity activity, ListView listView, List<String> list) {
-		defaultBG = activity.getResources().getColor(R.color.transparent);
-		checkedBG = ThemeUtility.getColor(activity, R.attr.listview_checked_color);
-		this.activity = activity;
-		this.list = list;
-		this.listView = listView;
-	}
+    public FilterAdapter(Activity activity, ListView listView, List<String> list) {
+        defaultBG = activity.getResources().getColor(R.color.transparent);
+        checkedBG = ThemeUtility.getColor(activity, R.attr.listview_checked_color);
+        this.activity = activity;
+        this.list = list;
+        this.listView = listView;
+    }
 
-	@Override
-	public int getCount() {
-		return list.size();
-	}
+    @Override
+    public int getCount() {
+        return list.size();
+    }
 
-	@Override
-	public Object getItem(int position) {
-		return list.get(position);
-	}
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
 
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-	@Override
-	public boolean hasStableIds() {
-		return true;
-	}
+    @Override
+    public boolean hasStableIds() {
+        return true;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-		View view = activity.getLayoutInflater().inflate(R.layout.simple_listview_item, parent, false);
-		TextView tv = (TextView) view.findViewById(R.id.text1);
-		tv.setBackgroundColor(defaultBG);
-		if (listView.getCheckedItemPositions().get(position)) {
-			tv.setBackgroundColor(checkedBG);
-		}
-		tv.setText(list.get(position));
-		return view;
-	}
+        View view = activity.getLayoutInflater().inflate(R.layout.simple_listview_item, parent, false);
+        TextView tv = (TextView) view.findViewById(R.id.text1);
+        tv.setBackgroundColor(defaultBG);
+        if (listView.getCheckedItemPositions().get(position)) {
+            tv.setBackgroundColor(checkedBG);
+        }
+        tv.setText(list.get(position));
+        return view;
+    }
 }

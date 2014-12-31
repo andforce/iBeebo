@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.weibo.R;
@@ -32,199 +33,200 @@ import java.util.List;
 
 public class SearchMainActivity extends AbstractAppActivity {
 
-	private ViewPager mViewPager = null;
+    private ViewPager mViewPager = null;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.viewpager_layout);
-		buildViewPager();
-		buildActionBarAndViewPagerTitles();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.viewpager_layout);
+        buildViewPager();
+        buildActionBarAndViewPagerTitles();
 
-		handleIntent(getIntent());
-	}
+        handleIntent(getIntent());
+    }
 
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(this.getClass().getName());
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getName());
+        MobclickAgent.onResume(this);
+    }
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPageEnd(this.getClass().getName());
-		MobclickAgent.onPause(this);
-	}
-	
-	@Override
-	protected void onNewIntent(Intent intent) {
-		setIntent(intent);
-		handleIntent(intent);
-	}
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getName());
+        MobclickAgent.onPause(this);
+    }
 
-	private void handleIntent(Intent intent) {
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String query = intent.getStringExtra(SearchManager.QUERY);
-			SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, SearchSuggestionProvider.AUTHORITY, SearchSuggestionProvider.MODE);
-			suggestions.saveRecentQuery(query, null);
-			search(query);
-		}
-	}
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
 
-	private void buildViewPager() {
-		mViewPager = (ViewPager) findViewById(R.id.viewpager);
-		SearchTabPagerAdapter adapter = new SearchTabPagerAdapter(getSupportFragmentManager());
-		mViewPager.setOffscreenPageLimit(2);
-		mViewPager.setAdapter(adapter);
-		mViewPager.setOnPageChangeListener(onPageChangeListener);
-	}
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, SearchSuggestionProvider.AUTHORITY,
+                    SearchSuggestionProvider.MODE);
+            suggestions.saveRecentQuery(query, null);
+            search(query);
+        }
+    }
 
-	private void buildActionBarAndViewPagerTitles() {
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setDisplayUseLogoEnabled(false);
-		actionBar.setDisplayShowTitleEnabled(true);
+    private void buildViewPager() {
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        SearchTabPagerAdapter adapter = new SearchTabPagerAdapter(getSupportFragmentManager());
+        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setAdapter(adapter);
+        mViewPager.setOnPageChangeListener(onPageChangeListener);
+    }
 
-		actionBar.setTitle(getString(R.string.search));
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    private void buildActionBarAndViewPagerTitles() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(true);
 
-		actionBar.addTab(actionBar.newTab().setText(getString(R.string.status)).setTabListener(tabListener));
+        actionBar.setTitle(getString(R.string.search));
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		actionBar.addTab(actionBar.newTab().setText(getString(R.string.user)).setTabListener(tabListener));
+        actionBar.addTab(actionBar.newTab().setText(getString(R.string.status)).setTabListener(tabListener));
 
-	}
+        actionBar.addTab(actionBar.newTab().setText(getString(R.string.user)).setTabListener(tabListener));
 
-	ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+    }
 
-		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+    ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 
-			if (mViewPager.getCurrentItem() != tab.getPosition()) {
-				mViewPager.setCurrentItem(tab.getPosition());
-			}
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-		}
+            if (mViewPager.getCurrentItem() != tab.getPosition()) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
 
-		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+        }
 
-		}
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+        }
 
-		}
-	};
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.actionbar_menu_searchmainactivity, menu);
-		final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-		searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-		searchView.setIconifiedByDefault(false);
-		searchView.setSubmitButtonEnabled(false);
-		searchView.requestFocus();
-		return super.onCreateOptionsMenu(menu);
+        }
+    };
 
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu_searchmainactivity, menu);
+        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        searchView.setIconifiedByDefault(false);
+        searchView.setSubmitButtonEnabled(false);
+        searchView.requestFocus();
+        return super.onCreateOptionsMenu(menu);
 
-	public String getSearchWord() {
-		return this.q;
-	}
+    }
 
-	private String q;
+    public String getSearchWord() {
+        return this.q;
+    }
 
-	private void search(final String q) {
-		if (!TextUtils.isEmpty(q)) {
-			this.q = q;
-			switch (mViewPager.getCurrentItem()) {
-			case 0:
-				((SearchStatusFragment) getSearchStatusFragment()).search();
-				break;
-			case 1:
-				((SearchUserFragment) getSearchUserFragment()).search();
-				break;
-			}
-		}
-	}
+    private String q;
 
-	private void showInputMethod(View view) {
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    private void search(final String q) {
+        if (!TextUtils.isEmpty(q)) {
+            this.q = q;
+            switch (mViewPager.getCurrentItem()) {
+                case 0:
+                    ((SearchStatusFragment) getSearchStatusFragment()).search();
+                    break;
+                case 1:
+                    ((SearchUserFragment) getSearchUserFragment()).search();
+                    break;
+            }
+        }
+    }
 
-		if (imm != null) {
-			imm.showSoftInput(view, 0);
-		}
-	}
+    private void showInputMethod(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent;
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			intent = MainTimeLineActivity.newIntent();
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			return true;
-		}
+        if (imm != null) {
+            imm.showSoftInput(view, 0);
+        }
+    }
 
-		return true;
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                intent = MainTimeLineActivity.newIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+        }
 
-	private Fragment getSearchUserFragment() {
-		return getSupportFragmentManager().findFragmentByTag(SearchUserFragment.class.getName());
-	}
+        return true;
+    }
 
-	private AbsTimeLineFragment getSearchStatusFragment() {
-		return (AbsTimeLineFragment) getSupportFragmentManager().findFragmentByTag(SearchStatusFragment.class.getName());
-	}
+    private Fragment getSearchUserFragment() {
+        return getSupportFragmentManager().findFragmentByTag(SearchUserFragment.class.getName());
+    }
 
-	ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
-		@Override
-		public void onPageSelected(int position) {
-//			getActionBar().setSelectedNavigationItem(position);
-		}
-	};
+    private AbsTimeLineFragment getSearchStatusFragment() {
+        return (AbsTimeLineFragment) getSupportFragmentManager().findFragmentByTag(SearchStatusFragment.class.getName());
+    }
 
-	private class SearchTabPagerAdapter extends AppFragmentPagerAdapter {
+    ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            // getActionBar().setSelectedNavigationItem(position);
+        }
+    };
 
-		List<Fragment> list = new ArrayList<Fragment>();
+    private class SearchTabPagerAdapter extends AppFragmentPagerAdapter {
 
-		public SearchTabPagerAdapter(FragmentManager fm) {
-			super(fm);
-			if (getSearchStatusFragment() == null) {
-				list.add(new SearchStatusFragment());
-			} else {
-				list.add(getSearchStatusFragment());
-			}
+        List<Fragment> list = new ArrayList<Fragment>();
 
-			if (getSearchUserFragment() == null) {
-				list.add(new SearchUserFragment());
-			} else {
-				list.add(getSearchUserFragment());
-			}
+        public SearchTabPagerAdapter(FragmentManager fm) {
+            super(fm);
+            if (getSearchStatusFragment() == null) {
+                list.add(new SearchStatusFragment());
+            } else {
+                list.add(getSearchStatusFragment());
+            }
 
-		}
+            if (getSearchUserFragment() == null) {
+                list.add(new SearchUserFragment());
+            } else {
+                list.add(getSearchUserFragment());
+            }
 
-		public Fragment getItem(int position) {
-			return list.get(position);
-		}
+        }
 
-		@Override
-		protected String getTag(int position) {
-			List<String> tagList = new ArrayList<String>();
-			tagList.add(SearchStatusFragment.class.getName());
-			tagList.add(SearchUserFragment.class.getName());
-			return tagList.get(position);
-		}
+        public Fragment getItem(int position) {
+            return list.get(position);
+        }
 
-		@Override
-		public int getCount() {
-			return list.size();
-		}
+        @Override
+        protected String getTag(int position) {
+            List<String> tagList = new ArrayList<String>();
+            tagList.add(SearchStatusFragment.class.getName());
+            tagList.add(SearchUserFragment.class.getName());
+            return tagList.get(position);
+        }
 
-	}
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+    }
 }

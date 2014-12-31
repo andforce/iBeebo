@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.setting.activity;
 
 import android.app.AlertDialog;
@@ -30,229 +31,227 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FilterActivity extends AbstractAppActivity {
 
-	private ViewPager viewPager = null;
-	private SlidingTabLayout mSlidingTab;
+    private ViewPager viewPager = null;
+    private SlidingTabLayout mSlidingTab;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-	      setContentView(R.layout.filter_activity_layout);
-	      
-		initLayout();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.filter_activity_layout);
 
-	}
-	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(this.getClass().getName());
-		MobclickAgent.onResume(this);
-	}
+        initLayout();
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPageEnd(this.getClass().getName());
-		MobclickAgent.onPause(this);
-	}
+    }
 
-	private void initLayout() {
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getName());
+        MobclickAgent.onResume(this);
+    }
 
-//		getActionBar().setDisplayHomeAsUpEnabled(true);
-//		getActionBar().setDisplayShowHomeEnabled(true);
-//		getActionBar().setTitle(getString(R.string.filter));
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getName());
+        MobclickAgent.onPause(this);
+    }
 
+    private void initLayout() {
 
-//		ActionBar actionBar = getActionBar();
-//
-//		actionBar.setDisplayHomeAsUpEnabled(true);
-//		actionBar.setDisplayShowHomeEnabled(true);
-//		actionBar.setTitle(getString(R.string.filter));
-//		actionBar.setIcon(R.drawable.ic_filter);
+        // getActionBar().setDisplayHomeAsUpEnabled(true);
+        // getActionBar().setDisplayShowHomeEnabled(true);
+        // getActionBar().setTitle(getString(R.string.filter));
 
-		View title = getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
-		Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
-//		actionBar.setCustomView(title, new ActionBar.LayoutParams(Gravity.RIGHT));
-//		actionBar.setDisplayShowCustomEnabled(true);
+        // ActionBar actionBar = getActionBar();
+        //
+        // actionBar.setDisplayHomeAsUpEnabled(true);
+        // actionBar.setDisplayShowHomeEnabled(true);
+        // actionBar.setTitle(getString(R.string.filter));
+        // actionBar.setIcon(R.drawable.ic_filter);
 
-		switchBtn.setChecked(SettingUtils.isEnableFilter());
-		switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				SettingUtils.setEnableFilter(isChecked);
-			}
-		});
+        View title = getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
+        Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
+        // actionBar.setCustomView(title, new ActionBar.LayoutParams(Gravity.RIGHT));
+        // actionBar.setDisplayShowCustomEnabled(true);
 
-//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//		actionBar.addTab(actionBar.newTab().setText(getString(R.string.filter_keyword)).setTabListener(tabListener));
-//
-//		actionBar.addTab(actionBar.newTab().setText(getString(R.string.filter_user)).setTabListener(tabListener));
-//		actionBar.addTab(actionBar.newTab().setText(getString(R.string.filter_topic)).setTabListener(tabListener));
-//
-//		actionBar.addTab(actionBar.newTab().setText(getString(R.string.filter_source)).setTabListener(tabListener));
+        switchBtn.setChecked(SettingUtils.isEnableFilter());
+        switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingUtils.setEnableFilter(isChecked);
+            }
+        });
 
-		mSlidingTab = (SlidingTabLayout) findViewById(R.id.filterSTL);
-		viewPager = (ViewPager) findViewById(R.id.filterViewpager);
-		TimeLinePagerAdapter adapter = new TimeLinePagerAdapter(getSupportFragmentManager());
-		viewPager.setOffscreenPageLimit(4);
-		viewPager.setAdapter(adapter);
-		viewPager.setOnPageChangeListener(onPageChangeListener);
-		mSlidingTab.setViewPager(viewPager);
+        // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        // actionBar.addTab(actionBar.newTab().setText(getString(R.string.filter_keyword)).setTabListener(tabListener));
+        //
+        // actionBar.addTab(actionBar.newTab().setText(getString(R.string.filter_user)).setTabListener(tabListener));
+        // actionBar.addTab(actionBar.newTab().setText(getString(R.string.filter_topic)).setTabListener(tabListener));
+        //
+        // actionBar.addTab(actionBar.newTab().setText(getString(R.string.filter_source)).setTabListener(tabListener));
 
-	}
+        mSlidingTab = (SlidingTabLayout) findViewById(R.id.filterSTL);
+        viewPager = (ViewPager) findViewById(R.id.filterViewpager);
+        TimeLinePagerAdapter adapter = new TimeLinePagerAdapter(getSupportFragmentManager());
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(onPageChangeListener);
+        mSlidingTab.setViewPager(viewPager);
 
-//	ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-//
-//		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-//			if (viewPager != null && viewPager.getCurrentItem() != tab.getPosition())
-//				viewPager.setCurrentItem(tab.getPosition());
-//
-//		}
-//
-//		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//
-//		}
-//
-//		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//
-//		}
-//	};
+    }
 
-	ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
-		@Override
-		public void onPageSelected(int position) {
-//			getActionBar().setSelectedNavigationItem(position);
-		}
-	};
+    // ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+    //
+    // public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+    // if (viewPager != null && viewPager.getCurrentItem() != tab.getPosition())
+    // viewPager.setCurrentItem(tab.getPosition());
+    //
+    // }
+    //
+    // public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    //
+    // }
+    //
+    // public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    //
+    // }
+    // };
 
-	class TimeLinePagerAdapter extends AppFragmentPagerAdapter {
+    ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            // getActionBar().setSelectedNavigationItem(position);
+        }
+    };
 
-		List<Fragment> list = new ArrayList<Fragment>();
+    class TimeLinePagerAdapter extends AppFragmentPagerAdapter {
 
-		public TimeLinePagerAdapter(FragmentManager fm) {
-			super(fm);
-			if (getFilterFragment() == null) {
-				list.add(new FilterKeywordFragment());
-			} else {
-				list.add(getFilterFragment());
-			}
-			if (getFilterUserFragment() == null) {
-				list.add(new FilterUserFragment());
-			} else {
-				list.add(getFilterUserFragment());
-			}
+        List<Fragment> list = new ArrayList<Fragment>();
 
-			if (getFilterTopicFragment() == null) {
-				list.add(new FilterTopicFragment());
-			} else {
-				list.add(getFilterTopicFragment());
-			}
+        public TimeLinePagerAdapter(FragmentManager fm) {
+            super(fm);
+            if (getFilterFragment() == null) {
+                list.add(new FilterKeywordFragment());
+            } else {
+                list.add(getFilterFragment());
+            }
+            if (getFilterUserFragment() == null) {
+                list.add(new FilterUserFragment());
+            } else {
+                list.add(getFilterUserFragment());
+            }
 
-			if (getFilterSourceFragment() == null) {
-				list.add(new FilterSourceFragment());
-			} else {
-				list.add(getFilterSourceFragment());
-			}
-		}
+            if (getFilterTopicFragment() == null) {
+                list.add(new FilterTopicFragment());
+            } else {
+                list.add(getFilterTopicFragment());
+            }
 
-		@Override
-		public Fragment getItem(int i) {
-			return list.get(i);
-		}
+            if (getFilterSourceFragment() == null) {
+                list.add(new FilterSourceFragment());
+            } else {
+                list.add(getFilterSourceFragment());
+            }
+        }
 
-		@Override
-		protected String getTag(int position) {
-			List<String> tagList = new ArrayList<String>();
-			tagList.add(FilterKeywordFragment.class.getName());
-			tagList.add(FilterUserFragment.class.getName());
-			tagList.add(FilterTopicFragment.class.getName());
-			tagList.add(FilterSourceFragment.class.getName());
-			return tagList.get(position);
-		}
+        @Override
+        public Fragment getItem(int i) {
+            return list.get(i);
+        }
 
-		@Override
-		public int getCount() {
-			return list.size();
-		}
-		
-		@Override
-		public CharSequence getPageTitle(int position) {
-		    switch (position) {
-                case 0:{
-                    
-                   return FilterActivity.this.getResources().getString(R.string.filter_keyword);
+        @Override
+        protected String getTag(int position) {
+            List<String> tagList = new ArrayList<String>();
+            tagList.add(FilterKeywordFragment.class.getName());
+            tagList.add(FilterUserFragment.class.getName());
+            tagList.add(FilterTopicFragment.class.getName());
+            tagList.add(FilterSourceFragment.class.getName());
+            return tagList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0: {
+
+                    return FilterActivity.this.getResources().getString(R.string.filter_keyword);
                 }
-                case 1:{
+                case 1: {
                     return FilterActivity.this.getResources().getString(R.string.filter_user);
                 }
-                case 2:{
+                case 2: {
                     return FilterActivity.this.getResources().getString(R.string.filter_topic);
                 }
-                case 3:{
+                case 3: {
                     return FilterActivity.this.getResources().getString(R.string.filter_source);
                 }
 
                 default:
                     return "";
             }
-		}
-	}
+        }
+    }
 
-	private FilterKeywordFragment getFilterFragment() {
-		return ((FilterKeywordFragment) getSupportFragmentManager().findFragmentByTag(FilterKeywordFragment.class.getName()));
-	}
+    private FilterKeywordFragment getFilterFragment() {
+        return ((FilterKeywordFragment) getSupportFragmentManager().findFragmentByTag(FilterKeywordFragment.class.getName()));
+    }
 
-	private FilterUserFragment getFilterUserFragment() {
-		return ((FilterUserFragment) getSupportFragmentManager().findFragmentByTag(FilterUserFragment.class.getName()));
-	}
+    private FilterUserFragment getFilterUserFragment() {
+        return ((FilterUserFragment) getSupportFragmentManager().findFragmentByTag(FilterUserFragment.class.getName()));
+    }
 
-	private FilterTopicFragment getFilterTopicFragment() {
-		return ((FilterTopicFragment) getSupportFragmentManager().findFragmentByTag(FilterTopicFragment.class.getName()));
-	}
+    private FilterTopicFragment getFilterTopicFragment() {
+        return ((FilterTopicFragment) getSupportFragmentManager().findFragmentByTag(FilterTopicFragment.class.getName()));
+    }
 
-	private FilterSourceFragment getFilterSourceFragment() {
-		return ((FilterSourceFragment) getSupportFragmentManager().findFragmentByTag(FilterSourceFragment.class.getName()));
-	}
+    private FilterSourceFragment getFilterSourceFragment() {
+        return ((FilterSourceFragment) getSupportFragmentManager().findFragmentByTag(FilterSourceFragment.class.getName()));
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.actionbar_menu_filteractivity, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu_filteractivity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent;
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			intent = new Intent(this, SettingActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			return true;
-		case R.id.filter_rule:
-			new FilterRuleDialog().show(getSupportFragmentManager(), "");
-			break;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                intent = new Intent(this, SettingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            case R.id.filter_rule:
+                new FilterRuleDialog().show(getSupportFragmentManager(), "");
+                break;
 
-		}
-		return false;
-	}
+        }
+        return false;
+    }
 
-	public static class FilterRuleDialog extends DialogFragment {
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			return new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.filter_rule_content))
-					.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
+    public static class FilterRuleDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.filter_rule_content))
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-						}
-					}).create();
-		}
-	}
+                        }
+                    }).create();
+        }
+    }
 }

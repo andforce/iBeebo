@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.support.asyncdrawable;
 
 import org.zarroboogs.utils.ImageUtility;
@@ -19,55 +20,55 @@ import android.widget.ImageView;
  */
 public class ProfileAvatarReadWorker extends MyAsyncTask<String, Integer, Bitmap> {
 
-	private LruCache<String, Bitmap> lruCache;
+    private LruCache<String, Bitmap> lruCache;
 
-	private String data = "";
+    private String data = "";
 
-	private ImageView view;
+    private ImageView view;
 
-	private GlobalContext globalContext;
+    private GlobalContext globalContext;
 
-	public ProfileAvatarReadWorker(ImageView view, String url) {
-		this.lruCache = GlobalContext.getInstance().getBitmapCache();
-		this.view = view;
-		this.globalContext = GlobalContext.getInstance();
-		this.data = url;
-	}
+    public ProfileAvatarReadWorker(ImageView view, String url) {
+        this.lruCache = GlobalContext.getInstance().getBitmapCache();
+        this.view = view;
+        this.globalContext = GlobalContext.getInstance();
+        this.data = url;
+    }
 
-	@Override
-	protected Bitmap doInBackground(String... url) {
-		if (isCancelled()) {
-			return null;
-		}
+    @Override
+    protected Bitmap doInBackground(String... url) {
+        if (isCancelled()) {
+            return null;
+        }
 
-		String path = FileManager.getFilePathFromUrl(data, FileLocationMethod.avatar_large);
+        String path = FileManager.getFilePathFromUrl(data, FileLocationMethod.avatar_large);
 
-		if (!(ImageUtility.isThisBitmapCanRead(path) && TaskCache.isThisUrlTaskFinished(data))) {
-			boolean downloaded = TaskCache.waitForPictureDownload(data, null, path, FileLocationMethod.avatar_large);
-			if (downloaded) {
-				path = FileManager.getFilePathFromUrl(data, FileLocationMethod.avatar_large);
-			}
-		}
+        if (!(ImageUtility.isThisBitmapCanRead(path) && TaskCache.isThisUrlTaskFinished(data))) {
+            boolean downloaded = TaskCache.waitForPictureDownload(data, null, path, FileLocationMethod.avatar_large);
+            if (downloaded) {
+                path = FileManager.getFilePathFromUrl(data, FileLocationMethod.avatar_large);
+            }
+        }
 
-		int avatarWidth = globalContext.getResources().getDimensionPixelSize(R.dimen.profile_avatar_width);
-		int avatarHeight = globalContext.getResources().getDimensionPixelSize(R.dimen.profile_avatar_height);
+        int avatarWidth = globalContext.getResources().getDimensionPixelSize(R.dimen.profile_avatar_width);
+        int avatarHeight = globalContext.getResources().getDimensionPixelSize(R.dimen.profile_avatar_height);
 
-		return ImageUtility.getRoundedCornerPic(path, avatarWidth, avatarHeight);
+        return ImageUtility.getRoundedCornerPic(path, avatarWidth, avatarHeight);
 
-	}
+    }
 
-	@Override
-	protected void onPostExecute(Bitmap bitmap) {
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
 
-		if (bitmap != null) {
-			view.setVisibility(View.VISIBLE);
-			view.setImageBitmap(bitmap);
-			lruCache.put(data, bitmap);
+        if (bitmap != null) {
+            view.setVisibility(View.VISIBLE);
+            view.setImageBitmap(bitmap);
+            lruCache.put(data, bitmap);
 
-		} else {
-			view.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
-		}
+        } else {
+            view.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
 
-	}
+    }
 
 }

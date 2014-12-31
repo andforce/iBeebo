@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.weibo.GlobalContext;
@@ -47,56 +48,56 @@ import java.util.concurrent.TimeUnit;
 
 public class AccountActivity extends BaseLoginActivity implements LoaderManager.LoaderCallbacks<List<AccountBean>> {
 
-	private static final String ACTION_OPEN_FROM_APP_INNER = "org.zarroboogs.weibo:accountactivity";
+    private static final String ACTION_OPEN_FROM_APP_INNER = "org.zarroboogs.weibo:accountactivity";
 
-	private static final String ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN = "org.zarroboogs.weibo:accountactivity_refresh_token";
+    private static final String ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN = "org.zarroboogs.weibo:accountactivity_refresh_token";
 
-	private static final String REFRESH_ACTION_EXTRA = "refresh_account";
+    private static final String REFRESH_ACTION_EXTRA = "refresh_account";
 
-	private final int ADD_ACCOUNT_REQUEST_CODE = 0;
+    private final int ADD_ACCOUNT_REQUEST_CODE = 0;
 
-	private final int LOADER_ID = 0;
+    private final int LOADER_ID = 0;
 
-	private ListView listView = null;
+    private ListView listView = null;
 
-	private AccountAdapter listAdapter = null;
+    private AccountAdapter listAdapter = null;
 
-	private List<AccountBean> accountList = new ArrayList<AccountBean>();
-	private Toolbar mToolBar;
+    private List<AccountBean> accountList = new ArrayList<AccountBean>();
+    private Toolbar mToolBar;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		
-		MobclickAgent.setDebugMode(false);
-		MobclickAgent.openActivityDurationTrack(false);
-	    MobclickAgent.updateOnlineConfig(this);
-	    
-		// CookieManager manager = CookieManager.getInstance();
-		// manager.removeAllCookie();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
 
-		String action = getIntent() != null ? getIntent().getAction() : null;
+        MobclickAgent.setDebugMode(false);
+        MobclickAgent.openActivityDurationTrack(false);
+        MobclickAgent.updateOnlineConfig(this);
 
-		if (ACTION_OPEN_FROM_APP_INNER.equals(action)) {
-			// empty
-		} else if (ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN.equals(action)) {
-			// empty
-		} else {
-			// finish current Activity
-			jumpToMainTimeLineActivity();
-		}
+        // CookieManager manager = CookieManager.getInstance();
+        // manager.removeAllCookie();
 
-		super.onCreate(savedInstanceState);
+        String action = getIntent() != null ? getIntent().getAction() : null;
 
-		setContentView(R.layout.accountactivity_layout);
-		mToolBar = (Toolbar) findViewById(R.id.accountToolBar);
+        if (ACTION_OPEN_FROM_APP_INNER.equals(action)) {
+            // empty
+        } else if (ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN.equals(action)) {
+            // empty
+        } else {
+            // finish current Activity
+            jumpToMainTimeLineActivity();
+        }
 
-		mToolBar.inflateMenu(R.menu.actionbar_menu_accountactivity);
-		mToolBar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.accountactivity_layout);
+        mToolBar = (Toolbar) findViewById(R.id.accountToolBar);
+
+        mToolBar.inflateMenu(R.menu.actionbar_menu_accountactivity);
+        mToolBar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {
                 switch (arg0.getItemId()) {
-                    case R.id.menu_add_account:{
+                    case R.id.menu_add_account: {
                         showAddAccountDialog();
                         break;
                     }
@@ -107,303 +108,304 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
             }
         });
 
-//		getActionBar().setTitle(getString(R.string.app_name));
-		listAdapter = new AccountAdapter();
-		listView = (ListView) findViewById(R.id.listView);
-		listView.setOnItemClickListener(new AccountListItemClickListener());
-		listView.setAdapter(listAdapter);
-		listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
-		listView.setMultiChoiceModeListener(new AccountMultiChoiceModeListener());
-		getLoaderManager().initLoader(LOADER_ID, null, this);
-
-		if (SettingUtils.firstStart()) {
-			showChangeLogDialog();
-		}
-
-		if (ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN.equals(action)) {
-
-			showAddAccountDialog();
-
-			AccountBean accountBean = getIntent().getParcelableExtra(REFRESH_ACTION_EXTRA);
-
-			Toast.makeText(this, String.format(getString(R.string.account_token_has_expired), accountBean.getUsernick()), Toast.LENGTH_SHORT).show();
-
-		}
-
-	}
-
-	   public static Intent newIntent() {
-	        Intent intent = new Intent(GlobalContext.getInstance(), AccountActivity.class);
-	        intent.setAction(ACTION_OPEN_FROM_APP_INNER);
-	        return intent;
-	    }
-
-	    public static Intent newIntent(AccountBean refreshAccount) {
-	        Intent intent = new Intent(GlobalContext.getInstance(), AccountActivity.class);
-	        intent.setAction(ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN);
-	        intent.putExtra(REFRESH_ACTION_EXTRA, refreshAccount);
-	        return intent;
-	    }
-	    
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-	}
-
-	private void showChangeLogDialog() {
-		ChangeLogDialog changeLogDialog = new ChangeLogDialog(this);
-		changeLogDialog.show();
-	}
-
-	private void jumpToMainTimeLineActivity() {
-
-		String id = SettingUtils.getDefaultAccountId();
-
-		if (!TextUtils.isEmpty(id)) {
-			AccountBean bean = AccountDBTask.getAccount(id);
-			if (bean != null) {
-				Log.d("getUUUUU", "" + bean.getUname() + bean.getPwd());
-				Intent start = MainTimeLineActivity.newIntent(bean);
-				startActivity(start);
-				finish();
-			}
-		}
-
-	}
-
-	private void showAddAccountDialog() {
-
-		if (true) {
-
-			Intent intent = new Intent(AccountActivity.this, BlackMagicActivity.class);
-			startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
-			return;
-		}
-		final ArrayList<Class> activityList = new ArrayList<Class>();
-		ArrayList<String> itemValueList = new ArrayList<String>();
-
-		activityList.add(OAuthActivity.class);
-		itemValueList.add(getString(R.string.oauth_login));
-
-		if (true || SettingUtils.isBlackMagicEnabled()) {
-			activityList.add(BlackMagicActivity.class);
-			itemValueList.add(getString(R.string.hack_login));
-		}
-
-		new AlertDialog.Builder(this).setItems(itemValueList.toArray(new String[0]), new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				Intent intent = new Intent(AccountActivity.this, activityList.get(which));
-				startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
-			}
-		}).show();
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == ADD_ACCOUNT_REQUEST_CODE && resultCode == RESULT_OK) {
-			refresh();
-			if (data == null) {
-				return;
-			}
-			String expires_time = data.getExtras().getString("expires_in");
-			long expiresDays = TimeUnit.SECONDS.toDays(Long.valueOf(expires_time));
-
-			String content = String.format(getString(R.string.token_expires_in_time), String.valueOf(expiresDays));
-			AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage(content).setPositiveButton(R.string.ok,
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-
-						}
-					});
-
-			builder.show();
-
-		}
-	}
-
-	private void refresh() {
-		getLoaderManager().getLoader(LOADER_ID).forceLoad();
-	}
-
-	@Override
-	public Loader<List<AccountBean>> onCreateLoader(int id, Bundle args) {
-		return new AccountDBLoader(AccountActivity.this, args);
-	}
-
-	@Override
-	public void onLoadFinished(Loader<List<AccountBean>> loader, List<AccountBean> data) {
-		accountList = data;
-		listAdapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void onLoaderReset(Loader<List<AccountBean>> loader) {
-		accountList = new ArrayList<AccountBean>();
-		listAdapter.notifyDataSetChanged();
-	}
-
-	private void remove() {
-		Set<String> set = new HashSet<String>();
-		long[] ids = listView.getCheckedItemIds();
-		for (long id : ids) {
-			set.add(String.valueOf(id));
-		}
-		accountList = AccountDBTask.removeAndGetNewAccountList(set);
-		listAdapter.notifyDataSetChanged();
-	}
-
-	private static class AccountDBLoader extends AsyncTaskLoader<List<AccountBean>> {
-
-		public AccountDBLoader(Context context, Bundle args) {
-			super(context);
-		}
-
-		@Override
-		protected void onStartLoading() {
-			super.onStartLoading();
-			forceLoad();
-		}
-
-		public List<AccountBean> loadInBackground() {
-			return AccountDBTask.getAccountList();
-		}
-	}
-
-	private class AccountListItemClickListener implements AdapterView.OnItemClickListener {
-
-		@Override
-		public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-			AccountBean selectAccountBean = accountList.get(i);
-			String cookie = selectAccountBean.getCookie();
-			Log.d("AccountActivity_onItemClick", "" + selectAccountBean.getPwd());
-
-			if (!Utility.isTokenValid(selectAccountBean)) {
-
-				showAddAccountDialog();
-
-				return;
-			}
-
-			if (false && TextUtils.isEmpty(cookie)) {
-				Intent intent = new Intent(AccountActivity.this, WebViewActivity.class);
-				intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, selectAccountBean);
-				startActivity(intent);
-			} else {
-				Intent intent = MainTimeLineActivity.newIntent(selectAccountBean);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				
-				getCookieStore().clear();
-				
-				finish();
-			}
-
-		}
-	}
-
-	private class AccountMultiChoiceModeListener implements AbsListView.MultiChoiceModeListener {
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			mode.getMenuInflater().inflate(R.menu.contextual_menu_accountactivity, menu);
-			mode.setTitle(getString(R.string.account_management));
-			return true;
-		}
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			switch (item.getItemId()) {
-			case R.id.menu_remove_account:
-				remove();
-				mode.finish();
-				return true;
-			}
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-
-		}
-
-		@Override
-		public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-			listAdapter.notifyDataSetChanged();
-		}
-	}
-
-	private class AccountAdapter extends BaseAdapter {
-
-		int checkedBG;
-
-		int defaultBG;
-
-		public AccountAdapter() {
-			defaultBG = getResources().getColor(R.color.transparent);
-			checkedBG = ThemeUtility.getColor(AccountActivity.this, R.attr.listview_checked_color);
-
-		}
-
-		@Override
-		public int getCount() {
-			return accountList.size();
-		}
-
-		@Override
-		public Object getItem(int i) {
-			return accountList.get(i);
-		}
-
-		@Override
-		public long getItemId(int i) {
-			return Long.valueOf(accountList.get(i).getUid());
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			return true;
-		}
-
-		@Override
-		public View getView(final int i, View view, ViewGroup viewGroup) {
-
-			LayoutInflater layoutInflater = getLayoutInflater();
-
-			View mView = layoutInflater.inflate(R.layout.accountactivity_listview_item_layout, viewGroup, false);
-			mView.findViewById(R.id.listview_root).setBackgroundColor(defaultBG);
-
-			if (listView.getCheckedItemPositions().get(i)) {
-				mView.findViewById(R.id.listview_root).setBackgroundColor(checkedBG);
-			}
-
-			TextView textView = (TextView) mView.findViewById(R.id.account_name);
-			if (accountList.get(i).getInfo() != null) {
-				textView.setText(accountList.get(i).getInfo().getScreen_name());
-			} else {
-				textView.setText(accountList.get(i).getUsernick());
-			}
-			ImageView imageView = (ImageView) mView.findViewById(R.id.imageView_avatar);
-
-			if (!TextUtils.isEmpty(accountList.get(i).getAvatar_url())) {
-				getBitmapDownloader().downloadAvatar(imageView, accountList.get(i).getInfo(), false);
-			}
-
-			TextView token = (TextView) mView.findViewById(R.id.token_expired);
-			if (!Utility.isTokenValid(accountList.get(i))) {
-				token.setVisibility(View.VISIBLE);
-			} else {
-				token.setVisibility(View.GONE);
-			}
-
-			return mView;
-		}
-	}
+        // getActionBar().setTitle(getString(R.string.app_name));
+        listAdapter = new AccountAdapter();
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setOnItemClickListener(new AccountListItemClickListener());
+        listView.setAdapter(listAdapter);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(new AccountMultiChoiceModeListener());
+        getLoaderManager().initLoader(LOADER_ID, null, this);
+
+        if (SettingUtils.firstStart()) {
+            showChangeLogDialog();
+        }
+
+        if (ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN.equals(action)) {
+
+            showAddAccountDialog();
+
+            AccountBean accountBean = getIntent().getParcelableExtra(REFRESH_ACTION_EXTRA);
+
+            Toast.makeText(this, String.format(getString(R.string.account_token_has_expired), accountBean.getUsernick()),
+                    Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    public static Intent newIntent() {
+        Intent intent = new Intent(GlobalContext.getInstance(), AccountActivity.class);
+        intent.setAction(ACTION_OPEN_FROM_APP_INNER);
+        return intent;
+    }
+
+    public static Intent newIntent(AccountBean refreshAccount) {
+        Intent intent = new Intent(GlobalContext.getInstance(), AccountActivity.class);
+        intent.setAction(ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN);
+        intent.putExtra(REFRESH_ACTION_EXTRA, refreshAccount);
+        return intent;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    private void showChangeLogDialog() {
+        ChangeLogDialog changeLogDialog = new ChangeLogDialog(this);
+        changeLogDialog.show();
+    }
+
+    private void jumpToMainTimeLineActivity() {
+
+        String id = SettingUtils.getDefaultAccountId();
+
+        if (!TextUtils.isEmpty(id)) {
+            AccountBean bean = AccountDBTask.getAccount(id);
+            if (bean != null) {
+                Log.d("getUUUUU", "" + bean.getUname() + bean.getPwd());
+                Intent start = MainTimeLineActivity.newIntent(bean);
+                startActivity(start);
+                finish();
+            }
+        }
+
+    }
+
+    private void showAddAccountDialog() {
+
+        if (true) {
+
+            Intent intent = new Intent(AccountActivity.this, BlackMagicActivity.class);
+            startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
+            return;
+        }
+        final ArrayList<Class> activityList = new ArrayList<Class>();
+        ArrayList<String> itemValueList = new ArrayList<String>();
+
+        activityList.add(OAuthActivity.class);
+        itemValueList.add(getString(R.string.oauth_login));
+
+        if (true || SettingUtils.isBlackMagicEnabled()) {
+            activityList.add(BlackMagicActivity.class);
+            itemValueList.add(getString(R.string.hack_login));
+        }
+
+        new AlertDialog.Builder(this).setItems(itemValueList.toArray(new String[0]), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(AccountActivity.this, activityList.get(which));
+                startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
+            }
+        }).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD_ACCOUNT_REQUEST_CODE && resultCode == RESULT_OK) {
+            refresh();
+            if (data == null) {
+                return;
+            }
+            String expires_time = data.getExtras().getString("expires_in");
+            long expiresDays = TimeUnit.SECONDS.toDays(Long.valueOf(expires_time));
+
+            String content = String.format(getString(R.string.token_expires_in_time), String.valueOf(expiresDays));
+            AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage(content).setPositiveButton(R.string.ok,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+            builder.show();
+
+        }
+    }
+
+    private void refresh() {
+        getLoaderManager().getLoader(LOADER_ID).forceLoad();
+    }
+
+    @Override
+    public Loader<List<AccountBean>> onCreateLoader(int id, Bundle args) {
+        return new AccountDBLoader(AccountActivity.this, args);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<AccountBean>> loader, List<AccountBean> data) {
+        accountList = data;
+        listAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<AccountBean>> loader) {
+        accountList = new ArrayList<AccountBean>();
+        listAdapter.notifyDataSetChanged();
+    }
+
+    private void remove() {
+        Set<String> set = new HashSet<String>();
+        long[] ids = listView.getCheckedItemIds();
+        for (long id : ids) {
+            set.add(String.valueOf(id));
+        }
+        accountList = AccountDBTask.removeAndGetNewAccountList(set);
+        listAdapter.notifyDataSetChanged();
+    }
+
+    private static class AccountDBLoader extends AsyncTaskLoader<List<AccountBean>> {
+
+        public AccountDBLoader(Context context, Bundle args) {
+            super(context);
+        }
+
+        @Override
+        protected void onStartLoading() {
+            super.onStartLoading();
+            forceLoad();
+        }
+
+        public List<AccountBean> loadInBackground() {
+            return AccountDBTask.getAccountList();
+        }
+    }
+
+    private class AccountListItemClickListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            AccountBean selectAccountBean = accountList.get(i);
+            String cookie = selectAccountBean.getCookie();
+            Log.d("AccountActivity_onItemClick", "" + selectAccountBean.getPwd());
+
+            if (!Utility.isTokenValid(selectAccountBean)) {
+
+                showAddAccountDialog();
+
+                return;
+            }
+
+            if (false && TextUtils.isEmpty(cookie)) {
+                Intent intent = new Intent(AccountActivity.this, WebViewActivity.class);
+                intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, selectAccountBean);
+                startActivity(intent);
+            } else {
+                Intent intent = MainTimeLineActivity.newIntent(selectAccountBean);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+                getCookieStore().clear();
+
+                finish();
+            }
+
+        }
+    }
+
+    private class AccountMultiChoiceModeListener implements AbsListView.MultiChoiceModeListener {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.contextual_menu_accountactivity, menu);
+            mode.setTitle(getString(R.string.account_management));
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_remove_account:
+                    remove();
+                    mode.finish();
+                    return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+        }
+
+        @Override
+        public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+            listAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class AccountAdapter extends BaseAdapter {
+
+        int checkedBG;
+
+        int defaultBG;
+
+        public AccountAdapter() {
+            defaultBG = getResources().getColor(R.color.transparent);
+            checkedBG = ThemeUtility.getColor(AccountActivity.this, R.attr.listview_checked_color);
+
+        }
+
+        @Override
+        public int getCount() {
+            return accountList.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return accountList.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return Long.valueOf(accountList.get(i).getUid());
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+
+            LayoutInflater layoutInflater = getLayoutInflater();
+
+            View mView = layoutInflater.inflate(R.layout.accountactivity_listview_item_layout, viewGroup, false);
+            mView.findViewById(R.id.listview_root).setBackgroundColor(defaultBG);
+
+            if (listView.getCheckedItemPositions().get(i)) {
+                mView.findViewById(R.id.listview_root).setBackgroundColor(checkedBG);
+            }
+
+            TextView textView = (TextView) mView.findViewById(R.id.account_name);
+            if (accountList.get(i).getInfo() != null) {
+                textView.setText(accountList.get(i).getInfo().getScreen_name());
+            } else {
+                textView.setText(accountList.get(i).getUsernick());
+            }
+            ImageView imageView = (ImageView) mView.findViewById(R.id.imageView_avatar);
+
+            if (!TextUtils.isEmpty(accountList.get(i).getAvatar_url())) {
+                getBitmapDownloader().downloadAvatar(imageView, accountList.get(i).getInfo(), false);
+            }
+
+            TextView token = (TextView) mView.findViewById(R.id.token_expired);
+            if (!Utility.isTokenValid(accountList.get(i))) {
+                token.setVisibility(View.VISIBLE);
+            } else {
+                token.setVisibility(View.GONE);
+            }
+
+            return mView;
+        }
+    }
 
 }

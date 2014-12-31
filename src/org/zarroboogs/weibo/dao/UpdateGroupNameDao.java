@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -14,42 +15,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * User: qii Date: 13-2-16
- * http://open.weibo.com/wiki/2/friendships/groups/update
+ * User: qii Date: 13-2-16 http://open.weibo.com/wiki/2/friendships/groups/update
  */
 public class UpdateGroupNameDao {
 
-	public GroupBean update() throws WeiboException {
+    public GroupBean update() throws WeiboException {
 
-		String url = WeiBoURLs.GROUP_UPDATE;
+        String url = WeiBoURLs.GROUP_UPDATE;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("name", name);
-		map.put("list_id", list_id);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("name", name);
+        map.put("list_id", list_id);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		GroupBean value = null;
-		try {
-			value = gson.fromJson(jsonData, GroupBean.class);
-		} catch (JsonSyntaxException e) {
-			AppLoggerUtils.e(e.getMessage());
-		}
+        GroupBean value = null;
+        try {
+            value = gson.fromJson(jsonData, GroupBean.class);
+        } catch (JsonSyntaxException e) {
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	public UpdateGroupNameDao(String token, String list_id, String name) {
-		this.access_token = token;
-		this.name = name;
-		this.list_id = list_id;
-	}
+    public UpdateGroupNameDao(String token, String list_id, String name) {
+        this.access_token = token;
+        this.name = name;
+        this.list_id = list_id;
+    }
 
-	private String access_token;
-	private String name;
-	private String list_id;
+    private String access_token;
+    private String name;
+    private String list_id;
 
 }

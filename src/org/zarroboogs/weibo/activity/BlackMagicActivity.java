@@ -81,25 +81,25 @@ public class BlackMagicActivity extends AbstractAppActivity {
         username = (MaterialEditText) findViewById(R.id.username);
         password = (MaterialEditText) findViewById(R.id.password);
 
-//        SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.tail,
-//                android.R.layout.simple_spinner_dropdown_item);
+        // SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.tail,
+        // android.R.layout.simple_spinner_dropdown_item);
 
-//        spinner.setAdapter(mSpinnerAdapter);
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String[] array = getResources().getStringArray(R.array.tail_value);
-//                String value = array[position];
-//                appkey = value.substring(0, value.indexOf(","));
-//                appSecret = value.substring(value.indexOf(",") + 1);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        // spinner.setAdapter(mSpinnerAdapter);
+        // spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        //
+        // @Override
+        // public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // String[] array = getResources().getStringArray(R.array.tail_value);
+        // String value = array[position];
+        // appkey = value.substring(0, value.indexOf(","));
+        // appSecret = value.substring(value.indexOf(",") + 1);
+        // }
+        //
+        // @Override
+        // public void onNothingSelected(AdapterView<?> parent) {
+        //
+        // }
+        // });
 
     }
 

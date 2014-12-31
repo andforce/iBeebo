@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -20,40 +21,40 @@ import java.util.Map;
  */
 public class AtUserDao {
 
-	public List<AtUserBean> getUserInfo() throws WeiboException {
-		String url = WeiBoURLs.AT_USER;
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("q", q);
-		map.put("count", count);
-		map.put("type", type);
-		map.put("range", range);
+    public List<AtUserBean> getUserInfo() throws WeiboException {
+        String url = WeiBoURLs.AT_USER;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("q", q);
+        map.put("count", count);
+        map.put("type", type);
+        map.put("range", range);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		List<AtUserBean> value = null;
-		try {
-			value = gson.fromJson(jsonData, new TypeToken<List<AtUserBean>>() {
-			}.getType());
-		} catch (JsonSyntaxException e) {
+        List<AtUserBean> value = null;
+        try {
+            value = gson.fromJson(jsonData, new TypeToken<List<AtUserBean>>() {
+            }.getType());
+        } catch (JsonSyntaxException e) {
 
-			AppLoggerUtils.e(e.getMessage());
-		}
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		return value;
+        return value;
 
-	}
+    }
 
-	public AtUserDao(String token, String q) {
-		this.access_token = token;
-		this.q = q;
-	}
+    public AtUserDao(String token, String q) {
+        this.access_token = token;
+        this.q = q;
+    }
 
-	private String access_token;
-	private String q;
-	private String count = "10";
-	private String type = "0";
-	private String range = "2";
+    private String access_token;
+    private String q;
+    private String count = "10";
+    private String type = "0";
+    private String range = "2";
 }

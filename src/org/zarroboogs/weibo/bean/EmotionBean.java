@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.bean;
 
 import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
@@ -7,90 +8,90 @@ import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
  */
 public class EmotionBean {
 
-	public String getPhrase() {
-		return phrase;
-	}
+    public String getPhrase() {
+        return phrase;
+    }
 
-	public void setPhrase(String phrase) {
-		this.phrase = phrase;
-	}
+    public void setPhrase(String phrase) {
+        this.phrase = phrase;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public String getHot() {
-		return hot;
-	}
+    public String getHot() {
+        return hot;
+    }
 
-	public void setHot(String hot) {
-		this.hot = hot;
-	}
+    public void setHot(String hot) {
+        this.hot = hot;
+    }
 
-	public String getCommon() {
-		return common;
-	}
+    public String getCommon() {
+        return common;
+    }
 
-	public void setCommon(String common) {
-		this.common = common;
-	}
+    public void setCommon(String common) {
+        this.common = common;
+    }
 
-	public String getCategory() {
-		return category;
-	}
+    public String getCategory() {
+        return category;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-	public String getIcon() {
-		return icon;
-	}
+    public String getIcon() {
+        return icon;
+    }
 
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
-	public String getPicid() {
-		return picid;
-	}
+    public String getPicid() {
+        return picid;
+    }
 
-	public void setPicid(String picid) {
-		this.picid = picid;
-	}
+    public void setPicid(String picid) {
+        this.picid = picid;
+    }
 
-	private String phrase;
-	private String type;
-	private String url;
-	private String hot;
-	private String common;
-	private String category;
-	private String icon;
-	private String value;
-	private String picid;
+    private String phrase;
+    private String type;
+    private String url;
+    private String hot;
+    private String common;
+    private String category;
+    private String icon;
+    private String value;
+    private String picid;
 
-	@Override
-	public String toString() {
-		return ObjectToStringUtility.toString(this);
-	}
+    @Override
+    public String toString() {
+        return ObjectToStringUtility.toString(this);
+    }
 }

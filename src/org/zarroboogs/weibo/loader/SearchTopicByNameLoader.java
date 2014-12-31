@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.loader;
 
 import android.content.Context;
@@ -14,33 +15,33 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class SearchTopicByNameLoader extends AbstractAsyncNetRequestTaskLoader<TopicResultListBean> {
 
-	private static Lock lock = new ReentrantLock();
+    private static Lock lock = new ReentrantLock();
 
-	private String token;
-	private String searchWord;
-	private String page;
+    private String token;
+    private String searchWord;
+    private String page;
 
-	public SearchTopicByNameLoader(Context context, String token, String searchWord, String page) {
-		super(context);
-		this.token = token;
-		this.searchWord = searchWord;
-		this.page = page;
-	}
+    public SearchTopicByNameLoader(Context context, String token, String searchWord, String page) {
+        super(context);
+        this.token = token;
+        this.searchWord = searchWord;
+        this.page = page;
+    }
 
-	public TopicResultListBean loadData() throws WeiboException {
-		SearchTopicDao dao = new SearchTopicDao(token, searchWord);
-		dao.setPage(page);
+    public TopicResultListBean loadData() throws WeiboException {
+        SearchTopicDao dao = new SearchTopicDao(token, searchWord);
+        dao.setPage(page);
 
-		TopicResultListBean result = null;
-		lock.lock();
+        TopicResultListBean result = null;
+        lock.lock();
 
-		try {
-			result = dao.getGSONMsgList();
-		} finally {
-			lock.unlock();
-		}
+        try {
+            result = dao.getGSONMsgList();
+        } finally {
+            lock.unlock();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
 }

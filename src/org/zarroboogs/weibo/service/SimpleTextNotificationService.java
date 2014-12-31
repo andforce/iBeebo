@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.service;
 
 import org.zarroboogs.util.net.WeiboException;
@@ -32,121 +33,134 @@ import java.util.HashMap;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class SimpleTextNotificationService extends NotificationServiceHelper {
 
-	private class ValueWrapper {
+    private class ValueWrapper {
 
-		private AccountBean accountBean;
+        private AccountBean accountBean;
 
-		private UnreadBean unreadBean;
+        private UnreadBean unreadBean;
 
-		private Intent clickToOpenAppPendingIntentInner;
+        private Intent clickToOpenAppPendingIntentInner;
 
-		private String ticker;
+        private String ticker;
 
-		private RecordOperationAppBroadcastReceiver clearNotificationEventReceiver;
-	}
+        private RecordOperationAppBroadcastReceiver clearNotificationEventReceiver;
+    }
 
-	// key is account uid
-	private static HashMap<String, ValueWrapper> valueBagHashMap = new HashMap<String, ValueWrapper>();
+    // key is account uid
+    private static HashMap<String, ValueWrapper> valueBagHashMap = new HashMap<String, ValueWrapper>();
 
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
-		ValueWrapper valueWrapper = new ValueWrapper();
+        ValueWrapper valueWrapper = new ValueWrapper();
 
-		valueWrapper.accountBean = intent.getParcelableExtra(NotificationServiceHelper.ACCOUNT_ARG);
+        valueWrapper.accountBean = intent.getParcelableExtra(NotificationServiceHelper.ACCOUNT_ARG);
 
-		valueWrapper.unreadBean = intent.getParcelableExtra(NotificationServiceHelper.UNREAD_ARG);
+        valueWrapper.unreadBean = intent.getParcelableExtra(NotificationServiceHelper.UNREAD_ARG);
 
-		valueWrapper.clickToOpenAppPendingIntentInner = intent.getParcelableExtra(NotificationServiceHelper.PENDING_INTENT_INNER_ARG);
-		valueWrapper.ticker = intent.getStringExtra(NotificationServiceHelper.TICKER);
+        valueWrapper.clickToOpenAppPendingIntentInner = intent
+                .getParcelableExtra(NotificationServiceHelper.PENDING_INTENT_INNER_ARG);
+        valueWrapper.ticker = intent.getStringExtra(NotificationServiceHelper.TICKER);
 
-		valueBagHashMap.put(valueWrapper.accountBean.getUid(), valueWrapper);
+        valueBagHashMap.put(valueWrapper.accountBean.getUid(), valueWrapper);
 
-		AppLoggerUtils.i("service account name=" + valueWrapper.accountBean.getUsernick());
+        AppLoggerUtils.i("service account name=" + valueWrapper.accountBean.getUsernick());
 
-		buildNotification(valueWrapper.accountBean.getUid());
+        buildNotification(valueWrapper.accountBean.getUid());
 
-		stopSelf();
+        stopSelf();
 
-		return super.onStartCommand(intent, flags, startId);
-	}
+        return super.onStartCommand(intent, flags, startId);
+    }
 
-	private void buildNotification(String uid) {
+    private void buildNotification(String uid) {
 
-		ValueWrapper valueWrapper = valueBagHashMap.get(uid);
+        ValueWrapper valueWrapper = valueBagHashMap.get(uid);
 
-		if (valueWrapper == null) {
-			return;
-		}
+        if (valueWrapper == null) {
+            return;
+        }
 
-		final AccountBean accountBean = valueWrapper.accountBean;
-		final UnreadBean unreadBean = valueWrapper.unreadBean;
+        final AccountBean accountBean = valueWrapper.accountBean;
+        final UnreadBean unreadBean = valueWrapper.unreadBean;
 
-		Intent clickToOpenAppPendingIntentInner = valueWrapper.clickToOpenAppPendingIntentInner;
+        Intent clickToOpenAppPendingIntentInner = valueWrapper.clickToOpenAppPendingIntentInner;
 
-		String ticker = valueWrapper.ticker;
+        String ticker = valueWrapper.ticker;
 
-		final RecordOperationAppBroadcastReceiver clearNotificationEventReceiver = valueWrapper.clearNotificationEventReceiver;
+        final RecordOperationAppBroadcastReceiver clearNotificationEventReceiver = valueWrapper.clearNotificationEventReceiver;
 
-		Notification.Builder builder = new Notification.Builder(getBaseContext()).setTicker(ticker).setContentText(accountBean.getUsernick())
-				.setSmallIcon(R.drawable.ic_notification).setAutoCancel(true).setContentIntent(getPendingIntent(clickToOpenAppPendingIntentInner))
-				.setOnlyAlertOnce(true);
+        Notification.Builder builder = new Notification.Builder(getBaseContext()).setTicker(ticker)
+                .setContentText(accountBean.getUsernick())
+                .setSmallIcon(R.drawable.ic_notification).setAutoCancel(true)
+                .setContentIntent(getPendingIntent(clickToOpenAppPendingIntentInner))
+                .setOnlyAlertOnce(true);
 
-		builder.setContentTitle(ticker);
+        builder.setContentTitle(ticker);
 
-		Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(GlobalContext.getInstance(), clearNotificationEventReceiver);
+        Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(GlobalContext.getInstance(),
+                clearNotificationEventReceiver);
 
-		valueWrapper.clearNotificationEventReceiver = new RecordOperationAppBroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							new ClearUnreadDao(accountBean.getAccess_token()).clearMentionStatusUnread(unreadBean, accountBean.getUid());
-							new ClearUnreadDao(accountBean.getAccess_token()).clearMentionCommentUnread(unreadBean, accountBean.getUid());
-							new ClearUnreadDao(accountBean.getAccess_token()).clearCommentUnread(unreadBean, accountBean.getUid());
-						} catch (WeiboException ignored) {
+        valueWrapper.clearNotificationEventReceiver = new RecordOperationAppBroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            new ClearUnreadDao(accountBean.getAccess_token()).clearMentionStatusUnread(unreadBean,
+                                    accountBean.getUid());
+                            new ClearUnreadDao(accountBean.getAccess_token()).clearMentionCommentUnread(unreadBean,
+                                    accountBean.getUid());
+                            new ClearUnreadDao(accountBean.getAccess_token()).clearCommentUnread(unreadBean,
+                                    accountBean.getUid());
+                        } catch (WeiboException ignored) {
 
-						} finally {
-							Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(GlobalContext.getInstance(), clearNotificationEventReceiver);
-							if (Utility.isDebugMode()) {
-								new Handler(Looper.getMainLooper()).post(new Runnable() {
-									@Override
-									public void run() {
-										Toast.makeText(getApplicationContext(), "weiciyuan:remove notification items", Toast.LENGTH_SHORT).show();
+                        } finally {
+                            Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(GlobalContext.getInstance(),
+                                    clearNotificationEventReceiver);
+                            if (Utility.isDebugMode()) {
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "weiciyuan:remove notification items",
+                                                Toast.LENGTH_SHORT).show();
 
-									}
-								});
-							}
-						}
+                                    }
+                                });
+                            }
+                        }
 
-					}
-				}).start();
-			}
-		};
+                    }
+                }).start();
+            }
+        };
 
-		IntentFilter intentFilter = new IntentFilter(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
+        IntentFilter intentFilter = new IntentFilter(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
 
-		GlobalContext.getInstance().registerReceiver(valueWrapper.clearNotificationEventReceiver, intentFilter);
+        GlobalContext.getInstance().registerReceiver(valueWrapper.clearNotificationEventReceiver, intentFilter);
 
-		Intent broadcastIntent = new Intent(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
+        Intent broadcastIntent = new Intent(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
 
-		PendingIntent deletedPendingIntent = PendingIntent.getBroadcast(GlobalContext.getInstance(), accountBean.getUid().hashCode(), broadcastIntent,
-				PendingIntent.FLAG_UPDATE_CURRENT);
-		builder.setDeleteIntent(deletedPendingIntent);
+        PendingIntent deletedPendingIntent = PendingIntent.getBroadcast(GlobalContext.getInstance(), accountBean.getUid()
+                .hashCode(), broadcastIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setDeleteIntent(deletedPendingIntent);
 
-		Utility.configVibrateLedRingTone(builder);
+        Utility.configVibrateLedRingTone(builder);
 
-		NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-		notificationManager.notify(getMentionsWeiboNotificationId(accountBean), builder.build());
-	}
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(
+                NOTIFICATION_SERVICE);
+        notificationManager.notify(getMentionsWeiboNotificationId(accountBean), builder.build());
+    }
 
-	private PendingIntent getPendingIntent(Intent clickToOpenAppPendingIntentInner) {
-		clickToOpenAppPendingIntentInner.setExtrasClassLoader(getClass().getClassLoader());
-		clickToOpenAppPendingIntentInner.putExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA, UnreadTabIndex.MENTION_WEIBO);
-		PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, clickToOpenAppPendingIntentInner, PendingIntent.FLAG_UPDATE_CURRENT);
-		return pendingIntent;
-	}
+    private PendingIntent getPendingIntent(Intent clickToOpenAppPendingIntentInner) {
+        clickToOpenAppPendingIntentInner.setExtrasClassLoader(getClass().getClassLoader());
+        clickToOpenAppPendingIntentInner.putExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA,
+                UnreadTabIndex.MENTION_WEIBO);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, clickToOpenAppPendingIntentInner,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        return pendingIntent;
+    }
 
 }

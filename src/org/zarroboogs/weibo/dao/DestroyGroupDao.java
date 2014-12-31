@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -17,44 +18,44 @@ import java.util.Map;
  */
 public class DestroyGroupDao {
 
-	public boolean destroy() throws WeiboException {
+    public boolean destroy() throws WeiboException {
 
-		String url = WeiBoURLs.GROUP_DESTROY;
+        String url = WeiBoURLs.GROUP_DESTROY;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("list_id", list_id);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("list_id", list_id);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		Result value = null;
-		try {
-			value = gson.fromJson(jsonData, Result.class);
-		} catch (JsonSyntaxException e) {
-			AppLoggerUtils.e(e.getMessage());
-		}
+        Result value = null;
+        try {
+            value = gson.fromJson(jsonData, Result.class);
+        } catch (JsonSyntaxException e) {
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		return (value != null);
+        return (value != null);
 
-	}
+    }
 
-	/**
-	 * http://open.weibo.com/wiki/2/friendships/groups/destroy suggest use idstr
-	 */
+    /**
+     * http://open.weibo.com/wiki/2/friendships/groups/destroy suggest use idstr
+     */
 
-	public DestroyGroupDao(String token, String list_id) {
-		this.access_token = token;
-		this.list_id = list_id;
-	}
+    public DestroyGroupDao(String token, String list_id) {
+        this.access_token = token;
+        this.list_id = list_id;
+    }
 
-	private String access_token;
-	private String list_id;
+    private String access_token;
+    private String list_id;
 
-	private class Result {
-		String id;
-		String idstr;
-		String name;
-	}
+    private class Result {
+        String id;
+        String idstr;
+        String name;
+    }
 }

@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.db.task;
 
 import com.google.gson.Gson;
@@ -26,186 +27,197 @@ import java.util.List;
  */
 public class FavouriteDBTask {
 
-	private FavouriteDBTask() {
+    private FavouriteDBTask() {
 
-	}
+    }
 
-	private static SQLiteDatabase getWsd() {
+    private static SQLiteDatabase getWsd() {
 
-		DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
-		return databaseHelper.getWritableDatabase();
-	}
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
+        return databaseHelper.getWritableDatabase();
+    }
 
-	private static SQLiteDatabase getRsd() {
-		DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
-		return databaseHelper.getReadableDatabase();
-	}
+    private static SQLiteDatabase getRsd() {
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
+        return databaseHelper.getReadableDatabase();
+    }
 
-	private static void add(List<FavBean> msgList, int page, String accountId) {
-		Gson gson = new Gson();
+    private static void add(List<FavBean> msgList, int page, String accountId) {
+        Gson gson = new Gson();
 
-		DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(getWsd(), FavouriteTable.FavouriteDataTable.TABLE_NAME);
-		final int mblogidColumn = ih.getColumnIndex(FavouriteTable.FavouriteDataTable.MBLOGID);
-		final int accountidColumn = ih.getColumnIndex(FavouriteTable.FavouriteDataTable.ACCOUNTID);
-		final int jsondataColumn = ih.getColumnIndex(FavouriteTable.FavouriteDataTable.JSONDATA);
+        DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(getWsd(),
+                FavouriteTable.FavouriteDataTable.TABLE_NAME);
+        final int mblogidColumn = ih.getColumnIndex(FavouriteTable.FavouriteDataTable.MBLOGID);
+        final int accountidColumn = ih.getColumnIndex(FavouriteTable.FavouriteDataTable.ACCOUNTID);
+        final int jsondataColumn = ih.getColumnIndex(FavouriteTable.FavouriteDataTable.JSONDATA);
 
-		try {
-			getWsd().beginTransaction();
-			for (FavBean msg : msgList) {
-				ih.prepareForInsert();
-				ih.bind(mblogidColumn, msg.getStatus().getId());
-				ih.bind(accountidColumn, accountId);
-				String json = gson.toJson(msg);
-				ih.bind(jsondataColumn, json);
-				ih.execute();
-			}
+        try {
+            getWsd().beginTransaction();
+            for (FavBean msg : msgList) {
+                ih.prepareForInsert();
+                ih.bind(mblogidColumn, msg.getStatus().getId());
+                ih.bind(accountidColumn, accountId);
+                String json = gson.toJson(msg);
+                ih.bind(jsondataColumn, json);
+                ih.execute();
+            }
 
-			getWsd().setTransactionSuccessful();
-		} catch (SQLException e) {
+            getWsd().setTransactionSuccessful();
+        } catch (SQLException e) {
 
-		} finally {
-			getWsd().endTransaction();
-			ih.close();
-		}
+        } finally {
+            getWsd().endTransaction();
+            ih.close();
+        }
 
-		String sql = "select * from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + "  = " + accountId;
-		Cursor c = getRsd().rawQuery(sql, null);
-		if (c.moveToNext()) {
-			try {
-				String[] args = { accountId };
-				ContentValues cv = new ContentValues();
-				cv.put(FavouriteTable.PAGE, page);
-				getWsd().update(FavouriteTable.TABLE_NAME, cv, FavouriteTable.ACCOUNTID + "=?", args);
-			} catch (JsonSyntaxException e) {
+        String sql = "select * from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + "  = "
+                + accountId;
+        Cursor c = getRsd().rawQuery(sql, null);
+        if (c.moveToNext()) {
+            try {
+                String[] args = {
+                    accountId
+                };
+                ContentValues cv = new ContentValues();
+                cv.put(FavouriteTable.PAGE, page);
+                getWsd().update(FavouriteTable.TABLE_NAME, cv, FavouriteTable.ACCOUNTID + "=?", args);
+            } catch (JsonSyntaxException e) {
 
-			}
-		} else {
+            }
+        } else {
 
-			ContentValues cv = new ContentValues();
-			cv.put(FavouriteTable.ACCOUNTID, accountId);
-			cv.put(FavouriteTable.PAGE, page);
-			getWsd().insert(FavouriteTable.TABLE_NAME, FavouriteTable.ID, cv);
-		}
+            ContentValues cv = new ContentValues();
+            cv.put(FavouriteTable.ACCOUNTID, accountId);
+            cv.put(FavouriteTable.PAGE, page);
+            getWsd().insert(FavouriteTable.TABLE_NAME, FavouriteTable.ID, cv);
+        }
 
-	}
+    }
 
-	public static FavouriteTimeLineData getFavouriteMsgList(String accountId) {
+    public static FavouriteTimeLineData getFavouriteMsgList(String accountId) {
 
-		FavListBean result = new FavListBean();
+        FavListBean result = new FavListBean();
 
-		List<FavBean> msgList = new ArrayList<FavBean>();
-		String sql = "select * from " + FavouriteTable.FavouriteDataTable.TABLE_NAME + " where " + FavouriteTable.FavouriteDataTable.ACCOUNTID + "  = "
-				+ accountId + " order by " + FavouriteTable.FavouriteDataTable.MBLOGID + " desc";
-		Cursor c = getRsd().rawQuery(sql, null);
-		Gson gson = new Gson();
-		while (c.moveToNext()) {
-			String json = c.getString(c.getColumnIndex(FavouriteTable.FavouriteDataTable.JSONDATA));
-			try {
-				FavBean value = gson.fromJson(json, FavBean.class);
-				if (value != null) {
-					value.getStatus().getListViewSpannableString();
-				}
-				msgList.add(value);
-			} catch (JsonSyntaxException e) {
-				AppLoggerUtils.e(e.getMessage());
-			}
-		}
+        List<FavBean> msgList = new ArrayList<FavBean>();
+        String sql = "select * from " + FavouriteTable.FavouriteDataTable.TABLE_NAME + " where "
+                + FavouriteTable.FavouriteDataTable.ACCOUNTID + "  = "
+                + accountId + " order by " + FavouriteTable.FavouriteDataTable.MBLOGID + " desc";
+        Cursor c = getRsd().rawQuery(sql, null);
+        Gson gson = new Gson();
+        while (c.moveToNext()) {
+            String json = c.getString(c.getColumnIndex(FavouriteTable.FavouriteDataTable.JSONDATA));
+            try {
+                FavBean value = gson.fromJson(json, FavBean.class);
+                if (value != null) {
+                    value.getStatus().getListViewSpannableString();
+                }
+                msgList.add(value);
+            } catch (JsonSyntaxException e) {
+                AppLoggerUtils.e(e.getMessage());
+            }
+        }
 
-		result.setFavorites(msgList);
-		c.close();
+        result.setFavorites(msgList);
+        c.close();
 
-		sql = "select * from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + "  = " + accountId;
-		c = getRsd().rawQuery(sql, null);
-		int page = 0;
-		while (c.moveToNext()) {
-			page = c.getInt(c.getColumnIndex(FavouriteTable.PAGE));
-		}
-		c.close();
-		return new FavouriteTimeLineData(result, page, getPosition(accountId));
+        sql = "select * from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + "  = " + accountId;
+        c = getRsd().rawQuery(sql, null);
+        int page = 0;
+        while (c.moveToNext()) {
+            page = c.getInt(c.getColumnIndex(FavouriteTable.PAGE));
+        }
+        c.close();
+        return new FavouriteTimeLineData(result, page, getPosition(accountId));
 
-	}
+    }
 
-	static void deleteAllFavourites(String accountId) {
-		String sql = "delete from " + FavouriteTable.FavouriteDataTable.TABLE_NAME + " where " + FavouriteTable.FavouriteDataTable.ACCOUNTID + " in " + "("
-				+ accountId + ")";
+    static void deleteAllFavourites(String accountId) {
+        String sql = "delete from " + FavouriteTable.FavouriteDataTable.TABLE_NAME + " where "
+                + FavouriteTable.FavouriteDataTable.ACCOUNTID + " in " + "("
+                + accountId + ")";
 
-		getWsd().execSQL(sql);
+        getWsd().execSQL(sql);
 
-		sql = "delete from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + " in " + "(" + accountId + ")";
-		getWsd().execSQL(sql);
-	}
+        sql = "delete from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + " in " + "(" + accountId
+                + ")";
+        getWsd().execSQL(sql);
+    }
 
-	public static void asyncUpdatePosition(final TimeLinePosition position, final String accountId) {
-		if (position == null) {
-			return;
-		}
+    public static void asyncUpdatePosition(final TimeLinePosition position, final String accountId) {
+        if (position == null) {
+            return;
+        }
 
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				updatePosition(position, accountId);
-			}
-		};
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                updatePosition(position, accountId);
+            }
+        };
 
-		new Thread(runnable).start();
-	}
+        new Thread(runnable).start();
+    }
 
-	private static void updatePosition(TimeLinePosition position, String accountId) {
-		String sql = "select * from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + "  = " + accountId;
-		Cursor c = getRsd().rawQuery(sql, null);
-		Gson gson = new Gson();
-		if (c.moveToNext()) {
-			try {
-				String[] args = { accountId };
-				ContentValues cv = new ContentValues();
-				cv.put(FavouriteTable.TIMELINEDATA, gson.toJson(position));
-				getWsd().update(FavouriteTable.TABLE_NAME, cv, FavouriteTable.ACCOUNTID + "=?", args);
-			} catch (JsonSyntaxException e) {
+    private static void updatePosition(TimeLinePosition position, String accountId) {
+        String sql = "select * from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + "  = "
+                + accountId;
+        Cursor c = getRsd().rawQuery(sql, null);
+        Gson gson = new Gson();
+        if (c.moveToNext()) {
+            try {
+                String[] args = {
+                    accountId
+                };
+                ContentValues cv = new ContentValues();
+                cv.put(FavouriteTable.TIMELINEDATA, gson.toJson(position));
+                getWsd().update(FavouriteTable.TABLE_NAME, cv, FavouriteTable.ACCOUNTID + "=?", args);
+            } catch (JsonSyntaxException e) {
 
-			}
-		} else {
+            }
+        } else {
 
-			ContentValues cv = new ContentValues();
-			cv.put(FavouriteTable.ACCOUNTID, accountId);
-			cv.put(FavouriteTable.TIMELINEDATA, gson.toJson(position));
-			getWsd().insert(FavouriteTable.TABLE_NAME, FavouriteTable.ID, cv);
-		}
-	}
+            ContentValues cv = new ContentValues();
+            cv.put(FavouriteTable.ACCOUNTID, accountId);
+            cv.put(FavouriteTable.TIMELINEDATA, gson.toJson(position));
+            getWsd().insert(FavouriteTable.TABLE_NAME, FavouriteTable.ID, cv);
+        }
+    }
 
-	private static TimeLinePosition getPosition(String accountId) {
-		String sql = "select * from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + "  = " + accountId;
-		Cursor c = getRsd().rawQuery(sql, null);
-		Gson gson = new Gson();
-		while (c.moveToNext()) {
-			String json = c.getString(c.getColumnIndex(FavouriteTable.TIMELINEDATA));
-			if (!TextUtils.isEmpty(json)) {
-				try {
-					TimeLinePosition value = gson.fromJson(json, TimeLinePosition.class);
-					c.close();
-					return value;
+    private static TimeLinePosition getPosition(String accountId) {
+        String sql = "select * from " + FavouriteTable.TABLE_NAME + " where " + FavouriteTable.ACCOUNTID + "  = "
+                + accountId;
+        Cursor c = getRsd().rawQuery(sql, null);
+        Gson gson = new Gson();
+        while (c.moveToNext()) {
+            String json = c.getString(c.getColumnIndex(FavouriteTable.TIMELINEDATA));
+            if (!TextUtils.isEmpty(json)) {
+                try {
+                    TimeLinePosition value = gson.fromJson(json, TimeLinePosition.class);
+                    c.close();
+                    return value;
 
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-			}
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
 
-		}
-		c.close();
-		return new TimeLinePosition(0, 0);
-	}
+        }
+        c.close();
+        return new TimeLinePosition(0, 0);
+    }
 
-	public static void asyncReplace(final FavListBean data, final int page, final String accountId) {
+    public static void asyncReplace(final FavListBean data, final int page, final String accountId) {
 
-		final List<FavBean> msgList = new ArrayList<FavBean>();
-		msgList.addAll(data.getFavorites());
+        final List<FavBean> msgList = new ArrayList<FavBean>();
+        msgList.addAll(data.getFavorites());
 
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				deleteAllFavourites(accountId);
-				add(msgList, page, accountId);
-			}
-		}).start();
-	}
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                deleteAllFavourites(accountId);
+                add(msgList, page, accountId);
+            }
+        }).start();
+    }
 
 }

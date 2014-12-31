@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.utils.Constants;
@@ -32,240 +33,242 @@ import android.widget.TextView;
 /**
  * User: qii Date: 12-9-25
  */
-public abstract class AbstractWriteActivity<T> extends AbstractAppActivity implements View.OnClickListener, ClearContentDialog.IClear, SaveDraftDialog.IDraft {
+public abstract class AbstractWriteActivity<T> extends AbstractAppActivity implements View.OnClickListener,
+        ClearContentDialog.IClear, SaveDraftDialog.IDraft {
 
-	protected abstract boolean canSend();
+    protected abstract boolean canSend();
 
-	private AutoCompleteTextView et;
+    private AutoCompleteTextView et;
 
-	private SmileyPicker smiley = null;
+    private SmileyPicker smiley = null;
 
-	private RelativeLayout container = null;
+    private RelativeLayout container = null;
 
-	public static final int AT_USER = 3;
+    public static final int AT_USER = 3;
 
-	protected String token;
-	
-	private Toolbar abstractWriteToolbar;
-	
-	
-	
+    protected String token;
 
-	protected EditText getEditTextView() {
-		return et;
-	}
+    private Toolbar abstractWriteToolbar;
 
-	@Override
-	public void clear() {
-		getEditTextView().setText("");
-	}
+    protected EditText getEditTextView() {
+        return et;
+    }
 
-	protected abstract void send();
+    @Override
+    public void clear() {
+        getEditTextView().setText("");
+    }
 
-	public void insertEmotion(String emotionChar) {
-		String ori = getEditTextView().getText().toString();
-		int index = getEditTextView().getSelectionStart();
-		StringBuilder stringBuilder = new StringBuilder(ori);
-		stringBuilder.insert(index, emotionChar);
-		getEditTextView().setText(stringBuilder.toString());
-		getEditTextView().setSelection(index + emotionChar.length());
-	}
+    protected abstract void send();
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+    public void insertEmotion(String emotionChar) {
+        String ori = getEditTextView().getText().toString();
+        int index = getEditTextView().getSelectionStart();
+        StringBuilder stringBuilder = new StringBuilder(ori);
+        stringBuilder.insert(index, emotionChar);
+        getEditTextView().setText(stringBuilder.toString());
+        getEditTextView().setSelection(index + emotionChar.length());
+    }
 
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-	public Toolbar getToolbar(){
-		return abstractWriteToolbar;
-	}
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.abstractwriteactivity_layout);
+    }
 
-		abstractWriteToolbar = (Toolbar) findViewById(R.id.abstractWriteToolbar);
-//		ActionBar actionBar = getActionBar();
-//		actionBar.setDisplayHomeAsUpEnabled(false);
-//		actionBar.setDisplayShowHomeEnabled(true);
-//		actionBar.setDisplayShowTitleEnabled(true);
-//		actionBar.setDisplayShowCustomEnabled(true);
+    public Toolbar getToolbar() {
+        return abstractWriteToolbar;
+    }
 
-		int avatarWidth = getResources().getDimensionPixelSize(R.dimen.timeline_avatar_width);
-		int avatarHeight = getResources().getDimensionPixelSize(R.dimen.timeline_avatar_height);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.abstractwriteactivity_layout);
 
-		Bitmap bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(getCurrentAccountBean().getInfo().getAvatar_large(), avatarWidth, avatarHeight,
-				FileLocationMethod.avatar_large);
-		if (bitmap == null) {
-			bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(getCurrentAccountBean().getInfo().getProfile_image_url(), avatarWidth, avatarHeight,
-					FileLocationMethod.avatar_small);
-		}
-		if (bitmap != null) {
-//			actionBar.setIcon(new BitmapDrawable(getResources(), bitmap));
-		}
+        abstractWriteToolbar = (Toolbar) findViewById(R.id.abstractWriteToolbar);
+        // ActionBar actionBar = getActionBar();
+        // actionBar.setDisplayHomeAsUpEnabled(false);
+        // actionBar.setDisplayShowHomeEnabled(true);
+        // actionBar.setDisplayShowTitleEnabled(true);
+        // actionBar.setDisplayShowCustomEnabled(true);
 
-		token = getIntent().getStringExtra(Constants.TOKEN);
+        int avatarWidth = getResources().getDimensionPixelSize(R.dimen.timeline_avatar_width);
+        int avatarHeight = getResources().getDimensionPixelSize(R.dimen.timeline_avatar_height);
 
-		View title = getLayoutInflater().inflate(R.layout.writeweiboactivity_title_layout, null);
-//		actionBar.setCustomView(title, new ActionBar.LayoutParams(Gravity.RIGHT));
+        Bitmap bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(getCurrentAccountBean().getInfo().getAvatar_large(),
+                avatarWidth, avatarHeight,
+                FileLocationMethod.avatar_large);
+        if (bitmap == null) {
+            bitmap = ImageUtility.getWriteWeiboRoundedCornerPic(getCurrentAccountBean().getInfo().getProfile_image_url(),
+                    avatarWidth, avatarHeight,
+                    FileLocationMethod.avatar_small);
+        }
+        if (bitmap != null) {
+            // actionBar.setIcon(new BitmapDrawable(getResources(), bitmap));
+        }
 
-		et = ((AutoCompleteTextView) findViewById(R.id.status_new_content));
-		et.addTextChangedListener(new TextNumLimitWatcher((TextView) findViewById(R.id.menu_send), et, this));
-		AutoCompleteAdapter adapter = new AutoCompleteAdapter(this, et, (ProgressBar) title.findViewById(R.id.have_suggest_progressbar));
-		et.setAdapter(adapter);
+        token = getIntent().getStringExtra(Constants.TOKEN);
 
-		findViewById(R.id.menu_topic).setOnClickListener(this);
-		findViewById(R.id.menu_at).setOnClickListener(this);
-		findViewById(R.id.menu_emoticon).setOnClickListener(this);
-		findViewById(R.id.menu_send).setOnClickListener(this);
+        View title = getLayoutInflater().inflate(R.layout.writeweiboactivity_title_layout, null);
+        // actionBar.setCustomView(title, new ActionBar.LayoutParams(Gravity.RIGHT));
 
-		CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_at), R.string.at_other);
-		CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_emoticon), R.string.add_emoticon);
-		CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_topic), R.string.add_topic);
-		CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_send), R.string.send);
+        et = ((AutoCompleteTextView) findViewById(R.id.status_new_content));
+        et.addTextChangedListener(new TextNumLimitWatcher((TextView) findViewById(R.id.menu_send), et, this));
+        AutoCompleteAdapter adapter = new AutoCompleteAdapter(this, et,
+                (ProgressBar) title.findViewById(R.id.have_suggest_progressbar));
+        et.setAdapter(adapter);
 
-		smiley = (SmileyPicker) findViewById(R.id.smiley_picker);
-		smiley.setEditText(AbstractWriteActivity.this, ((LinearLayout) findViewById(R.id.root_layout)), et);
-		container = (RelativeLayout) findViewById(R.id.container);
-		et.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				hideSmileyPicker(true);
-			}
-		});
-	}
+        findViewById(R.id.menu_topic).setOnClickListener(this);
+        findViewById(R.id.menu_at).setOnClickListener(this);
+        findViewById(R.id.menu_emoticon).setOnClickListener(this);
+        findViewById(R.id.menu_send).setOnClickListener(this);
 
-	private void showSmileyPicker(boolean showAnimation) {
-		this.smiley.show(AbstractWriteActivity.this, showAnimation);
-		lockContainerHeight(SmileyPickerUtility.getAppContentHeight(AbstractWriteActivity.this));
+        CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_at), R.string.at_other);
+        CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_emoticon), R.string.add_emoticon);
+        CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_topic), R.string.add_topic);
+        CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_send), R.string.send);
 
-	}
+        smiley = (SmileyPicker) findViewById(R.id.smiley_picker);
+        smiley.setEditText(AbstractWriteActivity.this, ((LinearLayout) findViewById(R.id.root_layout)), et);
+        container = (RelativeLayout) findViewById(R.id.container);
+        et.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideSmileyPicker(true);
+            }
+        });
+    }
 
-	public void hideSmileyPicker(boolean showKeyBoard) {
-		if (this.smiley.isShown()) {
-			if (showKeyBoard) {
-				// this time softkeyboard is hidden
-				LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.container.getLayoutParams();
-				localLayoutParams.height = smiley.getTop();
-				localLayoutParams.weight = 0.0F;
-				this.smiley.hide(AbstractWriteActivity.this);
+    private void showSmileyPicker(boolean showAnimation) {
+        this.smiley.show(AbstractWriteActivity.this, showAnimation);
+        lockContainerHeight(SmileyPickerUtility.getAppContentHeight(AbstractWriteActivity.this));
 
-				SmileyPickerUtility.showKeyBoard(et);
-				et.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						unlockContainerHeightDelayed();
-					}
-				}, 200L);
-			} else {
-				this.smiley.hide(AbstractWriteActivity.this);
-				unlockContainerHeightDelayed();
-			}
-		}
+    }
 
-	}
+    public void hideSmileyPicker(boolean showKeyBoard) {
+        if (this.smiley.isShown()) {
+            if (showKeyBoard) {
+                // this time softkeyboard is hidden
+                LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.container.getLayoutParams();
+                localLayoutParams.height = smiley.getTop();
+                localLayoutParams.weight = 0.0F;
+                this.smiley.hide(AbstractWriteActivity.this);
 
-	private void lockContainerHeight(int paramInt) {
-		LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.container.getLayoutParams();
-		localLayoutParams.height = paramInt;
-		localLayoutParams.weight = 0.0F;
-	}
+                SmileyPickerUtility.showKeyBoard(et);
+                et.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        unlockContainerHeightDelayed();
+                    }
+                }, 200L);
+            } else {
+                this.smiley.hide(AbstractWriteActivity.this);
+                unlockContainerHeightDelayed();
+            }
+        }
 
-	public void unlockContainerHeightDelayed() {
+    }
 
-		((LinearLayout.LayoutParams) AbstractWriteActivity.this.container.getLayoutParams()).weight = 1.0F;
+    private void lockContainerHeight(int paramInt) {
+        LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.container.getLayoutParams();
+        localLayoutParams.height = paramInt;
+        localLayoutParams.weight = 0.0F;
+    }
 
-	}
+    public void unlockContainerHeightDelayed() {
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.menu_emoticon:
-			if (smiley.isShown()) {
-				hideSmileyPicker(true);
-			} else {
-				showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(AbstractWriteActivity.this));
-			}
-			break;
+        ((LinearLayout.LayoutParams) AbstractWriteActivity.this.container.getLayoutParams()).weight = 1.0F;
 
-		case R.id.menu_send:
-			send();
-			break;
-		case R.id.menu_topic:
-			insertTopic();
-			break;
-		case R.id.menu_at:
-			Intent intent = new Intent(AbstractWriteActivity.this, AtUserActivity.class);
-			intent.putExtra(Constants.TOKEN, token);
-			startActivityForResult(intent, AT_USER);
-			break;
-		}
-	}
+    }
 
-	protected void insertTopic() {
-		String ori = getEditTextView().getText().toString();
-		String topicTag = "##";
-		getEditTextView().setText(ori + topicTag);
-		getEditTextView().setSelection(et.getText().toString().length() - 1);
-	}
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.menu_emoticon:
+                if (smiley.isShown()) {
+                    hideSmileyPicker(true);
+                } else {
+                    showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(AbstractWriteActivity.this));
+                }
+                break;
 
-	protected void clearContentMenu() {
-		ClearContentDialog dialog = new ClearContentDialog();
-		dialog.show(getFragmentManager(), "");
-	}
+            case R.id.menu_send:
+                send();
+                break;
+            case R.id.menu_topic:
+                insertTopic();
+                break;
+            case R.id.menu_at:
+                Intent intent = new Intent(AbstractWriteActivity.this, AtUserActivity.class);
+                intent.putExtra(Constants.TOKEN, token);
+                startActivityForResult(intent, AT_USER);
+                break;
+        }
+    }
 
-	@Override
-	public void onBackPressed() {
-		if (smiley.isShown()) {
-			hideSmileyPicker(false);
-		} else if (!TextUtils.isEmpty(et.getText().toString()) && canShowSaveDraftDialog()) {
-			SaveDraftDialog dialog = new SaveDraftDialog();
-			dialog.show(getFragmentManager(), "");
-		} else {
+    protected void insertTopic() {
+        String ori = getEditTextView().getText().toString();
+        String topicTag = "##";
+        getEditTextView().setText(ori + topicTag);
+        getEditTextView().setSelection(et.getText().toString().length() - 1);
+    }
 
-			if (GlobalContext.getInstance().getAccountBean().equals(getCurrentAccountBean())) {
-				super.onBackPressed();
-			} else {
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				if (imm.isActive()) {
-					imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-				}
-				Intent intent = MainTimeLineActivity.newIntent(getCurrentAccountBean());
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
-			}
+    protected void clearContentMenu() {
+        ClearContentDialog dialog = new ClearContentDialog();
+        dialog.show(getFragmentManager(), "");
+    }
 
-		}
-	}
+    @Override
+    public void onBackPressed() {
+        if (smiley.isShown()) {
+            hideSmileyPicker(false);
+        } else if (!TextUtils.isEmpty(et.getText().toString()) && canShowSaveDraftDialog()) {
+            SaveDraftDialog dialog = new SaveDraftDialog();
+            dialog.show(getFragmentManager(), "");
+        } else {
 
-	protected AccountBean getCurrentAccountBean() {
-		return GlobalContext.getInstance().getAccountBean();
-	}
+            if (GlobalContext.getInstance().getAccountBean().equals(getCurrentAccountBean())) {
+                super.onBackPressed();
+            } else {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm.isActive()) {
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+                Intent intent = MainTimeLineActivity.newIntent(getCurrentAccountBean());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
 
-	protected abstract boolean canShowSaveDraftDialog();
+        }
+    }
 
-	public abstract void saveToDraft();
+    protected AccountBean getCurrentAccountBean() {
+        return GlobalContext.getInstance().getAccountBean();
+    }
 
-	protected abstract void removeDraft();
+    protected abstract boolean canShowSaveDraftDialog();
 
-	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		super.onActivityResult(requestCode, resultCode, intent);
+    public abstract void saveToDraft();
 
-		if (resultCode == RESULT_OK) {
-			switch (requestCode) {
-			case AT_USER:
-				String name = intent.getStringExtra("name");
-				String ori = getEditTextView().getText().toString();
-				int index = getEditTextView().getSelectionStart();
-				StringBuilder stringBuilder = new StringBuilder(ori);
-				stringBuilder.insert(index, name);
-				getEditTextView().setText(stringBuilder.toString());
-				getEditTextView().setSelection(index + name.length());
-				break;
-			}
+    protected abstract void removeDraft();
 
-		}
-	}
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case AT_USER:
+                    String name = intent.getStringExtra("name");
+                    String ori = getEditTextView().getText().toString();
+                    int index = getEditTextView().getSelectionStart();
+                    StringBuilder stringBuilder = new StringBuilder(ori);
+                    stringBuilder.insert(index, name);
+                    getEditTextView().setText(stringBuilder.toString());
+                    getEditTextView().setSelection(index + name.length());
+                    break;
+            }
+
+        }
+    }
 
 }

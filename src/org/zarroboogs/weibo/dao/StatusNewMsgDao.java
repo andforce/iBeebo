@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import android.text.TextUtils;
@@ -17,58 +18,58 @@ import java.util.Map;
  */
 public class StatusNewMsgDao {
 
-	private String access_token;
+    private String access_token;
 
-	private String pic;
+    private String pic;
 
-	private GeoBean geoBean;
+    private GeoBean geoBean;
 
-	public StatusNewMsgDao setGeoBean(GeoBean geoBean) {
-		this.geoBean = geoBean;
-		return this;
-	}
+    public StatusNewMsgDao setGeoBean(GeoBean geoBean) {
+        this.geoBean = geoBean;
+        return this;
+    }
 
-	public StatusNewMsgDao setPic(String pic) {
-		this.pic = pic;
-		return this;
-	}
+    public StatusNewMsgDao setPic(String pic) {
+        this.pic = pic;
+        return this;
+    }
 
-	public StatusNewMsgDao(String access_token) {
+    public StatusNewMsgDao(String access_token) {
 
-		this.access_token = access_token;
-	}
+        this.access_token = access_token;
+    }
 
-	public boolean sendNewMsg(String str, FileUploaderHttpHelper.ProgressListener listener) throws WeiboException {
+    public boolean sendNewMsg(String str, FileUploaderHttpHelper.ProgressListener listener) throws WeiboException {
 
-		if (!TextUtils.isEmpty(pic)) {
-			return sendNewMsgWithPic(str, listener);
+        if (!TextUtils.isEmpty(pic)) {
+            return sendNewMsgWithPic(str, listener);
 
-		}
-		String url = WeiBoURLs.STATUSES_UPDATE;
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("status", str);
-		if (geoBean != null) {
-			map.put("lat", String.valueOf(geoBean.getLat()));
-			map.put("long", String.valueOf(geoBean.getLon()));
-		}
+        }
+        String url = WeiBoURLs.STATUSES_UPDATE;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("status", str);
+        if (geoBean != null) {
+            map.put("lat", String.valueOf(geoBean.getLat()));
+            map.put("long", String.valueOf(geoBean.getLon()));
+        }
 
-		HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
-		return true;
+        HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
+        return true;
 
-	}
+    }
 
-	private boolean sendNewMsgWithPic(String str, FileUploaderHttpHelper.ProgressListener listener) throws WeiboException {
-		String url = WeiBoURLs.STATUSES_UPLOAD;
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("status", str);
-		if (geoBean != null) {
-			map.put("lat", String.valueOf(geoBean.getLat()));
-			map.put("long", String.valueOf(geoBean.getLon()));
-		}
+    private boolean sendNewMsgWithPic(String str, FileUploaderHttpHelper.ProgressListener listener) throws WeiboException {
+        String url = WeiBoURLs.STATUSES_UPLOAD;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("status", str);
+        if (geoBean != null) {
+            map.put("lat", String.valueOf(geoBean.getLat()));
+            map.put("long", String.valueOf(geoBean.getLon()));
+        }
 
-		return HttpUtility.getInstance().executeUploadTask(url, map, pic, "pic", listener);
+        return HttpUtility.getInstance().executeUploadTask(url, map, pic, "pic", listener);
 
-	}
+    }
 }

@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -18,30 +19,30 @@ import java.util.Map;
  */
 public class FriendGroupDao {
 
-	public GroupListBean getGroup() throws WeiboException {
+    public GroupListBean getGroup() throws WeiboException {
 
-		String url = WeiBoURLs.FRIENDSGROUP_INFO;
+        String url = WeiBoURLs.FRIENDSGROUP_INFO;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		GroupListBean value = null;
-		try {
-			value = gson.fromJson(jsonData, GroupListBean.class);
-		} catch (JsonSyntaxException e) {
-			AppLoggerUtils.e(e.getMessage());
-		}
+        GroupListBean value = null;
+        try {
+            value = gson.fromJson(jsonData, GroupListBean.class);
+        } catch (JsonSyntaxException e) {
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	public FriendGroupDao(String token) {
-		this.access_token = token;
-	}
+    public FriendGroupDao(String token) {
+        this.access_token = token;
+    }
 
-	private String access_token;
+    private String access_token;
 }

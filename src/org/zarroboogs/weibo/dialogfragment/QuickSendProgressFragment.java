@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dialogfragment;
 
 import org.zarroboogs.weibo.R;
@@ -12,12 +13,12 @@ import android.support.v4.app.DialogFragment;
  */
 public class QuickSendProgressFragment extends DialogFragment {
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		ProgressDialog dialog = new ProgressDialog(getActivity());
-		dialog.setMessage(getString(R.string.sending));
-		dialog.setIndeterminate(false);
-		dialog.setCancelable(true);
-		return dialog;
-	}
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setMessage(getString(R.string.sending));
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(true);
+        return dialog;
+    }
 }

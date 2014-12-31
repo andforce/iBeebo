@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.asynctask;
 
 import org.zarroboogs.util.net.WeiboException;
@@ -20,66 +21,66 @@ import android.widget.TextView;
  */
 public class GetWeiboLocationInfoTask extends MyAsyncTask<Void, String, Bitmap> {
 
-	private Activity activity;
+    private Activity activity;
 
-	private TextView location;
+    private TextView location;
 
-	private ImageView mapView;
+    private ImageView mapView;
 
-	private GeoBean geoBean;
+    private GeoBean geoBean;
 
-	public GetWeiboLocationInfoTask(Activity activity, GeoBean geoBean, ImageView mapView, TextView location) {
-		this.geoBean = geoBean;
-		this.activity = activity;
-		this.mapView = mapView;
-		this.location = location;
-	}
+    public GetWeiboLocationInfoTask(Activity activity, GeoBean geoBean, ImageView mapView, TextView location) {
+        this.geoBean = geoBean;
+        this.activity = activity;
+        this.mapView = mapView;
+        this.location = location;
+    }
 
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		location.setVisibility(View.VISIBLE);
-		location.setText(String.valueOf(geoBean.getLat() + "," + geoBean.getLon()));
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        location.setVisibility(View.VISIBLE);
+        location.setText(String.valueOf(geoBean.getLat() + "," + geoBean.getLon()));
 
-	}
+    }
 
-	@Override
-	protected Bitmap doInBackground(Void... params) {
+    @Override
+    protected Bitmap doInBackground(Void... params) {
 
-		if (Utility.isGPSLocationCorrect(geoBean)) {
+        if (Utility.isGPSLocationCorrect(geoBean)) {
 
-			String gpsLocationString = new GoogleGeoCoderDao(activity, geoBean).get();
+            String gpsLocationString = new GoogleGeoCoderDao(activity, geoBean).get();
 
-			try {
-				if (TextUtils.isEmpty(gpsLocationString)) {
-					publishProgress(new BaiduGeoCoderDao(geoBean.getLat(), geoBean.getLon()).get());
-				}
-			} catch (WeiboException e) {
-				e.printStackTrace();
-			}
-		}
+            try {
+                if (TextUtils.isEmpty(gpsLocationString)) {
+                    publishProgress(new BaiduGeoCoderDao(geoBean.getLat(), geoBean.getLon()).get());
+                }
+            } catch (WeiboException e) {
+                e.printStackTrace();
+            }
+        }
 
-		MapDao dao = new MapDao(GlobalContext.getInstance().getSpecialToken(), geoBean.getLat(), geoBean.getLon());
+        MapDao dao = new MapDao(GlobalContext.getInstance().getSpecialToken(), geoBean.getLat(), geoBean.getLon());
 
-		try {
-			return dao.getMap();
-		} catch (WeiboException e) {
-			return null;
-		}
-	}
+        try {
+            return dao.getMap();
+        } catch (WeiboException e) {
+            return null;
+        }
+    }
 
-	@Override
-	protected void onProgressUpdate(String... values) {
-		super.onProgressUpdate(values);
-		if (!TextUtils.isEmpty(values[0])) {
-			location.setVisibility(View.VISIBLE);
-			location.setText(values[0]);
-		}
-	}
+    @Override
+    protected void onProgressUpdate(String... values) {
+        super.onProgressUpdate(values);
+        if (!TextUtils.isEmpty(values[0])) {
+            location.setVisibility(View.VISIBLE);
+            location.setText(values[0]);
+        }
+    }
 
-	@Override
-	protected void onPostExecute(Bitmap s) {
-		mapView.setImageBitmap(s);
-		super.onPostExecute(s);
-	}
+    @Override
+    protected void onPostExecute(Bitmap s) {
+        mapView.setImageBitmap(s);
+        super.onPostExecute(s);
+    }
 }

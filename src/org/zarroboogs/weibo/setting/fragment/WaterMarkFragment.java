@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.setting.fragment;
 
 import android.content.SharedPreferences;
@@ -18,80 +19,82 @@ import java.util.List;
 
 public class WaterMarkFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-	private Preference frequency;
-	private List<Preference> preferenceList = new ArrayList<Preference>(4);
+    private Preference frequency;
+    private List<Preference> preferenceList = new ArrayList<Preference>(4);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRetainInstance(false);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(false);
 
-		addPreferencesFromResource(R.xml.water_mark_pref);
+        addPreferencesFromResource(R.xml.water_mark_pref);
 
-		preferenceList.add(findPreference(SettingActivity.WATER_MARK_SCREEN_NAME));
-		preferenceList.add(findPreference(SettingActivity.WATER_MARK_WEIBO_ICON));
-		preferenceList.add(findPreference(SettingActivity.WATER_MARK_WEIBO_URL));
-		
-		
-		preferenceList.add(findPreference(SettingActivity.WATER_MARK_POS));
+        preferenceList.add(findPreference(SettingActivity.WATER_MARK_SCREEN_NAME));
+        preferenceList.add(findPreference(SettingActivity.WATER_MARK_WEIBO_ICON));
+        preferenceList.add(findPreference(SettingActivity.WATER_MARK_WEIBO_URL));
 
-		View title = getActivity().getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
-		Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
-//		getActivity().getActionBar().setCustomView(title, new ActionBar.LayoutParams(Gravity.RIGHT));
-//		getActivity().getActionBar().setDisplayShowCustomEnabled(true);
-//		getActivity().getActionBar().setTitle("图片水印");
+        preferenceList.add(findPreference(SettingActivity.WATER_MARK_POS));
 
-		switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				SettingUtils.setEnableWaterMark(isChecked);
-				switchPre(isChecked);
-			}
-		});
+        View title = getActivity().getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
+        Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
+        // getActivity().getActionBar().setCustomView(title, new
+        // ActionBar.LayoutParams(Gravity.RIGHT));
+        // getActivity().getActionBar().setDisplayShowCustomEnabled(true);
+        // getActivity().getActionBar().setTitle("图片水印");
 
-		switchBtn.setChecked(SettingUtils.getEnableWaterMark());
-		switchPre(SettingUtils.getEnableWaterMark());
+        switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingUtils.setEnableWaterMark(isChecked);
+                switchPre(isChecked);
+            }
+        });
 
-		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        switchBtn.setChecked(SettingUtils.getEnableWaterMark());
+        switchPre(SettingUtils.getEnableWaterMark());
 
-		frequency = findPreference(SettingActivity.WATER_MARK_POS);
-		buildSummary();
-	}
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-	// confirm getActivity() is not null
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		buildSummary();
-	}
+        frequency = findPreference(SettingActivity.WATER_MARK_POS);
+        buildSummary();
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-	}
+    // confirm getActivity() is not null
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        buildSummary();
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
 
-		if (key.equals(SettingActivity.WATER_MARK_POS)) {
-			buildSummary();
-		}
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-	private void buildSummary() {
-		if (SettingUtils.getEnableWaterMark()) {
-			String value = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SettingActivity.WATER_MARK_POS, "1");
-			frequency.setSummary(getActivity().getResources().getStringArray(R.array.water_mark_pos_array)[Integer.valueOf(value) - 1]);
-		}
+        if (key.equals(SettingActivity.WATER_MARK_POS)) {
+            buildSummary();
+        }
+    }
 
-	}
+    private void buildSummary() {
+        if (SettingUtils.getEnableWaterMark()) {
+            String value = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(
+                    SettingActivity.WATER_MARK_POS, "1");
+            frequency.setSummary(getActivity().getResources().getStringArray(R.array.water_mark_pos_array)[Integer
+                    .valueOf(value) - 1]);
+        }
 
-	private void switchPre(boolean value) {
-		for (Preference p : preferenceList) {
-			p.setEnabled(value);
-		}
+    }
 
-	}
+    private void switchPre(boolean value) {
+        for (Preference p : preferenceList) {
+            p.setEnabled(value);
+        }
+
+    }
 
 }

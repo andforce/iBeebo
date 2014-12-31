@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -18,36 +19,36 @@ import java.util.Map;
  */
 public class RemarkDao {
 
-	public UserBean updateRemark() throws WeiboException {
-		String url = WeiBoURLs.REMARK_UPDATE;
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("uid", uid);
-		map.put("remark", remark);
+    public UserBean updateRemark() throws WeiboException {
+        String url = WeiBoURLs.REMARK_UPDATE;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("uid", uid);
+        map.put("remark", remark);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		UserBean value = null;
-		try {
-			value = gson.fromJson(jsonData, UserBean.class);
-		} catch (JsonSyntaxException e) {
-			AppLoggerUtils.e(e.getMessage());
-		}
+        UserBean value = null;
+        try {
+            value = gson.fromJson(jsonData, UserBean.class);
+        } catch (JsonSyntaxException e) {
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		return value;
+        return value;
 
-	}
+    }
 
-	private String access_token;
-	private String uid;
-	private String remark;
+    private String access_token;
+    private String uid;
+    private String remark;
 
-	public RemarkDao(String access_token, String uid, String remark) {
-		this.access_token = access_token;
-		this.uid = uid;
-		this.remark = remark;
-	}
+    public RemarkDao(String access_token, String uid, String remark) {
+        this.access_token = access_token;
+        this.uid = uid;
+        this.remark = remark;
+    }
 
 }

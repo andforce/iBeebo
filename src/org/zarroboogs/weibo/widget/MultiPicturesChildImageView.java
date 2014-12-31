@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.widget;
 
 import android.content.Context;
@@ -19,94 +20,94 @@ import org.zarroboogs.weibo.support.asyncdrawable.IWeiciyuanDrawable;
  */
 public class MultiPicturesChildImageView extends PerformanceImageView implements IWeiciyuanDrawable {
 
-	private Paint paint = new Paint();
-	private boolean pressed = false;
-	private boolean showGif = false;
-	private Bitmap gif;
+    private Paint paint = new Paint();
+    private boolean pressed = false;
+    private boolean showGif = false;
+    private Bitmap gif;
 
-	public MultiPicturesChildImageView(Context context) {
-		this(context, null);
-		setScaleType(ScaleType.FIT_XY);
-	}
+    public MultiPicturesChildImageView(Context context) {
+        this(context, null);
+        setScaleType(ScaleType.FIT_XY);
+    }
 
-	public MultiPicturesChildImageView(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
-		setScaleType(ScaleType.FIT_XY);
-	}
+    public MultiPicturesChildImageView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+        setScaleType(ScaleType.FIT_XY);
+    }
 
-	public MultiPicturesChildImageView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		setScaleType(ScaleType.FIT_XY);
-		init(context);
-	}
+    public MultiPicturesChildImageView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        setScaleType(ScaleType.FIT_XY);
+        init(context);
+    }
 
-	private void init(Context context) {
-		gif = BitmapFactory.decodeResource(getResources(), R.drawable.ic_play_gif_small);
-		paint.setAntiAlias(true);
-	}
+    private void init(Context context) {
+        gif = BitmapFactory.decodeResource(getResources(), R.drawable.ic_play_gif_small);
+        paint.setAntiAlias(true);
+    }
 
-	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-		if (showGif) {
-			int bitmapHeight = gif.getHeight();
-			int bitmapWidth = gif.getWidth();
-			int x = (getWidth() - bitmapWidth) / 2;
-			int y = (getHeight() - bitmapHeight) / 2;
-			canvas.drawBitmap(gif, x, y, paint);
-		}
-		if (pressed) {
-			canvas.drawColor(getResources().getColor(R.color.transparent_cover));
-		}
-	}
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (showGif) {
+            int bitmapHeight = gif.getHeight();
+            int bitmapWidth = gif.getWidth();
+            int x = (getWidth() - bitmapWidth) / 2;
+            int y = (getHeight() - bitmapHeight) / 2;
+            canvas.drawBitmap(gif, x, y, paint);
+        }
+        if (pressed) {
+            canvas.drawColor(getResources().getColor(R.color.transparent_cover));
+        }
+    }
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
 
-		switch (event.getActionMasked()) {
-		case MotionEvent.ACTION_DOWN:
-			pressed = true;
-			invalidate();
-			break;
-		case MotionEvent.ACTION_UP:
-		case MotionEvent.ACTION_CANCEL:
-			pressed = false;
-			invalidate();
-			break;
-		}
-		return super.onTouchEvent(event);
-	}
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                pressed = true;
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                pressed = false;
+                invalidate();
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
 
-	@Override
-	public ImageView getImageView() {
-		return this;
-	}
+    @Override
+    public ImageView getImageView() {
+        return this;
+    }
 
-	@Override
-	public void setProgress(int value, int max) {
+    @Override
+    public void setProgress(int value, int max) {
 
-	}
+    }
 
-	@Override
-	public ProgressBar getProgressBar() {
-		return null;
-	}
+    @Override
+    public ProgressBar getProgressBar() {
+        return null;
+    }
 
-	@Override
-	public void setGifFlag(boolean value) {
-		if (showGif != value) {
-			showGif = value;
-			invalidate();
-		}
-	}
+    @Override
+    public void setGifFlag(boolean value) {
+        if (showGif != value) {
+            showGif = value;
+            invalidate();
+        }
+    }
 
-	@Override
-	public void checkVerified(UserBean user) {
+    @Override
+    public void checkVerified(UserBean user) {
 
-	}
+    }
 
-	@Override
-	public void setPressesStateVisibility(boolean value) {
+    @Override
+    public void setPressesStateVisibility(boolean value) {
 
-	}
+    }
 }

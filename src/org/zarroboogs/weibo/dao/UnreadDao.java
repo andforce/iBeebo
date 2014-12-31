@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -18,46 +19,46 @@ import java.util.Map;
  */
 public class UnreadDao {
 
-	protected String getUrl() {
-		return WeiBoURLs.UNREAD_COUNT;
-	}
+    protected String getUrl() {
+        return WeiBoURLs.UNREAD_COUNT;
+    }
 
-	private String getMsgListJson() throws WeiboException {
-		String url = getUrl();
+    private String getMsgListJson() throws WeiboException {
+        String url = getUrl();
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("uid", uid);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("uid", uid);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		return jsonData;
-	}
+        return jsonData;
+    }
 
-	public UnreadBean getCount() throws WeiboException {
+    public UnreadBean getCount() throws WeiboException {
 
-		String json = getMsgListJson();
-		Gson gson = new Gson();
+        String json = getMsgListJson();
+        Gson gson = new Gson();
 
-		UnreadBean value = null;
-		try {
-			value = gson.fromJson(json, UnreadBean.class);
-		} catch (JsonSyntaxException e) {
+        UnreadBean value = null;
+        try {
+            value = gson.fromJson(json, UnreadBean.class);
+        } catch (JsonSyntaxException e) {
 
-			AppLoggerUtils.e(e.getMessage());
-			return null;
-		}
+            AppLoggerUtils.e(e.getMessage());
+            return null;
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	private String access_token;
-	private String uid;
+    private String access_token;
+    private String uid;
 
-	public UnreadDao(String access_token, String uid) {
+    public UnreadDao(String access_token, String uid) {
 
-		this.access_token = access_token;
-		this.uid = uid;
-	}
+        this.access_token = access_token;
+        this.uid = uid;
+    }
 
 }

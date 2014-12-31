@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.support.gallery;
 
 import org.zarroboogs.weibo.GlobalContext;
@@ -33,197 +34,198 @@ import java.util.HashMap;
  */
 public class GalleryAnimationActivity extends FragmentActivity {
 
-	private static final int STATUS_BAR_HEIGHT_DP_UNIT = 25;
+    private static final int STATUS_BAR_HEIGHT_DP_UNIT = 25;
 
-	private ArrayList<AnimationRect> rectList;
+    private ArrayList<AnimationRect> rectList;
 
-	private ArrayList<String> urls = new ArrayList<String>();
+    private ArrayList<String> urls = new ArrayList<String>();
 
-	private ViewPager pager;
+    private ViewPager pager;
 
-	private TextView position;
+    private TextView position;
 
-	private int initPosition;
+    private int initPosition;
 
-	private View background;
+    private View background;
 
-	private ColorDrawable backgroundColor;
+    private ColorDrawable backgroundColor;
 
-	public static Intent newIntent(MessageBean msg, ArrayList<AnimationRect> rectList, int initPosition) {
-		Intent intent = new Intent(GlobalContext.getInstance(), GalleryAnimationActivity.class);
-		intent.putExtra("msg", msg);
-		intent.putExtra("rect", rectList);
-		intent.putExtra("position", initPosition);
-		return intent;
-	}
+    public static Intent newIntent(MessageBean msg, ArrayList<AnimationRect> rectList, int initPosition) {
+        Intent intent = new Intent(GlobalContext.getInstance(), GalleryAnimationActivity.class);
+        intent.putExtra("msg", msg);
+        intent.putExtra("rect", rectList);
+        intent.putExtra("position", initPosition);
+        return intent;
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.galleryactivity_animation_layout);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.galleryactivity_animation_layout);
 
-		rectList = getIntent().getParcelableArrayListExtra("rect");
-		MessageBean msg = getIntent().getParcelableExtra("msg");
-		ArrayList<String> tmp = msg.getThumbnailPicUrls();
-		for (int i = 0; i < tmp.size(); i++) {
-			urls.add(tmp.get(i).replace("thumbnail", "large"));
-		}
+        rectList = getIntent().getParcelableArrayListExtra("rect");
+        MessageBean msg = getIntent().getParcelableExtra("msg");
+        ArrayList<String> tmp = msg.getThumbnailPicUrls();
+        for (int i = 0; i < tmp.size(); i++) {
+            urls.add(tmp.get(i).replace("thumbnail", "large"));
+        }
 
-		boolean disableHardwareLayerType = false;
+        boolean disableHardwareLayerType = false;
 
-		for (String url : urls) {
-			if (url.contains(".gif")) {
-				disableHardwareLayerType = true;
-				break;
-			}
-		}
+        for (String url : urls) {
+            if (url.contains(".gif")) {
+                disableHardwareLayerType = true;
+                break;
+            }
+        }
 
-		position = (TextView) findViewById(R.id.position);
-		initPosition = getIntent().getIntExtra("position", 0);
+        position = (TextView) findViewById(R.id.position);
+        initPosition = getIntent().getIntExtra("position", 0);
 
-		pager = (ViewPager) findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pager);
 
-		pager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager()));
-		final boolean finalDisableHardwareLayerType = disableHardwareLayerType;
-		pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				super.onPageSelected(position);
-				GalleryAnimationActivity.this.position.setText(String.valueOf(position + 1));
-			}
+        pager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager()));
+        final boolean finalDisableHardwareLayerType = disableHardwareLayerType;
+        pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                GalleryAnimationActivity.this.position.setText(String.valueOf(position + 1));
+            }
 
-			@Override
-			public void onPageScrollStateChanged(int scrollState) {
-				if (scrollState != ViewPager.SCROLL_STATE_IDLE && finalDisableHardwareLayerType) {
-					final int childCount = pager.getChildCount();
-					for (int i = 0; i < childCount; i++) {
-						View child = pager.getChildAt(i);
-						if (child.getLayerType() != View.LAYER_TYPE_NONE) {
-							child.setLayerType(View.LAYER_TYPE_NONE, null);
-						}
-					}
-				}
-			}
-		});
-		pager.setCurrentItem(getIntent().getIntExtra("position", 0));
-		pager.setOffscreenPageLimit(1);
-		pager.setPageTransformer(true, new ZoomOutPageTransformer());
+            @Override
+            public void onPageScrollStateChanged(int scrollState) {
+                if (scrollState != ViewPager.SCROLL_STATE_IDLE && finalDisableHardwareLayerType) {
+                    final int childCount = pager.getChildCount();
+                    for (int i = 0; i < childCount; i++) {
+                        View child = pager.getChildAt(i);
+                        if (child.getLayerType() != View.LAYER_TYPE_NONE) {
+                            child.setLayerType(View.LAYER_TYPE_NONE, null);
+                        }
+                    }
+                }
+            }
+        });
+        pager.setCurrentItem(getIntent().getIntExtra("position", 0));
+        pager.setOffscreenPageLimit(1);
+        pager.setPageTransformer(true, new ZoomOutPageTransformer());
 
-		TextView sum = (TextView) findViewById(R.id.sum);
-		sum.setText(String.valueOf(urls.size()));
+        TextView sum = (TextView) findViewById(R.id.sum);
+        sum.setText(String.valueOf(urls.size()));
 
-		background = AnimationUtility.getAppContentView(this);
+        background = AnimationUtility.getAppContentView(this);
 
-		if (savedInstanceState != null) {
-			showBackgroundImmediately();
-		}
+        if (savedInstanceState != null) {
+            showBackgroundImmediately();
+        }
 
-	}
+    }
 
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(this.getClass().getName());
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getName());
+        MobclickAgent.onResume(this);
+    }
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPageEnd(this.getClass().getName());
-		MobclickAgent.onPause(this);
-	}
-	
-	private HashMap<Integer, BigPicContainerFragment> fragmentMap = new HashMap<Integer, BigPicContainerFragment>();
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getName());
+        MobclickAgent.onPause(this);
+    }
 
-	private boolean alreadyAnimateIn = false;
+    private HashMap<Integer, BigPicContainerFragment> fragmentMap = new HashMap<Integer, BigPicContainerFragment>();
 
-	private class ImagePagerAdapter extends FragmentPagerAdapter {
+    private boolean alreadyAnimateIn = false;
 
-		public ImagePagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
+    private class ImagePagerAdapter extends FragmentPagerAdapter {
 
-		@Override
-		public Fragment getItem(int position) {
+        public ImagePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-			BigPicContainerFragment fragment = fragmentMap.get(position);
-			if (fragment == null) {
+        @Override
+        public Fragment getItem(int position) {
 
-				boolean animateIn = (initPosition == position) && !alreadyAnimateIn;
-				fragment = BigPicContainerFragment.newInstance(urls.get(position), rectList.get(position), animateIn, initPosition == position);
-				alreadyAnimateIn = true;
-				fragmentMap.put(position, fragment);
-			}
+            BigPicContainerFragment fragment = fragmentMap.get(position);
+            if (fragment == null) {
 
-			return fragment;
-		}
+                boolean animateIn = (initPosition == position) && !alreadyAnimateIn;
+                fragment = BigPicContainerFragment.newInstance(urls.get(position), rectList.get(position), animateIn,
+                        initPosition == position);
+                alreadyAnimateIn = true;
+                fragmentMap.put(position, fragment);
+            }
 
-		// when activity is recycled, ViewPager will reuse fragment by theirs
-		// name, so
-		// getItem wont be called, but we need fragmentMap to animate close
-		// operation
-		@Override
-		public void setPrimaryItem(ViewGroup container, int position, Object object) {
-			super.setPrimaryItem(container, position, object);
-			if (object instanceof Fragment) {
-				fragmentMap.put(position, (BigPicContainerFragment) object);
-			}
-		}
+            return fragment;
+        }
 
-		@Override
-		public int getCount() {
-			return urls.size();
-		}
-	}
+        // when activity is recycled, ViewPager will reuse fragment by theirs
+        // name, so
+        // getItem wont be called, but we need fragmentMap to animate close
+        // operation
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            if (object instanceof Fragment) {
+                fragmentMap.put(position, (BigPicContainerFragment) object);
+            }
+        }
 
-	public void showBackgroundImmediately() {
-		if (background.getBackground() == null) {
-			backgroundColor = new ColorDrawable(Color.BLACK);
-			background.setBackgroundDrawable(backgroundColor);
-		}
-	}
+        @Override
+        public int getCount() {
+            return urls.size();
+        }
+    }
 
-	public ObjectAnimator showBackgroundAnimate() {
-		backgroundColor = new ColorDrawable(Color.BLACK);
-		background.setBackgroundDrawable(backgroundColor);
-		ObjectAnimator bgAnim = ObjectAnimator.ofInt(backgroundColor, "alpha", 0, 255);
-		bgAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				background.setBackgroundDrawable(backgroundColor);
-			}
-		});
-		return bgAnim;
-	}
+    public void showBackgroundImmediately() {
+        if (background.getBackground() == null) {
+            backgroundColor = new ColorDrawable(Color.BLACK);
+            background.setBackgroundDrawable(backgroundColor);
+        }
+    }
 
-	@Override
-	public void onBackPressed() {
+    public ObjectAnimator showBackgroundAnimate() {
+        backgroundColor = new ColorDrawable(Color.BLACK);
+        background.setBackgroundDrawable(backgroundColor);
+        ObjectAnimator bgAnim = ObjectAnimator.ofInt(backgroundColor, "alpha", 0, 255);
+        bgAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                background.setBackgroundDrawable(backgroundColor);
+            }
+        });
+        return bgAnim;
+    }
 
-		BigPicContainerFragment fragment = fragmentMap.get(pager.getCurrentItem());
-		if (fragment != null && fragment.canAnimateCloseActivity()) {
-			backgroundColor = new ColorDrawable(Color.BLACK);
-			ObjectAnimator bgAnim = ObjectAnimator.ofInt(backgroundColor, "alpha", 0);
-			bgAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator animation) {
-					background.setBackgroundDrawable(backgroundColor);
-				}
-			});
-			bgAnim.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					super.onAnimationEnd(animation);
-					GalleryAnimationActivity.super.finish();
-					overridePendingTransition(-1, -1);
-				}
-			});
-			fragment.animationExit(bgAnim);
-		} else {
-			super.onBackPressed();
-		}
-	}
+    @Override
+    public void onBackPressed() {
+
+        BigPicContainerFragment fragment = fragmentMap.get(pager.getCurrentItem());
+        if (fragment != null && fragment.canAnimateCloseActivity()) {
+            backgroundColor = new ColorDrawable(Color.BLACK);
+            ObjectAnimator bgAnim = ObjectAnimator.ofInt(backgroundColor, "alpha", 0);
+            bgAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    background.setBackgroundDrawable(backgroundColor);
+                }
+            });
+            bgAnim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    GalleryAnimationActivity.super.finish();
+                    overridePendingTransition(-1, -1);
+                }
+            });
+            fragment.animationExit(bgAnim);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
 }

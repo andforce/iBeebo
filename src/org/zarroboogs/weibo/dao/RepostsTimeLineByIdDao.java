@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -23,82 +24,82 @@ import java.util.Map;
  */
 public class RepostsTimeLineByIdDao {
 
-	public RepostListBean getGSONMsgList() throws WeiboException {
+    public RepostListBean getGSONMsgList() throws WeiboException {
 
-		String url = WeiBoURLs.REPOSTS_TIMELINE_BY_MSGID;
+        String url = WeiBoURLs.REPOSTS_TIMELINE_BY_MSGID;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("id", id);
-		map.put("since_id", since_id);
-		map.put("max_id", max_id);
-		map.put("count", count);
-		map.put("page", page);
-		map.put("filter_by_author", filter_by_author);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("id", id);
+        map.put("since_id", since_id);
+        map.put("max_id", max_id);
+        map.put("count", count);
+        map.put("page", page);
+        map.put("filter_by_author", filter_by_author);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		RepostListBean value = null;
+        RepostListBean value = null;
 
-		try {
-			value = gson.fromJson(jsonData, RepostListBean.class);
-		} catch (JsonSyntaxException e) {
+        try {
+            value = gson.fromJson(jsonData, RepostListBean.class);
+        } catch (JsonSyntaxException e) {
 
-			AppLoggerUtils.e(e.getMessage());
-		}
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		if (value != null && value.getItemList().size() > 0) {
-			List<MessageBean> msgList = value.getItemList();
-			Iterator<MessageBean> iterator = msgList.iterator();
-			while (iterator.hasNext()) {
+        if (value != null && value.getItemList().size() > 0) {
+            List<MessageBean> msgList = value.getItemList();
+            Iterator<MessageBean> iterator = msgList.iterator();
+            while (iterator.hasNext()) {
 
-				MessageBean msg = iterator.next();
-				if (msg.getUser() == null) {
-					iterator.remove();
-				} else {
-					msg.getListViewSpannableString();
-					TimeUtility.dealMills(msg);
-				}
-			}
+                MessageBean msg = iterator.next();
+                if (msg.getUser() == null) {
+                    iterator.remove();
+                } else {
+                    msg.getListViewSpannableString();
+                    TimeUtility.dealMills(msg);
+                }
+            }
 
-		}
-		return value;
-	}
+        }
+        return value;
+    }
 
-	public RepostsTimeLineByIdDao(String token, String id) {
+    public RepostsTimeLineByIdDao(String token, String id) {
 
-		this.access_token = token;
-		this.id = id;
-		this.count = SettingUtils.getMsgCount();
-	}
+        this.access_token = token;
+        this.id = id;
+        this.count = SettingUtils.getMsgCount();
+    }
 
-	public void setSince_id(String since_id) {
-		this.since_id = since_id;
-	}
+    public void setSince_id(String since_id) {
+        this.since_id = since_id;
+    }
 
-	public void setMax_id(String max_id) {
-		this.max_id = max_id;
-	}
+    public void setMax_id(String max_id) {
+        this.max_id = max_id;
+    }
 
-	public void setCount(String count) {
-		this.count = count;
-	}
+    public void setCount(String count) {
+        this.count = count;
+    }
 
-	public void setPage(String page) {
-		this.page = page;
-	}
+    public void setPage(String page) {
+        this.page = page;
+    }
 
-	public void setFilter_by_author(String filter_by_author) {
-		this.filter_by_author = filter_by_author;
-	}
+    public void setFilter_by_author(String filter_by_author) {
+        this.filter_by_author = filter_by_author;
+    }
 
-	private String access_token;
-	private String id;
-	private String since_id;
-	private String max_id;
-	private String count;
-	private String page;
-	private String filter_by_author;
+    private String access_token;
+    private String id;
+    private String since_id;
+    private String max_id;
+    private String count;
+    private String page;
+    private String filter_by_author;
 }

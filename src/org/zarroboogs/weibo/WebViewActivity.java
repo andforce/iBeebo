@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo;
 
 import org.zarroboogs.utils.PatternUtils;
@@ -27,207 +28,207 @@ import android.widget.Toast;
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends SharedPreferenceActivity implements IWeiboClientListener {
 
-	private WebView mWebView;
+    private WebView mWebView;
 
-	private View progressBar;
+    private View progressBar;
 
-	private WeiboWebViewClient mWeiboWebViewClient;
+    private WeiboWebViewClient mWeiboWebViewClient;
 
-	private AccountBean mAccountBean;
+    private AccountBean mAccountBean;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.webview_layout);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.webview_layout);
 
-		mAccountBean = (AccountBean) getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
-		if (mAccountBean == null) {
+        mAccountBean = (AccountBean) getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
+        if (mAccountBean == null) {
             mAccountBean = GlobalContext.getInstance().getAccountBean();
         }
 
-		initView();
-		initData();
+        initView();
+        initData();
 
-	}
-	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(this.getClass().getName());
-		MobclickAgent.onResume(this);
-	}
+    }
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPageEnd(this.getClass().getName());
-		MobclickAgent.onPause(this);
-	}
-	
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getName());
+        MobclickAgent.onResume(this);
+    }
 
-	public void initView() {
-		mWebView = (WebView) findViewById(R.id.webview);
-		mWebView.setVerticalScrollBarEnabled(false);
-		mWebView.setHorizontalScrollBarEnabled(false);
-		mWebView.requestFocus();
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getName());
+        MobclickAgent.onPause(this);
+    }
 
-		WebSettings webSettings = mWebView.getSettings();
-		webSettings.setJavaScriptEnabled(true);
-		webSettings.setBuiltInZoomControls(true);
-		webSettings.setSupportZoom(true);
-		webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+    public void initView() {
+        mWebView = (WebView) findViewById(R.id.webview);
+        mWebView.setVerticalScrollBarEnabled(false);
+        mWebView.setHorizontalScrollBarEnabled(false);
+        mWebView.requestFocus();
 
-		progressBar = findViewById(R.id.show_request_progress_bar);
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-	}
+        progressBar = findViewById(R.id.show_request_progress_bar);
 
-	public void initData() {
-		mWeiboWebViewClient = new WeiboWebViewClient();
-		mWebView.setWebViewClient(mWeiboWebViewClient);
+    }
 
-		CookieSyncManager.createInstance(this);
+    public void initData() {
+        mWeiboWebViewClient = new WeiboWebViewClient();
+        mWebView.setWebViewClient(mWeiboWebViewClient);
 
-		String authoUrl = getAuthoUrl();
+        CookieSyncManager.createInstance(this);
 
-		mWebView.loadUrl(authoUrl);
+        String authoUrl = getAuthoUrl();
 
-	}
+        mWebView.loadUrl(authoUrl);
 
-	static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
-	static String url = "http://widget.weibo.com/dialog/LoginMobile.php?language=zh_cn&callback=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic";
-	public static String URL_OAUTH2_ACCESS_AUTHORIZE = url;// "https://api.weibo.com/oauth2/authorize";
+    }
 
-	public String getAuthoUrl() {
+    static final String REDIRECT = "http://widget.weibo.com/dialog/PublishMobile.php";
+    static String url = "http://widget.weibo.com/dialog/LoginMobile.php?language=zh_cn&callback=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic";
+    public static String URL_OAUTH2_ACCESS_AUTHORIZE = url;// "https://api.weibo.com/oauth2/authorize";
 
-		String url = URL_OAUTH2_ACCESS_AUTHORIZE;
+    public String getAuthoUrl() {
 
-		return url;
-	}
+        String url = URL_OAUTH2_ACCESS_AUTHORIZE;
 
-	private void showProgress() {
-		runOnUiThread(new Runnable() {
+        return url;
+    }
 
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				progressBar.setVisibility(View.VISIBLE);
-			}
-		});
+    private void showProgress() {
+        runOnUiThread(new Runnable() {
 
-	}
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
 
-	private void hideProgress() {
-		runOnUiThread(new Runnable() {
+    }
 
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				progressBar.setVisibility(View.INVISIBLE);
-			}
-		});
+    private void hideProgress() {
+        runOnUiThread(new Runnable() {
 
-	}
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
 
-	@Override
-	public void onCancel() {
-		// TODO Auto-generated method stub
-		Toast.makeText(this, "Auth cancel", Toast.LENGTH_SHORT).show();
-	}
+    }
 
-	@Override
-	public void onComplete(Bundle values) {
-		// TODO Auto-generated method stub
-		CookieManager cookieManager = CookieManager.getInstance();
+    @Override
+    public void onCancel() {
+        // TODO Auto-generated method stub
+        Toast.makeText(this, "Auth cancel", Toast.LENGTH_SHORT).show();
+    }
 
-		String cookie = cookieManager.getCookie(url);
-		String pubCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/PublishMobile.php");
-		String longInCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/LoginMobile.php");
-		Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
+    @Override
+    public void onComplete(Bundle values) {
+        // TODO Auto-generated method stub
+        CookieManager cookieManager = CookieManager.getInstance();
 
-		// setWeiboCookie(CookieStr);
-		String uid = "";
-		String uname = "";
-		AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
-		if (true) {
-			String[] cookies = cookie.split("; ");
-			for (String string : cookies) {
-				// Log.d("Weibo-Cookie", "" + Uri.decode(Uri.decode(string)));
-				String oneLine = Uri.decode(Uri.decode(string));
-				String uidtmp = PatternUtils.macthUID(oneLine);
-				if (!TextUtils.isEmpty(uidtmp)) {
-					uid = uidtmp;
-				}
-				uname = PatternUtils.macthUname(oneLine);
-//				Log.d("Weibo-Cookie", "" + uid);
-//				Log.d("Weibo-Cookie", "" + uname);
-//				Log.d("Weibo-Cookie", "in db : uid = " + mAccountBean.getUid());
+        String cookie = cookieManager.getCookie(url);
+        String pubCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/PublishMobile.php");
+        String longInCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/LoginMobile.php");
+        Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
 
-				if (!TextUtils.isEmpty(uname)) {
-					manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.USER_NAME, uname);
-				}
-			}
-		}
+        // setWeiboCookie(CookieStr);
+        String uid = "";
+        String uname = "";
+        AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
+        if (true) {
+            String[] cookies = cookie.split("; ");
+            for (String string : cookies) {
+                // Log.d("Weibo-Cookie", "" + Uri.decode(Uri.decode(string)));
+                String oneLine = Uri.decode(Uri.decode(string));
+                String uidtmp = PatternUtils.macthUID(oneLine);
+                if (!TextUtils.isEmpty(uidtmp)) {
+                    uid = uidtmp;
+                }
+                uname = PatternUtils.macthUname(oneLine);
+                // Log.d("Weibo-Cookie", "" + uid);
+                // Log.d("Weibo-Cookie", "" + uname);
+                // Log.d("Weibo-Cookie", "in db : uid = " + mAccountBean.getUid());
 
-		Log.d("Weibo-Cookie", "after for : " + uid);
-		if (uid.equals(mAccountBean.getUid())) {
-			manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, cookie);
-			cookieManager.removeSessionCookie();
-			finish();
-		} else if (!TextUtils.isEmpty(uid)) {
-			Toast.makeText(getApplicationContext(), "请登录昵称是[" + mAccountBean.getUsernick() + "]的微博！", Toast.LENGTH_LONG).show();
-			mWebView.loadUrl(url);
-		}
-	}
+                if (!TextUtils.isEmpty(uname)) {
+                    manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.USER_NAME, uname);
+                }
+            }
+        }
 
-	@Override
-	public void onWeiboException(WeiboException e) {
-		// TODO Auto-generated method stub
-		Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-	}
+        Log.d("Weibo-Cookie", "after for : " + uid);
+        if (uid.equals(mAccountBean.getUid())) {
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, cookie);
+            cookieManager.removeSessionCookie();
+            finish();
+        } else if (!TextUtils.isEmpty(uid)) {
+            Toast.makeText(getApplicationContext(), "请登录昵称是[" + mAccountBean.getUsernick() + "]的微博！", Toast.LENGTH_LONG)
+                    .show();
+            mWebView.loadUrl(url);
+        }
+    }
 
-	private class WeiboWebViewClient extends WebViewClient {
+    @Override
+    public void onWeiboException(WeiboException e) {
+        // TODO Auto-generated method stub
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 
-		@Override
-		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			showProgress();
-			view.loadUrl(url);
-			return super.shouldOverrideUrlLoading(view, url);
-		}
+    private class WeiboWebViewClient extends WebViewClient {
 
-		@Override
-		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-			super.onReceivedError(view, errorCode, description, failingUrl);
-		}
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            showProgress();
+            view.loadUrl(url);
+            return super.shouldOverrideUrlLoading(view, url);
+        }
 
-		@Override
-		public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            super.onReceivedError(view, errorCode, description, failingUrl);
+        }
 
-			showProgress();
-			if (url.startsWith(REDIRECT)) {
-				view.stopLoading();
-				handleRedirectUrl(view, url, WebViewActivity.this);
-				return;
-			}
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
-			super.onPageStarted(view, url, favicon);
+            showProgress();
+            if (url.startsWith(REDIRECT)) {
+                view.stopLoading();
+                handleRedirectUrl(view, url, WebViewActivity.this);
+                return;
+            }
 
-		}
+            super.onPageStarted(view, url, favicon);
 
-		@Override
-		public void onPageFinished(WebView view, String url) {
-			hideProgress();
+        }
 
-			super.onPageFinished(view, url);
-		}
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            hideProgress();
 
-		private boolean handleRedirectUrl(WebView view, String url, IWeiboClientListener listener) {
-			listener.onComplete(null);
+            super.onPageFinished(view, url);
+        }
 
-			return false;
-		}
-	}
+        private boolean handleRedirectUrl(WebView view, String url, IWeiboClientListener listener) {
+            listener.onComplete(null);
+
+            return false;
+        }
+    }
 
 }

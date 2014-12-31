@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.activity;
 
 import java.io.File;
@@ -88,203 +89,205 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBack, OnClickListener,
-		OnGlobalLayoutListener, OnItemClickListener, OnSharedPreferenceChangeListener {
+        OnGlobalLayoutListener, OnItemClickListener, OnSharedPreferenceChangeListener {
 
-	public static final String LOGIN_TAG = "START_SEND_WEIBO ";
+    public static final String LOGIN_TAG = "START_SEND_WEIBO ";
     protected static final String TAG = "WeiboMainActivity  ";
-	RelativeLayout mEmotionRelativeLayout;
-	Map<Integer, String> map = new HashMap<Integer, String>();
-	InputMethodManager imm = null;
-	MaterialEditText mEditText;
-	RelativeLayout mRootView;
+    RelativeLayout mEmotionRelativeLayout;
+    Map<Integer, String> map = new HashMap<Integer, String>();
+    InputMethodManager imm = null;
+    MaterialEditText mEditText;
+    RelativeLayout mRootView;
 
-	RelativeLayout editTextLayout;
-	ImageButton mSelectPhoto;
-	ImageButton mSendBtn;
-	ImageButton smileButton;
+    RelativeLayout editTextLayout;
+    ImageButton mSelectPhoto;
+    ImageButton mSendBtn;
+    ImageButton smileButton;
 
-	Button appSrcBtn;
-	TableLayout sendImgTL;
+    Button appSrcBtn;
+    TableLayout sendImgTL;
 
-	AccountBean mAccountBean;
-	
-	private boolean isKeyBoardShowed = false;
-	private ScrollView mEditPicScrollView;
-	private RelativeLayout mRow001;
-	private RelativeLayout mRow002;
-	private RelativeLayout mRow003;
+    AccountBean mAccountBean;
 
-	private ImageView mImageView001;
-	private ImageView mImageView002;
-	private ImageView mImageView003;
-	private ImageView mImageView004;
-	private ImageView mImageView005;
-	private ImageView mImageView006;
-	private ImageView mImageView007;
-	private ImageView mImageView008;
-	private ImageView mImageView009;
+    private boolean isKeyBoardShowed = false;
+    private ScrollView mEditPicScrollView;
+    private RelativeLayout mRow001;
+    private RelativeLayout mRow002;
+    private RelativeLayout mRow003;
 
-	private TextView weiTextCountTV;
+    private ImageView mImageView001;
+    private ImageView mImageView002;
+    private ImageView mImageView003;
+    private ImageView mImageView004;
+    private ImageView mImageView005;
+    private ImageView mImageView006;
+    private ImageView mImageView007;
+    private ImageView mImageView008;
+    private ImageView mImageView009;
 
-	ArrayList<ImageView> mSelectImageViews = new ArrayList<ImageView>();
+    private TextView weiTextCountTV;
 
-	ArrayList<ImageView> mEmotionArrayList = new ArrayList<ImageView>();
+    ArrayList<ImageView> mSelectImageViews = new ArrayList<ImageView>();
 
-	Toast mEmptyToast;
-	private ImageLoader mImageLoader = ImageLoader.getInstance();
-	DisplayImageOptions options;
+    ArrayList<ImageView> mEmotionArrayList = new ArrayList<ImageView>();
 
-	PullToRefreshListView listView;
-	ChangeWeibaAdapter listAdapter;
-	List<WeiboWeiba> listdata = new ArrayList<WeiboWeiba>();
-	AppsrcDatabaseManager mDBmanager = null;// new
-											// AppsrcDatabaseManager(getApplicationContext());
-	private String atContent = "";
+    Toast mEmptyToast;
+    private ImageLoader mImageLoader = ImageLoader.getInstance();
+    DisplayImageOptions options;
+
+    PullToRefreshListView listView;
+    ChangeWeibaAdapter listAdapter;
+    List<WeiboWeiba> listdata = new ArrayList<WeiboWeiba>();
+    AppsrcDatabaseManager mDBmanager = null;// new
+                                            // AppsrcDatabaseManager(getApplicationContext());
+    private String atContent = "";
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
-	    
+
     private SendImgData sendImgData;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		getAppSrcSharedPreference().registerOnSharedPreferenceChangeListener(this);
-		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		setContentView(R.layout.activity_main);
-		// drawerLayout
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getAppSrcSharedPreference().registerOnSharedPreferenceChangeListener(this);
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        setContentView(R.layout.activity_main);
+        // drawerLayout
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);
-        
-        mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open,R.string.drawer_close);
+
+        mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-		
-		mAccountBean = getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
-		atContent = getIntent().getStringExtra("content");
 
-		mEmptyToast = Toast.makeText(getApplicationContext(), R.string.text_is_empty, Toast.LENGTH_SHORT);
+        mAccountBean = getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
+        atContent = getIntent().getStringExtra("content");
 
-		mEditPicScrollView = (ScrollView) findViewById(R.id.scrollView1);
-		editTextLayout = (RelativeLayout) findViewById(R.id.editTextLayout);
+        mEmptyToast = Toast.makeText(getApplicationContext(), R.string.text_is_empty, Toast.LENGTH_SHORT);
 
-		weiTextCountTV = (TextView) findViewById(R.id.weiTextCountTV);
-		sendImgTL = (TableLayout) findViewById(R.id.sendImgTL_ref);
-		sendImgTL.setVisibility(View.GONE);
+        mEditPicScrollView = (ScrollView) findViewById(R.id.scrollView1);
+        editTextLayout = (RelativeLayout) findViewById(R.id.editTextLayout);
 
-		mRow001 = (RelativeLayout) findViewById(R.id.sendPicRow01);
-		mRow002 = (RelativeLayout) findViewById(R.id.sendPicRow02);
-		mRow003 = (RelativeLayout) findViewById(R.id.sendPicRow03);
+        weiTextCountTV = (TextView) findViewById(R.id.weiTextCountTV);
+        sendImgTL = (TableLayout) findViewById(R.id.sendImgTL_ref);
+        sendImgTL.setVisibility(View.GONE);
 
-		appSrcBtn = (Button) findViewById(R.id.appSrcBtn);
-		appSrcBtn.setText(getWeiba().getText());
-		Log.d("MAIN_", "" + sendImgTL.getChildCount());
-		mImageView001 = (ImageView) findViewById(R.id.IVRow101);
-		mImageView002 = (ImageView) findViewById(R.id.IVRow102);
-		mImageView003 = (ImageView) findViewById(R.id.IVRow103);
-		mImageView004 = (ImageView) findViewById(R.id.IVRow201);
-		mImageView005 = (ImageView) findViewById(R.id.IVRow202);
-		mImageView006 = (ImageView) findViewById(R.id.IVRow203);
-		mImageView007 = (ImageView) findViewById(R.id.IVRow301);
-		mImageView008 = (ImageView) findViewById(R.id.IVRow302);
-		mImageView009 = (ImageView) findViewById(R.id.IVRow303);
+        mRow001 = (RelativeLayout) findViewById(R.id.sendPicRow01);
+        mRow002 = (RelativeLayout) findViewById(R.id.sendPicRow02);
+        mRow003 = (RelativeLayout) findViewById(R.id.sendPicRow03);
 
-		mSelectImageViews.add(mImageView001);
-		mSelectImageViews.add(mImageView002);
-		mSelectImageViews.add(mImageView003);
-		mSelectImageViews.add(mImageView004);
-		mSelectImageViews.add(mImageView005);
-		mSelectImageViews.add(mImageView006);
-		mSelectImageViews.add(mImageView007);
-		mSelectImageViews.add(mImageView008);
-		mSelectImageViews.add(mImageView009);
+        appSrcBtn = (Button) findViewById(R.id.appSrcBtn);
+        appSrcBtn.setText(getWeiba().getText());
+        Log.d("MAIN_", "" + sendImgTL.getChildCount());
+        mImageView001 = (ImageView) findViewById(R.id.IVRow101);
+        mImageView002 = (ImageView) findViewById(R.id.IVRow102);
+        mImageView003 = (ImageView) findViewById(R.id.IVRow103);
+        mImageView004 = (ImageView) findViewById(R.id.IVRow201);
+        mImageView005 = (ImageView) findViewById(R.id.IVRow202);
+        mImageView006 = (ImageView) findViewById(R.id.IVRow203);
+        mImageView007 = (ImageView) findViewById(R.id.IVRow301);
+        mImageView008 = (ImageView) findViewById(R.id.IVRow302);
+        mImageView009 = (ImageView) findViewById(R.id.IVRow303);
 
-		mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
-		mRootView = (RelativeLayout) findViewById(R.id.container);
-		mEditText = (com.rengwuxian.materialedittext.MaterialEditText) findViewById(R.id.weiboContentET);
-		mEmotionRelativeLayout = (RelativeLayout) findViewById(R.id.smileLayout_ref);
-		smileButton = (ImageButton) findViewById(R.id.smileImgButton);
-		mSendBtn = (ImageButton) findViewById(R.id.sendWeiBoBtn);
+        mSelectImageViews.add(mImageView001);
+        mSelectImageViews.add(mImageView002);
+        mSelectImageViews.add(mImageView003);
+        mSelectImageViews.add(mImageView004);
+        mSelectImageViews.add(mImageView005);
+        mSelectImageViews.add(mImageView006);
+        mSelectImageViews.add(mImageView007);
+        mSelectImageViews.add(mImageView008);
+        mSelectImageViews.add(mImageView009);
 
-		findAllEmotionImageView((ViewGroup) findViewById(R.id.emotionTL));
-		mSelectPhoto.setOnClickListener(this);
-		smileButton.setOnClickListener(this);
-		mSendBtn.setOnClickListener(this);
-		appSrcBtn.setOnClickListener(this);
-		mEditPicScrollView.setOnClickListener(this);
-		editTextLayout.setOnClickListener(this);
-		mEditText.addTextChangedListener(watcher);
+        mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
+        mRootView = (RelativeLayout) findViewById(R.id.container);
+        mEditText = (com.rengwuxian.materialedittext.MaterialEditText) findViewById(R.id.weiboContentET);
+        mEmotionRelativeLayout = (RelativeLayout) findViewById(R.id.smileLayout_ref);
+        smileButton = (ImageButton) findViewById(R.id.smileImgButton);
+        mSendBtn = (ImageButton) findViewById(R.id.sendWeiBoBtn);
 
-		if (!TextUtils.isEmpty(atContent)) {
-			mEditText.setText(atContent + " ");
-			mEditText.setSelection(mEditText.getEditableText().toString().length());
-		}
+        findAllEmotionImageView((ViewGroup) findViewById(R.id.emotionTL));
+        mSelectPhoto.setOnClickListener(this);
+        smileButton.setOnClickListener(this);
+        mSendBtn.setOnClickListener(this);
+        appSrcBtn.setOnClickListener(this);
+        mEditPicScrollView.setOnClickListener(this);
+        editTextLayout.setOnClickListener(this);
+        mEditText.addTextChangedListener(watcher);
 
-		mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+        if (!TextUtils.isEmpty(atContent)) {
+            mEditText.setText(atContent + " ");
+            mEditText.setSelection(mEditText.getEditableText().toString().length());
+        }
 
-		options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).considerExifParams(true).bitmapConfig(Bitmap.Config.RGB_565).build();
+        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
-		mDBmanager = new AppsrcDatabaseManager(getApplicationContext());
+        options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565).build();
 
-		listAdapter = new ChangeWeibaAdapter(this);
-		listView = (PullToRefreshListView) findViewById(R.id.left_menu_list_view);
-		listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+        mDBmanager = new AppsrcDatabaseManager(getApplicationContext());
 
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-					listView.setRefreshing();
-					fetchWeiBa();
-				} else {
-					listView.post(new Runnable() {
-						public void run() {
-							listView.onRefreshComplete();
-						}
-					});
-					Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-				}
+        listAdapter = new ChangeWeibaAdapter(this);
+        listView = (PullToRefreshListView) findViewById(R.id.left_menu_list_view);
+        listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
-			}
-		});
-		listView.setAdapter(listAdapter);
-		listView.setOnItemClickListener(this);
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+                    listView.setRefreshing();
+                    fetchWeiBa();
+                } else {
+                    listView.post(new Runnable() {
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    });
+                    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+                }
 
-		setOnSendWeiboListener(new AsyncHttpResponseHandler() {
-            
+            }
+        });
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(this);
+
+        setOnSendWeiboListener(new AsyncHttpResponseHandler() {
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 LogTool.D(TAG + "onSuccess " + new String(responseBody));
-                
+
                 RequestResultBean sendResultBean = getRequestResultParser().parse(responseBody, RequestResultBean.class);
                 LogTool.D(TAG + "onSuccess " + sendResultBean.getMsg());
-                if (sendResultBean.getMsg().equals("未登录") ) {
-                   doPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
-                	hideDialogForWeiBo();
+                if (sendResultBean.getMsg().equals("未登录")) {
+                    doPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
+                    hideDialogForWeiBo();
                 }
                 if (sendResultBean.getCode().equals("100000")) {
                     onSendFinished(true);
                 }
-                
+
             }
-            
+
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 onSendFinished(false);
             }
         });
-		
-		setOnLoginListener(new AsyncHttpResponseHandler() {
-            
+
+        setOnLoginListener(new AsyncHttpResponseHandler() {
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 sendWeibo(sendImgData);
             }
-            
+
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             }
         });
-	}
+    }
 
     class MyDrawerToggle extends ActionBarDrawerToggle {
 
@@ -317,122 +320,122 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
             }
         }
     }
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(this.getClass().getName());
-		MobclickAgent.onResume(this);
-	}
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPageEnd(this.getClass().getName());
-		MobclickAgent.onPause(this);
-	}
-	
-	private void fetchWeiBa() {
-		showDialogForWeiBo();
-		
-		
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getName());
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getName());
+        MobclickAgent.onPause(this);
+    }
+
+    private void fetchWeiBa() {
+        showDialogForWeiBo();
+
         String url = "http://appsrc.sinaapp.com/";
-    getAsyncHttpClient().get(url, new AsyncHttpResponseHandler() {
-        
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-            String resp = new String(responseBody);
-            String jsonString = resp.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
-            Log.d("FETCH_WEIBA: ", "" + jsonString);
-            Gson gson = new Gson();
-            WeibaGson weibaGson = gson.fromJson(jsonString, WeibaGson.class);
-            List<WeibaTree> weibaTrees = weibaGson.getData();
+        getAsyncHttpClient().get(url, new AsyncHttpResponseHandler() {
 
-            for (WeibaTree weibaTree : weibaTrees) {
-                List<WeiboWeiba> weibas = weibaTree.getData();
-                for (WeiboWeiba weiba : weibas) {
-                    if (mDBmanager.searchAppsrcByCode(weiba.getCode()) == null) {
-                        mDBmanager.insertCategoryTree(0, weiba.getCode(), weiba.getText());
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String resp = new String(responseBody);
+                String jsonString = resp.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
+                Log.d("FETCH_WEIBA: ", "" + jsonString);
+                Gson gson = new Gson();
+                WeibaGson weibaGson = gson.fromJson(jsonString, WeibaGson.class);
+                List<WeibaTree> weibaTrees = weibaGson.getData();
+
+                for (WeibaTree weibaTree : weibaTrees) {
+                    List<WeiboWeiba> weibas = weibaTree.getData();
+                    for (WeiboWeiba weiba : weibas) {
+                        if (mDBmanager.searchAppsrcByCode(weiba.getCode()) == null) {
+                            mDBmanager.insertCategoryTree(0, weiba.getCode(), weiba.getText());
+                        }
                     }
                 }
+
+                listView.onRefreshComplete();
+                listAdapter.setWeibas(mDBmanager.fetchAllAppsrc());
+                hideDialogForWeiBo();
+
             }
 
-            listView.onRefreshComplete();
-            listAdapter.setWeibas(mDBmanager.fetchAllAppsrc());
-            hideDialogForWeiBo();
-            
-        }
-        
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d("FETCH_WEIBA: ", "" + error.getLocalizedMessage());
+            }
+        });
+    }
+
+    private TextWatcher watcher = new TextWatcher() {
+
         @Override
-        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        	Log.d("FETCH_WEIBA: ", "" + error.getLocalizedMessage());
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // TODO Auto-generated method stub
         }
-    });
-	}
 
-	private TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // TODO Auto-generated method stub
 
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			// TODO Auto-generated method stub
-		}
+        }
 
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			// TODO Auto-generated method stub
+        @Override
+        public void afterTextChanged(Editable s) {
+            // TODO Auto-generated method stub
+            String charSequence = mEditText.getText().toString();
+            int count = Utility.length(charSequence);
+            String text = count <= 0 ? getString(R.string.send_weibo) : count + "";
+            weiTextCountTV.setText(text);
+            if (count > 140) {
+                weiTextCountTV.setTextColor(Color.RED);
+            } else {
+                weiTextCountTV.setTextColor(Color.BLACK);
+            }
+        }
+    };
 
-		}
+    public static int calculateWeiboLength(CharSequence c) {
 
-		@Override
-		public void afterTextChanged(Editable s) {
-			// TODO Auto-generated method stub
-			String charSequence = mEditText.getText().toString();
-			int count = Utility.length(charSequence);
-			String text = count <= 0 ? getString(R.string.send_weibo) : count + "";
-			weiTextCountTV.setText(text);
-			if (count > 140) {
-				weiTextCountTV.setTextColor(Color.RED);
-			} else {
-				weiTextCountTV.setTextColor(Color.BLACK);
-			}
-		}
-	};
+        int len = 0;
+        for (int i = 0; i < c.length(); i++) {
+            int temp = (int) c.charAt(i);
+            if (temp > 0 && temp < 127) {
+                len += 0.5;
+            } else {
+                len++;
+            }
+        }
+        return Math.round(len);
+    }
 
-	public static int calculateWeiboLength(CharSequence c) {
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        mRootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+        ImageLoader.getInstance().stop();
+        getAppSrcSharedPreference().unregisterOnSharedPreferenceChangeListener(this);
+    }
 
-		int len = 0;
-		for (int i = 0; i < c.length(); i++) {
-			int temp = (int) c.charAt(i);
-			if (temp > 0 && temp < 127) {
-				len += 0.5;
-			} else {
-				len++;
-			}
-		}
-		return Math.round(len);
-	}
+    private void findAllEmotionImageView(ViewGroup vg) {
+        int count = vg.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View v = vg.getChildAt(i);
+            if (v instanceof TableRow) {
+                findAllEmotionImageView((TableRow) v);
+            } else {
+                ((ImageView) v).setOnClickListener(new OnClickListener() {
 
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		mRootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-		ImageLoader.getInstance().stop();
-		getAppSrcSharedPreference().unregisterOnSharedPreferenceChangeListener(this);
-	}
-
-	private void findAllEmotionImageView(ViewGroup vg) {
-		int count = vg.getChildCount();
-		for (int i = 0; i < count; i++) {
-			View v = vg.getChildAt(i);
-			if (v instanceof TableRow) {
-				findAllEmotionImageView((TableRow) v);
-			} else {
-				((ImageView) v).setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
                         // TODO Auto-generated method stub
                         String text = ((ImageView) v).getContentDescription() + "";
                         int index = mEditText.getSelectionStart();// 获取光标所在位置
@@ -446,117 +449,117 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
                         TimeLineUtility.addEmotions(mEditText, content);
                         mEditText.setSelection(index + text.length());
                     }
-				});
-				mEmotionArrayList.add((ImageView) v);
-			}
-		}
-	}
+                });
+                mEmotionArrayList.add((ImageView) v);
+            }
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == ChangeWeibaActivity.REQUEST) {
+            appSrcBtn.setText(getWeiba().getText());
+        } else if (resultCode == RESULT_OK && requestCode == ImgFileListActivity.REQUEST_CODE) {
+            SendImgData sid = SendImgData.getInstance();
+            ArrayList<String> imgs = sid.getSendImgs();
+            if (imgs.size() > 0) {
+                sendImgTL.setVisibility(View.VISIBLE);
+            }
+            for (int i = 0; i < imgs.size(); i++) {
+                ImageView iv = mSelectImageViews.get(i);
+                mImageLoader.displayImage("file://" + imgs.get(i), iv, options);
+                iv.setVisibility(View.VISIBLE);
+                // BitmapWorkerTask mWorkerTask = new BitmapWorkerTask(iv);
+                // mWorkerTask.execute(imgs.get(i));
+            }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK && requestCode == ChangeWeibaActivity.REQUEST) {
-			appSrcBtn.setText(getWeiba().getText());
-		} else if (resultCode == RESULT_OK && requestCode == ImgFileListActivity.REQUEST_CODE) {
-			SendImgData sid = SendImgData.getInstance();
-			ArrayList<String> imgs = sid.getSendImgs();
-			if (imgs.size() > 0) {
-				sendImgTL.setVisibility(View.VISIBLE);
-			}
-			for (int i = 0; i < imgs.size(); i++) {
-				ImageView iv = mSelectImageViews.get(i);
-				mImageLoader.displayImage("file://" + imgs.get(i), iv, options);
-				iv.setVisibility(View.VISIBLE);
-				// BitmapWorkerTask mWorkerTask = new BitmapWorkerTask(iv);
-				// mWorkerTask.execute(imgs.get(i));
-			}
+            int offset = imgs.size() % 3;
+            int row = offset == 0 ? imgs.size() / 3 : imgs.size() / 3 + 1;
+            if (imgs.size() > 0) {
+                switch (row) {
+                    case 1:
+                        mRow001.setVisibility(View.VISIBLE);
+                        break;
+                    case 2: {
+                        mRow001.setVisibility(View.VISIBLE);
+                        mRow002.setVisibility(View.VISIBLE);
+                        break;
+                    }
 
-			int offset = imgs.size() % 3;
-			int row = offset == 0 ? imgs.size() / 3 : imgs.size() / 3 + 1;
-			if (imgs.size() > 0) {
-				switch (row) {
-				case 1:
-					mRow001.setVisibility(View.VISIBLE);
-					break;
-				case 2: {
-					mRow001.setVisibility(View.VISIBLE);
-					mRow002.setVisibility(View.VISIBLE);
-					break;
-				}
+                    case 3: {
+                        mRow001.setVisibility(View.VISIBLE);
+                        mRow002.setVisibility(View.VISIBLE);
+                        mRow003.setVisibility(View.VISIBLE);
+                        break;
+                    }
 
-				case 3: {
-					mRow001.setVisibility(View.VISIBLE);
-					mRow002.setVisibility(View.VISIBLE);
-					mRow003.setVisibility(View.VISIBLE);
-					break;
-				}
+                    default:
+                        break;
+                }
+            }
 
-				default:
-					break;
-				}
-			}
+            for (String s : imgs) {
+                Log.d("IMG_", "   " + s + "/////" + mSelectImageViews.size());
+            }
+        }
+    }
 
-			for (String s : imgs) {
-				Log.d("IMG_", "   " + s + "/////" + mSelectImageViews.size());
-			}
-		}
-	}
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        if (!(mEmotionRelativeLayout.getVisibility() == View.GONE)) {
+            mEmotionRelativeLayout.setVisibility(View.GONE);
+            return;
+        }
+        super.onBackPressed();
+    }
 
-	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		if (!(mEmotionRelativeLayout.getVisibility() == View.GONE)) {
-			mEmotionRelativeLayout.setVisibility(View.GONE);
-			return;
-		}
-		super.onBackPressed();
-	}
+    public void startLogIn() {
+        hideDialogForWeiBo();
+        Intent intent = new Intent();
+        intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
+        intent.setClass(WeiboMainActivity.this, WebViewActivity.class);
+        startActivity(intent);
+    }
 
-	public void startLogIn() {
-		hideDialogForWeiBo();
-		Intent intent = new Intent();
-		intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
-		intent.setClass(WeiboMainActivity.this, WebViewActivity.class);
-		startActivity(intent);
-	}
+    @Override
+    public void reSizeWeiboPictures(boolean isSuccess) {
+        if (!isSuccess) {
+            startLogIn();
+        } else {
+            sendImgData = SendImgData.getInstance();
 
-	@Override
-	public void reSizeWeiboPictures(boolean isSuccess) {
-		if (!isSuccess) {
-			startLogIn();
-		} else {
-			sendImgData = SendImgData.getInstance();
+            ArrayList<String> send = sendImgData.getSendImgs();
+            final int count = send.size();
 
-			ArrayList<String> send = sendImgData.getSendImgs();
-			final int count = send.size();
+            if (count > 0) {
+                for (int i = 0; i < send.size(); i++) {
+                    SendBitmapWorkerTask sendBitmapWorkerTask = new SendBitmapWorkerTask(getApplicationContext(),
+                            new OnCacheDoneListener() {
+                                @Override
+                                public void onCacheDone(String newFile) {
+                                    // TODO Auto-generated method stub
+                                    Log.d(LOGIN_TAG, "has create new File : " + newFile);
+                                    sendImgData.addReSizeImg(newFile);
+                                    if (sendImgData.getReSizeImgs().size() == count) {
+                                        sendWeibo(sendImgData);
+                                    }
+                                }
+                            });
+                    sendBitmapWorkerTask.execute(send.get(i));
+                }
+            } else {
 
-			if (count > 0) {
-				for (int i = 0; i < send.size(); i++) {
-					SendBitmapWorkerTask sendBitmapWorkerTask = new SendBitmapWorkerTask(getApplicationContext(), new OnCacheDoneListener() {
-						@Override
-						public void onCacheDone(String newFile) {
-							// TODO Auto-generated method stub
-							Log.d(LOGIN_TAG, "has create new File : " + newFile);
-							sendImgData.addReSizeImg(newFile);
-							if (sendImgData.getReSizeImgs().size() == count) {
-								sendWeibo(sendImgData);
-							}
-						}
-					});
-					sendBitmapWorkerTask.execute(send.get(i));
-				}
-			} else {
+                sendWeibo(sendImgData);
+            }
+        }
+    }
 
-				sendWeibo(sendImgData);
-			}
-		}
-	}
-	
     private void sendWeibo(SendImgData sendImgData) {
         String text = mEditText.getEditableText().toString();
         if (TextUtils.isEmpty(text)) {
-        	LogTool.D("sendWeibo    text is empty");
+            LogTool.D("sendWeibo    text is empty");
             text = getString(R.string.default_text_pic_weibo);
         }
 
@@ -569,150 +572,148 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
         }
         WaterMark mark = new WaterMark(mAccountBean.getUsernick(), url);
 
-        executeSendWeibo(mAccountBean.getUname(), mAccountBean.getPwd(), mark, getWeiba().getCode(), text, sendImgData.getReSizeImgs());
+        executeSendWeibo(mAccountBean.getUname(), mAccountBean.getPwd(), mark, getWeiba().getCode(), text,
+                sendImgData.getReSizeImgs());
     }
-	
 
+    private boolean checkDataEmpty() {
+        if (TextUtils.isEmpty(mEditText.getText().toString()) && SendImgData.getInstance().getSendImgs().size() < 1) {
+            return true;
+        }
+        return false;
+    }
 
-	private boolean checkDataEmpty() {
-		if (TextUtils.isEmpty(mEditText.getText().toString()) && SendImgData.getInstance().getSendImgs().size() < 1) {
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            case R.id.editTextLayout: {
+                mEditText.performClick();
+                break;
+            }
+            case R.id.scrollView1: {
+                mEditText.performClick();
+                break;
+            }
+            case R.id.appSrcBtn: {
+                if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+                    mDrawerLayout.openDrawer(Gravity.START);
+                    /*
+                     * if (isKeyBoardShowed) { imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,
+                     * InputMethodManager.HIDE_NOT_ALWAYS); }
+                     */
+                    // menu.toggle();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.sendWeiBoBtn: {
+                if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+                    if (checkDataEmpty()) {
+                        mEmptyToast.show();
+                    } else {
+                        showDialogForWeiBo();
+                        reSizeWeiboPictures(true);
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+                }
 
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.editTextLayout: {
-			mEditText.performClick();
-			break;
-		}
-		case R.id.scrollView1: {
-			mEditText.performClick();
-			break;
-		}
-		case R.id.appSrcBtn: {
-			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-			    mDrawerLayout.openDrawer(Gravity.START);
-				/*if (isKeyBoardShowed) {
-					imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-				}*/
-//				menu.toggle();
-			} else {
-				Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-			}
-			break;
-		}
-		case R.id.sendWeiBoBtn: {
-			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-				if (checkDataEmpty()) {
-					mEmptyToast.show();
-				} else {
-					showDialogForWeiBo();
-					reSizeWeiboPictures(true);
-				}
-			} else {
-				Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-			}
+                break;
+            }
+            case R.id.smileImgButton: {
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        if (mEmotionRelativeLayout.getVisibility() == View.GONE) {
+                            mEmotionRelativeLayout.setVisibility(View.VISIBLE);
+                        } else {
+                            mEmotionRelativeLayout.setVisibility(View.GONE);
+                        }
+                    }
+                }, 100);
 
-			break;
-		}
-		case R.id.smileImgButton: {
-			imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-			mHandler.postDelayed(new Runnable() {
-				public void run() {
-					if (mEmotionRelativeLayout.getVisibility() == View.GONE) {
-						mEmotionRelativeLayout.setVisibility(View.VISIBLE);
-					} else {
-						mEmotionRelativeLayout.setVisibility(View.GONE);
-					}
-				}
-			}, 100);
+                break;
+            }
+            case R.id.imageButton1: {
+                Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
+                startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
+                break;
+            }
+            default:
+                break;
+        }
 
-			break;
-		}
-		case R.id.imageButton1: {
-			Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
-			startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
-			break;
-		}
-		default:
-			break;
-		}
+    }
 
-	}
-	
-	
+    @Override
+    public void onGlobalLayout() {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void onGlobalLayout() {
-		// TODO Auto-generated method stub
+        Rect r = new Rect();
+        mEmotionRelativeLayout.getWindowVisibleDisplayFrame(r);
 
-		Rect r = new Rect();
-		mEmotionRelativeLayout.getWindowVisibleDisplayFrame(r);
+        int heightDiff = mEmotionRelativeLayout.getRootView().getHeight() - (r.bottom - r.top);
+        if (heightDiff > 100) {
+            // if more than 100 pixels, its probably a keyboard...
+            Log.d("WEIBO_INPUT", "++++++++");
+            mEmotionRelativeLayout.setVisibility(View.GONE);
+            isKeyBoardShowed = true;
+        } else {
+            Log.d("WEIBO_INPUT", "---------");
+            isKeyBoardShowed = false;
+        }
 
-		int heightDiff = mEmotionRelativeLayout.getRootView().getHeight() - (r.bottom - r.top);
-		if (heightDiff > 100) {
-			// if more than 100 pixels, its probably a keyboard...
-			Log.d("WEIBO_INPUT", "++++++++");
-			mEmotionRelativeLayout.setVisibility(View.GONE);
-			isKeyBoardShowed = true;
-		} else {
-			Log.d("WEIBO_INPUT", "---------");
-			isKeyBoardShowed = false;
-		}
+    }
 
-	}
+    class WeiBaCacheFile implements FilenameFilter {
 
-	class WeiBaCacheFile implements FilenameFilter {
+        @Override
+        public boolean accept(File dir, String filename) {
+            // TODO Auto-generated method stub
+            return filename.startsWith("WEI-");
+        }
 
-		@Override
-		public boolean accept(File dir, String filename) {
-			// TODO Auto-generated method stub
-			return filename.startsWith("WEI-");
-		}
+    }
 
-	}
+    public void onSendFinished(boolean isSuccess) {
+        // TODO Auto-generated method stub
+        hideDialogForWeiBo();
+        if (isSuccess) {
+            Toast.makeText(getApplicationContext(), R.string.send_wei_success, Toast.LENGTH_SHORT).show();
+            mEditText.setText("");
+            SendImgData sid = SendImgData.getInstance();
+            sid.clearSendImgs();
+            sid.clearReSizeImgs();
+            sendImgTL.setVisibility(View.GONE);
+            for (int i = 0; i < 9; i++) {
+                mSelectImageViews.get(i).setVisibility(View.INVISIBLE);
+            }
 
-	public void onSendFinished(boolean isSuccess) {
-		// TODO Auto-generated method stub
-		hideDialogForWeiBo();
-		if (isSuccess) {
-			Toast.makeText(getApplicationContext(), R.string.send_wei_success, Toast.LENGTH_SHORT).show();
-			mEditText.setText("");
-			SendImgData sid = SendImgData.getInstance();
-			sid.clearSendImgs();
-			sid.clearReSizeImgs();
-			sendImgTL.setVisibility(View.GONE);
-			for (int i = 0; i < 9; i++) {
-				mSelectImageViews.get(i).setVisibility(View.INVISIBLE);
-			}
+            File[] cacheFiles = getExternalCacheDir().listFiles(new WeiBaCacheFile());
+            for (File file : cacheFiles) {
+                Log.d("LIST_CAXCHE", " " + file.getName());
+                file.delete();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.send_wei_failed, Toast.LENGTH_SHORT).show();
+        }
+    }
 
-			File[] cacheFiles = getExternalCacheDir().listFiles(new WeiBaCacheFile());
-			for (File file : cacheFiles) {
-				Log.d("LIST_CAXCHE", " " + file.getName());
-				file.delete();
-			}
-		} else {
-			Toast.makeText(getApplicationContext(), R.string.send_wei_failed, Toast.LENGTH_SHORT).show();
-		}
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        // TODO Auto-generated method stub
+        super.onSharedPreferenceChanged(sharedPreferences, key);
+        appSrcBtn.setText(getWeiba().getText());
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		// TODO Auto-generated method stub
-		super.onSharedPreferenceChanged(sharedPreferences, key);
-		appSrcBtn.setText(getWeiba().getText());
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		WeiboWeiba weiba = ((WeiboWeiba) parent.getItemAtPosition(position));
-		Log.d("CLICK", "" + weiba);
-		saveWeiba(weiba);
-//		menu.toggle();
-		mDrawerLayout.closeDrawer(findViewById(R.id.drawerLeft));
-	}
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        WeiboWeiba weiba = ((WeiboWeiba) parent.getItemAtPosition(position));
+        Log.d("CLICK", "" + weiba);
+        saveWeiba(weiba);
+        // menu.toggle();
+        mDrawerLayout.closeDrawer(findViewById(R.id.drawerLeft));
+    }
 }

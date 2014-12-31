@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -18,31 +19,31 @@ import java.util.Map;
  */
 public class FanDao {
 
-	public FanDao(String token, String uid) {
-		this.access_token = token;
-		this.uid = uid;
-	}
+    public FanDao(String token, String uid) {
+        this.access_token = token;
+        this.uid = uid;
+    }
 
-	public UserBean removeFan() throws WeiboException {
-		String url = WeiBoURLs.FRIENDSHIPS_FOLLOWERS_DESTROY;
+    public UserBean removeFan() throws WeiboException {
+        String url = WeiBoURLs.FRIENDSHIPS_FOLLOWERS_DESTROY;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("uid", uid);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("uid", uid);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
-		try {
-			UserBean value = new Gson().fromJson(jsonData, UserBean.class);
-			if (value != null) {
-				return value;
-			}
-		} catch (JsonSyntaxException e) {
-			AppLoggerUtils.e(e.getMessage());
-		}
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
+        try {
+            UserBean value = new Gson().fromJson(jsonData, UserBean.class);
+            if (value != null) {
+                return value;
+            }
+        } catch (JsonSyntaxException e) {
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	private String access_token;
-	private String uid;
+    private String access_token;
+    private String uid;
 }

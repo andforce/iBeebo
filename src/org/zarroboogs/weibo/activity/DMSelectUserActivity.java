@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.utils.Constants;
@@ -36,239 +37,242 @@ import java.util.List;
  */
 public class DMSelectUserActivity extends AbstractAppActivity {
 
-	private List<UserBean> data;
+    private List<UserBean> data;
 
-	private ProgressBar suggestProgressBar;
+    private ProgressBar suggestProgressBar;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dmselectuseractivity_layout);
-//		getActionBar().setTitle(R.string.select_dm_receiver);
-//		getActionBar().setDisplayShowHomeEnabled(false);
-//		getActionBar().setDisplayShowTitleEnabled(true);
-//		getActionBar().setDisplayHomeAsUpEnabled(true);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dmselectuseractivity_layout);
+        // getActionBar().setTitle(R.string.select_dm_receiver);
+        // getActionBar().setDisplayShowHomeEnabled(false);
+        // getActionBar().setDisplayShowTitleEnabled(true);
+        // getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		View title = getLayoutInflater().inflate(R.layout.dmselectuseractivity_title_layout, null);
-		suggestProgressBar = (ProgressBar) title.findViewById(R.id.have_suggest_progressbar);
-//		getActionBar().setCustomView(title, new ActionBar.LayoutParams(Gravity.RIGHT));
-//		getActionBar().setDisplayShowCustomEnabled(true);
+        View title = getLayoutInflater().inflate(R.layout.dmselectuseractivity_title_layout, null);
+        suggestProgressBar = (ProgressBar) title.findViewById(R.id.have_suggest_progressbar);
+        // getActionBar().setCustomView(title, new ActionBar.LayoutParams(Gravity.RIGHT));
+        // getActionBar().setDisplayShowCustomEnabled(true);
 
-		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.list_content, SelectFriendsListFragment.newInstance(GlobalContext.getInstance().getAccountBean().getInfo())).commit();
-		}
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.list_content,
+                            SelectFriendsListFragment.newInstance(GlobalContext.getInstance().getAccountBean().getInfo()))
+                    .commit();
+        }
 
-		MaterialAutoCompleteTextView search = (MaterialAutoCompleteTextView) findViewById(R.id.search);
-		AutoCompleteAdapter adapter = new AutoCompleteAdapter(this, android.R.layout.simple_dropdown_item_1line);
-		search.setAdapter(adapter);
-		search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent();
-				intent.putExtra("user", data.get(position));
-				setResult(0, intent);
-				finish();
-			}
-		});
+        MaterialAutoCompleteTextView search = (MaterialAutoCompleteTextView) findViewById(R.id.search);
+        AutoCompleteAdapter adapter = new AutoCompleteAdapter(this, android.R.layout.simple_dropdown_item_1line);
+        search.setAdapter(adapter);
+        search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.putExtra("user", data.get(position));
+                setResult(0, intent);
+                finish();
+            }
+        });
 
-	}
+    }
 
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(this.getClass().getName());
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getName());
+        MobclickAgent.onResume(this);
+    }
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPageEnd(this.getClass().getName());
-		MobclickAgent.onPause(this);
-	}
-	
-	public UserBean getUser() {
-		return GlobalContext.getInstance().getAccountBean().getInfo();
-	}
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getName());
+        MobclickAgent.onPause(this);
+    }
 
-	public ProgressBar getSuggestProgressBar() {
-		return suggestProgressBar;
-	}
+    public UserBean getUser() {
+        return GlobalContext.getInstance().getAccountBean().getInfo();
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent;
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			intent = MainTimeLineActivity.newIntent();
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			return true;
-		}
-		return false;
-	}
+    public ProgressBar getSuggestProgressBar() {
+        return suggestProgressBar;
+    }
 
-	private class AutoCompleteAdapter extends ArrayAdapter<UserBean> implements Filterable {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                intent = MainTimeLineActivity.newIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+        }
+        return false;
+    }
 
-		private DMSelectUserActivity activity;
+    private class AutoCompleteAdapter extends ArrayAdapter<UserBean> implements Filterable {
 
-		private ProgressBar suggestProgressBar;
+        private DMSelectUserActivity activity;
 
-		public AutoCompleteAdapter(DMSelectUserActivity context, int textViewResourceId) {
-			super(context, textViewResourceId);
-			data = new ArrayList<UserBean>();
-			this.activity = context;
-			this.suggestProgressBar = this.activity.getSuggestProgressBar();
-		}
+        private ProgressBar suggestProgressBar;
 
-		@Override
-		public int getCount() {
-			return data.size();
-		}
+        public AutoCompleteAdapter(DMSelectUserActivity context, int textViewResourceId) {
+            super(context, textViewResourceId);
+            data = new ArrayList<UserBean>();
+            this.activity = context;
+            this.suggestProgressBar = this.activity.getSuggestProgressBar();
+        }
 
-		@Override
-		public UserBean getItem(int index) {
-			return data.get(index);
-		}
+        @Override
+        public int getCount() {
+            return data.size();
+        }
 
-		@Override
-		public Filter getFilter() {
-			Filter myFilter = new Filter() {
-				@Override
-				protected FilterResults performFiltering(CharSequence constraint) {
-					FilterResults filterResults = new FilterResults();
-					if (constraint != null) {
+        @Override
+        public UserBean getItem(int index) {
+            return data.get(index);
+        }
 
-						activity.runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								suggestProgressBar.setVisibility(View.VISIBLE);
-							}
-						});
+        @Override
+        public Filter getFilter() {
+            Filter myFilter = new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    FilterResults filterResults = new FilterResults();
+                    if (constraint != null) {
 
-						SearchDao dao = new SearchDao(GlobalContext.getInstance().getSpecialToken(), constraint.toString());
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                suggestProgressBar.setVisibility(View.VISIBLE);
+                            }
+                        });
 
-						try {
-							data = dao.getUserList().getUsers();
-						} catch (Exception e) {
-						}
-						// Now assign the values and count to the FilterResults
-						// object
-						filterResults.values = data;
-						filterResults.count = data.size();
-					}
+                        SearchDao dao = new SearchDao(GlobalContext.getInstance().getSpecialToken(), constraint.toString());
 
-					activity.runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							suggestProgressBar.setVisibility(View.INVISIBLE);
-						}
-					});
+                        try {
+                            data = dao.getUserList().getUsers();
+                        } catch (Exception e) {
+                        }
+                        // Now assign the values and count to the FilterResults
+                        // object
+                        filterResults.values = data;
+                        filterResults.count = data.size();
+                    }
 
-					return filterResults;
-				}
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            suggestProgressBar.setVisibility(View.INVISIBLE);
+                        }
+                    });
 
-				@Override
-				public CharSequence convertResultToString(Object resultValue) {
-					return ((UserBean) resultValue).getScreen_name();
-				}
+                    return filterResults;
+                }
 
-				@Override
-				protected void publishResults(CharSequence contraint, FilterResults results) {
-					if (results != null && results.count > 0) {
-						notifyDataSetChanged();
-					} else {
-						notifyDataSetInvalidated();
-					}
-				}
-			};
-			return myFilter;
-		}
+                @Override
+                public CharSequence convertResultToString(Object resultValue) {
+                    return ((UserBean) resultValue).getScreen_name();
+                }
 
-		@Override
-		public View getDropDownView(int position, View convertView, ViewGroup parent) {
-			convertView = activity.getLayoutInflater().inflate(R.layout.dm_search_user_dropdown_item_layout, parent, false);
+                @Override
+                protected void publishResults(CharSequence contraint, FilterResults results) {
+                    if (results != null && results.count > 0) {
+                        notifyDataSetChanged();
+                    } else {
+                        notifyDataSetInvalidated();
+                    }
+                }
+            };
+            return myFilter;
+        }
 
-			PerformanceImageView avatar = (PerformanceImageView) convertView.findViewById(R.id.avatar);
-			TextView username = (TextView) convertView.findViewById(R.id.username);
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            convertView = activity.getLayoutInflater().inflate(R.layout.dm_search_user_dropdown_item_layout, parent, false);
 
-			TimeLineBitmapDownloader.getInstance().downloadAvatar(avatar, getItem(position));
-			username.setText(getItem(position).getScreen_name());
+            PerformanceImageView avatar = (PerformanceImageView) convertView.findViewById(R.id.avatar);
+            TextView username = (TextView) convertView.findViewById(R.id.username);
 
-			return convertView;
-		}
+            TimeLineBitmapDownloader.getInstance().downloadAvatar(avatar, getItem(position));
+            username.setText(getItem(position).getScreen_name());
 
-		public View getView(int position, View convertView, ViewGroup parent) {
-			return getDropDownView(position, convertView, parent);
-		}
-	}
+            return convertView;
+        }
 
-	public static class SelectFriendsListFragment extends AbstractFriendsFanListFragment {
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getDropDownView(position, convertView, parent);
+        }
+    }
 
-		public static SelectFriendsListFragment newInstance(UserBean userBean) {
-			SelectFriendsListFragment fragment = new SelectFriendsListFragment();
-			Bundle bundle = new Bundle();
-			bundle.putParcelable(Constants.USERBEAN, userBean);
-			fragment.setArguments(bundle);
-			return fragment;
-		}
+    public static class SelectFriendsListFragment extends AbstractFriendsFanListFragment {
 
-		public SelectFriendsListFragment() {
+        public static SelectFriendsListFragment newInstance(UserBean userBean) {
+            SelectFriendsListFragment fragment = new SelectFriendsListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.USERBEAN, userBean);
+            fragment.setArguments(bundle);
+            return fragment;
+        }
 
-		}
+        public SelectFriendsListFragment() {
 
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
+        }
 
-			setHasOptionsMenu(false);
-			setRetainInstance(false);
-		}
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
 
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState) {
-			super.onActivityCreated(savedInstanceState);
+            setHasOptionsMenu(false);
+            setRetainInstance(false);
+        }
 
-		}
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
 
-		@Override
-		protected UserBean getCurrentUser() {
-			return getArguments().getParcelable(Constants.USERBEAN);
-		}
+        }
 
-		@Override
-		protected void buildActionBarSubtitle() {
-			// empty
-		}
+        @Override
+        protected UserBean getCurrentUser() {
+            return getArguments().getParcelable(Constants.USERBEAN);
+        }
 
-		protected void listViewItemClick(AdapterView parent, View view, int position, long id) {
-			Intent intent = new Intent();
-			intent.putExtra("user", getList().getUsers().get(position));
-			getActivity().setResult(0, intent);
-			getActivity().finish();
-		}
+        @Override
+        protected void buildActionBarSubtitle() {
+            // empty
+        }
 
-		@Override
-		protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
-			String token = GlobalContext.getInstance().getSpecialToken();
-			String cursor = String.valueOf(0);
-			return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);
-		}
+        protected void listViewItemClick(AdapterView parent, View view, int position, long id) {
+            Intent intent = new Intent();
+            intent.putExtra("user", getList().getUsers().get(position));
+            getActivity().setResult(0, intent);
+            getActivity().finish();
+        }
 
-		@Override
-		protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateOldUserLoader(int id, Bundle args) {
+        @Override
+        protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
+            String token = GlobalContext.getInstance().getSpecialToken();
+            String cursor = String.valueOf(0);
+            return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);
+        }
 
-			if (getList().getUsers().size() > 0 && Integer.valueOf(getList().getNext_cursor()) == 0) {
-				return null;
-			}
+        @Override
+        protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateOldUserLoader(int id, Bundle args) {
 
-			String token = GlobalContext.getInstance().getSpecialToken();
-			String cursor = String.valueOf(bean.getNext_cursor());
+            if (getList().getUsers().size() > 0 && Integer.valueOf(getList().getNext_cursor()) == 0) {
+                return null;
+            }
 
-			return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);
-		}
-	}
+            String token = GlobalContext.getInstance().getSpecialToken();
+            String cursor = String.valueOf(bean.getNext_cursor());
+
+            return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);
+        }
+    }
 }

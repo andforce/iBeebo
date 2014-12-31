@@ -1,3 +1,4 @@
+
 package org.zarroboogs.utils;
 
 import android.content.Context;
@@ -35,7 +36,9 @@ public class EditBitmapUtils {
 
     private static final int INDEX_ORIENTATION = 0;
 
-    private static final String[] IMAGE_PROJECTION = new String[] { ImageColumns.ORIENTATION };
+    private static final String[] IMAGE_PROJECTION = new String[] {
+        ImageColumns.ORIENTATION
+    };
 
     private final Context context;
 
@@ -97,8 +100,7 @@ public class EditBitmapUtils {
     }
 
     /**
-     * Decodes bitmap that keeps aspect-ratio and spans most within the
-     * bounds.
+     * Decodes bitmap that keeps aspect-ratio and spans most within the bounds.
      */
     private Bitmap decodeBitmap(Uri uri, int width, int height) {
         InputStream is = null;
@@ -143,8 +145,6 @@ public class EditBitmapUtils {
         }
         return bitmap;
     }
-    
-    
 
     public String getRealPath(Uri fileUri, Context context) {
         String fileName = null;
@@ -169,8 +169,7 @@ public class EditBitmapUtils {
     }
 
     /**
-     * Gets decoded bitmap (maybe immutable) that keeps orientation as
-     * well.
+     * Gets decoded bitmap (maybe immutable) that keeps orientation as well.
      */
     public Bitmap getBitmap(Uri uri, int width, int height) {
         Bitmap bitmap = decodeBitmap(uri, width, height);
@@ -181,36 +180,36 @@ public class EditBitmapUtils {
         // Rotate the decoded bitmap according to its orientation if it's necessary.
         if (bitmap != null) {
             int orientation = getOrientation(uri);
-            
+
             ExifInterface scgexif = null;
-			try {
-				scgexif = new ExifInterface(sFileName);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            try {
+                scgexif = new ExifInterface(sFileName);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             int scgorientation = scgexif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-            
+
             switch (scgorientation) {
-				case ExifInterface.ORIENTATION_ROTATE_90:{
-					orientation = 90;
-					break;
-				}
-				
-				case ExifInterface.ORIENTATION_ROTATE_180:{
-					orientation = 180;
-					break;
-				}
-				
-				case ExifInterface.ORIENTATION_ROTATE_270:{
-					orientation = 270;
-					break;
-				}
-	
-				default:
-					break;
-			}
-            
+                case ExifInterface.ORIENTATION_ROTATE_90: {
+                    orientation = 90;
+                    break;
+                }
+
+                case ExifInterface.ORIENTATION_ROTATE_180: {
+                    orientation = 180;
+                    break;
+                }
+
+                case ExifInterface.ORIENTATION_ROTATE_270: {
+                    orientation = 270;
+                    break;
+                }
+
+                default:
+                    break;
+            }
+
             if (orientation != 0) {
                 Matrix m = new Matrix();
                 m.setRotate(orientation);
@@ -222,15 +221,15 @@ public class EditBitmapUtils {
         }
         return bitmap;
     }
-    
-    public Bitmap getBitmapByMaxWidth(Uri uri , int width){
+
+    public Bitmap getBitmapByMaxWidth(Uri uri, int width) {
         Bitmap bitmap = getBitmap(uri, width, 2048 * 10);
-        
+
         Log.d("START_SEND_WEIBO ", "OLD create scale Bitmap :  " + bitmap.getWidth() + " x " + bitmap.getHeight());
-        
+
         if (bitmap.getWidth() > width) {
             int h = bitmap.getHeight() * width / bitmap.getWidth();
-            
+
             Bitmap result = Bitmap.createScaledBitmap(bitmap, width, h, true);
             if (!bitmap.isRecycled()) {
                 bitmap.recycle();
@@ -243,8 +242,8 @@ public class EditBitmapUtils {
     }
 
     /**
-     * Saves the bitmap by given directory, filename, and format; if the
-     * directory is given null, then saves it under the cache directory.
+     * Saves the bitmap by given directory, filename, and format; if the directory is given null,
+     * then saves it under the cache directory.
      */
     public File saveBitmap(Bitmap bitmap, File directory, String filename, CompressFormat format) {
 

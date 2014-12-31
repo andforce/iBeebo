@@ -17,6 +17,7 @@ import android.view.MenuItem;
 public class UserTimeLineActivity extends AbstractAppActivity {
 
     private Toolbar mToolBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,13 +27,13 @@ public class UserTimeLineActivity extends AbstractAppActivity {
 
         setContentView(R.layout.setting_activity_layout);
         mToolBar = (Toolbar) findViewById(R.id.settingToolBar);
-        
+
         String token = getIntent().getStringExtra(Constants.TOKEN);
         UserBean bean = getIntent().getParcelableExtra("user");
-        
-//        getActionBar().setTitle(bean.getScreen_name());
+
+        // getActionBar().setTitle(bean.getScreen_name());
         mToolBar.setTitle(bean.getScreen_name());
-        
+
         if (getSupportFragmentManager().findFragmentByTag(StatusesByIdTimeLineFragment.class.getName()) == null) {
             getSupportFragmentManager()
                     .beginTransaction()

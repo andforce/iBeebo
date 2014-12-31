@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import org.json.JSONArray;
@@ -18,70 +19,70 @@ import java.util.*;
  */
 public class FriendsTimeLineTagDao {
 
-	private String getMsgListJson() throws WeiboException {
-		String url = WeiBoURLs.TAGS;
+    private String getMsgListJson() throws WeiboException {
+        String url = WeiBoURLs.TAGS;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("uid", uid);
-		map.put("count", count);
-		map.put("page", page);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("uid", uid);
+        map.put("count", count);
+        map.put("page", page);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		return jsonData;
-	}
+        return jsonData;
+    }
 
-	public List<TagBean> getGSONMsgList() throws WeiboException {
+    public List<TagBean> getGSONMsgList() throws WeiboException {
 
-		String json = getMsgListJson();
-		List<TagBean> tagBeanList = new ArrayList<TagBean>();
+        String json = getMsgListJson();
+        List<TagBean> tagBeanList = new ArrayList<TagBean>();
 
-		try {
-			JSONArray array = new JSONArray(json);
-			int size = array.length();
-			for (int i = 0; i < size; i++) {
-				TagBean bean = new TagBean();
-				JSONObject jsonObject = array.getJSONObject(i);
-				Iterator<String> iterator = jsonObject.keys();
-				while (iterator.hasNext()) {
-					String key = iterator.next();
-					if (key.equalsIgnoreCase("weight")) {
-						String value = jsonObject.optString(key);
-						bean.setWeight(value);
-					} else {
-						String value = jsonObject.optString(key);
-						bean.setId(Integer.valueOf(key));
-						bean.setName(value);
-					}
-				}
-				tagBeanList.add(bean);
-			}
+        try {
+            JSONArray array = new JSONArray(json);
+            int size = array.length();
+            for (int i = 0; i < size; i++) {
+                TagBean bean = new TagBean();
+                JSONObject jsonObject = array.getJSONObject(i);
+                Iterator<String> iterator = jsonObject.keys();
+                while (iterator.hasNext()) {
+                    String key = iterator.next();
+                    if (key.equalsIgnoreCase("weight")) {
+                        String value = jsonObject.optString(key);
+                        bean.setWeight(value);
+                    } else {
+                        String value = jsonObject.optString(key);
+                        bean.setId(Integer.valueOf(key));
+                        bean.setName(value);
+                    }
+                }
+                tagBeanList.add(bean);
+            }
 
-		} catch (JSONException e) {
-			AppLoggerUtils.e(e.getMessage());
-		}
+        } catch (JSONException e) {
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		return tagBeanList;
-	}
+        return tagBeanList;
+    }
 
-	private String access_token;
-	private String uid;
-	private String count;
-	private String page;
+    private String access_token;
+    private String uid;
+    private String count;
+    private String page;
 
-	public FriendsTimeLineTagDao(String access_token, String uid) {
+    public FriendsTimeLineTagDao(String access_token, String uid) {
 
-		this.access_token = access_token;
-		this.uid = uid;
-		this.count = SettingUtils.getMsgCount();
-	}
+        this.access_token = access_token;
+        this.uid = uid;
+        this.count = SettingUtils.getMsgCount();
+    }
 
-	public void setCount(String count) {
-		this.count = count;
-	}
+    public void setCount(String count) {
+        this.count = count;
+    }
 
-	public void setPage(String page) {
-		this.page = page;
-	}
+    public void setPage(String page) {
+        this.page = page;
+    }
 }

@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.support.gallery;
 
 import org.zarroboogs.utils.ImageUtility;
@@ -28,217 +29,229 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class GeneralPictureFragment extends Fragment {
 
-	private static final int NAVIGATION_BAR_HEIGHT_DP_UNIT = 48;
+    private static final int NAVIGATION_BAR_HEIGHT_DP_UNIT = 48;
 
-	private static final int IMAGEVIEW_SOFT_LAYER_MAX_WIDTH = 2000;
+    private static final int IMAGEVIEW_SOFT_LAYER_MAX_WIDTH = 2000;
 
-	private static final int IMAGEVIEW_SOFT_LAYER_MAX_HEIGHT = 3000;
+    private static final int IMAGEVIEW_SOFT_LAYER_MAX_HEIGHT = 3000;
 
-	private PhotoView photoView;
+    private PhotoView photoView;
 
-	public static final int ANIMATION_DURATION = 300;
+    public static final int ANIMATION_DURATION = 300;
 
-	public static GeneralPictureFragment newInstance(String path, AnimationRect rect, boolean animationIn) {
-		GeneralPictureFragment fragment = new GeneralPictureFragment();
-		Bundle bundle = new Bundle();
-		bundle.putString("path", path);
-		bundle.putParcelable("rect", rect);
-		bundle.putBoolean("animationIn", animationIn);
-		fragment.setArguments(bundle);
-		return fragment;
-	}
+    public static GeneralPictureFragment newInstance(String path, AnimationRect rect, boolean animationIn) {
+        GeneralPictureFragment fragment = new GeneralPictureFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("path", path);
+        bundle.putParcelable("rect", rect);
+        bundle.putBoolean("animationIn", animationIn);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.gallery_general_layout, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.gallery_general_layout, container, false);
 
-		photoView = (PhotoView) view.findViewById(R.id.animation);
+        photoView = (PhotoView) view.findViewById(R.id.animation);
 
-		if (SettingUtils.allowClickToCloseGallery()) {
+        if (SettingUtils.allowClickToCloseGallery()) {
 
-			photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-				@Override
-				public void onViewTap(View view, float x, float y) {
-					getActivity().onBackPressed();
-				}
-			});
-		}
+            photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+                @Override
+                public void onViewTap(View view, float x, float y) {
+                    getActivity().onBackPressed();
+                }
+            });
+        }
 
-		LongClickListener longClickListener = ((BigPicContainerFragment) getParentFragment()).getLongClickListener();
-		photoView.setOnLongClickListener(longClickListener);
+        LongClickListener longClickListener = ((BigPicContainerFragment) getParentFragment()).getLongClickListener();
+        photoView.setOnLongClickListener(longClickListener);
 
-		final String path = getArguments().getString("path");
-		boolean animateIn = getArguments().getBoolean("animationIn");
-		final AnimationRect rect = getArguments().getParcelable("rect");
+        final String path = getArguments().getString("path");
+        boolean animateIn = getArguments().getBoolean("animationIn");
+        final AnimationRect rect = getArguments().getParcelable("rect");
 
-		if (!animateIn) {
+        if (!animateIn) {
 
-			new MyAsyncTask<Void, Bitmap, Bitmap>() {
+            new MyAsyncTask<Void, Bitmap, Bitmap>() {
 
-				@Override
-				protected Bitmap doInBackground(Void... params) {
-					Bitmap bitmap = ImageUtility.decodeBitmapFromSDCard(path, IMAGEVIEW_SOFT_LAYER_MAX_WIDTH, IMAGEVIEW_SOFT_LAYER_MAX_HEIGHT);
-					return bitmap;
-				}
+                @Override
+                protected Bitmap doInBackground(Void... params) {
+                    Bitmap bitmap = ImageUtility.decodeBitmapFromSDCard(path, IMAGEVIEW_SOFT_LAYER_MAX_WIDTH,
+                            IMAGEVIEW_SOFT_LAYER_MAX_HEIGHT);
+                    return bitmap;
+                }
 
-				@Override
-				protected void onPostExecute(Bitmap bitmap) {
-					super.onPostExecute(bitmap);
-					photoView.setImageBitmap(bitmap);
-				}
+                @Override
+                protected void onPostExecute(Bitmap bitmap) {
+                    super.onPostExecute(bitmap);
+                    photoView.setImageBitmap(bitmap);
+                }
 
-			}.executeOnIO();
+            }.executeOnIO();
 
-			return view;
-		}
+            return view;
+        }
 
-		final Bitmap bitmap = ImageUtility.decodeBitmapFromSDCard(path, IMAGEVIEW_SOFT_LAYER_MAX_WIDTH, IMAGEVIEW_SOFT_LAYER_MAX_HEIGHT);
+        final Bitmap bitmap = ImageUtility.decodeBitmapFromSDCard(path, IMAGEVIEW_SOFT_LAYER_MAX_WIDTH,
+                IMAGEVIEW_SOFT_LAYER_MAX_HEIGHT);
 
-		photoView.setImageBitmap(bitmap);
+        photoView.setImageBitmap(bitmap);
 
-		final Runnable endAction = new Runnable() {
-			@Override
-			public void run() {
-				Bundle bundle = getArguments();
-				bundle.putBoolean("animationIn", false);
-			}
-		};
+        final Runnable endAction = new Runnable() {
+            @Override
+            public void run() {
+                Bundle bundle = getArguments();
+                bundle.putBoolean("animationIn", false);
+            }
+        };
 
-		photoView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
+        photoView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
 
-				if (rect == null) {
-					photoView.getViewTreeObserver().removeOnPreDrawListener(this);
-					endAction.run();
-					return true;
-				}
+                if (rect == null) {
+                    photoView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    endAction.run();
+                    return true;
+                }
 
-				final Rect startBounds = new Rect(rect.scaledBitmapRect);
-				final Rect finalBounds = AnimationUtility.getBitmapRectFromImageView(photoView);
+                final Rect startBounds = new Rect(rect.scaledBitmapRect);
+                final Rect finalBounds = AnimationUtility.getBitmapRectFromImageView(photoView);
 
-				if (finalBounds == null) {
-					photoView.getViewTreeObserver().removeOnPreDrawListener(this);
-					endAction.run();
-					return true;
-				}
+                if (finalBounds == null) {
+                    photoView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    endAction.run();
+                    return true;
+                }
 
-				float startScale = (float) finalBounds.width() / startBounds.width();
+                float startScale = (float) finalBounds.width() / startBounds.width();
 
-				if (startScale * startBounds.height() > finalBounds.height()) {
-					startScale = (float) finalBounds.height() / startBounds.height();
-				}
+                if (startScale * startBounds.height() > finalBounds.height()) {
+                    startScale = (float) finalBounds.height() / startBounds.height();
+                }
 
-				int deltaTop = startBounds.top - finalBounds.top;
-				int deltaLeft = startBounds.left - finalBounds.left;
+                int deltaTop = startBounds.top - finalBounds.top;
+                int deltaLeft = startBounds.left - finalBounds.left;
 
-				photoView.setPivotY((photoView.getHeight() - finalBounds.height()) / 2);
-				photoView.setPivotX((photoView.getWidth() - finalBounds.width()) / 2);
+                photoView.setPivotY((photoView.getHeight() - finalBounds.height()) / 2);
+                photoView.setPivotX((photoView.getWidth() - finalBounds.width()) / 2);
 
-				photoView.setScaleX(1 / startScale);
-				photoView.setScaleY(1 / startScale);
+                photoView.setScaleX(1 / startScale);
+                photoView.setScaleY(1 / startScale);
 
-				photoView.setTranslationX(deltaLeft);
-				photoView.setTranslationY(deltaTop);
+                photoView.setTranslationX(deltaLeft);
+                photoView.setTranslationY(deltaTop);
 
-				photoView.animate().translationY(0).translationX(0).scaleY(1).scaleX(1).setDuration(ANIMATION_DURATION)
-						.setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new MyAnimationListener(endAction));
+                photoView.animate().translationY(0).translationX(0).scaleY(1).scaleX(1).setDuration(ANIMATION_DURATION)
+                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                        .setListener(new MyAnimationListener(endAction));
 
-				AnimatorSet animationSet = new AnimatorSet();
-				animationSet.setDuration(ANIMATION_DURATION);
-				animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+                AnimatorSet animationSet = new AnimatorSet();
+                animationSet.setDuration(ANIMATION_DURATION);
+                animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
 
-				animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipBottom", AnimationRect.getClipBottom(rect, finalBounds), 0));
-				animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipRight", AnimationRect.getClipRight(rect, finalBounds), 0));
-				animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipTop", AnimationRect.getClipTop(rect, finalBounds), 0));
-				animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipLeft", AnimationRect.getClipLeft(rect, finalBounds), 0));
+                animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipBottom",
+                        AnimationRect.getClipBottom(rect, finalBounds), 0));
+                animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipRight",
+                        AnimationRect.getClipRight(rect, finalBounds), 0));
+                animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipTop",
+                        AnimationRect.getClipTop(rect, finalBounds), 0));
+                animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipLeft",
+                        AnimationRect.getClipLeft(rect, finalBounds), 0));
 
-				animationSet.start();
+                animationSet.start();
 
-				photoView.getViewTreeObserver().removeOnPreDrawListener(this);
-				return true;
-			}
-		});
+                photoView.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
 
-		return view;
-	}
+        return view;
+    }
 
-	public void animationExit(ObjectAnimator backgroundAnimator) {
+    public void animationExit(ObjectAnimator backgroundAnimator) {
 
-		if (Math.abs(photoView.getScale() - 1.0f) > 0.1f) {
-			photoView.setScale(1, true);
-			return;
-		}
+        if (Math.abs(photoView.getScale() - 1.0f) > 0.1f) {
+            photoView.setScale(1, true);
+            return;
+        }
 
-		getActivity().overridePendingTransition(0, 0);
-		animateClose(backgroundAnimator);
+        getActivity().overridePendingTransition(0, 0);
+        animateClose(backgroundAnimator);
 
-	}
+    }
 
-	private void animateClose(ObjectAnimator backgroundAnimator) {
+    private void animateClose(ObjectAnimator backgroundAnimator) {
 
-		AnimationRect rect = getArguments().getParcelable("rect");
+        AnimationRect rect = getArguments().getParcelable("rect");
 
-		if (rect == null) {
-			photoView.animate().alpha(0);
-			backgroundAnimator.start();
-			return;
-		}
+        if (rect == null) {
+            photoView.animate().alpha(0);
+            backgroundAnimator.start();
+            return;
+        }
 
-		final Rect startBounds = rect.scaledBitmapRect;
-		final Rect finalBounds = AnimationUtility.getBitmapRectFromImageView(photoView);
+        final Rect startBounds = rect.scaledBitmapRect;
+        final Rect finalBounds = AnimationUtility.getBitmapRectFromImageView(photoView);
 
-		if (finalBounds == null) {
-			photoView.animate().alpha(0);
-			backgroundAnimator.start();
-			return;
-		}
+        if (finalBounds == null) {
+            photoView.animate().alpha(0);
+            backgroundAnimator.start();
+            return;
+        }
 
-		if (Utility.isDevicePort() != rect.isScreenPortrait) {
-			photoView.animate().alpha(0);
-			backgroundAnimator.start();
-			return;
-		}
+        if (Utility.isDevicePort() != rect.isScreenPortrait) {
+            photoView.animate().alpha(0);
+            backgroundAnimator.start();
+            return;
+        }
 
-		float startScale;
-		if ((float) finalBounds.width() / finalBounds.height() > (float) startBounds.width() / startBounds.height()) {
-			startScale = (float) startBounds.height() / finalBounds.height();
+        float startScale;
+        if ((float) finalBounds.width() / finalBounds.height() > (float) startBounds.width() / startBounds.height()) {
+            startScale = (float) startBounds.height() / finalBounds.height();
 
-		} else {
-			startScale = (float) startBounds.width() / finalBounds.width();
-		}
+        } else {
+            startScale = (float) startBounds.width() / finalBounds.width();
+        }
 
-		final float startScaleFinal = startScale;
+        final float startScaleFinal = startScale;
 
-		int deltaTop = startBounds.top - finalBounds.top;
-		int deltaLeft = startBounds.left - finalBounds.left;
+        int deltaTop = startBounds.top - finalBounds.top;
+        int deltaLeft = startBounds.left - finalBounds.left;
 
-		photoView.setPivotY((photoView.getHeight() - finalBounds.height()) / 2);
-		photoView.setPivotX((photoView.getWidth() - finalBounds.width()) / 2);
+        photoView.setPivotY((photoView.getHeight() - finalBounds.height()) / 2);
+        photoView.setPivotX((photoView.getWidth() - finalBounds.width()) / 2);
 
-		photoView.animate().translationX(deltaLeft).translationY(deltaTop).scaleY(startScaleFinal).scaleX(startScaleFinal).setDuration(ANIMATION_DURATION)
-				.setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new MyAnimationListener(new Runnable() {
-					@Override
-					public void run() {
+        photoView.animate().translationX(deltaLeft).translationY(deltaTop).scaleY(startScaleFinal).scaleX(startScaleFinal)
+                .setDuration(ANIMATION_DURATION)
+                .setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new MyAnimationListener(new Runnable() {
+                    @Override
+                    public void run() {
 
-						photoView.animate().alpha(0.0f).setDuration(200);
+                        photoView.animate().alpha(0.0f).setDuration(200);
 
-					}
-				}));
+                    }
+                }));
 
-		AnimatorSet animationSet = new AnimatorSet();
-		animationSet.setDuration(ANIMATION_DURATION);
-		animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        AnimatorSet animationSet = new AnimatorSet();
+        animationSet.setDuration(ANIMATION_DURATION);
+        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
 
-		animationSet.playTogether(backgroundAnimator);
+        animationSet.playTogether(backgroundAnimator);
 
-		animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipBottom", 0, AnimationRect.getClipBottom(rect, finalBounds)));
-		animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipRight", 0, AnimationRect.getClipRight(rect, finalBounds)));
-		animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipTop", 0, AnimationRect.getClipTop(rect, finalBounds)));
-		animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipLeft", 0, AnimationRect.getClipLeft(rect, finalBounds)));
+        animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipBottom", 0,
+                AnimationRect.getClipBottom(rect, finalBounds)));
+        animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipRight", 0,
+                AnimationRect.getClipRight(rect, finalBounds)));
+        animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipTop", 0,
+                AnimationRect.getClipTop(rect, finalBounds)));
+        animationSet.playTogether(ObjectAnimator.ofFloat(photoView, "clipLeft", 0,
+                AnimationRect.getClipLeft(rect, finalBounds)));
 
-		animationSet.start();
+        animationSet.start();
 
-	}
+    }
 
 }

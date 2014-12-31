@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dialogfragment;
 
 import org.zarroboogs.weibo.R;
@@ -13,21 +14,21 @@ import android.os.Bundle;
  */
 public class TipDialog extends DialogFragment {
 
-	public TipDialog() {
+    public TipDialog() {
 
-	}
+    }
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(getString(R.string.tip_dialog_title)).setMessage(getString(R.string.tip_dialog_content))
-				.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dismissAllowingStateLoss();
-					}
-				});
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.tip_dialog_title)).setMessage(getString(R.string.tip_dialog_content))
+                .setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dismissAllowingStateLoss();
+                    }
+                });
 
-		return builder.create();
-	}
+        return builder.create();
+    }
 }

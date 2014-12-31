@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -22,74 +23,74 @@ import java.util.Map;
  */
 public class ShareShortUrlTimeLineDao {
 
-	private String getMsgListJson() throws WeiboException {
-		String url = WeiBoURLs.SHORT_URL_SHARE_TIMELINE;
+    private String getMsgListJson() throws WeiboException {
+        String url = WeiBoURLs.SHORT_URL_SHARE_TIMELINE;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("count", count);
-		map.put("max_id", max_id);
-		map.put("url_short", url_short);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("count", count);
+        map.put("max_id", max_id);
+        map.put("url_short", url_short);
 
-		String jsonData = null;
+        String jsonData = null;
 
-		jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		return jsonData;
-	}
+        return jsonData;
+    }
 
-	public ShareListBean getGSONMsgList() throws WeiboException {
+    public ShareListBean getGSONMsgList() throws WeiboException {
 
-		String json = getMsgListJson();
-		Gson gson = new Gson();
+        String json = getMsgListJson();
+        Gson gson = new Gson();
 
-		ShareListBean value = null;
-		try {
-			value = gson.fromJson(json, ShareListBean.class);
-		} catch (JsonSyntaxException e) {
+        ShareListBean value = null;
+        try {
+            value = gson.fromJson(json, ShareListBean.class);
+        } catch (JsonSyntaxException e) {
 
-			AppLoggerUtils.e(e.getMessage());
-		}
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		if (value != null) {
+        if (value != null) {
 
-			Iterator<MessageBean> iterator = value.getItemList().iterator();
+            Iterator<MessageBean> iterator = value.getItemList().iterator();
 
-			while (iterator.hasNext()) {
+            while (iterator.hasNext()) {
 
-				MessageBean msg = iterator.next();
-				if (msg.getUser() == null) {
-					iterator.remove();
-				} else {
-					msg.getListViewSpannableString();
-					TimeUtility.dealMills(msg);
-				}
-			}
+                MessageBean msg = iterator.next();
+                if (msg.getUser() == null) {
+                    iterator.remove();
+                } else {
+                    msg.getListViewSpannableString();
+                    TimeUtility.dealMills(msg);
+                }
+            }
 
-		}
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	private String access_token;
-	private String url_short;
-	private String count;
-	private String max_id;
+    private String access_token;
+    private String url_short;
+    private String count;
+    private String max_id;
 
-	public ShareShortUrlTimeLineDao(String access_token, String url_short) {
+    public ShareShortUrlTimeLineDao(String access_token, String url_short) {
 
-		this.access_token = access_token;
-		this.url_short = url_short;
-		this.count = SettingUtils.getMsgCount();
-	}
+        this.access_token = access_token;
+        this.url_short = url_short;
+        this.count = SettingUtils.getMsgCount();
+    }
 
-	public ShareShortUrlTimeLineDao setCount(String count) {
-		this.count = count;
-		return this;
-	}
+    public ShareShortUrlTimeLineDao setCount(String count) {
+        this.count = count;
+        return this;
+    }
 
-	public ShareShortUrlTimeLineDao setMaxId(String max_id) {
-		this.max_id = max_id;
-		return this;
-	}
+    public ShareShortUrlTimeLineDao setMaxId(String max_id) {
+        this.max_id = max_id;
+        return this;
+    }
 }

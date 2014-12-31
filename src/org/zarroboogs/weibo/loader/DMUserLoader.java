@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.loader;
 
 import android.content.Context;
@@ -14,31 +15,31 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class DMUserLoader extends AbstractAsyncNetRequestTaskLoader<DMUserListBean> {
 
-	private static Lock lock = new ReentrantLock();
+    private static Lock lock = new ReentrantLock();
 
-	private String token;
-	private String cursor;
+    private String token;
+    private String cursor;
 
-	public DMUserLoader(Context context, String token, String cursor) {
-		super(context);
-		this.token = token;
-		this.cursor = cursor;
-	}
+    public DMUserLoader(Context context, String token, String cursor) {
+        super(context);
+        this.token = token;
+        this.cursor = cursor;
+    }
 
-	public DMUserListBean loadData() throws WeiboException {
-		DMDao dao = new DMDao(token);
-		dao.setCursor(cursor);
+    public DMUserListBean loadData() throws WeiboException {
+        DMDao dao = new DMDao(token);
+        dao.setCursor(cursor);
 
-		DMUserListBean result = null;
-		lock.lock();
+        DMUserListBean result = null;
+        lock.lock();
 
-		try {
-			result = dao.getUserList();
-		} finally {
-			lock.unlock();
-		}
+        try {
+            result = dao.getUserList();
+        } finally {
+            lock.unlock();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
 }

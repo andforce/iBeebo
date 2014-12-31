@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.support.asyncdrawable;
 
 import android.graphics.Bitmap;
@@ -14,29 +15,29 @@ import org.zarroboogs.weibo.bean.UserBean;
  */
 public interface IWeiciyuanDrawable {
 
-	public void setImageDrawable(Drawable drawable);
+    public void setImageDrawable(Drawable drawable);
 
-	public void setImageBitmap(Bitmap bm);
+    public void setImageBitmap(Bitmap bm);
 
-	public ImageView getImageView();
+    public ImageView getImageView();
 
-	public void setProgress(int value, int max);
+    public void setProgress(int value, int max);
 
-	public ProgressBar getProgressBar();
+    public ProgressBar getProgressBar();
 
-	public void setGifFlag(boolean value);
+    public void setGifFlag(boolean value);
 
-	public void checkVerified(UserBean user);
+    public void checkVerified(UserBean user);
 
-	public void setPressesStateVisibility(boolean value);
+    public void setPressesStateVisibility(boolean value);
 
-	public void setVisibility(int visibility);
+    public void setVisibility(int visibility);
 
-	public int getVisibility();
+    public int getVisibility();
 
-	public void setOnClickListener(View.OnClickListener onClickListener);
+    public void setOnClickListener(View.OnClickListener onClickListener);
 
-	public void setOnLongClickListener(View.OnLongClickListener onLongClickListener);
+    public void setOnLongClickListener(View.OnLongClickListener onLongClickListener);
 
-	public void setLayoutParams(ViewGroup.LayoutParams layoutParams);
+    public void setLayoutParams(ViewGroup.LayoutParams layoutParams);
 }

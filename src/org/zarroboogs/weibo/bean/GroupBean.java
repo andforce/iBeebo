@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.bean;
 
 import android.os.Parcel;
@@ -10,62 +11,62 @@ import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
  */
 public class GroupBean implements Parcelable {
 
-	private String id;
-	private String idstr;
-	private String name;
+    private String id;
+    private String idstr;
+    private String name;
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(id);
-		dest.writeString(idstr);
-		dest.writeString(name);
-	}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(idstr);
+        dest.writeString(name);
+    }
 
-	public static final Parcelable.Creator<GroupBean> CREATOR = new Parcelable.Creator<GroupBean>() {
-		public GroupBean createFromParcel(Parcel in) {
-			GroupBean groupBean = new GroupBean();
-			groupBean.id = in.readString();
-			groupBean.idstr = in.readString();
-			groupBean.name = in.readString();
-			return groupBean;
-		}
+    public static final Parcelable.Creator<GroupBean> CREATOR = new Parcelable.Creator<GroupBean>() {
+        public GroupBean createFromParcel(Parcel in) {
+            GroupBean groupBean = new GroupBean();
+            groupBean.id = in.readString();
+            groupBean.idstr = in.readString();
+            groupBean.name = in.readString();
+            return groupBean;
+        }
 
-		public GroupBean[] newArray(int size) {
-			return new GroupBean[size];
-		}
-	};
+        public GroupBean[] newArray(int size) {
+            return new GroupBean[size];
+        }
+    };
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getIdstr() {
-		return idstr;
-	}
+    public String getIdstr() {
+        return idstr;
+    }
 
-	public void setIdstr(String idstr) {
-		this.idstr = idstr;
-	}
+    public void setIdstr(String idstr) {
+        this.idstr = idstr;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public String toString() {
-		return ObjectToStringUtility.toString(this);
-	}
+    @Override
+    public String toString() {
+        return ObjectToStringUtility.toString(this);
+    }
 }

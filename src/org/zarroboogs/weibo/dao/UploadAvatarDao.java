@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import org.zarroboogs.util.net.HttpUtility;
@@ -12,18 +13,18 @@ import java.util.Map;
  */
 public class UploadAvatarDao {
 
-	public boolean upload() throws WeiboException {
-		String url = WeiBoURLs.AVATAR_UPLOAD;
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		return HttpUtility.getInstance().executeUploadTask(url, map, image, "image", null);
-	}
+    public boolean upload() throws WeiboException {
+        String url = WeiBoURLs.AVATAR_UPLOAD;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        return HttpUtility.getInstance().executeUploadTask(url, map, image, "image", null);
+    }
 
-	private String access_token;
-	private String image;
+    private String access_token;
+    private String image;
 
-	public UploadAvatarDao(String token, String image) {
-		this.access_token = token;
-		this.image = image;
-	}
+    public UploadAvatarDao(String token, String image) {
+        this.access_token = token;
+        this.image = image;
+    }
 }

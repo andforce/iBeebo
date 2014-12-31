@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 /**

@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.bean;
 
 import android.text.TextUtils;
@@ -7,31 +8,31 @@ import android.text.TextUtils;
  */
 public class MusicInfoBean {
 
-	public String artist;
-	public String album;
-	public String track;
+    public String artist;
+    public String album;
+    public String track;
 
-	public void setArtist(String artist) {
-		this.artist = artist;
-	}
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
 
-	public void setAlbum(String album) {
-		this.album = album;
-	}
+    public void setAlbum(String album) {
+        this.album = album;
+    }
 
-	public void setTrack(String track) {
-		this.track = track;
-	}
+    public void setTrack(String track) {
+        this.track = track;
+    }
 
-	@Override
-	public String toString() {
-		if (!TextUtils.isEmpty(artist))
-			return "Now Playing:" + artist + ":" + track;
-		else
-			return "Now Playing:" + track;
-	}
+    @Override
+    public String toString() {
+        if (!TextUtils.isEmpty(artist))
+            return "Now Playing:" + artist + ":" + track;
+        else
+            return "Now Playing:" + track;
+    }
 
-	public boolean isEmpty() {
-		return TextUtils.isEmpty(track);
-	}
+    public boolean isEmpty() {
+        return TextUtils.isEmpty(track);
+    }
 }

@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import org.zarroboogs.utils.WeiBoURLs;
@@ -7,12 +8,12 @@ import org.zarroboogs.utils.WeiBoURLs;
  */
 public class BilateralTimeLineDao extends MainFriendsTimeLineDao {
 
-	public BilateralTimeLineDao(String access_token) {
-		super(access_token);
-	}
+    public BilateralTimeLineDao(String access_token) {
+        super(access_token);
+    }
 
-	@Override
-	protected String getUrl() {
-		return WeiBoURLs.BILATERAL_TIMELINE;
-	}
+    @Override
+    protected String getUrl() {
+        return WeiBoURLs.BILATERAL_TIMELINE;
+    }
 }

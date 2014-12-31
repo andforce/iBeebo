@@ -81,7 +81,7 @@ public class LoginBeebo extends Activity {
                 files.add("/sdcard/tencent/zebrasdk/Photoplus.jpg");
                 files.add("/sdcard/tencent/zebrasdk/Photoplus~01.jpg");
                 files.add("/sdcard/tencent/zebrasdk/Photoplus~02.jpg");
-                mUploadHelper.uploadFiles(null,files, new OnUpFilesListener() {
+                mUploadHelper.uploadFiles(null, files, new OnUpFilesListener() {
 
                     @Override
                     public void onUpSuccess(String pids) {
@@ -89,11 +89,11 @@ public class LoginBeebo extends Activity {
                         sendWeibo(pids);
                     }
 
-					@Override
-					public void onUpLoadFailed() {
-						// TODO Auto-generated method stub
-						
-					}
+                    @Override
+                    public void onUpLoadFailed() {
+                        // TODO Auto-generated method stub
+
+                    }
                 });
             }
         });

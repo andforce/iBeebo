@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -46,297 +47,298 @@ import java.util.Set;
  * User: Jiang Qi Date: 12-7-27
  */
 public final class GlobalContext extends Application {
-	public static GlobalContext instance;
+    public static GlobalContext instance;
 
-	public final static String SLEEP_INTENT = "org.videolan.vlc.SleepIntent";
+    public final static String SLEEP_INTENT = "org.videolan.vlc.SleepIntent";
 
-	// singleton
-	public static GlobalContext globalContext = null;
+    // singleton
+    public static GlobalContext globalContext = null;
 
-	// image size
-	public Activity activity = null;
+    // image size
+    public Activity activity = null;
 
-	public Activity currentRunningActivity = null;
+    public Activity currentRunningActivity = null;
 
-	public DisplayMetrics displayMetrics = null;
+    public DisplayMetrics displayMetrics = null;
 
-	// image memory cache
-	public LruCache<String, Bitmap> appBitmapCache = null;
+    // image memory cache
+    public LruCache<String, Bitmap> appBitmapCache = null;
 
-	// current account info
-	public AccountBean accountBean = null;
+    // current account info
+    public AccountBean accountBean = null;
 
-	public LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>> emotionsPic = null;
+    public LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>> emotionsPic = null;
 
-	public GroupListBean group = null;
+    public GroupListBean group = null;
 
-	public MusicInfoBean musicInfo = null;
+    public MusicInfoBean musicInfo = null;
 
-	public Handler handler;
+    public Handler handler;
 
-	public boolean tokenExpiredDialogIsShowing = false;
+    public boolean tokenExpiredDialogIsShowing = false;
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		globalContext = (GlobalContext) getApplicationContext();
-		instance = (GlobalContext) getApplicationContext();
-		
-		
-		handler = new Handler();
-		emotionsPic = new LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>>();
-		
-		initImageLoader(getApplicationContext());
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        globalContext = (GlobalContext) getApplicationContext();
+        instance = (GlobalContext) getApplicationContext();
 
-		
-		buildCache();
-		CrashManagerConstants.loadFromContext(this);
-		CrashManager.registerHandler();
-		if (Utility.isCertificateFingerprintCorrect(this)) {
-//			Crashlytics.start(this);
-		}
-	}
+        handler = new Handler();
+        emotionsPic = new LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>>();
 
-	public static GlobalContext getInstance() {
-		return globalContext;
-	}
+        initImageLoader(getApplicationContext());
 
-	public Handler getUIHandler() {
-		return handler;
-	}
+        buildCache();
+        CrashManagerConstants.loadFromContext(this);
+        CrashManager.registerHandler();
+        if (Utility.isCertificateFingerprintCorrect(this)) {
+            // Crashlytics.start(this);
+        }
+    }
 
-	public GroupListBean getGroup() {
-		if (group == null) {
-			group = GroupDBTask.get(GlobalContext.getInstance().getCurrentAccountId());
-		}
-		return group;
-	}
+    public static GlobalContext getInstance() {
+        return globalContext;
+    }
 
-	public void setGroup(GroupListBean group) {
-		this.group = group;
-	}
+    public Handler getUIHandler() {
+        return handler;
+    }
 
-	public DisplayMetrics getDisplayMetrics() {
-		if (displayMetrics != null) {
-			return displayMetrics;
-		} else {
-			Activity a = getActivity();
-			if (a != null) {
-				Display display = getActivity().getWindowManager().getDefaultDisplay();
-				DisplayMetrics metrics = new DisplayMetrics();
-				display.getMetrics(metrics);
-				this.displayMetrics = metrics;
-				return metrics;
-			} else {
-				// default screen is 800x480
-				DisplayMetrics metrics = new DisplayMetrics();
-				metrics.widthPixels = 480;
-				metrics.heightPixels = 800;
-				return metrics;
-			}
-		}
-	}
+    public GroupListBean getGroup() {
+        if (group == null) {
+            group = GroupDBTask.get(GlobalContext.getInstance().getCurrentAccountId());
+        }
+        return group;
+    }
 
-	public void setAccountBean(final AccountBean accountBean) {
-		this.accountBean = accountBean;
-	}
+    public void setGroup(GroupListBean group) {
+        this.group = group;
+    }
 
-	public void updateUserInfo(final UserBean userBean) {
-		this.accountBean.setInfo(userBean);
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				for (MyProfileInfoChangeListener listener : profileListenerSet) {
-					listener.onChange(userBean);
-				}
-			}
-		});
-	}
+    public DisplayMetrics getDisplayMetrics() {
+        if (displayMetrics != null) {
+            return displayMetrics;
+        } else {
+            Activity a = getActivity();
+            if (a != null) {
+                Display display = getActivity().getWindowManager().getDefaultDisplay();
+                DisplayMetrics metrics = new DisplayMetrics();
+                display.getMetrics(metrics);
+                this.displayMetrics = metrics;
+                return metrics;
+            } else {
+                // default screen is 800x480
+                DisplayMetrics metrics = new DisplayMetrics();
+                metrics.widthPixels = 480;
+                metrics.heightPixels = 800;
+                return metrics;
+            }
+        }
+    }
 
-	public AccountBean getAccountBean() {
-		if (accountBean == null) {
-			String id = SettingUtils.getDefaultAccountId();
-			if (!TextUtils.isEmpty(id)) {
-				accountBean = AccountDBTask.getAccount(id);
-			} else {
-				List<AccountBean> accountList = AccountDBTask.getAccountList();
-				if (accountList != null && accountList.size() > 0) {
-					accountBean = accountList.get(0);
-				}
-			}
-		}
+    public void setAccountBean(final AccountBean accountBean) {
+        this.accountBean = accountBean;
+    }
 
-		return accountBean;
-	}
+    public void updateUserInfo(final UserBean userBean) {
+        this.accountBean.setInfo(userBean);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (MyProfileInfoChangeListener listener : profileListenerSet) {
+                    listener.onChange(userBean);
+                }
+            }
+        });
+    }
 
-	private Set<MyProfileInfoChangeListener> profileListenerSet = new HashSet<MyProfileInfoChangeListener>();
+    public AccountBean getAccountBean() {
+        if (accountBean == null) {
+            String id = SettingUtils.getDefaultAccountId();
+            if (!TextUtils.isEmpty(id)) {
+                accountBean = AccountDBTask.getAccount(id);
+            } else {
+                List<AccountBean> accountList = AccountDBTask.getAccountList();
+                if (accountList != null && accountList.size() > 0) {
+                    accountBean = accountList.get(0);
+                }
+            }
+        }
 
-	public void registerForAccountChangeListener(MyProfileInfoChangeListener listener) {
-		if (listener != null) {
-			profileListenerSet.add(listener);
-		}
-	}
+        return accountBean;
+    }
 
-	public void unRegisterForAccountChangeListener(MyProfileInfoChangeListener listener) {
-		profileListenerSet.remove(listener);
-	}
+    private Set<MyProfileInfoChangeListener> profileListenerSet = new HashSet<MyProfileInfoChangeListener>();
 
-	public static interface MyProfileInfoChangeListener {
+    public void registerForAccountChangeListener(MyProfileInfoChangeListener listener) {
+        if (listener != null) {
+            profileListenerSet.add(listener);
+        }
+    }
 
-		public void onChange(UserBean newUserBean);
-	}
+    public void unRegisterForAccountChangeListener(MyProfileInfoChangeListener listener) {
+        profileListenerSet.remove(listener);
+    }
 
-	public String getCurrentAccountId() {
-		return getAccountBean().getUid();
-	}
+    public static interface MyProfileInfoChangeListener {
 
-	public String getCurrentAccountName() {
+        public void onChange(UserBean newUserBean);
+    }
 
-		return getAccountBean().getUsernick();
-	}
+    public String getCurrentAccountId() {
+        return getAccountBean().getUid();
+    }
 
-	public synchronized LruCache<String, Bitmap> getBitmapCache() {
-		if (appBitmapCache == null) {
-			buildCache();
-		}
-		return appBitmapCache;
-	}
+    public String getCurrentAccountName() {
 
-	public String getSpecialToken() {
-		if (getAccountBean() != null) {
-			return getAccountBean().getAccess_token();
-		} else {
-			return "";
-		}
-	}
+        return getAccountBean().getUsernick();
+    }
 
-	public Activity getActivity() {
-		return activity;
-	}
+    public synchronized LruCache<String, Bitmap> getBitmapCache() {
+        if (appBitmapCache == null) {
+            buildCache();
+        }
+        return appBitmapCache;
+    }
 
-	public void setActivity(Activity activity) {
-		this.activity = activity;
-	}
+    public String getSpecialToken() {
+        if (getAccountBean() != null) {
+            return getAccountBean().getAccess_token();
+        } else {
+            return "";
+        }
+    }
 
-	public Activity getCurrentRunningActivity() {
-		return currentRunningActivity;
-	}
+    public Activity getActivity() {
+        return activity;
+    }
 
-	public void setCurrentRunningActivity(Activity currentRunningActivity) {
-		this.currentRunningActivity = currentRunningActivity;
-	}
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
-	private void buildCache() {
-		int memClass = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+    public Activity getCurrentRunningActivity() {
+        return currentRunningActivity;
+    }
 
-		int cacheSize = Math.max(1024 * 1024 * 8, 1024 * 1024 * memClass / 5);
+    public void setCurrentRunningActivity(Activity currentRunningActivity) {
+        this.currentRunningActivity = currentRunningActivity;
+    }
 
-		appBitmapCache = new LruCache<String, Bitmap>(cacheSize) {
-			@Override
-			protected int sizeOf(String key, Bitmap bitmap) {
+    private void buildCache() {
+        int memClass = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
 
-				return bitmap.getByteCount();
-			}
-		};
-	}
+        int cacheSize = Math.max(1024 * 1024 * 8, 1024 * 1024 * memClass / 5);
 
-	public synchronized Map<String, Bitmap> getEmotionsPics() {
-		if (emotionsPic != null && emotionsPic.size() > 0) {
-			return emotionsPic.get(SmileyMap.GENERAL_EMOTION_POSITION);
-		} else {
-			getEmotionsTask();
-			return emotionsPic.get(SmileyMap.GENERAL_EMOTION_POSITION);
-		}
-	}
+        appBitmapCache = new LruCache<String, Bitmap>(cacheSize) {
+            @Override
+            protected int sizeOf(String key, Bitmap bitmap) {
 
-	public synchronized Map<String, Bitmap> getHuahuaPics() {
-		if (emotionsPic != null && emotionsPic.size() > 0) {
-			return emotionsPic.get(SmileyMap.HUAHUA_EMOTION_POSITION);
-		} else {
-			getEmotionsTask();
-			return emotionsPic.get(SmileyMap.HUAHUA_EMOTION_POSITION);
-		}
-	}
+                return bitmap.getByteCount();
+            }
+        };
+    }
 
-	private void getEmotionsTask() {
-		Map<String, String> general = SmileyMap.getInstance().getGeneral();
-		emotionsPic.put(SmileyMap.GENERAL_EMOTION_POSITION, getEmotionsTask(general));
-		Map<String, String> huahua = SmileyMap.getInstance().getHuahua();
-		emotionsPic.put(SmileyMap.HUAHUA_EMOTION_POSITION, getEmotionsTask(huahua));
-	}
+    public synchronized Map<String, Bitmap> getEmotionsPics() {
+        if (emotionsPic != null && emotionsPic.size() > 0) {
+            return emotionsPic.get(SmileyMap.GENERAL_EMOTION_POSITION);
+        } else {
+            getEmotionsTask();
+            return emotionsPic.get(SmileyMap.GENERAL_EMOTION_POSITION);
+        }
+    }
 
-	private LinkedHashMap<String, Bitmap> getEmotionsTask(Map<String, String> emotionMap) {
-		List<String> index = new ArrayList<String>();
-		index.addAll(emotionMap.keySet());
-		LinkedHashMap<String, Bitmap> bitmapMap = new LinkedHashMap<String, Bitmap>();
-		for (String str : index) {
-			String name = emotionMap.get(str);
-			AssetManager assetManager = GlobalContext.getInstance().getAssets();
-			InputStream inputStream;
-			try {
-				inputStream = assetManager.open(name);
-				Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-				if (bitmap != null) {
-					Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, Utility.dip2px(getResources().getInteger(R.integer.emotion_size)),
-							Utility.dip2px(getResources().getInteger(R.integer.emotion_size)), true);
-					if (bitmap != scaledBitmap) {
-						bitmap.recycle();
-						bitmap = scaledBitmap;
-					}
-					bitmapMap.put(str, bitmap);
-				}
-			} catch (IOException ignored) {
+    public synchronized Map<String, Bitmap> getHuahuaPics() {
+        if (emotionsPic != null && emotionsPic.size() > 0) {
+            return emotionsPic.get(SmileyMap.HUAHUA_EMOTION_POSITION);
+        } else {
+            getEmotionsTask();
+            return emotionsPic.get(SmileyMap.HUAHUA_EMOTION_POSITION);
+        }
+    }
 
-			}
-		}
+    private void getEmotionsTask() {
+        Map<String, String> general = SmileyMap.getInstance().getGeneral();
+        emotionsPic.put(SmileyMap.GENERAL_EMOTION_POSITION, getEmotionsTask(general));
+        Map<String, String> huahua = SmileyMap.getInstance().getHuahua();
+        emotionsPic.put(SmileyMap.HUAHUA_EMOTION_POSITION, getEmotionsTask(huahua));
+    }
 
-		return bitmapMap;
-	}
+    private LinkedHashMap<String, Bitmap> getEmotionsTask(Map<String, String> emotionMap) {
+        List<String> index = new ArrayList<String>();
+        index.addAll(emotionMap.keySet());
+        LinkedHashMap<String, Bitmap> bitmapMap = new LinkedHashMap<String, Bitmap>();
+        for (String str : index) {
+            String name = emotionMap.get(str);
+            AssetManager assetManager = GlobalContext.getInstance().getAssets();
+            InputStream inputStream;
+            try {
+                inputStream = assetManager.open(name);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                if (bitmap != null) {
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,
+                            Utility.dip2px(getResources().getInteger(R.integer.emotion_size)),
+                            Utility.dip2px(getResources().getInteger(R.integer.emotion_size)), true);
+                    if (bitmap != scaledBitmap) {
+                        bitmap.recycle();
+                        bitmap = scaledBitmap;
+                    }
+                    bitmapMap.put(str, bitmap);
+                }
+            } catch (IOException ignored) {
 
-	public void updateMusicInfo(MusicInfoBean musicInfo) {
-		if (musicInfo == null) {
-			musicInfo = new MusicInfoBean();
-		}
-		this.musicInfo = musicInfo;
-	}
+            }
+        }
 
-	public MusicInfoBean getMusicInfo() {
-		return musicInfo;
-	}
+        return bitmapMap;
+    }
 
-	public boolean checkUserIsLogin() {
-		return getInstance().getAccountBean() != null;
-	}
+    public void updateMusicInfo(MusicInfoBean musicInfo) {
+        if (musicInfo == null) {
+            musicInfo = new MusicInfoBean();
+        }
+        this.musicInfo = musicInfo;
+    }
 
-	public static void initImageLoader(Context context) {
-		// This configuration tuning is custom. You can tune every option, you
-		// may tune some of them,
-		// or you can create default configuration by
-		// ImageLoaderConfiguration.createDefault(this);
-		// method.
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).threadPriority(Thread.NORM_PRIORITY - 2)
-				.denyCacheImageMultipleSizesInMemory().memoryCache(new UsingFreqLimitedMemoryCache(5 * 1024 * 1024)).diskCacheFileCount(Integer.MAX_VALUE)
-				.diskCacheFileNameGenerator(new Md5FileNameGenerator()).tasksProcessingOrder(QueueProcessingType.LIFO)
-				// .writeDebugLogs() // Remove for release app
-				.build();
-		// Initialize ImageLoader with configuration.
-		ImageLoader.getInstance().init(config);
-	}
+    public MusicInfoBean getMusicInfo() {
+        return musicInfo;
+    }
 
-	/**
-	 * @return the main context of the Application
-	 */
-	public static Context getAppContext() {
-		return instance;
-	}
+    public boolean checkUserIsLogin() {
+        return getInstance().getAccountBean() != null;
+    }
 
-	/**
-	 * @return the main resources from the Application
-	 */
-	public static Resources getAppResources() {
-		if (instance == null)
-			return null;
-		return instance.getResources();
-	}
+    public static void initImageLoader(Context context) {
+        // This configuration tuning is custom. You can tune every option, you
+        // may tune some of them,
+        // or you can create default configuration by
+        // ImageLoaderConfiguration.createDefault(this);
+        // method.
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory().memoryCache(new UsingFreqLimitedMemoryCache(5 * 1024 * 1024))
+                .diskCacheFileCount(Integer.MAX_VALUE)
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator()).tasksProcessingOrder(QueueProcessingType.LIFO)
+                // .writeDebugLogs() // Remove for release app
+                .build();
+        // Initialize ImageLoader with configuration.
+        ImageLoader.getInstance().init(config);
+    }
+
+    /**
+     * @return the main context of the Application
+     */
+    public static Context getAppContext() {
+        return instance;
+    }
+
+    /**
+     * @return the main resources from the Application
+     */
+    public static Resources getAppResources() {
+        if (instance == null)
+            return null;
+        return instance.getResources();
+    }
 
 }

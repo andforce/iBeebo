@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.othercomponent;
 
 import org.zarroboogs.utils.AppLoggerUtils;
@@ -14,18 +15,18 @@ import android.text.TextUtils;
  */
 public class MusicReceiver extends RecordOperationAppBroadcastReceiver {
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		String artist = intent.getStringExtra("artist");
-		String album = intent.getStringExtra("album");
-		String track = intent.getStringExtra("track");
-		if (!TextUtils.isEmpty(track)) {
-			MusicInfoBean musicInfo = new MusicInfoBean();
-			musicInfo.setArtist(artist);
-			musicInfo.setAlbum(album);
-			musicInfo.setTrack(track);
-			AppLoggerUtils.d("Music" + artist + ":" + album + ":" + track);
-			GlobalContext.getInstance().updateMusicInfo(musicInfo);
-		}
-	}
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String artist = intent.getStringExtra("artist");
+        String album = intent.getStringExtra("album");
+        String track = intent.getStringExtra("track");
+        if (!TextUtils.isEmpty(track)) {
+            MusicInfoBean musicInfo = new MusicInfoBean();
+            musicInfo.setArtist(artist);
+            musicInfo.setAlbum(album);
+            musicInfo.setTrack(track);
+            AppLoggerUtils.d("Music" + artist + ":" + album + ":" + track);
+            GlobalContext.getInstance().updateMusicInfo(musicInfo);
+        }
+    }
 }

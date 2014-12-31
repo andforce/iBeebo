@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.widget;
 
 import android.content.Context;
@@ -10,48 +11,48 @@ import android.widget.ImageView;
  */
 public class PerformanceImageView extends ImageView {
 
-	private boolean mMeasuredExactly = false;
+    private boolean mMeasuredExactly = false;
 
-	private boolean mBlockMeasurement = false;
+    private boolean mBlockMeasurement = false;
 
-	public PerformanceImageView(Context context) {
-		super(context);
-	}
+    public PerformanceImageView(Context context) {
+        super(context);
+    }
 
-	public PerformanceImageView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public PerformanceImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	public PerformanceImageView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-	}
+    public PerformanceImageView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
 
-	@Override
-	public void setImageDrawable(Drawable drawable) {
-		mBlockMeasurement = true;
-		super.setImageDrawable(drawable);
-		mBlockMeasurement = false;
-	}
+    @Override
+    public void setImageDrawable(Drawable drawable) {
+        mBlockMeasurement = true;
+        super.setImageDrawable(drawable);
+        mBlockMeasurement = false;
+    }
 
-	@Override
-	public void requestLayout() {
-		if (mBlockMeasurement && mMeasuredExactly) {
-			// Ignore request
+    @Override
+    public void requestLayout() {
+        if (mBlockMeasurement && mMeasuredExactly) {
+            // Ignore request
 
-		} else {
-			super.requestLayout();
-		}
-	}
+        } else {
+            super.requestLayout();
+        }
+    }
 
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		mMeasuredExactly = isMeasuredExactly(widthMeasureSpec, heightMeasureSpec);
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-	}
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        mMeasuredExactly = isMeasuredExactly(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
 
-	private boolean isMeasuredExactly(int widthMeasureSpec, int heightMeasureSpec) {
-		int widthMeasureSpecMode = MeasureSpec.getMode(widthMeasureSpec);
-		int heightMeasureSpecMode = MeasureSpec.getMode(heightMeasureSpec);
-		return widthMeasureSpecMode == MeasureSpec.EXACTLY && heightMeasureSpecMode == MeasureSpec.EXACTLY;
-	}
+    private boolean isMeasuredExactly(int widthMeasureSpec, int heightMeasureSpec) {
+        int widthMeasureSpecMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMeasureSpecMode = MeasureSpec.getMode(heightMeasureSpec);
+        return widthMeasureSpecMode == MeasureSpec.EXACTLY && heightMeasureSpecMode == MeasureSpec.EXACTLY;
+    }
 }

@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -14,39 +15,38 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * User: qii Date: 13-2-15
- * http://open.weibo.com/wiki/2/friendships/groups/create
+ * User: qii Date: 13-2-15 http://open.weibo.com/wiki/2/friendships/groups/create
  */
 public class CreateGroupDao {
 
-	public GroupBean create() throws WeiboException {
+    public GroupBean create() throws WeiboException {
 
-		String url = WeiBoURLs.GROUP_CREATE;
+        String url = WeiBoURLs.GROUP_CREATE;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("name", name);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("name", name);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, map);
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		GroupBean value = null;
-		try {
-			value = gson.fromJson(jsonData, GroupBean.class);
-		} catch (JsonSyntaxException e) {
-			AppLoggerUtils.e(e.getMessage());
-		}
+        GroupBean value = null;
+        try {
+            value = gson.fromJson(jsonData, GroupBean.class);
+        } catch (JsonSyntaxException e) {
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	public CreateGroupDao(String token, String name) {
-		this.access_token = token;
-		this.name = name;
-	}
+    public CreateGroupDao(String token, String name) {
+        this.access_token = token;
+        this.name = name;
+    }
 
-	private String access_token;
-	private String name;
+    private String access_token;
+    private String name;
 
 }

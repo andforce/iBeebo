@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.selectphoto;
 
 import java.io.FileNotFoundException;
@@ -26,161 +27,161 @@ import android.widget.Toast;
 
 public class ImgsActivity extends Activity {
 
-	public static final int REQUEST_CODE = 0x0001;
-	SendImgData mSendImgData = SendImgData.getInstance();
-	Bundle bundle;
-	FileTraversal fileTraversal;
-	GridView imgGridView;
-	ImgsAdapter imgsAdapter;
-	Util util;
-	Button mButton;
-	HashMap<Integer, ImageView> hashImage;
+    public static final int REQUEST_CODE = 0x0001;
+    SendImgData mSendImgData = SendImgData.getInstance();
+    Bundle bundle;
+    FileTraversal fileTraversal;
+    GridView imgGridView;
+    ImgsAdapter imgsAdapter;
+    Util util;
+    Button mButton;
+    HashMap<Integer, ImageView> hashImage;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.photogrally);
-//		ActionBar actionBar = getActionBar();
-//		actionBar.setHomeButtonEnabled(true);
-//		actionBar.setDisplayHomeAsUpEnabled(true);
-//		actionBar.setDisplayShowHomeEnabled(true);
-//		actionBar.show();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.photogrally);
+        // ActionBar actionBar = getActionBar();
+        // actionBar.setHomeButtonEnabled(true);
+        // actionBar.setDisplayHomeAsUpEnabled(true);
+        // actionBar.setDisplayShowHomeEnabled(true);
+        // actionBar.show();
 
-		mButton = (Button) findViewById(R.id.img_select_done);
-		updateCount();
-		mButton.setOnClickListener(new SelectDoneListener());
-		imgGridView = (GridView) findViewById(R.id.gridView1);
-		bundle = getIntent().getExtras();
-		fileTraversal = bundle.getParcelable("data");
-		imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent, onItemClickClass);
-		imgGridView.setAdapter(imgsAdapter);
-		hashImage = new HashMap<Integer, ImageView>();
-		util = new Util(this);
-	}
+        mButton = (Button) findViewById(R.id.img_select_done);
+        updateCount();
+        mButton.setOnClickListener(new SelectDoneListener());
+        imgGridView = (GridView) findViewById(R.id.gridView1);
+        bundle = getIntent().getExtras();
+        fileTraversal = bundle.getParcelable("data");
+        imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent, onItemClickClass);
+        imgGridView.setAdapter(imgsAdapter);
+        hashImage = new HashMap<Integer, ImageView>();
+        util = new Util(this);
+    }
 
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(this.getClass().getName());
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getName());
+        MobclickAgent.onResume(this);
+    }
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPageEnd(this.getClass().getName());
-		MobclickAgent.onPause(this);
-	}
-	
-	private void updateCount() {
-		mButton.setText(getString(R.string.img_select) + "(" + mSendImgData.getSendImgs().size() + ")");
-	}
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getName());
+        MobclickAgent.onPause(this);
+    }
 
-	class SelectDoneListener implements OnClickListener {
+    private void updateCount() {
+        mButton.setText(getString(R.string.img_select) + "(" + mSendImgData.getSendImgs().size() + ")");
+    }
 
-		@Override
-		public void onClick(View v) {
-			setResult(RESULT_OK);
-			finish();
-		}
+    class SelectDoneListener implements OnClickListener {
 
-	}
+        @Override
+        public void onClick(View v) {
+            setResult(RESULT_OK);
+            finish();
+        }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			finish();
-			break;
+    }
 
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		getMenuInflater().inflate(R.menu.imgs_action_bars, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-	class BottomImgIcon implements OnItemClickListener {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // TODO Auto-generated method stub
+        getMenuInflater().inflate(R.menu.imgs_action_bars, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-		int index;
+    class BottomImgIcon implements OnItemClickListener {
 
-		public BottomImgIcon(int index) {
-			this.index = index;
-		}
+        int index;
 
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        public BottomImgIcon(int index) {
+            this.index = index;
+        }
 
-		}
-	}
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
-	public ImageView iconImage(String filepath, int index, CheckBox checkBox) throws FileNotFoundException {
-		ImageView imageView = new ImageView(this);
-		imageView.setBackgroundResource(R.drawable.imgbg);
-		float alpha = 100;
-		imageView.setAlpha(alpha);
-		util.imgExcute(imageView, imgCallBack, filepath);
-		imageView.setOnClickListener(new ImgOnclick(filepath, checkBox));
-		return imageView;
-	}
+        }
+    }
 
-	ImgCallBack imgCallBack = new ImgCallBack() {
-		@Override
-		public void resultImgCall(ImageView imageView, Bitmap bitmap) {
-			imageView.setImageBitmap(bitmap);
-		}
-	};
+    public ImageView iconImage(String filepath, int index, CheckBox checkBox) throws FileNotFoundException {
+        ImageView imageView = new ImageView(this);
+        imageView.setBackgroundResource(R.drawable.imgbg);
+        float alpha = 100;
+        imageView.setAlpha(alpha);
+        util.imgExcute(imageView, imgCallBack, filepath);
+        imageView.setOnClickListener(new ImgOnclick(filepath, checkBox));
+        return imageView;
+    }
 
-	class ImgOnclick implements OnClickListener {
-		String filepath;
-		CheckBox checkBox;
+    ImgCallBack imgCallBack = new ImgCallBack() {
+        @Override
+        public void resultImgCall(ImageView imageView, Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
+        }
+    };
 
-		public ImgOnclick(String filepath, CheckBox checkBox) {
-			this.filepath = filepath;
-			this.checkBox = checkBox;
-		}
+    class ImgOnclick implements OnClickListener {
+        String filepath;
+        CheckBox checkBox;
 
-		@Override
-		public void onClick(View arg0) {
-			checkBox.setChecked(false);
-		}
-	}
+        public ImgOnclick(String filepath, CheckBox checkBox) {
+            this.filepath = filepath;
+            this.checkBox = checkBox;
+        }
 
-	ImgsAdapter.OnItemClickClass onItemClickClass = new OnItemClickClass() {
-		@Override
-		public void OnItemClick(View v, int Position, CheckBox checkBox) {
-			String filapath = fileTraversal.filecontent.get(Position);
-			if (checkBox.isChecked()) {
-				checkBox.setChecked(false);
-				mSendImgData.removeSendImg(filapath);
-			} else {
-				try {
-					if (mSendImgData.getSendImgs().size() >= 9) {
-						Toast.makeText(getApplicationContext(), R.string.send_tomanay_pics, Toast.LENGTH_SHORT).show();
-					} else {
-						checkBox.setChecked(true);
-						Log.i("img", "img choise position->" + Position);
-						ImageView imageView = iconImage(filapath, Position, checkBox);
-						if (imageView != null) {
-							hashImage.put(Position, imageView);
-							mSendImgData.addSendImg(filapath);
-						}
-					}
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-			}
+        @Override
+        public void onClick(View arg0) {
+            checkBox.setChecked(false);
+        }
+    }
 
-			updateCount();
-		}
-	};
+    ImgsAdapter.OnItemClickClass onItemClickClass = new OnItemClickClass() {
+        @Override
+        public void OnItemClick(View v, int Position, CheckBox checkBox) {
+            String filapath = fileTraversal.filecontent.get(Position);
+            if (checkBox.isChecked()) {
+                checkBox.setChecked(false);
+                mSendImgData.removeSendImg(filapath);
+            } else {
+                try {
+                    if (mSendImgData.getSendImgs().size() >= 9) {
+                        Toast.makeText(getApplicationContext(), R.string.send_tomanay_pics, Toast.LENGTH_SHORT).show();
+                    } else {
+                        checkBox.setChecked(true);
+                        Log.i("img", "img choise position->" + Position);
+                        ImageView imageView = iconImage(filapath, Position, checkBox);
+                        if (imageView != null) {
+                            hashImage.put(Position, imageView);
+                            mSendImgData.addSendImg(filapath);
+                        }
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            updateCount();
+        }
+    };
 }

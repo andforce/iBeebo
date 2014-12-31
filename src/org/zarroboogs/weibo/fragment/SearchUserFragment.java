@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.fragment;
 
 import android.os.Bundle;
@@ -20,67 +21,68 @@ import java.util.List;
  */
 public class SearchUserFragment extends AbstractUserListFragment {
 
-	private int page = 1;
+    private int page = 1;
 
-	public SearchUserFragment() {
-		super();
-	}
+    public SearchUserFragment() {
+        super();
+    }
 
-	public void search() {
-		pullToRefreshListView.setRefreshing();
-		loadNewMsg();
-	}
+    public void search() {
+        pullToRefreshListView.setRefreshing();
+        loadNewMsg();
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRetainInstance(false);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(false);
+    }
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-		// don't need refresh menu
+        // don't need refresh menu
 
-	}
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-	    super.onViewCreated(view, savedInstanceState);
-//	    getBaseToolbar().setVisibility(View.GONE);
-	}
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		if (savedInstanceState != null) {
-			clearAndReplaceValue((UserListBean) savedInstanceState.getParcelable(Constants.BEAN));
-			getAdapter().notifyDataSetChanged();
-		}
-		refreshLayout(bean);
-	}
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // getBaseToolbar().setVisibility(View.GONE);
+    }
 
-	@Override
-	protected void oldUserLoaderSuccessCallback(UserListBean newValue) {
-		if (newValue != null && newValue.getUsers().size() > 0) {
-			List<UserBean> list = newValue.getUsers();
-			getList().getUsers().addAll(list);
-			page++;
-		}
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            clearAndReplaceValue((UserListBean) savedInstanceState.getParcelable(Constants.BEAN));
+            getAdapter().notifyDataSetChanged();
+        }
+        refreshLayout(bean);
+    }
 
-	@Override
-	protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
-		String token = GlobalContext.getInstance().getSpecialToken();
-		String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
-		page = 1;
-		return new SearchUserLoader(getActivity(), token, word, String.valueOf(page));
-	}
+    @Override
+    protected void oldUserLoaderSuccessCallback(UserListBean newValue) {
+        if (newValue != null && newValue.getUsers().size() > 0) {
+            List<UserBean> list = newValue.getUsers();
+            getList().getUsers().addAll(list);
+            page++;
+        }
+    }
 
-	@Override
-	protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateOldUserLoader(int id, Bundle args) {
-		String token = GlobalContext.getInstance().getSpecialToken();
-		String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
-		return new SearchUserLoader(getActivity(), token, word, String.valueOf(page + 1));
-	}
+    @Override
+    protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
+        String token = GlobalContext.getInstance().getSpecialToken();
+        String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
+        page = 1;
+        return new SearchUserLoader(getActivity(), token, word, String.valueOf(page));
+    }
+
+    @Override
+    protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateOldUserLoader(int id, Bundle args) {
+        String token = GlobalContext.getInstance().getSpecialToken();
+        String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
+        return new SearchUserLoader(getActivity(), token, word, String.valueOf(page + 1));
+    }
 
 }

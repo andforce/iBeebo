@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -18,36 +19,36 @@ import java.util.Map;
  */
 public class ShowStatusDao {
 
-	private String access_token;
-	private String id;
+    private String access_token;
+    private String id;
 
-	public ShowStatusDao(String access_token, String id) {
+    public ShowStatusDao(String access_token, String id) {
 
-		this.access_token = access_token;
-		this.id = id;
-	}
+        this.access_token = access_token;
+        this.id = id;
+    }
 
-	public MessageBean getMsg() throws WeiboException {
+    public MessageBean getMsg() throws WeiboException {
 
-		String url = WeiBoURLs.STATUSES_SHOW;
+        String url = WeiBoURLs.STATUSES_SHOW;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("id", id);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("id", id);
 
-		String json = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        String json = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		MessageBean value = null;
-		try {
-			value = gson.fromJson(json, MessageBean.class);
-		} catch (JsonSyntaxException e) {
+        MessageBean value = null;
+        try {
+            value = gson.fromJson(json, MessageBean.class);
+        } catch (JsonSyntaxException e) {
 
-			AppLoggerUtils.e(e.getMessage());
-		}
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		return value;
+        return value;
 
-	}
+    }
 }

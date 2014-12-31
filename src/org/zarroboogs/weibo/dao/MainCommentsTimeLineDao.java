@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -23,101 +24,101 @@ import java.util.Map;
  */
 public class MainCommentsTimeLineDao implements ICommentsTimeLineDao {
 
-	public void setSince_id(String since_id) {
-		this.since_id = since_id;
-	}
+    public void setSince_id(String since_id) {
+        this.since_id = since_id;
+    }
 
-	public void setMax_id(String max_id) {
-		this.max_id = max_id;
-	}
+    public void setMax_id(String max_id) {
+        this.max_id = max_id;
+    }
 
-	public MainCommentsTimeLineDao setCount(String count) {
-		this.count = count;
-		return this;
-	}
+    public MainCommentsTimeLineDao setCount(String count) {
+        this.count = count;
+        return this;
+    }
 
-	public void setPage(String page) {
-		this.page = page;
-	}
+    public void setPage(String page) {
+        this.page = page;
+    }
 
-	public void setFilter_by_author(String filter_by_author) {
-		this.filter_by_author = filter_by_author;
-	}
+    public void setFilter_by_author(String filter_by_author) {
+        this.filter_by_author = filter_by_author;
+    }
 
-	protected String access_token;
-	private String since_id;
-	private String max_id;
-	private String count;
-	private String page;
-	private String filter_by_author;
-	private String filter_by_source;
+    protected String access_token;
+    private String since_id;
+    private String max_id;
+    private String count;
+    private String page;
+    private String filter_by_author;
+    private String filter_by_source;
 
-	public MainCommentsTimeLineDao(String access_token) {
+    public MainCommentsTimeLineDao(String access_token) {
 
-		this.access_token = access_token;
-		this.count = SettingUtils.getMsgCount();
-	}
+        this.access_token = access_token;
+        this.count = SettingUtils.getMsgCount();
+    }
 
-	protected String getUrl() {
-		return WeiBoURLs.COMMENTS_TO_ME_TIMELINE;
-	}
+    protected String getUrl() {
+        return WeiBoURLs.COMMENTS_TO_ME_TIMELINE;
+    }
 
-	public CommentListBean getGSONMsgListWithoutClearUnread() throws WeiboException {
+    public CommentListBean getGSONMsgListWithoutClearUnread() throws WeiboException {
 
-		String url = getUrl();
+        String url = getUrl();
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("since_id", since_id);
-		map.put("max_id", max_id);
-		map.put("count", count);
-		map.put("page", page);
-		map.put("filter_by_author", filter_by_author);
-		map.put("filter_by_source", filter_by_source);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("since_id", since_id);
+        map.put("max_id", max_id);
+        map.put("count", count);
+        map.put("page", page);
+        map.put("filter_by_author", filter_by_author);
+        map.put("filter_by_source", filter_by_source);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		CommentListBean value = null;
-		try {
-			value = gson.fromJson(jsonData, CommentListBean.class);
-		} catch (JsonSyntaxException e) {
-			AppLoggerUtils.e(e.getMessage());
-		}
+        CommentListBean value = null;
+        try {
+            value = gson.fromJson(jsonData, CommentListBean.class);
+        } catch (JsonSyntaxException e) {
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		if (value != null && value.getSize() > 0) {
-			List<CommentBean> msgList = value.getItemList();
-			Iterator<CommentBean> iterator = msgList.iterator();
-			while (iterator.hasNext()) {
+        if (value != null && value.getSize() > 0) {
+            List<CommentBean> msgList = value.getItemList();
+            Iterator<CommentBean> iterator = msgList.iterator();
+            while (iterator.hasNext()) {
 
-				CommentBean msg = iterator.next();
-				if (msg.getUser() == null) {
-					iterator.remove();
-				} else {
-					msg.getListViewSpannableString();
-					TimeUtility.dealMills(msg);
-				}
-			}
+                CommentBean msg = iterator.next();
+                if (msg.getUser() == null) {
+                    iterator.remove();
+                } else {
+                    msg.getListViewSpannableString();
+                    TimeUtility.dealMills(msg);
+                }
+            }
 
-		}
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	public CommentListBean getGSONMsgList() throws WeiboException {
+    public CommentListBean getGSONMsgList() throws WeiboException {
 
-		CommentListBean value = getGSONMsgListWithoutClearUnread();
+        CommentListBean value = getGSONMsgListWithoutClearUnread();
 
-		clearUnread();
-		return value;
-	}
+        clearUnread();
+        return value;
+    }
 
-	protected void clearUnread() {
-		try {
-			new ClearUnreadDao(access_token, ClearUnreadDao.CMT).clearUnread();
-		} catch (WeiboException ignored) {
+    protected void clearUnread() {
+        try {
+            new ClearUnreadDao(access_token, ClearUnreadDao.CMT).clearUnread();
+        } catch (WeiboException ignored) {
 
-		}
-	}
+        }
+    }
 }

@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.weibo.GlobalContext;
@@ -26,204 +27,213 @@ import android.view.ViewGroup;
 
 public class CommentsTimeLineFragment extends BaseStateFragment implements MainTimeLineActivity.ScrollableListFragment {
 
-	private ViewPager viewPager;
+    private ViewPager viewPager;
 
-	private SparseArray<Fragment> childrenFragments = new SparseArray<Fragment>();
+    private SparseArray<Fragment> childrenFragments = new SparseArray<Fragment>();
 
-	public static final int COMMENTS_TO_ME_CHILD_POSITION = 0;
+    public static final int COMMENTS_TO_ME_CHILD_POSITION = 0;
 
-	public static final int COMMENTS_BY_ME_CHILD_POSITION = 1;
-	private SlidingTabLayout mSlidingTabLayout;
+    public static final int COMMENTS_BY_ME_CHILD_POSITION = 1;
+    private SlidingTabLayout mSlidingTabLayout;
 
-	public static CommentsTimeLineFragment newInstance() {
-		CommentsTimeLineFragment fragment = new CommentsTimeLineFragment();
-		fragment.setArguments(new Bundle());
-		return fragment;
-	}
+    public static CommentsTimeLineFragment newInstance() {
+        CommentsTimeLineFragment fragment = new CommentsTimeLineFragment();
+        fragment.setArguments(new Bundle());
+        return fragment;
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-		if ((((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).getCurrentIndex() == LeftMenuFragment.COMMENTS_INDEX) {
-			buildActionBarAndViewPagerTitles(((MainTimeLineActivity) getActivity()).getLeftMenuFragment().commentsTabIndex);
-		}
-	}
+        if ((((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).getCurrentIndex() == LeftMenuFragment.COMMENTS_INDEX) {
+            buildActionBarAndViewPagerTitles(((MainTimeLineActivity) getActivity()).getLeftMenuFragment().commentsTabIndex);
+        }
+    }
 
-//	private ActionBar.Tab buildCommentsByMeTab(SimpleTwoTabsListener tabListener) {
-//		View customView = getActivity().getLayoutInflater().inflate(R.layout.ab_tab_custom_view_layout, null);
-//		((TextView) customView.findViewById(R.id.title)).setText(R.string.my_comment);
-//		ActionBar.Tab commentsByMeTab = getActivity().getActionBar().newTab().setCustomView(customView).setTag(CommentsByMeTimeLineFragment.class.getName())
-//				.setTabListener(tabListener);
-//		tabMap.append(COMMENTS_BY_ME_CHILD_POSITION, commentsByMeTab);
-//		return commentsByMeTab;
-//	}
-//
-//	private ActionBar.Tab buildCommentsToMeTab(SimpleTwoTabsListener tabListener) {
-//		View customView = getActivity().getLayoutInflater().inflate(R.layout.ab_tab_custom_view_layout, null);
-//		((TextView) customView.findViewById(R.id.title)).setText(R.string.all_people_send_to_me);
-//		ActionBar.Tab commentsToMeTab = getActivity().getActionBar().newTab().setCustomView(customView).setTag(CommentsToMeTimeLineFragment.class.getName())
-//				.setTabListener(tabListener);
-//		tabMap.append(COMMENTS_TO_ME_CHILD_POSITION, commentsToMeTab);
-//		return commentsToMeTab;
-//	}
+    // private ActionBar.Tab buildCommentsByMeTab(SimpleTwoTabsListener tabListener) {
+    // View customView =
+    // getActivity().getLayoutInflater().inflate(R.layout.ab_tab_custom_view_layout, null);
+    // ((TextView) customView.findViewById(R.id.title)).setText(R.string.my_comment);
+    // ActionBar.Tab commentsByMeTab =
+    // getActivity().getActionBar().newTab().setCustomView(customView).setTag(CommentsByMeTimeLineFragment.class.getName())
+    // .setTabListener(tabListener);
+    // tabMap.append(COMMENTS_BY_ME_CHILD_POSITION, commentsByMeTab);
+    // return commentsByMeTab;
+    // }
+    //
+    // private ActionBar.Tab buildCommentsToMeTab(SimpleTwoTabsListener tabListener) {
+    // View customView =
+    // getActivity().getLayoutInflater().inflate(R.layout.ab_tab_custom_view_layout, null);
+    // ((TextView) customView.findViewById(R.id.title)).setText(R.string.all_people_send_to_me);
+    // ActionBar.Tab commentsToMeTab =
+    // getActivity().getActionBar().newTab().setCustomView(customView).setTag(CommentsToMeTimeLineFragment.class.getName())
+    // .setTabListener(tabListener);
+    // tabMap.append(COMMENTS_TO_ME_CHILD_POSITION, commentsToMeTab);
+    // return commentsToMeTab;
+    // }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.comments_time_line_fragment_layout, container, false);
-		viewPager = (ViewPager) view.findViewById(R.id.commentsViewpager);
-		mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.commentsSlingTab);
-		return view;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.comments_time_line_fragment_layout, container, false);
+        viewPager = (ViewPager) view.findViewById(R.id.commentsViewpager);
+        mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.commentsSlingTab);
+        return view;
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
-		viewPager.setOffscreenPageLimit(2);
-		viewPager.setOnPageChangeListener(onPageChangeListener);
-		CommentsTimeLinePagerAdapter adapter = new CommentsTimeLinePagerAdapter(this, viewPager, getChildFragmentManager(), childrenFragments);
-		viewPager.setAdapter(adapter);
-		mSlidingTabLayout.setViewPager(viewPager);
-	}
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOnPageChangeListener(onPageChangeListener);
+        CommentsTimeLinePagerAdapter adapter = new CommentsTimeLinePagerAdapter(this, viewPager, getChildFragmentManager(),
+                childrenFragments);
+        viewPager.setAdapter(adapter);
+        mSlidingTabLayout.setViewPager(viewPager);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		Intent intent = getActivity().getIntent();
-		if (intent == null) {
-			return;
-		}
-		UnreadTabIndex unreadTabIndex = (UnreadTabIndex) intent.getSerializableExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA);
-		if (unreadTabIndex == null) {
-			return;
-		}
-		switch (unreadTabIndex) {
-		case COMMENT_TO_ME:
-			((MainTimeLineActivity) getActivity()).getLeftMenuFragment().switchCategory(LeftMenuFragment.COMMENTS_INDEX);
-			viewPager.setCurrentItem(0);
-			intent.putExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA, UnreadTabIndex.NONE);
-			break;
-		}
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getActivity().getIntent();
+        if (intent == null) {
+            return;
+        }
+        UnreadTabIndex unreadTabIndex = (UnreadTabIndex) intent
+                .getSerializableExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA);
+        if (unreadTabIndex == null) {
+            return;
+        }
+        switch (unreadTabIndex) {
+            case COMMENT_TO_ME:
+                ((MainTimeLineActivity) getActivity()).getLeftMenuFragment().switchCategory(LeftMenuFragment.COMMENTS_INDEX);
+                viewPager.setCurrentItem(0);
+                intent.putExtra(BundleArgsConstants.OPEN_NAVIGATION_INDEX_EXTRA, UnreadTabIndex.NONE);
+                break;
+        }
 
-	}
+    }
 
-	@Override
-	public void onHiddenChanged(boolean hidden) {
-		super.onHiddenChanged(hidden);
-		if (!hidden) {
-			int commentsTabIndex = getArguments().getInt("commentsTabIndex");
-			buildActionBarAndViewPagerTitles(commentsTabIndex);
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            int commentsTabIndex = getArguments().getInt("commentsTabIndex");
+            buildActionBarAndViewPagerTitles(commentsTabIndex);
 
-		}
-	}
+        }
+    }
 
-	public void buildActionBarAndViewPagerTitles(int nav) {
-		((MainTimeLineActivity) getActivity()).setCurrentFragment(this);
-//
-//		if (Utility.isDevicePort()) {
-//			((MainTimeLineActivity) getActivity()).setTitle(R.string.comments);
-//			getActivity().getActionBar().setIcon(R.drawable.comment_light);
-//		} else {
-//			((MainTimeLineActivity) getActivity()).setTitle("");
-//			getActivity().getActionBar().setIcon(R.drawable.beebo_launcher);
-//		}
-//
-//		ActionBar actionBar = getActivity().getActionBar();
-//		actionBar.setDisplayHomeAsUpEnabled(Utility.isDevicePort());
-//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//		actionBar.removeAllTabs();
-//		SimpleTwoTabsListener tabListener = new SimpleTwoTabsListener(viewPager);
-//
-//		ActionBar.Tab commentsToMeTab = getCommentsToMeTab();
-//		if (commentsToMeTab == null) {
-//			commentsToMeTab = buildCommentsToMeTab(tabListener);
-//		}
-//		ActionBar.Tab commentsByMeTab = getCommentsByMeTab();
-//		if (commentsByMeTab == null) {
-//			commentsByMeTab = buildCommentsByMeTab(tabListener);
-//		}
-//		actionBar.addTab(commentsToMeTab);
-//		actionBar.addTab(commentsByMeTab);
-//
-//		if (actionBar.getNavigationMode() == ActionBar.NAVIGATION_MODE_TABS && nav > -1) {
-//			if(viewPager != null){
-//				viewPager.setCurrentItem(nav, false);
-//			}
-//		}
+    public void buildActionBarAndViewPagerTitles(int nav) {
+        ((MainTimeLineActivity) getActivity()).setCurrentFragment(this);
+        //
+        // if (Utility.isDevicePort()) {
+        // ((MainTimeLineActivity) getActivity()).setTitle(R.string.comments);
+        // getActivity().getActionBar().setIcon(R.drawable.comment_light);
+        // } else {
+        // ((MainTimeLineActivity) getActivity()).setTitle("");
+        // getActivity().getActionBar().setIcon(R.drawable.beebo_launcher);
+        // }
+        //
+        // ActionBar actionBar = getActivity().getActionBar();
+        // actionBar.setDisplayHomeAsUpEnabled(Utility.isDevicePort());
+        // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        // actionBar.removeAllTabs();
+        // SimpleTwoTabsListener tabListener = new SimpleTwoTabsListener(viewPager);
+        //
+        // ActionBar.Tab commentsToMeTab = getCommentsToMeTab();
+        // if (commentsToMeTab == null) {
+        // commentsToMeTab = buildCommentsToMeTab(tabListener);
+        // }
+        // ActionBar.Tab commentsByMeTab = getCommentsByMeTab();
+        // if (commentsByMeTab == null) {
+        // commentsByMeTab = buildCommentsByMeTab(tabListener);
+        // }
+        // actionBar.addTab(commentsToMeTab);
+        // actionBar.addTab(commentsByMeTab);
+        //
+        // if (actionBar.getNavigationMode() == ActionBar.NAVIGATION_MODE_TABS && nav > -1) {
+        // if(viewPager != null){
+        // viewPager.setCurrentItem(nav, false);
+        // }
+        // }
 
-	}
+    }
 
-//	public ActionBar.Tab getCommentsToMeTab() {
-//		return tabMap.get(COMMENTS_TO_ME_CHILD_POSITION);
-//	}
-//
-//	public ActionBar.Tab getCommentsByMeTab() {
-//		return tabMap.get(COMMENTS_BY_ME_CHILD_POSITION);
-//	}
+    // public ActionBar.Tab getCommentsToMeTab() {
+    // return tabMap.get(COMMENTS_TO_ME_CHILD_POSITION);
+    // }
+    //
+    // public ActionBar.Tab getCommentsByMeTab() {
+    // return tabMap.get(COMMENTS_BY_ME_CHILD_POSITION);
+    // }
 
-	ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
-		@Override
-		public void onPageSelected(int position) {
-//			ActionBar ab = getActivity().getActionBar();
-//			if (getActivity().getActionBar().getNavigationMode() == ActionBar.NAVIGATION_MODE_TABS && ab.getTabAt(position) == tabMap.get(position)) {
-//				ab.setSelectedNavigationItem(position);
-//			}
+    ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            // ActionBar ab = getActivity().getActionBar();
+            // if (getActivity().getActionBar().getNavigationMode() ==
+            // ActionBar.NAVIGATION_MODE_TABS && ab.getTabAt(position) == tabMap.get(position)) {
+            // ab.setSelectedNavigationItem(position);
+            // }
 
-			((LeftMenuFragment) ((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).commentsTabIndex = position;
-			clearActionMode();
-		}
+            ((LeftMenuFragment) ((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).commentsTabIndex = position;
+            clearActionMode();
+        }
 
-		@Override
-		public void onPageScrollStateChanged(int state) {
-			super.onPageScrollStateChanged(state);
-			switch (state) {
-			case ViewPager.SCROLL_STATE_SETTLING:
-				new Handler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						LongClickableLinkMovementMethod.getInstance().setLongClickable(true);
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            super.onPageScrollStateChanged(state);
+            switch (state) {
+                case ViewPager.SCROLL_STATE_SETTLING:
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            LongClickableLinkMovementMethod.getInstance().setLongClickable(true);
 
-					}
-				}, ViewConfiguration.getLongPressTimeout());
-				break;
-			default:
-				LongClickableLinkMovementMethod.getInstance().setLongClickable(false);
-				break;
-			}
-		}
-	};
+                        }
+                    }, ViewConfiguration.getLongPressTimeout());
+                    break;
+                default:
+                    LongClickableLinkMovementMethod.getInstance().setLongClickable(false);
+                    break;
+            }
+        }
+    };
 
-	public CommentsToMeTimeLineFragment getCommentsToMeTimeLineFragment() {
-		CommentsToMeTimeLineFragment fragment = ((CommentsToMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
-				CommentsToMeTimeLineFragment.class.getName()));
-		if (fragment == null) {
-			fragment = new CommentsToMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext.getInstance().getAccountBean().getInfo(),
-					GlobalContext.getInstance().getSpecialToken());
-		}
+    public CommentsToMeTimeLineFragment getCommentsToMeTimeLineFragment() {
+        CommentsToMeTimeLineFragment fragment = ((CommentsToMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
+                CommentsToMeTimeLineFragment.class.getName()));
+        if (fragment == null) {
+            fragment = new CommentsToMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
+                    .getInstance().getAccountBean().getInfo(),
+                    GlobalContext.getInstance().getSpecialToken());
+        }
 
-		return fragment;
-	}
+        return fragment;
+    }
 
-	public CommentsByMeTimeLineFragment getCommentsByMeTimeLineFragment() {
-		CommentsByMeTimeLineFragment fragment = ((CommentsByMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
-				CommentsByMeTimeLineFragment.class.getName()));
-		if (fragment == null) {
-			fragment = new CommentsByMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext.getInstance().getAccountBean().getInfo(),
-					GlobalContext.getInstance().getSpecialToken());
-		}
+    public CommentsByMeTimeLineFragment getCommentsByMeTimeLineFragment() {
+        CommentsByMeTimeLineFragment fragment = ((CommentsByMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
+                CommentsByMeTimeLineFragment.class.getName()));
+        if (fragment == null) {
+            fragment = new CommentsByMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
+                    .getInstance().getAccountBean().getInfo(),
+                    GlobalContext.getInstance().getSpecialToken());
+        }
 
-		return fragment;
-	}
+        return fragment;
+    }
 
-	@Override
-	public void scrollToTop() {
-		AbsBaseTimeLineFragment fragment = (AbsBaseTimeLineFragment) (childrenFragments.get(viewPager.getCurrentItem()));
-		Utility.stopListViewScrollingAndScrollToTop(fragment.getListView());
-	}
+    @Override
+    public void scrollToTop() {
+        AbsBaseTimeLineFragment fragment = (AbsBaseTimeLineFragment) (childrenFragments.get(viewPager.getCurrentItem()));
+        Utility.stopListViewScrollingAndScrollToTop(fragment.getListView());
+    }
 
-	public void clearActionMode() {
-		getCommentsByMeTimeLineFragment().clearActionMode();
-		getCommentsToMeTimeLineFragment().clearActionMode();
-	}
+    public void clearActionMode() {
+        getCommentsByMeTimeLineFragment().clearActionMode();
+        getCommentsToMeTimeLineFragment().clearActionMode();
+    }
 }

@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -21,72 +22,72 @@ import java.util.Map;
  */
 public class UserTopicListDao {
 
-	private String getMsgListJson() throws WeiboException {
-		String url = WeiBoURLs.TOPIC_USER_LIST;
+    private String getMsgListJson() throws WeiboException {
+        String url = WeiBoURLs.TOPIC_USER_LIST;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("count", count);
-		map.put("page", page);
-		map.put("uid", uid);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("count", count);
+        map.put("page", page);
+        map.put("uid", uid);
 
-		String jsonData = null;
+        String jsonData = null;
 
-		jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		return jsonData;
-	}
+        return jsonData;
+    }
 
-	public ArrayList<String> getGSONMsgList() throws WeiboException {
+    public ArrayList<String> getGSONMsgList() throws WeiboException {
 
-		String json = getMsgListJson();
-		Gson gson = new Gson();
+        String json = getMsgListJson();
+        Gson gson = new Gson();
 
-		ArrayList<TopicBean> value = null;
-		try {
-			value = gson.fromJson(json, new TypeToken<List<TopicBean>>() {
-			}.getType());
-		} catch (JsonSyntaxException e) {
+        ArrayList<TopicBean> value = null;
+        try {
+            value = gson.fromJson(json, new TypeToken<List<TopicBean>>() {
+            }.getType());
+        } catch (JsonSyntaxException e) {
 
-			AppLoggerUtils.e(e.getMessage());
-		}
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		if (value != null) {
-			ArrayList<String> msgList = new ArrayList<String>();
-			for (TopicBean b : value) {
-				msgList.add(b.hotword);
-			}
-			return msgList;
-		}
+        if (value != null) {
+            ArrayList<String> msgList = new ArrayList<String>();
+            for (TopicBean b : value) {
+                msgList.add(b.hotword);
+            }
+            return msgList;
+        }
 
-		return new ArrayList<String>();
-	}
+        return new ArrayList<String>();
+    }
 
-	private String access_token;
-	private String uid;
-	private String count;
-	private String page;
+    private String access_token;
+    private String uid;
+    private String count;
+    private String page;
 
-	public UserTopicListDao(String access_token, String uid) {
+    public UserTopicListDao(String access_token, String uid) {
 
-		this.access_token = access_token;
-		this.count = SettingUtils.getMsgCount();
-		this.uid = uid;
-	}
+        this.access_token = access_token;
+        this.count = SettingUtils.getMsgCount();
+        this.uid = uid;
+    }
 
-	public UserTopicListDao setCount(String count) {
-		this.count = count;
-		return this;
-	}
+    public UserTopicListDao setCount(String count) {
+        this.count = count;
+        return this;
+    }
 
-	public UserTopicListDao setPage(String page) {
-		this.page = page;
-		return this;
-	}
+    public UserTopicListDao setPage(String page) {
+        this.page = page;
+        return this;
+    }
 
-	private static class TopicBean {
-		private String num;
-		private String trend_id;
-		private String hotword;
-	}
+    private static class TopicBean {
+        private String num;
+        private String trend_id;
+        private String hotword;
+    }
 }

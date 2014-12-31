@@ -105,12 +105,13 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
     private Thread mBackgroundWifiDownloadPicThread = null;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    
+
     private Toolbar mToolbar;
 
-    public FriendsTimeLineFragment(){
+    public FriendsTimeLineFragment() {
         super();
     }
+
     public static FriendsTimeLineFragment newInstance(AccountBean accountBean, UserBean userBean, String token) {
         FriendsTimeLineFragment fragment = new FriendsTimeLineFragment(accountBean, userBean, token);
         fragment.setArguments(new Bundle());
@@ -135,14 +136,14 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
     public MessageListBean getList() {
         return bean;
     }
-    
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.friends_time_line_listview_layout, container, false);
-//        buildLayout(inflater, view);
-//        return view;
-//    }
-    
+
+    // @Override
+    // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+    // savedInstanceState) {
+    // View view = inflater.inflate(R.layout.friends_time_line_listview_layout, container, false);
+    // buildLayout(inflater, view);
+    // return view;
+    // }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -150,41 +151,41 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         mToolbar = (Toolbar) getActivity().findViewById(R.id.mainTimeLineToolBar);
         mToolbar.setTitle(R.string.home);
         mToolbar.inflateMenu(R.menu.actionbar_menu_friendstimelinefragment);
-//        mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-//
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//
-//                switch (item.getItemId()) {
-//                    case R.id.write_weibo:
-//                        Class<?> clzz = null;
-//                        if (SettingUtils.isDebug()) {
-//                            clzz = WriteWeiboActivity.class;
-//                        } else {
-//                            clzz = WeiboMainActivity.class;
-//                        }
-//                        Intent intent = new Intent(getActivity(), clzz);
-//                        intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
-//                        intent.putExtra(Constants.TOKEN, mToken);
-//                        intent.putExtra(Constants.ACCOUNT, mAccountBean);
-//                        startActivity(intent);
-//                        break;
-//                    case R.id.refresh:
-//                        if (allowRefresh()) {
-//                            getPullToRefreshListView().setRefreshing();
-//                            loadNewMsg();
-//                        }
-//                        break;
-//                    case R.id.switch_theme:
-//                        // make sure activity has saved current left menu position
-//                        ((MainTimeLineActivity) getActivity()).saveNavigationPositionToDB();
-//                        SettingUtils.switchToAnotherTheme();
-//                        ((MainTimeLineActivity) getActivity()).reload();
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
+        // mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        //
+        // @Override
+        // public boolean onMenuItemClick(MenuItem item) {
+        //
+        // switch (item.getItemId()) {
+        // case R.id.write_weibo:
+        // Class<?> clzz = null;
+        // if (SettingUtils.isDebug()) {
+        // clzz = WriteWeiboActivity.class;
+        // } else {
+        // clzz = WeiboMainActivity.class;
+        // }
+        // Intent intent = new Intent(getActivity(), clzz);
+        // intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
+        // intent.putExtra(Constants.TOKEN, mToken);
+        // intent.putExtra(Constants.ACCOUNT, mAccountBean);
+        // startActivity(intent);
+        // break;
+        // case R.id.refresh:
+        // if (allowRefresh()) {
+        // getPullToRefreshListView().setRefreshing();
+        // loadNewMsg();
+        // }
+        // break;
+        // case R.id.switch_theme:
+        // // make sure activity has saved current left menu position
+        // ((MainTimeLineActivity) getActivity()).saveNavigationPositionToDB();
+        // SettingUtils.switchToAnotherTheme();
+        // ((MainTimeLineActivity) getActivity()).reload();
+        // break;
+        // }
+        // return false;
+        // }
+        // });
     }
 
     @Override
@@ -318,9 +319,9 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         } else {
             this.newMsgTipBar.setType(TopTipsView.Type.AUTO);
         }
-        
-        
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(switchReceiver, new IntentFilter(AppEventAction.SWITCH_WEIBO_GROUP_BROADCAST));
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(switchReceiver,
+                new IntentFilter(AppEventAction.SWITCH_WEIBO_GROUP_BROADCAST));
     }
 
     BroadcastReceiver switchReceiver = new BroadcastReceiver() {
@@ -340,13 +341,13 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
             switchFriendsGroup(groupId);
         }
     };
-    
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         Utility.cancelTasks(mDBCacheTask);
         GlobalContext.getInstance().unRegisterForAccountChangeListener(this);
-        
+
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(switchReceiver);
     }
 
@@ -526,13 +527,13 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         // });
         currentGroupId = FriendsTimeLineDBTask.getRecentGroupId(GlobalContext.getInstance().getCurrentAccountId());
 
-//        if (Utility.isDevicePort()) {
-//            ((MainTimeLineActivity) getActivity()).setTitle("");
-//            getBaseToolbar().setLogo(R.drawable.ic_menu_home);
-//        } else {
-//            ((MainTimeLineActivity) getActivity()).setTitle("");
-//            getBaseToolbar().setLogo(R.drawable.beebo_launcher);
-//        }
+        // if (Utility.isDevicePort()) {
+        // ((MainTimeLineActivity) getActivity()).setTitle("");
+        // getBaseToolbar().setLogo(R.drawable.ic_menu_home);
+        // } else {
+        // ((MainTimeLineActivity) getActivity()).setTitle("");
+        // getBaseToolbar().setLogo(R.drawable.beebo_launcher);
+        // }
 
         // if (getActivity().getActionBar().getNavigationMode() == ActionBar.NAVIGATION_MODE_LIST &&
         // isVisible()) {
@@ -1031,7 +1032,10 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
                         return;
                     }
                     if (isListViewFling() || !isVisible()/*
-                            || ((MainTimeLineActivity) getActivity()).getSlidingMenu().isMenuShowing()*/) {
+                                                          * || ((MainTimeLineActivity)
+                                                          * getActivity())
+                                                          * .getSlidingMenu().isMenuShowing()
+                                                          */) {
                         return;
                     }
 

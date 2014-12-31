@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -20,75 +21,75 @@ import java.util.*;
  * User: qii Date: 12-8-18
  */
 public class FavListDao {
-	private String getMsgListJson() throws WeiboException {
-		String url = WeiBoURLs.MYFAV_LIST;
+    private String getMsgListJson() throws WeiboException {
+        String url = WeiBoURLs.MYFAV_LIST;
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("count", count);
-		map.put("page", page);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("count", count);
+        map.put("page", page);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
 
-		return jsonData;
-	}
+        return jsonData;
+    }
 
-	public FavListBean getGSONMsgList() throws WeiboException {
+    public FavListBean getGSONMsgList() throws WeiboException {
 
-		String json = getMsgListJson();
-		Gson gson = new Gson();
+        String json = getMsgListJson();
+        Gson gson = new Gson();
 
-		FavListBean value = null;
-		try {
-			value = gson.fromJson(json, FavListBean.class);
-		} catch (JsonSyntaxException e) {
+        FavListBean value = null;
+        try {
+            value = gson.fromJson(json, FavListBean.class);
+        } catch (JsonSyntaxException e) {
 
-			AppLoggerUtils.e(e.getMessage());
-		}
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		if (value != null) {
-			List<MessageBean> msgList = new ArrayList<MessageBean>();
-			int size = value.getFavorites().size();
-			for (int i = 0; i < size; i++) {
-				msgList.add(value.getFavorites().get(i).getStatus());
-			}
+        if (value != null) {
+            List<MessageBean> msgList = new ArrayList<MessageBean>();
+            int size = value.getFavorites().size();
+            for (int i = 0; i < size; i++) {
+                msgList.add(value.getFavorites().get(i).getStatus());
+            }
 
-			Iterator<FavBean> iterator = value.getFavorites().iterator();
+            Iterator<FavBean> iterator = value.getFavorites().iterator();
 
-			while (iterator.hasNext()) {
+            while (iterator.hasNext()) {
 
-				FavBean msg = iterator.next();
-				if (msg.getStatus().getUser() == null) {
-					iterator.remove();
-				} else {
-					msg.getStatus().getListViewSpannableString();
-					TimeUtility.dealMills(msg.getStatus());
-				}
-			}
+                FavBean msg = iterator.next();
+                if (msg.getStatus().getUser() == null) {
+                    iterator.remove();
+                } else {
+                    msg.getStatus().getListViewSpannableString();
+                    TimeUtility.dealMills(msg.getStatus());
+                }
+            }
 
-		}
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	private String access_token;
-	private String count;
-	private String page;
+    private String access_token;
+    private String count;
+    private String page;
 
-	public FavListDao(String access_token) {
+    public FavListDao(String access_token) {
 
-		this.access_token = access_token;
-		this.count = SettingUtils.getMsgCount();
-	}
+        this.access_token = access_token;
+        this.count = SettingUtils.getMsgCount();
+    }
 
-	public FavListDao setCount(String count) {
-		this.count = count;
-		return this;
-	}
+    public FavListDao setCount(String count) {
+        this.count = count;
+        return this;
+    }
 
-	public FavListDao setPage(String page) {
-		this.page = page;
-		return this;
-	}
+    public FavListDao setPage(String page) {
+        this.page = page;
+        return this;
+    }
 
 }

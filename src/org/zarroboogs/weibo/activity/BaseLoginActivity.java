@@ -57,7 +57,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.ResponseHandlerInterface;
 
 public class BaseLoginActivity extends SharedPreferenceActivity {
-	private static final String TAG = "Beebo_Login: ";
+    private static final String TAG = "Beebo_Login: ";
     private SinaPreLogin mSinaPreLogin;
     private PreLoginResult mPreLoginResult;
 
@@ -69,7 +69,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     private String mUserName;
     private String mPassword;
     private String mDoor = null;
-    
+
     private WaterMark mWaterMark;
     private String mWeibaCode;
     private String mWeiboText;
@@ -83,34 +83,34 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         mJsEvaluator = new JsEvaluator(getApplicationContext());
 
         mSinaPreLogin = new SinaPreLogin();
-        
+
         mRequestResultParser = new RequestResultParser();
-        
-		mDialog = new ProgressDialog(this);
-		mDialog.setMessage(getString(R.string.send_wei_ing));
-		mDialog.setCancelable(false);
-		
-		
-		Builder builder = new Builder(BaseLoginActivity.this);
-		mDoorAlertDialog = builder.create();
+
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage(getString(R.string.send_wei_ing));
+        mDialog.setCancelable(false);
+
+        Builder builder = new Builder(BaseLoginActivity.this);
+        mDoorAlertDialog = builder.create();
 
     }
 
-	public void showDialogForWeiBo() {
-		if (!mDialog.isShowing()) {
-			mDialog.show();
-		}
+    public void showDialogForWeiBo() {
+        if (!mDialog.isShowing()) {
+            mDialog.show();
+        }
 
-	}
+    }
 
-	public void hideDialogForWeiBo() {
-		mDialog.cancel();
-		mDialog.hide();
-	}
-	
-    public RequestResultParser getRequestResultParser(){
+    public void hideDialogForWeiBo() {
+        mDialog.cancel();
+        mDialog.hide();
+    }
+
+    public RequestResultParser getRequestResultParser() {
         return mRequestResultParser;
     }
+
     public void executeSendWeibo(String uname, String upwd, WaterMark mark, final String weiboCode, final String text,
             List<String> pics) {
         this.mUserName = uname;
@@ -122,7 +122,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         this.mPics = pics;
         LogTool.D("sendWeibo   start" + " name:" + uname + "   password:" + upwd + "  weiba:" + weiboCode);
 
-//        doPreLogin(this.mUserName, this.mPassword);
+        // doPreLogin(this.mUserName, this.mPassword);
         dosend(mark, weiboCode, text, pics);
 
     }
@@ -139,14 +139,15 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 
                 @Override
                 public void onUpSuccess(String pids) {
-                	LogTool.D(TAG + " UploadPic:  [onUpSuccess] " + pids);
+                    LogTool.D(TAG + " UploadPic:  [onUpSuccess] " + pids);
                     sendWeiboWidthPids(weiboCode, text, pids);
                 }
+
                 @Override
                 public void onUpLoadFailed() {
-                	// TODO Auto-generated method stub
-                	doPreLogin(mUserName, mPassword);
-                	LogTool.D(TAG + " UploadPic:  [onUpLoadFailed] doPreLogin");
+                    // TODO Auto-generated method stub
+                    doPreLogin(mUserName, mPassword);
+                    LogTool.D(TAG + " UploadPic:  [onUpLoadFailed] doPreLogin");
                 }
             });
         }
@@ -171,21 +172,21 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                     encodePassword(mPassword, mPreLoginResult);
                     break;
                 }
-                case Constaces.MSG_SHOW_DOOR:{
-                	showDoorDialog();
-                	break;
+                case Constaces.MSG_SHOW_DOOR: {
+                    showDoorDialog();
+                    break;
                 }
 
                 case Constaces.MSG_ENCODE_PWD_DONW: {
-                	
-                	if (mPreLoginResult.getShowpin() == 1) {
-                		LogTool.D(TAG + "   需要验证码");
-						showDoorDialog();
-					}else {
-						LogTool.D(TAG + "   不不需要验证码");
-						doAfterPreLogin(mPreLoginResult, null);
-					}
-                    
+
+                    if (mPreLoginResult.getShowpin() == 1) {
+                        LogTool.D(TAG + "   需要验证码");
+                        showDoorDialog();
+                    } else {
+                        LogTool.D(TAG + "   不不需要验证码");
+                        doAfterPreLogin(mPreLoginResult, null);
+                    }
+
                     break;
                 }
                 case Constaces.MSG_AFTER_LOGIN_DONE: {
@@ -194,7 +195,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 }
                 case Constaces.MSG_LONGIN_SUCCESS: {
                     // sendWeibo("");
-//                    dosend(mWaterMark, mWeibaCode, mWeiboText, mPics);
+                    // dosend(mWaterMark, mWeibaCode, mWeiboText, mPics);
                     // sendWeiboWidthPids("ZwpYj", "Test: " + SystemClock.uptimeMillis() + "",
                     // null);
                     break;
@@ -215,7 +216,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        
+
                         SendResultBean sendResultBean = mRequestResultParser.parse(responseBody, SendResultBean.class);
                         LogTool.D("sendWeibo   onSuccess" + sendResultBean.getMsg());
                     }
@@ -237,8 +238,10 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 sendEntity,
                 "application/x-www-form-urlencoded", this.mSendWeiboHandler);
     }
+
     private ResponseHandlerInterface mSendWeiboHandler;
-    public void setOnSendWeiboListener(ResponseHandlerInterface rhi){
+
+    public void setOnSendWeiboListener(ResponseHandlerInterface rhi) {
         this.mSendWeiboHandler = rhi;
     }
 
@@ -289,59 +292,61 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     }
 
     private ResponseHandlerInterface mRepostHandler;
-    public void setOnRepostWeiboListener(ResponseHandlerInterface rhi){
+
+    public void setOnRepostWeiboListener(ResponseHandlerInterface rhi) {
         this.mRepostHandler = rhi;
     }
-    
+
     private void doLogin() {
         getAsyncHttpClient().get(mRequestResultParser.getUserPageUrl(), mLoginHandler);
     }
-    
+
     private ResponseHandlerInterface mLoginHandler;;
-    public void setOnLoginListener(ResponseHandlerInterface rhi){
+
+    public void setOnLoginListener(ResponseHandlerInterface rhi) {
         this.mLoginHandler = rhi;
     }
-    
-    
-    
-    private void hideDoorDialog(){
-    	mDoorAlertDialog.hide();
-    }
-	private void showDoorDialog() {
 
-		mDoorAlertDialog.show();
-		mDoorAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE  | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-		mDoorAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		
-		mDoorAlertDialog.getWindow().setContentView(R.layout.door_img_dialog_layout);
-		
-		executeDoor(mPreLoginResult, (ImageView)mDoorAlertDialog.findViewById(R.id.doorImageView));
-		
-		final EditText doorEdittext = (EditText) mDoorAlertDialog.findViewById(R.id.doorEditText);
-		Button checkButton = (Button) mDoorAlertDialog.findViewById(R.id.doorCheckBtn);
-		checkButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showDialogForWeiBo();
-				doAfterPreLogin(mPreLoginResult, doorEdittext.getText().toString().trim());
-				hideDoorDialog();
-			}
-		});
-	}
-	
-	private void executeDoor(PreLoginResult preLoginResult, final ImageView iv) {
-		DoorImageAsyncTask doorImageAsyncTask = new DoorImageAsyncTask();
-		doorImageAsyncTask.setOnDoorOpenListener(new OnDoorOpenListener() {
-			
-			@Override
-			public void onDoorOpen(android.graphics.Bitmap result) {
-				// TODO Auto-generated method stub
-				iv.setImageBitmap(result);
-			}
-		});
-		doorImageAsyncTask.execute(preLoginResult.getPcid());
-	}
+    private void hideDoorDialog() {
+        mDoorAlertDialog.hide();
+    }
+
+    private void showDoorDialog() {
+
+        mDoorAlertDialog.show();
+        mDoorAlertDialog.getWindow().clearFlags(
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        mDoorAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        mDoorAlertDialog.getWindow().setContentView(R.layout.door_img_dialog_layout);
+
+        executeDoor(mPreLoginResult, (ImageView) mDoorAlertDialog.findViewById(R.id.doorImageView));
+
+        final EditText doorEdittext = (EditText) mDoorAlertDialog.findViewById(R.id.doorEditText);
+        Button checkButton = (Button) mDoorAlertDialog.findViewById(R.id.doorCheckBtn);
+        checkButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showDialogForWeiBo();
+                doAfterPreLogin(mPreLoginResult, doorEdittext.getText().toString().trim());
+                hideDoorDialog();
+            }
+        });
+    }
+
+    private void executeDoor(PreLoginResult preLoginResult, final ImageView iv) {
+        DoorImageAsyncTask doorImageAsyncTask = new DoorImageAsyncTask();
+        doorImageAsyncTask.setOnDoorOpenListener(new OnDoorOpenListener() {
+
+            @Override
+            public void onDoorOpen(android.graphics.Bitmap result) {
+                // TODO Auto-generated method stub
+                iv.setImageBitmap(result);
+            }
+        });
+        doorImageAsyncTask.execute(preLoginResult.getPcid());
+    }
 
     private String encodeAccount(String account) {
         String encodedString;
@@ -399,16 +404,14 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     }
 
     /**
-     * 登陆的第一步，主要获取PreLoginResult中的一些参数
-     * 下一步是根据参数获取加密之后的密码
-     * 之后是afterPrelogin
+     * 登陆的第一步，主要获取PreLoginResult中的一些参数 下一步是根据参数获取加密之后的密码 之后是afterPrelogin
      * @param uname
      * @param upwd
      */
     public void doPreLogin(String uname, String upwd) {
         this.mUserName = uname;
         this.mPassword = upwd;
-        
+
         long time = new Date().getTime();
         String encodeName = mSinaPreLogin.encodeAccount(mUserName);
         String url = mSinaPreLogin.buildPreLoginUrl(encodeName, Constaces.SSOLOGIN_JS, time + "");
@@ -424,11 +427,10 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    	LogTool.D(TAG + " PreLogin:  [Failure] " + error.getLocalizedMessage());
+                        LogTool.D(TAG + " PreLogin:  [Failure] " + error.getLocalizedMessage());
                     }
                 });
     }
-    
 
     private void doAfterPreLogin(PreLoginResult preLoginResult, String door) {
         HttpEntity httpEntity = mSinaPreLogin.afterPreLoginEntity(encodeAccount(mUserName), rsaPwd, door, preLoginResult);
@@ -444,19 +446,19 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                             response = new String(responseBody, "GBK");
                             result = URLDecoder.decode(response, "GBK");
                             result = URLDecoder.decode(response, "GBK");
-                            
+
                             String[] s = result.split("\n\t\t");
                             for (String string : s) {
-                                LogTool.D(TAG + " 网络正常返回，结果是: " + string );
+                                LogTool.D(TAG + " 网络正常返回，结果是: " + string);
                             }
-                                    
+
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
                         mRequestResultParser = new RequestResultParser(response);
-                        
+
                         LogTool.D(TAG + " 网络正常返回，ReplaceLocation：  " + mRequestResultParser.getLocationReplace());
-                        
+
                         if (mRequestResultParser.isLogin()) {
                             LogTool.D(TAG + " 网络正常返回，并成功登陆");
                             mHandler.sendEmptyMessage(Constaces.MSG_AFTER_LOGIN_DONE);
@@ -465,18 +467,19 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                                 LogTool.D(TAG + " 网络正常返回，登陆失败，需要验证码！");
                                 hideDialogForWeiBo();
                                 showDoorDialog();
-                            }else {
+                            } else {
                                 hideDialogForWeiBo();
                                 LogTool.D(TAG + " 网络正常返回，登陆失败，原因是：" + mRequestResultParser.getErrorReason());
                             }
-                            Toast.makeText(getApplicationContext(), mRequestResultParser.getErrorReason(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), mRequestResultParser.getErrorReason(), Toast.LENGTH_LONG)
+                                    .show();
                         }
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                         LogTool.D(TAG + " AfterPreLogin:  [onFailure] " + error.getLocalizedMessage());
-                        
+
                     }
                 });
     };

@@ -54,7 +54,7 @@ public class SearchMainParentFragment extends BaseStateFragment implements MainT
     private Toolbar mSearchToolbar;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    
+
     public static SearchMainParentFragment newInstance() {
         SearchMainParentFragment fragment = new SearchMainParentFragment();
         fragment.setArguments(new Bundle());
@@ -131,7 +131,7 @@ public class SearchMainParentFragment extends BaseStateFragment implements MainT
 
     public void showSearchMenu() {
         mHandler.postDelayed(new Runnable() {
-            
+
             @Override
             public void run() {
                 if (SearchMainParentFragment.this.isVisible() && mSearchToolbar != null) {
@@ -229,11 +229,12 @@ public class SearchMainParentFragment extends BaseStateFragment implements MainT
     ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
-//            ActionBar ab = getActivity().getActionBar();
-//            if (getActivity().getActionBar().getNavigationMode() == ActionBar.NAVIGATION_MODE_TABS
-//                    && ab.getTabAt(position) == tabMap.get(position)) {
-//                ab.setSelectedNavigationItem(position);
-//            }
+            // ActionBar ab = getActivity().getActionBar();
+            // if (getActivity().getActionBar().getNavigationMode() ==
+            // ActionBar.NAVIGATION_MODE_TABS
+            // && ab.getTabAt(position) == tabMap.get(position)) {
+            // ab.setSelectedNavigationItem(position);
+            // }
 
             ((LeftMenuFragment) ((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).searchTabIndex = position;
             clearActionMode();

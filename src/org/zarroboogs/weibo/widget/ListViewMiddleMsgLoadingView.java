@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.widget;
 
 import org.zarroboogs.weibo.R;
@@ -15,44 +16,44 @@ import android.widget.TextView;
  */
 public class ListViewMiddleMsgLoadingView extends FrameLayout {
 
-	private TextView word;
-	private ProgressBar progressBar;
+    private TextView word;
+    private ProgressBar progressBar;
 
-	public ListViewMiddleMsgLoadingView(Context context) {
-		super(context);
-	}
+    public ListViewMiddleMsgLoadingView(Context context) {
+        super(context);
+    }
 
-	public ListViewMiddleMsgLoadingView(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
-	}
+    public ListViewMiddleMsgLoadingView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
 
-	public ListViewMiddleMsgLoadingView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inflate.inflate(R.layout.widget_listviewmiddlemsgloadingview, this, true);
-		word = (TextView) v.findViewById(R.id.tv_load_middle_msg);
-		progressBar = (ProgressBar) v.findViewById(R.id.pb_loading_middle_msg);
-		progressBar.setVisibility(View.INVISIBLE);
-	}
+    public ListViewMiddleMsgLoadingView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflate.inflate(R.layout.widget_listviewmiddlemsgloadingview, this, true);
+        word = (TextView) v.findViewById(R.id.tv_load_middle_msg);
+        progressBar = (ProgressBar) v.findViewById(R.id.pb_loading_middle_msg);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
 
-	public void load() {
-		word.setVisibility(View.INVISIBLE);
-		progressBar.setVisibility(View.VISIBLE);
-	}
+    public void load() {
+        word.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
-	public void complete() {
-		word.setVisibility(View.VISIBLE);
-		progressBar.setVisibility(View.INVISIBLE);
-	}
+    public void complete() {
+        word.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
 
-	public boolean isLoading() {
-		return progressBar.getVisibility() == View.VISIBLE;
-	}
+    public boolean isLoading() {
+        return progressBar.getVisibility() == View.VISIBLE;
+    }
 
-	public void setErrorMessage(String errorMessage) {
-		complete();
-		this.word.setText(errorMessage);
-		this.word.setTextColor(getContext().getResources().getColor(R.color.red));
+    public void setErrorMessage(String errorMessage) {
+        complete();
+        this.word.setText(errorMessage);
+        this.word.setTextColor(getContext().getResources().getColor(R.color.red));
 
-	}
+    }
 }

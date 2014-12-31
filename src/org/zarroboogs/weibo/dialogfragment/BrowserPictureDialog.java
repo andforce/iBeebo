@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dialogfragment;
 
 import android.annotation.SuppressLint;
@@ -21,41 +22,41 @@ import org.zarroboogs.weibo.support.utils.Utility;
 @SuppressLint("ValidFragment")
 public class BrowserPictureDialog extends DialogFragment {
 
-	private String path;
+    private String path;
 
-	public BrowserPictureDialog() {
+    public BrowserPictureDialog() {
 
-	}
+    }
 
-	public BrowserPictureDialog(String path) {
-		this.path = path;
-	}
+    public BrowserPictureDialog(String path) {
+        this.path = path;
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString("path", path);
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("path", path);
+    }
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		if (savedInstanceState != null) {
-			this.path = savedInstanceState.getString("path");
-		}
+        if (savedInstanceState != null) {
+            this.path = savedInstanceState.getString("path");
+        }
 
-		Bitmap bitmap = ImageUtility.decodeBitmapFromSDCard(path, Utility.dip2px(250), Utility.dip2px(250));
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		View customView = getActivity().getLayoutInflater().inflate(R.layout.browserpicturedialog_layout, null);
-		((ImageView) customView.findViewById(R.id.imageview)).setImageBitmap(bitmap);
-		builder.setTitle(getString(R.string.browser_part_picture)).setView(customView)
-				.setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						((WriteWeiboActivity) getActivity()).deletePicture();
-					}
-				});
+        Bitmap bitmap = ImageUtility.decodeBitmapFromSDCard(path, Utility.dip2px(250), Utility.dip2px(250));
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View customView = getActivity().getLayoutInflater().inflate(R.layout.browserpicturedialog_layout, null);
+        ((ImageView) customView.findViewById(R.id.imageview)).setImageBitmap(bitmap);
+        builder.setTitle(getString(R.string.browser_part_picture)).setView(customView)
+                .setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((WriteWeiboActivity) getActivity()).deletePicture();
+                    }
+                });
 
-		return builder.create();
-	}
+        return builder.create();
+    }
 }

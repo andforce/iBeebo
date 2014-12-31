@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.loader;
 
 import android.content.Context;
@@ -14,33 +15,33 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class FanUserLoader extends AbstractAsyncNetRequestTaskLoader<UserListBean> {
 
-	private static Lock lock = new ReentrantLock();
+    private static Lock lock = new ReentrantLock();
 
-	private String token;
-	private String uid;
-	private String cursor;
+    private String token;
+    private String uid;
+    private String cursor;
 
-	public FanUserLoader(Context context, String token, String uid, String cursor) {
-		super(context);
-		this.token = token;
-		this.uid = uid;
-		this.cursor = cursor;
-	}
+    public FanUserLoader(Context context, String token, String uid, String cursor) {
+        super(context);
+        this.token = token;
+        this.uid = uid;
+        this.cursor = cursor;
+    }
 
-	public UserListBean loadData() throws WeiboException {
-		FanListDao dao = new FanListDao(token, uid);
-		dao.setCursor(cursor);
+    public UserListBean loadData() throws WeiboException {
+        FanListDao dao = new FanListDao(token, uid);
+        dao.setCursor(cursor);
 
-		UserListBean result = null;
-		lock.lock();
+        UserListBean result = null;
+        lock.lock();
 
-		try {
-			result = dao.getGSONMsgList();
-		} finally {
-			lock.unlock();
-		}
+        try {
+            result = dao.getGSONMsgList();
+        } finally {
+            lock.unlock();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
 }

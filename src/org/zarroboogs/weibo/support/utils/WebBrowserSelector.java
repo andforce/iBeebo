@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.support.utils;
 
 import android.content.Context;
@@ -13,15 +14,15 @@ import org.zarroboogs.weibo.setting.SettingUtils;
  */
 public class WebBrowserSelector {
 
-	public static void openLink(Context context, Uri uri) {
-		if (SettingUtils.allowInternalWebBrowser()) {
-			Intent intent = new Intent(context, BrowserWebActivity.class);
-			intent.putExtra("url", uri.toString());
-			context.startActivity(intent);
-		} else {
-			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-			intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
-			context.startActivity(intent);
-		}
-	}
+    public static void openLink(Context context, Uri uri) {
+        if (SettingUtils.allowInternalWebBrowser()) {
+            Intent intent = new Intent(context, BrowserWebActivity.class);
+            intent.putExtra("url", uri.toString());
+            context.startActivity(intent);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
+            context.startActivity(intent);
+        }
+    }
 }

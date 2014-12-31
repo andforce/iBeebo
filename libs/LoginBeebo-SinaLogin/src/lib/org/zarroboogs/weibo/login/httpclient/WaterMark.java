@@ -1,11 +1,13 @@
+
 package lib.org.zarroboogs.weibo.login.httpclient;
 
 public class WaterMark {
-    public static enum POS{
+    public static enum POS {
         BOTTOM_RIGHT,
         BOTTOM_CENTER,
         CENTER
     }
+
     // &marks=1&markpos=1&logo=1&nick=%40andforce&url=weibo.com/u/2294141594
     private String nick = "";
     private String url = "";
@@ -30,7 +32,5 @@ public class WaterMark {
     public void setUrl(String url) {
         this.url = url;
     }
-    
-    
 
 }

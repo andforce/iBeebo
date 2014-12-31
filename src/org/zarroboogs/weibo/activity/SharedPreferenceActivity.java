@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.weibo.bean.WeiboWeiba;
@@ -11,67 +12,67 @@ import android.os.Build.VERSION_CODES;
 import android.view.WindowManager;
 
 public class SharedPreferenceActivity extends AbstractAppActivity implements OnSharedPreferenceChangeListener {
-	private SharedPreferences mCookieSP = null;
-	private String mCookie = "";
-	private static final String KEY_COOKIE = "cookie";
-	private static final String KEY_NAME = "appname";
-	private static final String KEY_CODE = "code";
+    private SharedPreferences mCookieSP = null;
+    private String mCookie = "";
+    private static final String KEY_COOKIE = "cookie";
+    private static final String KEY_NAME = "appname";
+    private static final String KEY_CODE = "code";
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		if(VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
-            //透明状态栏
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+            // 透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //透明导航栏
+            // 透明导航栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-		}
-		
-		super.onCreate(savedInstanceState);
-		mCookieSP = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-		mCookie = mCookieSP.getString(KEY_COOKIE, "");
-		mCookieSP.registerOnSharedPreferenceChangeListener(this);
-	}
+        }
 
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		mCookieSP.unregisterOnSharedPreferenceChangeListener(this);
-	}
+        super.onCreate(savedInstanceState);
+        mCookieSP = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        mCookie = mCookieSP.getString(KEY_COOKIE, "");
+        mCookieSP.registerOnSharedPreferenceChangeListener(this);
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		// TODO Auto-generated method stub
-		if (KEY_COOKIE.equals(key)) {
-			mCookie = mCookieSP.getString(KEY_COOKIE, "");
-		}
-	}
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        mCookieSP.unregisterOnSharedPreferenceChangeListener(this);
+    }
 
-	// public String getWeiboCookie() {
-	// return mCookie;
-	// }
-	//
-	// public void setWeiboCookie(String cookie) {
-	// mCookieSP.edit().putString(KEY_COOKIE, cookie).commit();
-	// }
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        // TODO Auto-generated method stub
+        if (KEY_COOKIE.equals(key)) {
+            mCookie = mCookieSP.getString(KEY_COOKIE, "");
+        }
+    }
 
-	public SharedPreferences getAppSrcSharedPreference() {
-		return mCookieSP;
-	}
+    // public String getWeiboCookie() {
+    // return mCookie;
+    // }
+    //
+    // public void setWeiboCookie(String cookie) {
+    // mCookieSP.edit().putString(KEY_COOKIE, cookie).commit();
+    // }
 
-	public void saveWeiba(WeiboWeiba weiba) {
-		Editor mEditor = mCookieSP.edit();
-		mEditor.putString(KEY_NAME, weiba.getText());
-		mEditor.putString(KEY_CODE, weiba.getCode());
-		mEditor.commit();
+    public SharedPreferences getAppSrcSharedPreference() {
+        return mCookieSP;
+    }
 
-	}
+    public void saveWeiba(WeiboWeiba weiba) {
+        Editor mEditor = mCookieSP.edit();
+        mEditor.putString(KEY_NAME, weiba.getText());
+        mEditor.putString(KEY_CODE, weiba.getCode());
+        mEditor.commit();
 
-	public WeiboWeiba getWeiba() {
-		WeiboWeiba weiba = new WeiboWeiba();
-		weiba.setText(mCookieSP.getString(KEY_NAME, "Smartisan T1"));
-		weiba.setCode(mCookieSP.getString(KEY_CODE, "1GEU4g"));
-		return weiba;
-	}
+    }
+
+    public WeiboWeiba getWeiba() {
+        WeiboWeiba weiba = new WeiboWeiba();
+        weiba.setText(mCookieSP.getString(KEY_NAME, "Smartisan T1"));
+        weiba.setCode(mCookieSP.getString(KEY_CODE, "1GEU4g"));
+        return weiba;
+    }
 }

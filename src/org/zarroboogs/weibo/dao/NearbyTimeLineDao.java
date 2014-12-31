@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -18,40 +19,40 @@ import java.util.Map;
  */
 public class NearbyTimeLineDao {
 
-	public NearbyStatusListBean get() throws WeiboException {
+    public NearbyStatusListBean get() throws WeiboException {
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("lat", lat);
-		map.put("long", long_fix);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("lat", lat);
+        map.put("long", long_fix);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, WeiBoURLs.NEARBY_STATUS, map);
-		try {
-			NearbyStatusListBean value = new Gson().fromJson(jsonData, NearbyStatusListBean.class);
-			if (value != null)
-				return value;
-		} catch (JsonSyntaxException e) {
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, WeiBoURLs.NEARBY_STATUS, map);
+        try {
+            NearbyStatusListBean value = new Gson().fromJson(jsonData, NearbyStatusListBean.class);
+            if (value != null)
+                return value;
+        } catch (JsonSyntaxException e) {
 
-			AppLoggerUtils.e(e.getMessage());
-		}
-		return null;
-	}
+            AppLoggerUtils.e(e.getMessage());
+        }
+        return null;
+    }
 
-	public NearbyTimeLineDao(String token, double lat, double long_fix) {
-		this.access_token = token;
-		this.lat = String.valueOf(lat);
-		this.long_fix = String.valueOf(long_fix);
-	}
+    public NearbyTimeLineDao(String token, double lat, double long_fix) {
+        this.access_token = token;
+        this.lat = String.valueOf(lat);
+        this.long_fix = String.valueOf(long_fix);
+    }
 
-	private String access_token;
-	private String lat;
-	private String long_fix;
-	private String range;
-	private String starttime;
-	private String endtime;
-	private String sort;
-	private String count = "50";
-	private String page;
-	private String base_app;
-	private String offset;
+    private String access_token;
+    private String lat;
+    private String long_fix;
+    private String range;
+    private String starttime;
+    private String endtime;
+    private String sort;
+    private String count = "50";
+    private String page;
+    private String base_app;
+    private String offset;
 }

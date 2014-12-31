@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.setting.fragment;
 
 import org.zarroboogs.utils.AppLoggerUtils;
@@ -45,187 +46,188 @@ import java.io.File;
  */
 public class AboutFragment extends PreferenceFragment {
 
-	private BroadcastReceiver sdCardReceiver;
+    private BroadcastReceiver sdCardReceiver;
 
-	private MediaPlayer mp;
+    private MediaPlayer mp;
 
-	private boolean playing;
+    private boolean playing;
 
-	private int blackMagicCount = 0;
+    private int blackMagicCount = 0;
 
-	private static final String DEBUG_INFO = "pref_debug_info_key";
+    private static final String DEBUG_INFO = "pref_debug_info_key";
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRetainInstance(false);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(false);
 
-		addPreferencesFromResource(R.xml.about_pref);
+        addPreferencesFromResource(R.xml.about_pref);
 
-		// findPreference(SettingActivity.RECOMMEND)
-		// .setOnPreferenceClickListener(new
-		// Preference.OnPreferenceClickListener() {
-		// @Override
-		// public boolean onPreferenceClick(Preference preference) {
-		// Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-		// intent.putExtra(Constances.TOKEN,
-		// GlobalContext.getInstance().getSpecialToken());
-		// intent.putExtra("account",
-		// GlobalContext.getInstance().getAccountBean());
-		// intent.putExtra("content", getString(R.string.recommend_content));
-		// startActivity(intent);
-		// return true;
-		// }
-		// });
+        // findPreference(SettingActivity.RECOMMEND)
+        // .setOnPreferenceClickListener(new
+        // Preference.OnPreferenceClickListener() {
+        // @Override
+        // public boolean onPreferenceClick(Preference preference) {
+        // Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
+        // intent.putExtra(Constances.TOKEN,
+        // GlobalContext.getInstance().getSpecialToken());
+        // intent.putExtra("account",
+        // GlobalContext.getInstance().getAccountBean());
+        // intent.putExtra("content", getString(R.string.recommend_content));
+        // startActivity(intent);
+        // return true;
+        // }
+        // });
 
-		findPreference(SettingActivity.VERSION).setSummary(buildVersionInfo());
+        findPreference(SettingActivity.VERSION).setSummary(buildVersionInfo());
 
-		findPreference(SettingActivity.VERSION).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				ChangeLogDialog changeLogDialog = new ChangeLogDialog(getActivity());
-				changeLogDialog.show();
-				return true;
-			}
-		});
+        findPreference(SettingActivity.VERSION).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ChangeLogDialog changeLogDialog = new ChangeLogDialog(getActivity());
+                changeLogDialog.show();
+                return true;
+            }
+        });
 
-		detectDebugPreference();
+        detectDebugPreference();
 
-		buildCacheSummary();
-		buildLogSummary();
+        buildCacheSummary();
+        buildLogSummary();
 
-		findPreference(SettingActivity.SAVED_PIC_PATH).setSummary(
-				Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
+        findPreference(SettingActivity.SAVED_PIC_PATH).setSummary(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
 
-	}
+    }
 
-	private void detectDebugPreference() {
-		Preference debugPreferenceCategory = (PreferenceCategory) findPreference(DEBUG_INFO);
-		Preference debugPreference = findPreference(SettingActivity.DEBUG_MEM_INFO);
-		Preference crashPreferenceCategory = findPreference(SettingActivity.CRASH);
+    private void detectDebugPreference() {
+        Preference debugPreferenceCategory = (PreferenceCategory) findPreference(DEBUG_INFO);
+        Preference debugPreference = findPreference(SettingActivity.DEBUG_MEM_INFO);
+        Preference crashPreferenceCategory = findPreference(SettingActivity.CRASH);
 
-		if (SettingUtils.isBlackMagicEnabled()) {
+        if (SettingUtils.isBlackMagicEnabled()) {
 
-			Runtime rt = Runtime.getRuntime();
-			long vmAlloc = rt.totalMemory() - rt.freeMemory();
-			long nativeAlloc = Debug.getNativeHeapAllocatedSize();
+            Runtime rt = Runtime.getRuntime();
+            long vmAlloc = rt.totalMemory() - rt.freeMemory();
+            long nativeAlloc = Debug.getNativeHeapAllocatedSize();
 
-			String vmAllocStr = "VM Allocated " + formatMemoryText(vmAlloc);
-			String nativeAllocStr = "Native Allocated " + formatMemoryText(nativeAlloc);
+            String vmAllocStr = "VM Allocated " + formatMemoryText(vmAlloc);
+            String nativeAllocStr = "Native Allocated " + formatMemoryText(nativeAlloc);
 
-			ActivityManager am = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
-			int memoryClass = am.getMemoryClass();
-			String result = "VM Max " + Integer.toString(memoryClass) + "MB";
-			debugPreference.setSummary(vmAllocStr + "," + nativeAllocStr + "," + result);
+            ActivityManager am = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+            int memoryClass = am.getMemoryClass();
+            String result = "VM Max " + Integer.toString(memoryClass) + "MB";
+            debugPreference.setSummary(vmAllocStr + "," + nativeAllocStr + "," + result);
 
-			crashPreferenceCategory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-				@Override
-				public boolean onPreferenceClick(Preference preference) {
-					throw new IllegalArgumentException("about -> crash test");
-				}
-			});
-		} else {
-			PreferenceScreen screen = getPreferenceScreen();
-			screen.removePreference(debugPreferenceCategory);
-		}
-	}
+            crashPreferenceCategory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    throw new IllegalArgumentException("about -> crash test");
+                }
+            });
+        } else {
+            PreferenceScreen screen = getPreferenceScreen();
+            screen.removePreference(debugPreferenceCategory);
+        }
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		sdCardReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				buildCacheSummary();
-				buildLogSummary();
-			}
-		};
+    @Override
+    public void onResume() {
+        super.onResume();
+        sdCardReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                buildCacheSummary();
+                buildLogSummary();
+            }
+        };
 
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
-		filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-		filter.addDataScheme("file");
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+        filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+        filter.addDataScheme("file");
 
-		getActivity().registerReceiver(sdCardReceiver, filter);
-	}
+        getActivity().registerReceiver(sdCardReceiver, filter);
+    }
 
-	private void buildCacheSummary() {
-		File cachedDir = GlobalContext.getInstance().getExternalCacheDir();
-		if (cachedDir != null) {
-			findPreference(SettingActivity.CACHE_PATH).setSummary(cachedDir.getAbsolutePath());
-		} else {
-			findPreference(SettingActivity.CACHE_PATH).setSummary(getString(R.string.sd_card_in_not_mounted));
-		}
-	}
+    private void buildCacheSummary() {
+        File cachedDir = GlobalContext.getInstance().getExternalCacheDir();
+        if (cachedDir != null) {
+            findPreference(SettingActivity.CACHE_PATH).setSummary(cachedDir.getAbsolutePath());
+        } else {
+            findPreference(SettingActivity.CACHE_PATH).setSummary(getString(R.string.sd_card_in_not_mounted));
+        }
+    }
 
-	private void buildLogSummary() {
-		File cachedDir = GlobalContext.getInstance().getExternalCacheDir();
-		if (cachedDir != null) {
-			findPreference(SettingActivity.SAVED_LOG_PATH).setSummary(FileManager.getLogDir());
-		} else {
-			findPreference(SettingActivity.SAVED_LOG_PATH).setSummary(getString(R.string.sd_card_in_not_mounted));
-		}
-	}
+    private void buildLogSummary() {
+        File cachedDir = GlobalContext.getInstance().getExternalCacheDir();
+        if (cachedDir != null) {
+            findPreference(SettingActivity.SAVED_LOG_PATH).setSummary(FileManager.getLogDir());
+        } else {
+            findPreference(SettingActivity.SAVED_LOG_PATH).setSummary(getString(R.string.sd_card_in_not_mounted));
+        }
+    }
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (sdCardReceiver != null) {
-			getActivity().unregisterReceiver(sdCardReceiver);
-		}
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (sdCardReceiver != null) {
+            getActivity().unregisterReceiver(sdCardReceiver);
+        }
 
-		if (mp != null && mp.isPlaying()) {
-			mp.stop();
-			playing = false;
-		}
-	}
+        if (mp != null && mp.isPlaying()) {
+            mp.stop();
+            playing = false;
+        }
+    }
 
-	private String buildVersionInfo() {
-		String version = "";
-		PackageManager packageManager = getActivity().getPackageManager();
-		PackageInfo packInfo = null;
-		try {
-			packInfo = packageManager.getPackageInfo(getActivity().getPackageName(), 0);
-		} catch (PackageManager.NameNotFoundException e) {
-			AppLoggerUtils.e(e.getMessage());
-		}
+    private String buildVersionInfo() {
+        String version = "";
+        PackageManager packageManager = getActivity().getPackageManager();
+        PackageInfo packInfo = null;
+        try {
+            packInfo = packageManager.getPackageInfo(getActivity().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            AppLoggerUtils.e(e.getMessage());
+        }
 
-		if (packInfo != null) {
-			version = packInfo.versionName;
-		}
+        if (packInfo != null) {
+            version = packInfo.versionName;
+        }
 
-		if (!TextUtils.isEmpty(version)) {
-			return version;
-		} else {
-			return "";
-		}
-	}
+        if (!TextUtils.isEmpty(version)) {
+            return version;
+        } else {
+            return "";
+        }
+    }
 
-	private String buildContent() {
+    private String buildContent() {
 
-		String network = "";
+        String network = "";
 
-		ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-		if (networkInfo != null && networkInfo.isConnected()) {
-			if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-				network = "Wifi";
-			} else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                network = "Wifi";
+            } else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
 
-				int subType = networkInfo.getSubtype();
+                int subType = networkInfo.getSubtype();
 
-				if (subType == TelephonyManager.NETWORK_TYPE_GPRS) {
-					network = "GPRS";
-				}
-			}
-		}
+                if (subType == TelephonyManager.NETWORK_TYPE_GPRS) {
+                    network = "GPRS";
+                }
+            }
+        }
 
-		return "@四次元App #四次元App反馈# " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + ",Android " + android.os.Build.VERSION.RELEASE + ","
-				+ network + " version:" + buildVersionInfo();
-	}
+        return "@四次元App #四次元App反馈# " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + ",Android "
+                + android.os.Build.VERSION.RELEASE + ","
+                + network + " version:" + buildVersionInfo();
+    }
 
-	private String formatMemoryText(long memory) {
-		float memoryInMB = memory * 1f / 1024 / 1024;
-		return String.format("%.1f MB", memoryInMB);
-	}
+    private String formatMemoryText(long memory) {
+        float memoryInMB = memory * 1f / 1024 / 1024;
+        return String.format("%.1f MB", memoryInMB);
+    }
 }

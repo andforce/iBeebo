@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.dao;
 
 import com.google.gson.Gson;
@@ -20,40 +21,40 @@ import java.util.Map;
  */
 public class DMDao {
 
-	private String access_token;
-	private String cursor = "0";
-	private String count;
+    private String access_token;
+    private String cursor = "0";
+    private String count;
 
-	public DMDao(String token) {
-		this.access_token = token;
-	}
+    public DMDao(String token) {
+        this.access_token = token;
+    }
 
-	public void setCursor(String cursor) {
-		this.cursor = cursor;
-		this.count = SettingUtils.getMsgCount();
-	}
+    public void setCursor(String cursor) {
+        this.cursor = cursor;
+        this.count = SettingUtils.getMsgCount();
+    }
 
-	public DMUserListBean getUserList() throws WeiboException {
-		String url = WeiBoURLs.DM_USERLIST;
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("access_token", access_token);
-		map.put("count", count);
-		map.put("cursor", cursor);
+    public DMUserListBean getUserList() throws WeiboException {
+        String url = WeiBoURLs.DM_USERLIST;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("access_token", access_token);
+        map.put("count", count);
+        map.put("cursor", cursor);
 
-		String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
-		DMUserListBean value = null;
-		try {
-			value = new Gson().fromJson(jsonData, DMUserListBean.class);
-			for (DMUserBean b : value.getItemList()) {
-				b.getListViewSpannableString();
-				b.getListviewItemShowTime();
-			}
-		} catch (JsonSyntaxException e) {
+        String jsonData = HttpUtility.getInstance().executeNormalTask(HttpMethod.Get, url, map);
+        DMUserListBean value = null;
+        try {
+            value = new Gson().fromJson(jsonData, DMUserListBean.class);
+            for (DMUserBean b : value.getItemList()) {
+                b.getListViewSpannableString();
+                b.getListviewItemShowTime();
+            }
+        } catch (JsonSyntaxException e) {
 
-			AppLoggerUtils.e(e.getMessage());
+            AppLoggerUtils.e(e.getMessage());
 
-		}
-		return value;
-	}
+        }
+        return value;
+    }
 
 }

@@ -76,9 +76,9 @@ import android.widget.Toast;
 
 public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginCallBack,
         OnClickListener, OnGlobalLayoutListener, OnItemClickListener {
-    
+
     public static final String TAG = "RepostWeiboMainActivity ";
-    
+
     private MessageBean msg;
     String pidC = "";
     RelativeLayout mEmotionRelativeLayout;
@@ -189,16 +189,16 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                
+
                 LogTool.D(TAG + "onSuccess " + new String(responseBody));
-                
+
                 RequestResultBean sendResultBean = getRequestResultParser().parse(responseBody, RequestResultBean.class);
                 LogTool.D(TAG + "onSuccess " + sendResultBean.getMsg());
-                if (sendResultBean.getMsg().equals("未登录") ) {
+                if (sendResultBean.getMsg().equals("未登录")) {
                     doPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
                     hideDialogForWeiBo();
                 }
-                
+
                 if (sendResultBean.getCode().equals("100000")) {
                     hideDialogForWeiBo();
                     mEditText.setText("");
@@ -212,15 +212,15 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
                 LogTool.D(TAG + "onFailure " + error.getLocalizedMessage());
             }
         });
-        
+
         setOnLoginListener(new AsyncHttpResponseHandler() {
-            
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 LogTool.D(TAG + " Login-  onSuccess " + new String(responseBody));
                 repostWeibo();
             }
-            
+
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             }
@@ -441,7 +441,6 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
         appSrcBtn.setText(getWeiba().getText());
     }
 
-
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
@@ -515,7 +514,6 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
         }
 
     }
-
 
     class WeiBaCacheFile implements FilenameFilter {
 

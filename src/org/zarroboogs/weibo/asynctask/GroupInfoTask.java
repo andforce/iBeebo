@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.asynctask;
 
 import org.zarroboogs.util.net.WeiboException;
@@ -11,35 +12,35 @@ import org.zarroboogs.weibo.db.task.GroupDBTask;
  */
 public class GroupInfoTask extends MyAsyncTask<Void, GroupListBean, GroupListBean> {
 
-	private WeiboException e;
+    private WeiboException e;
 
-	private String token;
-	private String accountId;
+    private String token;
+    private String accountId;
 
-	public GroupInfoTask(String token, String accountId) {
-		this.token = token;
-		this.accountId = accountId;
-	}
+    public GroupInfoTask(String token, String accountId) {
+        this.token = token;
+        this.accountId = accountId;
+    }
 
-	@Override
-	protected GroupListBean doInBackground(Void... params) {
-		try {
-			return new FriendGroupDao(token).getGroup();
-		} catch (WeiboException e) {
-			this.e = e;
-			cancel(true);
-		}
-		return null;
-	}
+    @Override
+    protected GroupListBean doInBackground(Void... params) {
+        try {
+            return new FriendGroupDao(token).getGroup();
+        } catch (WeiboException e) {
+            this.e = e;
+            cancel(true);
+        }
+        return null;
+    }
 
-	@Override
-	protected void onPostExecute(GroupListBean groupListBean) {
-		super.onPostExecute(groupListBean);
+    @Override
+    protected void onPostExecute(GroupListBean groupListBean) {
+        super.onPostExecute(groupListBean);
 
-		GroupDBTask.update(groupListBean, accountId);
-		if (accountId.equalsIgnoreCase(GlobalContext.getInstance().getCurrentAccountId()))
-			GlobalContext.getInstance().setGroup(groupListBean);
+        GroupDBTask.update(groupListBean, accountId);
+        if (accountId.equalsIgnoreCase(GlobalContext.getInstance().getCurrentAccountId()))
+            GlobalContext.getInstance().setGroup(groupListBean);
 
-	}
+    }
 
 }

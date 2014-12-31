@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.support.utils;
 
 import org.zarroboogs.weibo.GlobalContext;
@@ -16,105 +17,111 @@ import android.content.Context;
  */
 public class NotificationUtility {
 
-	private NotificationUtility() {
-		// Forbidden being instantiated.
-	}
+    private NotificationUtility() {
+        // Forbidden being instantiated.
+    }
 
-	public static int getCount(UnreadBean unreadBean) {
-		int count = 0;
+    public static int getCount(UnreadBean unreadBean) {
+        int count = 0;
 
-		if (SettingUtils.allowMentionToMe()) {
-			count += unreadBean.getMention_status();
-		}
+        if (SettingUtils.allowMentionToMe()) {
+            count += unreadBean.getMention_status();
+        }
 
-		if (SettingUtils.allowCommentToMe()) {
-			count += unreadBean.getCmt();
-		}
+        if (SettingUtils.allowCommentToMe()) {
+            count += unreadBean.getCmt();
+        }
 
-		if (SettingUtils.allowMentionCommentToMe()) {
-			count += unreadBean.getMention_cmt();
-		}
+        if (SettingUtils.allowMentionCommentToMe()) {
+            count += unreadBean.getMention_cmt();
+        }
 
-		return count;
+        return count;
 
-	}
+    }
 
-	@Deprecated
-	public static String getTicker(UnreadBean unreadBean, MessageListBean mentionsWeibo, CommentListBean mentionsComment, CommentListBean commentsToMe) {
-		int unreadMentionCmt = unreadBean.getMention_cmt();
-		int unreadMentionStatus = unreadBean.getMention_status();
-		int mention = 0;
-		if (SettingUtils.allowMentionToMe() && unreadMentionStatus > 0 && mentionsWeibo != null) {
-			int actualFetchedSize = mentionsWeibo.getSize();
-			if (actualFetchedSize < Integer.valueOf(SettingUtils.getMsgCount())) {
-				mention += actualFetchedSize;
-			} else {
-				mention += Math.max(actualFetchedSize, unreadMentionStatus);
-			}
-		}
-		if (SettingUtils.allowMentionCommentToMe() && unreadMentionCmt > 0 && mentionsComment != null) {
-			int actualFetchedSize = mentionsComment.getSize();
-			if (actualFetchedSize < Integer.valueOf(SettingUtils.getMsgCount())) {
-				mention += actualFetchedSize;
-			} else {
-				mention += Math.max(actualFetchedSize, unreadMentionCmt);
+    @Deprecated
+    public static String getTicker(UnreadBean unreadBean, MessageListBean mentionsWeibo, CommentListBean mentionsComment,
+            CommentListBean commentsToMe) {
+        int unreadMentionCmt = unreadBean.getMention_cmt();
+        int unreadMentionStatus = unreadBean.getMention_status();
+        int mention = 0;
+        if (SettingUtils.allowMentionToMe() && unreadMentionStatus > 0 && mentionsWeibo != null) {
+            int actualFetchedSize = mentionsWeibo.getSize();
+            if (actualFetchedSize < Integer.valueOf(SettingUtils.getMsgCount())) {
+                mention += actualFetchedSize;
+            } else {
+                mention += Math.max(actualFetchedSize, unreadMentionStatus);
+            }
+        }
+        if (SettingUtils.allowMentionCommentToMe() && unreadMentionCmt > 0 && mentionsComment != null) {
+            int actualFetchedSize = mentionsComment.getSize();
+            if (actualFetchedSize < Integer.valueOf(SettingUtils.getMsgCount())) {
+                mention += actualFetchedSize;
+            } else {
+                mention += Math.max(actualFetchedSize, unreadMentionCmt);
 
-			}
-		}
+            }
+        }
 
-		StringBuilder stringBuilder = new StringBuilder();
-		if (mention > 0) {
-			String txt = String.format(GlobalContext.getInstance().getString(R.string.new_mentions), String.valueOf(mention));
-			stringBuilder.append(txt);
-		}
+        StringBuilder stringBuilder = new StringBuilder();
+        if (mention > 0) {
+            String txt = String
+                    .format(GlobalContext.getInstance().getString(R.string.new_mentions), String.valueOf(mention));
+            stringBuilder.append(txt);
+        }
 
-		int unreadCmt = unreadBean.getCmt();
+        int unreadCmt = unreadBean.getCmt();
 
-		int cmt = 0;
+        int cmt = 0;
 
-		if (SettingUtils.allowCommentToMe() && unreadCmt > 0 && commentsToMe != null) {
-			//
-			int actualFetchedSize = commentsToMe.getSize();
-			if (actualFetchedSize < Integer.valueOf(SettingUtils.getMsgCount())) {
-				cmt += actualFetchedSize;
-			} else {
-				cmt += Math.max(actualFetchedSize, unreadCmt);
-			}
+        if (SettingUtils.allowCommentToMe() && unreadCmt > 0 && commentsToMe != null) {
+            //
+            int actualFetchedSize = commentsToMe.getSize();
+            if (actualFetchedSize < Integer.valueOf(SettingUtils.getMsgCount())) {
+                cmt += actualFetchedSize;
+            } else {
+                cmt += Math.max(actualFetchedSize, unreadCmt);
+            }
 
-			if (mention > 0) {
-				stringBuilder.append("、");
-			}
+            if (mention > 0) {
+                stringBuilder.append("、");
+            }
 
-			if (cmt > 0) {
-				String txt = String.format(GlobalContext.getInstance().getString(R.string.new_comments), String.valueOf(cmt));
-				stringBuilder.append(txt);
-			}
+            if (cmt > 0) {
+                String txt = String
+                        .format(GlobalContext.getInstance().getString(R.string.new_comments), String.valueOf(cmt));
+                stringBuilder.append(txt);
+            }
 
-		}
-		return stringBuilder.toString();
-	}
+        }
+        return stringBuilder.toString();
+    }
 
-	@Deprecated
-	public static String getTicker(UnreadBean unreadBean) {
-		int unreadMentionCmt = unreadBean.getMention_cmt();
-		int unreadMentionStatus = unreadBean.getMention_status();
-		int unreadCmt = unreadBean.getCmt();
+    @Deprecated
+    public static String getTicker(UnreadBean unreadBean) {
+        int unreadMentionCmt = unreadBean.getMention_cmt();
+        int unreadMentionStatus = unreadBean.getMention_status();
+        int unreadCmt = unreadBean.getCmt();
 
-		int messageCount = unreadMentionCmt + unreadMentionStatus + unreadCmt;
+        int messageCount = unreadMentionCmt + unreadMentionStatus + unreadCmt;
 
-		String txt = String.format(GlobalContext.getInstance().getString(R.string.new_unread_messages), String.valueOf(messageCount));
+        String txt = String.format(GlobalContext.getInstance().getString(R.string.new_unread_messages),
+                String.valueOf(messageCount));
 
-		return txt;
-	}
+        return txt;
+    }
 
-	public static void show(Notification notification, int id) {
-		NotificationManager notificationManager = (NotificationManager) GlobalContext.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-		notificationManager.notify(id, notification);
-	}
+    public static void show(Notification notification, int id) {
+        NotificationManager notificationManager = (NotificationManager) GlobalContext.getInstance().getSystemService(
+                Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(id, notification);
+    }
 
-	public static void cancel(int id) {
-		NotificationManager notificationManager = (NotificationManager) GlobalContext.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-		notificationManager.cancel(id);
-	}
+    public static void cancel(int id) {
+        NotificationManager notificationManager = (NotificationManager) GlobalContext.getInstance().getSystemService(
+                Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(id);
+    }
 
 }

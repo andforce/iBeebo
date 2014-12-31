@@ -1,3 +1,4 @@
+
 package org.zarroboogs.weibo.setting.activity;
 
 import android.content.Intent;
@@ -14,73 +15,73 @@ import com.umeng.analytics.MobclickAgent;
 
 public class AppearanceActivity extends AbstractAppActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-//		getActionBar().setDisplayShowHomeEnabled(false);
-//		getActionBar().setDisplayShowTitleEnabled(true);
-//		getActionBar().setDisplayHomeAsUpEnabled(true);
-//		getActionBar().setTitle(getString(R.string.pref_appearance_title));
+        super.onCreate(savedInstanceState);
+        // getActionBar().setDisplayShowHomeEnabled(false);
+        // getActionBar().setDisplayShowTitleEnabled(true);
+        // getActionBar().setDisplayHomeAsUpEnabled(true);
+        // getActionBar().setTitle(getString(R.string.pref_appearance_title));
 
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction().replace(android.R.id.content, new AppearanceFragment()).commit();
-		}
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction().replace(android.R.id.content, new AppearanceFragment()).commit();
+        }
 
-		PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
-	}
-	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(this.getClass().getName());
-		MobclickAgent.onResume(this);
-	}
+    }
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPageEnd(this.getClass().getName());
-		MobclickAgent.onPause(this);
-	}
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getName());
+        MobclickAgent.onResume(this);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent;
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			intent = new Intent(this, SettingActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			return true;
-		}
-		return false;
-	}
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getName());
+        MobclickAgent.onPause(this);
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                intent = new Intent(this, SettingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+        }
+        return false;
+    }
 
-		if (key.equals(SettingActivity.THEME)) {
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-			Intent intent = new Intent(this, AppearanceActivity.class);
+        if (key.equals(SettingActivity.THEME)) {
 
-			finish();
-			overridePendingTransition(0, 0);
+            Intent intent = new Intent(this, AppearanceActivity.class);
 
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			overridePendingTransition(R.anim.stay, R.anim.alphaout);
-		}
+            finish();
+            overridePendingTransition(0, 0);
 
-	}
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.stay, R.anim.alphaout);
+        }
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
-		finish();
-	}
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        finish();
+    }
 }

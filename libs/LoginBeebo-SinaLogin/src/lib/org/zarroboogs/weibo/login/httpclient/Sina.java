@@ -46,137 +46,137 @@ import com.google.gson.Gson;
 
 public class Sina {
 
-	private BroserContent mBroserContent = BroserContent.getInstance();
-	private Context mContext;
-	private JsEvaluator mJsEvaluator;
-    public Sina(Context context) {
-		mContext = context;
-		mJsEvaluator = new JsEvaluator(mContext);
-	}
+    private BroserContent mBroserContent = BroserContent.getInstance();
+    private Context mContext;
+    private JsEvaluator mJsEvaluator;
 
-	
+    public Sina(Context context) {
+        mContext = context;
+        mJsEvaluator = new JsEvaluator(mContext);
+    }
+
     public PreLoginResult preLogin(String userName, String passWord) {
         HttpClient client = mBroserContent.getHttpClient();
-        
+
         // 获得rsaPubkey,rsakv,servertime等参数值
         PreLoginResult params = preLogin(encodeAccount(userName), client);
-        
-//        getRsaPassWord(passWord, params, new JsCallback() {
-//			@Override
-//			public void onResult(String value) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
-//        LoginResultHelper helper = doLoginAfterPreLogin(userName, passWord, client, params);
-//
-//        HasloginBean hasloginBean = loginUserPage(client, helper);
-//        
-//        hasloginBean.isResult();
-//        sendWeibo(mBroserContent, "http://widget.weibo.com/public/aj_addMblog.php", "6gBvZH", "11" + new Date().getTime(), null, null);
-//	
+
+        // getRsaPassWord(passWord, params, new JsCallback() {
+        // @Override
+        // public void onResult(String value) {
+        // // TODO Auto-generated method stub
+        //
+        // }
+        // });
+        // LoginResultHelper helper = doLoginAfterPreLogin(userName, passWord, client, params);
+        //
+        // HasloginBean hasloginBean = loginUserPage(client, helper);
+        //
+        // hasloginBean.isResult();
+        // sendWeibo(mBroserContent, "http://widget.weibo.com/public/aj_addMblog.php", "6gBvZH",
+        // "11" + new Date().getTime(), null, null);
+        //
         return params;
     }
 
-
-	private HasloginBean loginUserPage(HttpClient client, RequestResultParser helper) {
-		HttpGet userPageGet = HttpFactory.createHttpGet(helper.getUserPageUrl(), null);
+    private HasloginBean loginUserPage(HttpClient client, RequestResultParser helper) {
+        HttpGet userPageGet = HttpFactory.createHttpGet(helper.getUserPageUrl(), null);
         HttpResponse userPageResponse;
         String responseString = null;
-		try {
-			userPageResponse = client.execute(userPageGet);
-			responseString = EntityUtils.toString(userPageResponse.getEntity(), "GBK");
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            userPageResponse = client.execute(userPageGet);
+            responseString = EntityUtils.toString(userPageResponse.getEntity(), "GBK");
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         Gson gson = new Gson();
         String loginResponse = getJsonString(responseString) + "}";
         System.out.println("json: " + loginResponse);
 
         HasloginBean hasloginBean = gson.fromJson(loginResponse, HasloginBean.class);
-		return hasloginBean;
-	}
+        return hasloginBean;
+    }
 
-
-	private RequestResultParser doLoginAfterPreLogin(String userName, String passWord,
-			HttpClient client, PreLoginResult params) {
-		HttpPost post = doLogin(userName, passWord, params);
+    private RequestResultParser doLoginAfterPreLogin(String userName, String passWord,
+            HttpClient client, PreLoginResult params) {
+        HttpPost post = doLogin(userName, passWord, params);
         HttpResponse response;
         RequestResultParser helper = null;
-		try {
-			response = client.execute(post);
-			helper = new RequestResultParser(response.getEntity());
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return helper;
-	}
+        try {
+            response = client.execute(post);
+            helper = new RequestResultParser(response.getEntity());
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return helper;
+    }
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
 
-		@Override
-		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
-			super.handleMessage(msg);
-			switch (msg.what) {
-				case 1000:{
-					
-					break;
-				}
-	
-				default:
-					break;
-			}
-		}
-    
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1000: {
+
+                    break;
+                }
+
+                default:
+                    break;
+            }
+        }
+
     };
-	private HttpPost doLogin(String userName, String passWord,
-			PreLoginResult params) {
-		List<Header> headers = new ArrayList<Header>();
-		headers.add(new BasicHeader("Host", "login.sina.com.cn"));
-		headers.add(new BasicHeader("Cache-Control", "max-age=0"));
-		headers.add(new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
-		headers.add(new BasicHeader("Origin", "http://widget.weibo.com"));
-		headers.add(new BasicHeader("User-Agent", Constaces.User_Agent));
-		headers.add(new BasicHeader("Content-Type", "application/x-www-form-urlencoded"));
-		headers.add(new BasicHeader("Referer",
-		        "http://widget.weibo.com/dialog/PublishWeb.php?button=public&app_src=6gBvZH"));
-		headers.add(new BasicHeader("Accept-Encoding", "gzip,deflate"));
-		headers.add(new BasicHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4"));
 
-		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair("entry", "weibo"));
-		nvps.add(new BasicNameValuePair("gateway", "1"));
-		nvps.add(new BasicNameValuePair("from", ""));
-		nvps.add(new BasicNameValuePair("savestate", "7"));
-		nvps.add(new BasicNameValuePair("useticket", "1"));
-		nvps.add(new BasicNameValuePair("pagerefer", ""));
-		nvps.add(new BasicNameValuePair("vsnf", "1"));
-		nvps.add(new BasicNameValuePair("su", userName));
-		nvps.add(new BasicNameValuePair("service", "miniblog"));
-		nvps.add(new BasicNameValuePair("servertime", params.getServertime() + ""));
-		nvps.add(new BasicNameValuePair("nonce", params.getNonce()));
-		nvps.add(new BasicNameValuePair("pwencode", "rsa2"));
-		nvps.add(new BasicNameValuePair("rsakv", params.getRsakv()));
-		nvps.add(new BasicNameValuePair("sp", passWord));
-		nvps.add(new BasicNameValuePair("encoding", "UTF-8"));
-		nvps.add(new BasicNameValuePair("prelt", "166"));
-		nvps.add(new BasicNameValuePair("url",
-		        "http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack"));
-		nvps.add(new BasicNameValuePair("returntype", "META"));
+    private HttpPost doLogin(String userName, String passWord,
+            PreLoginResult params) {
+        List<Header> headers = new ArrayList<Header>();
+        headers.add(new BasicHeader("Host", "login.sina.com.cn"));
+        headers.add(new BasicHeader("Cache-Control", "max-age=0"));
+        headers.add(new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
+        headers.add(new BasicHeader("Origin", "http://widget.weibo.com"));
+        headers.add(new BasicHeader("User-Agent", Constaces.User_Agent));
+        headers.add(new BasicHeader("Content-Type", "application/x-www-form-urlencoded"));
+        headers.add(new BasicHeader("Referer",
+                "http://widget.weibo.com/dialog/PublishWeb.php?button=public&app_src=6gBvZH"));
+        headers.add(new BasicHeader("Accept-Encoding", "gzip,deflate"));
+        headers.add(new BasicHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4"));
 
-		HttpPost post = HttpFactory.createHttpPost(Constaces.LOGIN_FIRST_URL, headers, nvps);
-		return post;
-	}
+        List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+        nvps.add(new BasicNameValuePair("entry", "weibo"));
+        nvps.add(new BasicNameValuePair("gateway", "1"));
+        nvps.add(new BasicNameValuePair("from", ""));
+        nvps.add(new BasicNameValuePair("savestate", "7"));
+        nvps.add(new BasicNameValuePair("useticket", "1"));
+        nvps.add(new BasicNameValuePair("pagerefer", ""));
+        nvps.add(new BasicNameValuePair("vsnf", "1"));
+        nvps.add(new BasicNameValuePair("su", userName));
+        nvps.add(new BasicNameValuePair("service", "miniblog"));
+        nvps.add(new BasicNameValuePair("servertime", params.getServertime() + ""));
+        nvps.add(new BasicNameValuePair("nonce", params.getNonce()));
+        nvps.add(new BasicNameValuePair("pwencode", "rsa2"));
+        nvps.add(new BasicNameValuePair("rsakv", params.getRsakv()));
+        nvps.add(new BasicNameValuePair("sp", passWord));
+        nvps.add(new BasicNameValuePair("encoding", "UTF-8"));
+        nvps.add(new BasicNameValuePair("prelt", "166"));
+        nvps.add(new BasicNameValuePair("url",
+                "http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack"));
+        nvps.add(new BasicNameValuePair("returntype", "META"));
+
+        HttpPost post = HttpFactory.createHttpPost(Constaces.LOGIN_FIRST_URL, headers, nvps);
+        return post;
+    }
 
     public static boolean sendWeibo(BroserContent broserContent, String url, String app_src, String content, String cookie,
             String pid) {
@@ -298,9 +298,10 @@ public class Sina {
     }
 
     private void getRsaPassWord(String pwd, PreLoginResult params, JsCallback jsCallback) {
-    	RealLibrary realLibrary = new RealLibrary(mContext);
-    	String js = realLibrary.getRsaJs();
-    	String call = " var rsapwd = getRsaPassWord(" + pwd+ ", " + params.getServertime() + ", " +  params.getNonce()+", "+ params.getPubkey()+"); rsapwd;";
+        RealLibrary realLibrary = new RealLibrary(mContext);
+        String js = realLibrary.getRsaJs();
+        String call = " var rsapwd = getRsaPassWord(" + pwd + ", " + params.getServertime() + ", " + params.getNonce()
+                + ", " + params.getPubkey() + "); rsapwd;";
         mJsEvaluator.evaluate(js + call, jsCallback);
     }
 
@@ -323,7 +324,7 @@ public class Sina {
      * @return 返回从结果获取的参数的哈希表
      * @throws IOException
      */
-    private PreLoginResult preLogin(String unameBase64, HttpClient client){
+    private PreLoginResult preLogin(String unameBase64, HttpClient client) {
         // 1416557391245
         long time = new Date().getTime();
         String url = buildPreLoginUrl(unameBase64, Constaces.SSOLOGIN_JS, time + "");
@@ -340,22 +341,22 @@ public class Sina {
         HttpGet httpGet = HttpFactory.createHttpGet(url, getHeader);
         HttpResponse httpResponse;
         String result = null;
-		try {
-			httpResponse = client.execute(httpGet);
-			result = EntityUtils.toString(httpResponse.getEntity(), "GBK");
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            httpResponse = client.execute(httpGet);
+            result = EntityUtils.toString(httpResponse.getEntity(), "GBK");
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         result = getJsonString(result);
         System.out.println("Pre Result : " + result);
         Gson gson = new Gson();
         PreLoginResult preLonginBean = gson.fromJson(result, PreLoginResult.class);
-        
+
         return preLonginBean;
     }
 
@@ -370,14 +371,14 @@ public class Sina {
 
     private String encodeAccount(String account) {
         String encodedString;
-		try {
-			encodedString = new String(Base64.encodeBase64(URLEncoder.encode(account, "UTF-8").getBytes()));
-	        String userName = encodedString.replace('+','-').replace('/','_');
-	        return userName;
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            encodedString = new String(Base64.encodeBase64(URLEncoder.encode(account, "UTF-8").getBytes()));
+            String userName = encodedString.replace('+', '-').replace('/', '_');
+            return userName;
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return null;
     }
 
