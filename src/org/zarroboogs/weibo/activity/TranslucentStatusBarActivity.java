@@ -1,6 +1,8 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.weibo.R;
+
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import android.annotation.TargetApi;
@@ -27,7 +29,8 @@ public class TranslucentStatusBarActivity extends ActionBarActivity {
             setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintColor(0xFF01579b);
+            //R.color.actionbar_dark
+            tintManager.setStatusBarTintResource(R.color.actionbar_dark);//.setStatusBarTintColor(0xFF01345d);
         }
     }
 
