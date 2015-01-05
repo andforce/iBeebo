@@ -679,7 +679,8 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     /**
      * Implemented by derived class to return whether the View is in a state where the user can Pull
      * to Refresh by scrolling from the end.
-     * @return true if the View is currently in the correct state (for example, bottom of a ListView)
+     * @return true if the View is currently in the correct state (for example, bottom of a
+     *         ListView)
      */
     protected abstract boolean isReadyForPullEnd();
 

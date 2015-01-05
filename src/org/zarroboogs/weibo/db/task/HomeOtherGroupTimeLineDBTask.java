@@ -259,7 +259,7 @@ public class HomeOtherGroupTimeLineDBTask {
                     value.setComments_count(commentCount);
                     value.setReposts_count(repostCount);
                     String[] args = {
-                        id
+                            id
                     };
                     ContentValues cv = new ContentValues();
                     cv.put(HomeOtherGroupTable.HomeOtherGroupDataTable.JSONDATA, gson.toJson(value));

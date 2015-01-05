@@ -191,7 +191,7 @@ public class MentionCommentsTimeLineDBTask {
         if (c.moveToNext()) {
             try {
                 String[] args = {
-                    accountId
+                        accountId
                 };
                 ContentValues cv = new ContentValues();
                 cv.put(MentionCommentsTable.TIMELINEDATA, gson.toJson(position));

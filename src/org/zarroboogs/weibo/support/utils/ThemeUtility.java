@@ -23,7 +23,7 @@ public class ThemeUtility {
 
     public static int getColor(Activity activity, int attr) {
         int[] attrs = new int[] {
-            attr
+                attr
         };
         TypedArray ta = activity.obtainStyledAttributes(attrs);
         int color = ta.getColor(0, 430);
@@ -33,7 +33,7 @@ public class ThemeUtility {
 
     public static Drawable getDrawable(int attr) {
         int[] attrs = new int[] {
-            attr
+                attr
         };
         Context context = GlobalContext.getInstance().getActivity();
         TypedArray ta = context.obtainStyledAttributes(attrs);
@@ -45,7 +45,7 @@ public class ThemeUtility {
 
     public static int getResourceId(int attr) {
         int[] attrs = new int[] {
-            attr
+                attr
         };
         Context context = GlobalContext.getInstance().getActivity();
         TypedArray ta = context.obtainStyledAttributes(attrs);
@@ -56,7 +56,7 @@ public class ThemeUtility {
 
     public static int getDimensionPixelSize(Activity activity, int attr, int defaultValue) {
         int[] attrs = new int[] {
-            attr
+                attr
         };
         TypedArray ta = activity.obtainStyledAttributes(attrs);
         int value = ta.getDimensionPixelSize(0, defaultValue);

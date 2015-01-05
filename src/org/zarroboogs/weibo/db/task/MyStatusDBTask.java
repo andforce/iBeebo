@@ -121,7 +121,7 @@ public class MyStatusDBTask {
         if (c.moveToNext()) {
             try {
                 String[] args = {
-                    accountId
+                        accountId
                 };
                 ContentValues cv = new ContentValues();
                 cv.put(MyStatusTable.TIMELINEDATA, gson.toJson(position));

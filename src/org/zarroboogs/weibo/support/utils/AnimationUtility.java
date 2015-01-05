@@ -101,7 +101,7 @@ public class AnimationUtility {
                 Method method = Activity.class.getDeclaredMethod("convertToTranslucent", listener);
                 method.setAccessible(true);
                 method.invoke(activity, new Object[] {
-                    null
+                        null
                 });
             } catch (Throwable ignored) {
                 ignored.printStackTrace();

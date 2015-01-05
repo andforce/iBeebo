@@ -192,7 +192,7 @@ public class CommentByMeTimeLineDBTask {
         if (c.moveToNext()) {
             try {
                 String[] args = {
-                    accountId
+                        accountId
                 };
                 ContentValues cv = new ContentValues();
                 cv.put(CommentByMeTable.TIMELINEDATA, gson.toJson(position));

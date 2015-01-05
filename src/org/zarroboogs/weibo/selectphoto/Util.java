@@ -31,7 +31,7 @@ public class Util {
         Uri uri = intent.getData();
         ArrayList<String> list = new ArrayList<String>();
         String[] proj = {
-            MediaStore.Images.Media.DATA
+                MediaStore.Images.Media.DATA
         };
         Cursor cursor = context.getContentResolver().query(uri, proj, null, null, null);// managedQuery(uri,
                                                                                         // proj,

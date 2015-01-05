@@ -203,7 +203,7 @@ public class Utility {
 
         if (value.startsWith("/external")) {
             String[] proj = {
-                MediaStore.Images.Media.DATA
+                    MediaStore.Images.Media.DATA
             };
             Cursor cursor = activity.managedQuery(uri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);

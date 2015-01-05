@@ -319,7 +319,7 @@ public class Utility {
 
         if (value.startsWith("/external")) {
             String[] proj = {
-                MediaStore.Images.Media.DATA
+                    MediaStore.Images.Media.DATA
             };
             Cursor cursor = activity.managedQuery(uri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -1073,9 +1073,9 @@ public class Utility {
         String type = options.outMimeType;
 
         MediaScannerConnection.scanFile(GlobalContext.getInstance(), new String[] {
-            path
+                path
         }, new String[] {
-            type
+                type
         }, null);
 
     }

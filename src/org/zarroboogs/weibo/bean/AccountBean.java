@@ -125,7 +125,7 @@ public class AccountBean implements Parcelable {
         dest.writeString(cookie);
         // end
         dest.writeBooleanArray(new boolean[] {
-            this.black_magic
+                this.black_magic
         });
         dest.writeParcelable(info, flags);
     }

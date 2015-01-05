@@ -18,6 +18,7 @@ import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginCallBack;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
+import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -128,7 +129,12 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        mAccountBean = getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
+        mAccountBean = GlobalContext.getInstance().getAccountBean();/*
+                                                                     * getIntent().getParcelableExtra
+                                                                     * (
+                                                                     * BundleArgsConstants.ACCOUNT_EXTRA
+                                                                     * );
+                                                                     */
         // mAccountBean = getAccount();
         Log.d("RpostWeiBo_activity", "AccountBean == null ? : " + (mAccountBean == null));
         mEmptyToast = Toast.makeText(getApplicationContext(), R.string.text_is_empty, Toast.LENGTH_SHORT);

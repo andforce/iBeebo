@@ -23,7 +23,7 @@ public class DeleteSelectedPictureDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         String[] items = {
-            getString(R.string.delete)
+                getString(R.string.delete)
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()).setItems(items,

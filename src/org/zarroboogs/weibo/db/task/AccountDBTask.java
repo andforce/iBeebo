@@ -57,12 +57,12 @@ public class AccountDBTask {
         cv.put(AccountTable.INFOJSON, json);
 
         Cursor c = getWsd().query(AccountTable.ACCOUNT_TABLE, null, AccountTable.UID + "=?", new String[] {
-            account.getUid()
+                account.getUid()
         }, null, null, null);
 
         if (c != null && c.getCount() > 0) {
             String[] args = {
-                account.getUid()
+                    account.getUid()
             };
             getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", args);
             return OAuthActivity.DBResult.update_successfully;
@@ -92,7 +92,7 @@ public class AccountDBTask {
         cv.put(AccountTable.INFOJSON, json);
 
         int c = getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", new String[] {
-            uid
+                uid
         });
     }
 
@@ -104,7 +104,7 @@ public class AccountDBTask {
         cv.put(AccountTable.NAVIGATION_POSITION, position);
 
         int c = getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", new String[] {
-            uid
+                uid
         });
     }
 

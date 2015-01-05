@@ -13,7 +13,8 @@ import org.zarroboogs.weibo.setting.fragment.WaterMarkFragment;
 import com.umeng.analytics.MobclickAgent;
 
 public class WaterMarkPrefActivity extends AbstractAppActivity {
-	private Toolbar mWaterMarkToolbar;
+    private Toolbar mWaterMarkToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

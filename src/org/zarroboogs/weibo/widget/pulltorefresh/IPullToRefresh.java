@@ -189,7 +189,8 @@ public interface IPullToRefresh<T extends View> {
     /**
      * By default the Widget disables scrolling on the Refreshable View while refreshing. This
      * method can change this behaviour.
-     * @param scrollingWhileRefreshingEnabled - true if you want to enable scrolling while refreshing
+     * @param scrollingWhileRefreshingEnabled - true if you want to enable scrolling while
+     *            refreshing
      */
     public void setScrollingWhileRefreshingEnabled(boolean scrollingWhileRefreshingEnabled);
 

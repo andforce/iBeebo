@@ -35,18 +35,19 @@ public class WaterMarkFragment extends PreferenceFragment implements SharedPrefe
 
         preferenceList.add(findPreference(SettingActivity.WATER_MARK_POS));
 
-//        View title = getActivity().getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
-//        Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
-//        switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                SettingUtils.setEnableWaterMark(isChecked);
-//                switchPre(isChecked);
-//            }
-//        });
-//
-//        switchBtn.setChecked(SettingUtils.getEnableWaterMark());
-//        switchPre(SettingUtils.getEnableWaterMark());
+        // View title =
+        // getActivity().getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
+        // Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
+        // switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        // @Override
+        // public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        // SettingUtils.setEnableWaterMark(isChecked);
+        // switchPre(isChecked);
+        // }
+        // });
+        //
+        // switchBtn.setChecked(SettingUtils.getEnableWaterMark());
+        // switchPre(SettingUtils.getEnableWaterMark());
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 

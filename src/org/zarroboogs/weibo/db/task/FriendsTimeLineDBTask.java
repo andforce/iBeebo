@@ -171,7 +171,7 @@ public class FriendsTimeLineDBTask {
         if (c.getCount() > 0) {
             try {
                 String[] args = {
-                    accountId
+                        accountId
                 };
                 ContentValues cv = new ContentValues();
                 cv.put(HomeTable.TIMELINEDATA, gson.toJson(position));
@@ -243,7 +243,7 @@ public class FriendsTimeLineDBTask {
         if (c.moveToNext()) {
             try {
                 String[] args = {
-                    accountId
+                        accountId
                 };
                 ContentValues cv = new ContentValues();
                 cv.put(HomeTable.RECENT_GROUP_ID, groupId);
@@ -294,7 +294,7 @@ public class FriendsTimeLineDBTask {
                     value.setComments_count(commentCount);
                     value.setReposts_count(repostCount);
                     String[] args = {
-                        id
+                            id
                     };
                     ContentValues cv = new ContentValues();
                     cv.put(HomeTable.HomeDataTable.JSONDATA, gson.toJson(value));

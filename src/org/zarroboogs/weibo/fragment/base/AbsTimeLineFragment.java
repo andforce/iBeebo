@@ -48,7 +48,7 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        getListView().setOnItemLongClickListener(onItemLongClickListener);
+        // getListView().setOnItemLongClickListener(onItemLongClickListener);
     }
 
     private AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {

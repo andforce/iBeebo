@@ -37,7 +37,7 @@ public class EditBitmapUtils {
     private static final int INDEX_ORIENTATION = 0;
 
     private static final String[] IMAGE_PROJECTION = new String[] {
-        ImageColumns.ORIENTATION
+            ImageColumns.ORIENTATION
     };
 
     private final Context context;

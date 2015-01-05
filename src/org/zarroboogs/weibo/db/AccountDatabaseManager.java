@@ -28,14 +28,14 @@ public class AccountDatabaseManager {
     public void updateDB(String tableName, int id, String key, String value) {
         String tmpValue = "\"" + value + "\"";
         mSqLiteDatabase.execSQL("UPDATE " + tableName + " SET " + key + "=" + tmpValue + " WHERE id=?", new String[] {
-            "" + id
+                "" + id
         });
     }
 
     public void updateAccount(String tableName, String uid, String key, String value) {
         String tmpValue = "\"" + value + "\"";
         mSqLiteDatabase.execSQL("UPDATE " + tableName + " SET " + key + "=" + tmpValue + " WHERE uid=?", new String[] {
-            "" + uid
+                "" + uid
         });
     }
 }

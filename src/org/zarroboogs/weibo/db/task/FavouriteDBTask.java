@@ -76,7 +76,7 @@ public class FavouriteDBTask {
         if (c.moveToNext()) {
             try {
                 String[] args = {
-                    accountId
+                        accountId
                 };
                 ContentValues cv = new ContentValues();
                 cv.put(FavouriteTable.PAGE, page);
@@ -166,7 +166,7 @@ public class FavouriteDBTask {
         if (c.moveToNext()) {
             try {
                 String[] args = {
-                    accountId
+                        accountId
                 };
                 ContentValues cv = new ContentValues();
                 cv.put(FavouriteTable.TIMELINEDATA, gson.toJson(position));

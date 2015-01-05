@@ -47,7 +47,7 @@ public class AppsrcDatabaseManager {
     public void updateDB(String tableName, int id, String key, String value) {
         String tmpValue = "\"" + value + "\"";
         mSqLiteDatabase.execSQL("UPDATE " + tableName + " SET " + key + "=" + tmpValue + " WHERE id=?", new String[] {
-            "" + id
+                "" + id
         });
     }
 

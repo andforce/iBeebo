@@ -43,6 +43,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -398,6 +399,8 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         holder.timeline_pic = ViewUtility.findViewById(convertView, R.id.timeline_pic_iv);
         holder.replyIV = ViewUtility.findViewById(convertView, R.id.replyIV);
         holder.source = ViewUtility.findViewById(convertView, R.id.source);
+        holder.repostBtn = ViewUtility.findViewById(convertView, R.id.repostButton);
+        holder.commentBtn = ViewUtility.findViewById(convertView, R.id.commentButton);
         return holder;
     }
 
@@ -744,6 +747,9 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         ImageView timeline_pic;
 
         ImageView replyIV;
+
+        ImageButton repostBtn;
+        ImageButton commentBtn;
     }
 
     public void removeItem(final int postion) {

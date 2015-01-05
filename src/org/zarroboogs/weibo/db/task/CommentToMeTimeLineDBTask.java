@@ -191,7 +191,7 @@ public class CommentToMeTimeLineDBTask {
         if (c.moveToNext()) {
             try {
                 String[] args = {
-                    accountId
+                        accountId
                 };
                 ContentValues cv = new ContentValues();
                 cv.put(CommentsTable.TIMELINEDATA, gson.toJson(position));

@@ -113,7 +113,7 @@ public class MessageBean extends DataItem implements Parcelable {
         dest.writeString(text);
         dest.writeString(source);
         dest.writeBooleanArray(new boolean[] {
-            this.favorited
+                this.favorited
         });
         dest.writeString(truncated);
         dest.writeString(in_reply_to_status_id);
