@@ -18,7 +18,7 @@ import com.loopj.android.http.PersistentCookieStore;
 
 import java.lang.reflect.Field;
 
-public class AbstractAppActivity extends TranslucentStatusBarActivity {
+public class AbstractAppActivity extends WeiboDataProviderActivity {
 
     protected int theme = 0;
     public AccountBean mAccountBean;

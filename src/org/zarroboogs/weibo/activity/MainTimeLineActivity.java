@@ -53,7 +53,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -91,19 +90,15 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
         if (savedInstanceState != null) {
             mAccountBean = savedInstanceState.getParcelable(Constants.ACCOUNT);
-            Log.d("ACCOUNTBEAN", "00000000000000000");
         } else {
             Intent intent = getIntent();
             mAccountBean = intent.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
-            Log.d("ACCOUNTBEAN", "11111111111111111111111111" + mAccountBean.getUname());
         }
 
         if (mAccountBean == null) {
             mAccountBean = GlobalContext.getInstance().getAccountBean();
-            Log.d("ACCOUNTBEAN", "22222222222222222222222222222");
         }
 
-        Log.d("ACCOUNTBEAN", "" + mAccountBean.getPwd());
         GlobalContext.getInstance().setGroup(null);
         GlobalContext.getInstance().setAccountBean(mAccountBean);
         SettingUtils.setDefaultAccountId(mAccountBean.getUid());
@@ -131,8 +126,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
     private void buildInterface(Bundle savedInstanceState) {
-        // getActionBar().setTitle(GlobalContext.getInstance().getCurrentAccountName());
-        // getWindow().setBackgroundDrawable(null);
         setContentView(R.layout.layout_main_time_line_activity);
         mToolbar = (Toolbar) findViewById(R.id.mainTimeLineToolBar);
 
@@ -147,18 +140,9 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             }
         });
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        // setSupportActionBar(mToolbar);
-        // getSupportActionBar().setHomeButtonEnabled(true);
-
-        // mToolbar.setNavigationIcon(android.R.drawable.ic_g)
 
         boolean isPhoneDevice = findViewById(R.id.menu_frame) == null;
         Log.d("MainTimeLine-buildInterface", "isPhoneDevice: " + isPhoneDevice);
-        if (isPhoneDevice) {
-            buildPhoneLeftRightSlidingMenu(savedInstanceState);
-        } else {
-            buildPadLeftRightSlidingMenu(savedInstanceState);
-        }
 
         buildCustomActionBarTitle(savedInstanceState);
 
@@ -173,7 +157,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             mainTransaction.replace(R.id.menu_frame_right, getRightMenuFragment(), RightMenuFragment.class.getName());
             mainTransaction.commit();
         }
-        configSlidingMenu(isPhoneDevice);
     }
 
     class MyDrawerToggle extends ActionBarDrawerToggle {
@@ -259,60 +242,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         }
     }
 
-    private void configSlidingMenu(boolean isPhoneDevice) {/*
-                                                            * SlidingMenu slidingMenu =
-                                                            * getSlidingMenu();
-                                                            * slidingMenu.setShadowWidthRes
-                                                            * (R.dimen.shadow_width);
-                                                            * slidingMenu.setShadowDrawable
-                                                            * (R.drawable.shadow_slidingmenu); if
-                                                            * (isPhoneDevice) {
-                                                            * slidingMenu.setBehindOffsetRes
-                                                            * (R.dimen.slidingmenu_offset);
-                                                            * slidingMenu
-                                                            * .setRightMenuOffsetRes(R.dimen
-                                                            * .slidingmenu_offset); } else {
-                                                            * slidingMenu
-                                                            * .setBehindOffset(Utility.getScreenWidth
-                                                            * ()); }
-                                                            * slidingMenu.setFadeDegree(0.35f);
-                                                            * slidingMenu
-                                                            * .setOnPageScrollListener(new
-                                                            * SlidingMenu.OnPageScrollListener() {
-                                                            * @Override public void onPageScroll() {
-                                                            * LongClickableLinkMovementMethod
-                                                            * .getInstance
-                                                            * ().setLongClickable(false);
-                                                            * (getFriendsTimeLineFragment
-                                                            * ()).clearActionMode();
-                                                            * (getFavFragment()).clearActionMode();
-                                                            * (getCommentsTimeLineFragment()).
-                                                            * clearActionMode();
-                                                            * (getMentionsTimeLineFragment
-                                                            * ()).clearActionMode();
-                                                            * (getMyProfileFragment
-                                                            * ()).clearActionMode(); if
-                                                            * (GlobalContext
-                                                            * .getInstance().getAccountBean
-                                                            * ().isBlack_magic()) {
-                                                            * (getSearchFragment
-                                                            * ()).clearActionMode();
-                                                            * (getDMFragment()).clearActionMode(); }
-                                                            * } });
-                                                            * slidingMenu.setOnClosedListener(new
-                                                            * SlidingMenu.OnClosedListener() {
-                                                            * @Override public void onClosed() {
-                                                            * LongClickableLinkMovementMethod
-                                                            * .getInstance().setLongClickable(true);
-                                                            * LocalBroadcastManager
-                                                            * .getInstance(MainTimeLineActivity
-                                                            * .this).sendBroadcast(new
-                                                            * Intent(AppEventAction
-                                                            * .SLIDING_MENU_CLOSED_BROADCAST)); }
-                                                            * });
-                                                            */
-    }
-
     private void buildCustomActionBarTitle(Bundle savedInstanceState) {
         View title = getLayoutInflater().inflate(R.layout.maintimelineactivity_title_layout, null);
         titleText = (TextView) title.findViewById(R.id.tv_title);
@@ -338,87 +267,9 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
             }
         });
-        // ActionBar.LayoutParams layoutParams = new
-        // ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-        // ViewGroup.LayoutParams.MATCH_PARENT,
-        // Gravity.RIGHT);
-        // getActionBar().setCustomView(title, layoutParams);
-        // getActionBar().setDisplayShowCustomEnabled(true);
     }
 
-    private void buildPhoneLeftRightSlidingMenu(Bundle savedInstanceState) {/*
-                                                                             * setBehindContentView(R
-                                                                             * .layout.
-                                                                             * layout_left_menu_frame
-                                                                             * ); getSlidingMenu().
-                                                                             * setSlidingEnabled
-                                                                             * (true);
-                                                                             * getSlidingMenu
-                                                                             * ().setTouchModeAbove
-                                                                             * (SlidingMenu
-                                                                             * .TOUCHMODE_MARGIN);
-                                                                             * // getActionBar().
-                                                                             * setDisplayHomeAsUpEnabled
-                                                                             * (true); // 右侧的Menu
-                                                                             * getSlidingMenu
-                                                                             * ().setSecondaryMenu
-                                                                             * (R.layout.
-                                                                             * layout_right_menu_frame
-                                                                             * );
-                                                                             * getSupportFragmentManager
-                                                                             * (
-                                                                             * ).beginTransaction().
-                                                                             * replace
-                                                                             * (R.id.menu_frame_right
-                                                                             * ,
-                                                                             * getRightMenuFragment
-                                                                             * ()).commit();
-                                                                             * getSlidingMenu().
-                                                                             * setSecondaryShadowDrawable
-                                                                             * (R.drawable.
-                                                                             * right_shadow_slidingmenu
-                                                                             * ); // end 右侧Menu
-                                                                             * getSlidingMenu
-                                                                             * ().setMode
-                                                                             * (SlidingMenu
-                                                                             * .LEFT_RIGHT);
-                                                                             * getSlidingMenu
-                                                                             * ().setTouchModeAbove
-                                                                             * (SlidingMenu
-                                                                             * .TOUCHMODE_MARGIN);
-                                                                             */
-    }
 
-    private void buildPadLeftRightSlidingMenu(Bundle savedInstanceState) {/*
-                                                                           * View v = new
-                                                                           * View(this);
-                                                                           * setBehindContentView
-                                                                           * (v); // 右侧的Menu
-                                                                           * getSlidingMenu
-                                                                           * ().setSecondaryMenu
-                                                                           * (R.layout
-                                                                           * .layout_right_menu_frame
-                                                                           * );
-                                                                           * getSupportFragmentManager
-                                                                           * ().beginTransaction().
-                                                                           * replace
-                                                                           * (R.id.menu_frame_right,
-                                                                           * getRightMenuFragment
-                                                                           * ()).commit();
-                                                                           * getSlidingMenu().
-                                                                           * setSecondaryShadowDrawable
-                                                                           * (R.drawable.
-                                                                           * shadow_slidingmenu); //
-                                                                           * end 右侧Menu
-                                                                           * getSlidingMenu
-                                                                           * ().setSlidingEnabled
-                                                                           * (false);
-                                                                           * getSlidingMenu(
-                                                                           * ).setTouchModeAbove
-                                                                           * (SlidingMenu
-                                                                           * .TOUCHMODE_NONE);
-                                                                           */
-    }
 
     private void scrollCurrentListViewToTop() {
         if (this.currentFragment != null) {
@@ -477,16 +328,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         finish();
     }
 
-    //
-    // @Override
-    // public boolean onOptionsItemSelected(MenuItem item) {
-    // switch (item.getItemId()) {
-    // case android.R.id.home:
-    // // getSlidingMenu().showMenu();
-    // return true;
-    // }
-    // return super.onOptionsItemSelected(item);
-    // }
 
     public UserBean getUser() {
         return mAccountBean.getInfo();
@@ -708,22 +549,18 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
     public void setMentionsWeiboCount(int count) {
-        // LeftMenuFragment fragment = getLeftMenuFragment();
-        // fragment.setMentionWeiboUnreadCount(count);
+         LeftMenuFragment fragment = getLeftMenuFragment();
+         fragment.setMentionWeiboUnreadCount(count);
     }
 
-    public void setMentionsCommentCount(int count) {/*
-                                                     * LeftMenuFragment fragment =
-                                                     * getLeftMenuFragment();
-                                                     * fragment.setMentionCommentUnreadCount(count);
-                                                     */
-    }
+    public void setMentionsCommentCount(int count) {
+        LeftMenuFragment fragment = getLeftMenuFragment();
+        fragment.setMentionCommentUnreadCount(count);}
 
-    public void setCommentsToMeCount(int count) {/*
-                                                  * LeftMenuFragment fragment =
-                                                  * getLeftMenuFragment();
-                                                  * fragment.setCommentUnreadCount(count);
-                                                  */
+    public void setCommentsToMeCount(int count) {
+
+        LeftMenuFragment fragment = getLeftMenuFragment();
+        fragment.setCommentUnreadCount(count);
     }
 
     public static interface ScrollableListFragment {
