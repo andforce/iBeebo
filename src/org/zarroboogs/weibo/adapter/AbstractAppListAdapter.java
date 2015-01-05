@@ -327,11 +327,11 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         holder.listview_root.setClickable(false);
         holder.username.setClickable(false);
         holder.time.setClickable(false);
-        holder.content.setClickable(false);
+        holder.weiboTextContent.setClickable(false);
         holder.repost_content.setClickable(false);
 
-        if (holder.content != null) {
-            holder.content.setOnTouchListener(onTouchListener);
+        if (holder.weiboTextContent != null) {
+            holder.weiboTextContent.setOnTouchListener(onTouchListener);
         }
         if (holder.repost_content != null) {
             holder.repost_content.setOnTouchListener(onTouchListener);
@@ -378,7 +378,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         if (tp != null) {
             tp.setFakeBoldText(true);
         }
-        holder.content = ViewUtility.findViewById(convertView, R.id.content);
+        holder.weiboTextContent = ViewUtility.findViewById(convertView, R.id.weibo_text_content);
         holder.repost_content = ViewUtility.findViewById(convertView, R.id.repost_content);
         holder.time = ViewUtility.findViewById(convertView, R.id.time);
         holder.avatar = (TimeLineAvatarImageView) convertView.findViewById(R.id.avatar);
@@ -415,8 +415,8 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
 
         if (View.LAYER_TYPE_SOFTWARE != currentWidgetLayerType) {
             holder.username.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            if (holder.content != null) {
-                holder.content.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            if (holder.weiboTextContent != null) {
+                holder.weiboTextContent.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
             if (holder.repost_content != null) {
                 holder.repost_content.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -447,10 +447,10 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
             }
         }
 
-        currentWidgetTextSizePx = holder.content.getTextSize();
+        currentWidgetTextSizePx = holder.weiboTextContent.getTextSize();
 
         if (Utility.sp2px(prefFontSizeSp) != currentWidgetTextSizePx) {
-            holder.content.setTextSize(prefFontSizeSp);
+            holder.weiboTextContent.setTextSize(prefFontSizeSp);
             holder.username.setTextSize(prefFontSizeSp);
             holder.repost_content.setTextSize(prefFontSizeSp);
 
@@ -712,7 +712,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
 
         TextView username;
 
-        TextView content;
+        TextView weiboTextContent;
 
         TextView repost_content;
 

@@ -122,7 +122,7 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
             holder.avatar.setVisibility(View.INVISIBLE);
         }
 
-        holder.content.setText(comment.getListViewSpannableString());
+        holder.weiboTextContent.setText(comment.getListViewSpannableString());
 
         holder.time.setTime(comment.getMills());
         if (holder.source != null) {

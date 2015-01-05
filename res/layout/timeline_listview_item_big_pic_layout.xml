@@ -96,7 +96,7 @@
             android:textColor="?android:textColorTertiary" />
 
         <TextView
-            android:id="@+id/content"
+            android:id="@+id/weibo_text_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/avatar"

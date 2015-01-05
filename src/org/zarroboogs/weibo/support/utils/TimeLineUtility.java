@@ -77,6 +77,18 @@ public class TimeLineUtility {
         return value;
     }
 
+    public static void addEmotions(TextView et, String txt) {
+        String hackTxt;
+        if (txt.startsWith("[") && txt.endsWith("]")) {
+            hackTxt = txt + " ";
+        } else {
+            hackTxt = txt;
+        }
+        SpannableString value = SpannableString.valueOf(hackTxt);
+        TimeLineUtility.addEmotions(value);
+        et.setText(value);
+    }
+    
     public static void addEmotions(EditText et, String txt) {
         String hackTxt;
         if (txt.startsWith("[") && txt.endsWith("]")) {

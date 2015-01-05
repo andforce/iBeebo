@@ -173,7 +173,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
         if (!TextUtils.isEmpty(msg.getListViewSpannableString())) {
             boolean haveCachedHeight = msgHeights.get(msg.getIdLong()) != null;
-            ViewGroup.LayoutParams layoutParams = holder.content.getLayoutParams();
+            ViewGroup.LayoutParams layoutParams = holder.weiboTextContent.getLayoutParams();
             if (haveCachedHeight) {
                 layoutParams.height = msgHeights.get(msg.getIdLong());
             } else {
@@ -187,8 +187,8 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
                 layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
             }
 
-            holder.content.requestLayout();
-            holder.content.setText(msg.getListViewSpannableString());
+            holder.weiboTextContent.requestLayout();
+            holder.weiboTextContent.setText(msg.getListViewSpannableString());
             if (!haveCachedHeight) {
                 msgHeights.append(msg.getIdLong(), layoutParams.height);
             }
@@ -198,7 +198,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
             }
         } else {
             TimeLineUtility.addJustHighLightLinks(msg);
-            holder.content.setText(msg.getListViewSpannableString());
+            holder.weiboTextContent.setText(msg.getListViewSpannableString());
         }
 
         holder.time.setTime(msg.getMills());
