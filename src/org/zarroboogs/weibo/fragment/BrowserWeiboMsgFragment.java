@@ -896,7 +896,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
                 if (repostList.getSize() == 0) {
                     loadNewRepostData();
                 } else {
-                    Loader loader = getLoaderManager().getLoader(NEW_REPOST_LOADER_ID);
+                    Loader<Object> loader = getLoaderManager().getLoader(NEW_REPOST_LOADER_ID);
                     if (loader != null) {
                         progressHeader.setVisibility(View.VISIBLE);
                     } else {
@@ -936,7 +936,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
                 if (commentList.getSize() == 0) {
                     loadNewCommentData();
                 } else {
-                    Loader loader = getLoaderManager().getLoader(NEW_COMMENT_LOADER_ID);
+                    Loader<Object> loader = getLoaderManager().getLoader(NEW_COMMENT_LOADER_ID);
                     if (loader != null) {
                         progressHeader.setVisibility(View.VISIBLE);
                     } else {

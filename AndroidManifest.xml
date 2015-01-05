@@ -90,7 +90,7 @@
             android:name="org.zarroboogs.weibo.activity.WriteWeiboActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateVisible|adjustResize" >
-            <intent-filter>
+<!--             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -103,7 +103,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="text/plain" />
-            </intent-filter>
+            </intent-filter> -->
         </activity>
         <activity
             android:name="org.zarroboogs.weibo.activity.WriteRepostActivity"
