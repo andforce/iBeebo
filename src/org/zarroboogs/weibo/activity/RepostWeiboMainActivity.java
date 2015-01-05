@@ -131,12 +131,7 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        mAccountBean = GlobalContext.getInstance().getAccountBean();/*
-                                                                     * getIntent().getParcelableExtra
-                                                                     * (
-                                                                     * BundleArgsConstants.ACCOUNT_EXTRA
-                                                                     * );
-                                                                     */
+        mAccountBean = GlobalContext.getInstance().getAccountBean();
         // mAccountBean = getAccount();
         Log.d("RpostWeiBo_activity", "AccountBean == null ? : " + (mAccountBean == null));
         mEmptyToast = Toast.makeText(getApplicationContext(), R.string.text_is_empty, Toast.LENGTH_SHORT);
