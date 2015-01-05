@@ -4,19 +4,13 @@ package org.zarroboogs.weibo.activity;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import lib.org.zarroboogs.weibo.login.httpclient.WaterMark;
-import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask;
 import lib.org.zarroboogs.weibo.login.javabean.RequestResultBean;
-import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask.OnDoorOpenListener;
-import lib.org.zarroboogs.weibo.login.utils.Constaces;
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 import org.apache.http.Header;
-import org.apache.http.message.BasicHeader;
 import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginCallBack;
 import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.Utility;
@@ -27,23 +21,18 @@ import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.UserBean;
-import org.zarroboogs.weibo.bean.WeibaGson;
-import org.zarroboogs.weibo.bean.WeibaTree;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
-import org.zarroboogs.weibo.dialogfragment.SaveDraftDialog;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
-import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -51,20 +40,13 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -75,22 +57,17 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -101,17 +78,16 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
     protected static final String TAG = "WeiboMainActivity  ";
     private SmileyPicker mSmileyPicker = null;
 
-    Map<Integer, String> map = new HashMap<Integer, String>();
-    InputMethodManager imm = null;
-    MaterialEditText mEditText;
-    RelativeLayout mRootView;
+    private InputMethodManager imm = null;
+    private MaterialEditText mEditText;
+    private RelativeLayout mRootView;
 
-    RelativeLayout editTextLayout;
-    ImageButton mSelectPhoto;
-    ImageButton mSendBtn;
-    ImageButton smileButton;
+    private RelativeLayout editTextLayout;
+    private ImageButton mSelectPhoto;
+    private ImageButton mSendBtn;
+    private ImageButton smileButton;
 
-    Button appSrcBtn;
+    private Button appSrcBtn;
     TableLayout sendImgTL;
 
     AccountBean mAccountBean;
@@ -252,7 +228,7 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
                 if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
                     listView.setRefreshing();
-                    fetchWeiBa();
+                    fetchAppSrc();
                 } else {
                     listView.post(new Runnable() {
                         public void run() {
@@ -304,6 +280,33 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
         });
     }
 
+    protected void fetchAppSrc() {
+        fetchWeiBa(new OnFetchAppSrcListener() {
+
+            @Override
+            public void onSuccess(List<WeiboWeiba> appsrcs) {
+                for (WeiboWeiba weiboWeiba : appsrcs) {
+                    if (mDBmanager.searchAppsrcByCode(weiboWeiba.getCode()) == null) {
+                        mDBmanager.insertCategoryTree(0, weiboWeiba.getCode(), weiboWeiba.getText());
+                    }
+                }
+                listView.onRefreshComplete();
+                listAdapter.setWeibas(mDBmanager.fetchAllAppsrc());
+                hideDialogForWeiBo();
+            }
+
+            @Override
+            public void onStart() {
+                showDialogForWeiBo();
+            }
+
+            @Override
+            public void onFailure() {
+                hideDialogForWeiBo();
+            }
+        });
+    }
+
     class MyDrawerToggle extends ActionBarDrawerToggle {
 
         public MyDrawerToggle(Activity activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes,
@@ -326,7 +329,7 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
             }
             if (list.size() == 0) {
                 if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-                    fetchWeiBa();
+                    fetchAppSrc();
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
                 }
@@ -350,53 +353,6 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getName());
         MobclickAgent.onPause(this);
-    }
-
-    private void fetchWeiBa() {
-        showDialogForWeiBo();
-
-        String url = "http://appsrc.sinaapp.com/";
-        Header[] srcHeaders = new Header[] {
-                new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
-                new BasicHeader("Accept-Encoding", "gzip,deflate,sdch"),
-                new BasicHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4"),
-                new BasicHeader("Cache-Control", "no-cache"),
-                new BasicHeader("Connection", "keep-alive"),
-                new BasicHeader("Host", "appsrc.sinaapp.com"),
-                new BasicHeader("Pragma", "no-cache"),
-                new BasicHeader("User-Agent", Constaces.User_Agent),
-        };
-        getAsyncHttpClient().get(getApplicationContext(), url, srcHeaders, null, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String resp = new String(responseBody);
-                String jsonString = resp.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
-                Log.d("FETCH_WEIBA: ", "" + jsonString);
-                Gson gson = new Gson();
-                WeibaGson weibaGson = gson.fromJson(jsonString, WeibaGson.class);
-                List<WeibaTree> weibaTrees = weibaGson.getData();
-
-                for (WeibaTree weibaTree : weibaTrees) {
-                    List<WeiboWeiba> weibas = weibaTree.getData();
-                    for (WeiboWeiba weiba : weibas) {
-                        if (mDBmanager.searchAppsrcByCode(weiba.getCode()) == null) {
-                            mDBmanager.insertCategoryTree(0, weiba.getCode(), weiba.getText());
-                        }
-                    }
-                }
-
-                listView.onRefreshComplete();
-                listAdapter.setWeibas(mDBmanager.fetchAllAppsrc());
-                hideDialogForWeiBo();
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.d("FETCH_WEIBA: ", "" + error.getLocalizedMessage());
-            }
-        });
     }
 
     private TextWatcher watcher = new TextWatcher() {

@@ -31,6 +31,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.bean.WeibaGson;
+import org.zarroboogs.weibo.bean.WeibaTree;
+import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.setting.SettingUtils;
 
 import android.app.AlertDialog;
@@ -53,6 +56,7 @@ import android.widget.Toast;
 
 import com.evgenii.jsevaluator.JsEvaluator;
 import com.evgenii.jsevaluator.interfaces.JsCallback;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.ResponseHandlerInterface;
 
@@ -483,4 +487,59 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                     }
                 });
     };
+    
+    public interface OnFetchAppSrcListener{
+        public void onStart();
+        public void onSuccess(List<WeiboWeiba> appsrcs);
+        public void onFailure();
+    }
+    private OnFetchAppSrcListener mFetchAppSrcListener;
+    
+    protected void fetchWeiBa(OnFetchAppSrcListener listener) {
+        this.mFetchAppSrcListener = listener;
+        if (mFetchAppSrcListener != null) {
+            mFetchAppSrcListener.onStart();
+        }
+        
+        showDialogForWeiBo();
+        String url = "http://appsrc.sinaapp.com/";
+        Header[] srcHeaders = new Header[] {
+                new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
+                new BasicHeader("Accept-Encoding", "gzip,deflate,sdch"),
+                new BasicHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4"),
+                new BasicHeader("Cache-Control", "no-cache"),
+                new BasicHeader("Connection", "keep-alive"),
+                new BasicHeader("Host", "appsrc.sinaapp.com"),
+                new BasicHeader("Pragma", "no-cache"),
+                new BasicHeader("User-Agent", Constaces.User_Agent),
+        };
+        getAsyncHttpClient().get(getApplicationContext(), url, srcHeaders, null, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String resp = new String(responseBody);
+                String jsonString = resp.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
+                Gson gson = new Gson();
+                WeibaGson weibaGson = gson.fromJson(jsonString, WeibaGson.class);
+                List<WeibaTree> weibaTrees = weibaGson.getData();
+
+                List<WeiboWeiba> weibas = new ArrayList<WeiboWeiba>();
+                for (WeibaTree weibaTree : weibaTrees) {
+                    weibas.addAll(weibaTree.getData());
+                }
+
+                if (mFetchAppSrcListener != null) {
+                    mFetchAppSrcListener.onSuccess(weibas);
+                }
+                hideDialogForWeiBo();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                if (mFetchAppSrcListener != null) {
+                    mFetchAppSrcListener.onFailure();
+                }
+            }
+        });
+    }
 }
