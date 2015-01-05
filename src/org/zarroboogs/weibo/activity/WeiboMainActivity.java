@@ -160,7 +160,7 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
         super.onCreate(savedInstanceState);
         getAppSrcSharedPreference().registerOnSharedPreferenceChangeListener(this);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.write_weibo_with_appsrc_activity_layout);
         // drawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);

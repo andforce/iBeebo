@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?attr/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:minHeight="?attr/actionBarSize" />
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/writeWeiboDrawerL"
@@ -25,13 +25,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <include
+            <org.zarroboogs.weibo.widget.SmileyPicker
+                android:id="@+id/smileLayout_ref"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone" />
+            <!--
+                 <include
                 android:id="@+id/smileLayout_ref"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_alignParentBottom="true"
                 layout="@layout/smile_layout"
                 android:visibility="gone" />
+            -->
 
             <RelativeLayout
                 android:id="@+id/action_layout"
@@ -162,11 +170,11 @@
                             android:layout_height="match_parent"
                             android:background="#00000000"
                             android:ems="10"
-                            app:hideUnderline="true"
                             android:gravity="top"
                             android:inputType="textMultiLine"
                             android:minHeight="180dp"
-                            android:padding="10dp" >
+                            android:padding="10dp"
+                            app:hideUnderline="true" >
                         </com.rengwuxian.materialedittext.MaterialEditText>
                     </RelativeLayout>
                 </ScrollView>
