@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.widget;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
+import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
 
 import android.animation.LayoutTransition;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -231,12 +233,17 @@ public class SmileyPicker extends LinearLayout {
             contentView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String ori = mEditText.getText().toString();
                     int index = mEditText.getSelectionStart();
-                    StringBuilder stringBuilder = new StringBuilder(ori);
-                    stringBuilder.insert(index, keys.get(position));
-                    mEditText.setText(stringBuilder.toString());
-                    mEditText.setSelection(index + keys.get(position).length());
+                    String text = keys.get(position);
+                    Editable edit = mEditText.getEditableText();// 获取EditText的文字
+                    if (index < 0 || index >= edit.length()) {
+                        edit.append(text);
+                    } else {
+                        edit.insert(index, text);// 光标所在位置插入文字
+                    }
+                    String content = mEditText.getText().toString();
+                    TimeLineUtility.addEmotions(mEditText, content);
+                    mEditText.setSelection(index + text.length());
                 }
             });
         }

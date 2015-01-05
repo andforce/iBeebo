@@ -252,7 +252,7 @@ public class UserInfoActivity extends AbstractAppActivity {
                 startActivity(intent);
                 return true;
             case R.id.menu_at:
-                intent = new Intent(this, WeiboMainActivity.class);
+                intent = new Intent(this, WriteWeiboWithAppSrcActivity.class);
                 intent.putExtra(Constants.TOKEN, getToken());
                 intent.putExtra("content", "@" + bean.getScreen_name());
                 intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());

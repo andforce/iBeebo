@@ -26,6 +26,7 @@ import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
+import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
@@ -69,7 +70,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginCallBack,
+public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginCallBack,
         OnClickListener, OnGlobalLayoutListener, OnItemClickListener {
 
     public static final String TAG = "RepostWeiboMainActivity ";
@@ -339,7 +340,6 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             // TODO Auto-generated method stub
-
         }
 
         @Override
@@ -379,35 +379,6 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
         ImageLoader.getInstance().stop();
     }
 
-    // private void findAllEmotionImageView(ViewGroup vg) {
-    // int count = vg.getChildCount();
-    // for (int i = 0; i < count; i++) {
-    // View v = vg.getChildAt(i);
-    // if (v instanceof TableRow) {
-    // findAllEmotionImageView((TableRow) v);
-    // } else {
-    // ((ImageView) v).setOnClickListener(new OnClickListener() {
-    //
-    // @Override
-    // public void onClick(View v) {
-    // // TODO Auto-generated method stub
-    // String text = ((ImageView) v).getContentDescription() + "";
-    // int index = mEditText.getSelectionStart();// 获取光标所在位置
-    // Editable edit = mEditText.getEditableText();// 获取EditText的文字
-    // if (index < 0 || index >= edit.length()) {
-    // edit.append(text);
-    // } else {
-    // edit.insert(index, text);// 光标所在位置插入文字
-    // }
-    // String content = mEditText.getText().toString();
-    // TimeLineUtility.addEmotions(mEditText, content);
-    // mEditText.setSelection(index + text.length());
-    // }
-    // });
-    // mEmotionArrayList.add((ImageView) v);
-    // }
-    // }
-    // }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -426,7 +397,7 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
     public void startLogIn() {
         hideDialogForWeiBo();
         Intent intent = new Intent();
-        intent.setClass(RepostWeiboMainActivity.this, WebViewActivity.class);
+        intent.setClass(RepostWeiboWithAppSrcActivity.this, WebViewActivity.class);
         startActivity(intent);
 
     }
@@ -495,7 +466,7 @@ public class RepostWeiboMainActivity extends BaseLoginActivity implements LoginC
                         if (mSmileyPicker.isShown()) {
                             hideSmileyPicker(true);
                         } else {
-                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(RepostWeiboMainActivity.this));
+                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(RepostWeiboWithAppSrcActivity.this));
                         }
                     }
                 }, 100);

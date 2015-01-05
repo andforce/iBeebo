@@ -261,7 +261,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                     Intent intent = WriteWeiboActivity.newIntent(GlobalContext.getInstance().getAccountBean());
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(MainTimeLineActivity.this, WeiboMainActivity.class);
+                    Intent intent = new Intent(MainTimeLineActivity.this, WriteWeiboWithAppSrcActivity.class);
                     startActivity(intent);
                 }
 

@@ -313,12 +313,12 @@
         <activity android:name="org.zarroboogs.weibo.activity.DMUserListActivity" />
         <activity android:name="org.zarroboogs.weibo.activity.DMSelectUserActivity" />
         <activity
-            android:name="org.zarroboogs.weibo.activity.WeiboMainActivity"
+            android:name="org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
-            android:name="org.zarroboogs.weibo.activity.RepostWeiboMainActivity"
+            android:name="org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" >
         </activity>

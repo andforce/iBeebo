@@ -7,7 +7,7 @@ import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
-import org.zarroboogs.weibo.activity.WeiboMainActivity;
+import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteWeiboActivity;
 import org.zarroboogs.weibo.adapter.AbstractAppListAdapter;
 import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
@@ -123,7 +123,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
                 if (SettingUtils.isDebug()) {
                     clzz = WriteWeiboActivity.class;
                 } else {
-                    clzz = WeiboMainActivity.class;
+                    clzz = WriteWeiboWithAppSrcActivity.class;
                 }
                 Intent intent = new Intent(getActivity(), clzz);
                 intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());

@@ -9,7 +9,7 @@ import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
-import org.zarroboogs.weibo.activity.WeiboMainActivity;
+import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteWeiboActivity;
 import org.zarroboogs.weibo.adapter.AbstractAppListAdapter;
 import org.zarroboogs.weibo.adapter.FriendsTimeLineListNavAdapter;

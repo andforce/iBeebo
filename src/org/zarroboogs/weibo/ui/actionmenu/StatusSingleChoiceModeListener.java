@@ -19,7 +19,7 @@ import android.widget.Toast;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.RepostWeiboMainActivity;
+import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.activity.WriteRepostActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -134,7 +134,7 @@ public class StatusSingleChoiceModeListener implements ActionMode.Callback {
         long[] ids = listView.getCheckedItemIds();
         switch (item.getItemId()) {
             case R.id.menu_repost:
-                intent = new Intent(getActivity(), RepostWeiboMainActivity.class);
+                intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
                 intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
                 intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
                 intent.putExtra("id", String.valueOf(ids[0]));

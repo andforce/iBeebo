@@ -241,7 +241,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
                 startActivity(intent);
                 return true;
             case R.id.menu_repost:
-                intent = new Intent(this, RepostWeiboMainActivity.class);
+                intent = new Intent(this, RepostWeiboWithAppSrcActivity.class);
                 Log.d("RpostWeiBo_activity_start", "AccountBean == null ? : " + (mAccountBean == null));
                 intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
                 intent.putExtra(Constants.TOKEN, getToken());

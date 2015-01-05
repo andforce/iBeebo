@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.adapter;
 
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
-import org.zarroboogs.weibo.activity.RepostWeiboMainActivity;
+import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
@@ -134,7 +134,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RepostWeiboMainActivity.class);
+                Intent intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
                 intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
                 intent.putExtra("msg", msg);
                 getActivity().startActivity(intent);

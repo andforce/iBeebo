@@ -71,7 +71,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBack, OnClickListener,
+public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginCallBack, OnClickListener,
         OnGlobalLayoutListener, OnItemClickListener, OnSharedPreferenceChangeListener {
 
     public static final String LOGIN_TAG = "START_SEND_WEIBO ";
@@ -499,7 +499,7 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
         hideDialogForWeiBo();
         Intent intent = new Intent();
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
-        intent.setClass(WeiboMainActivity.this, WebViewActivity.class);
+        intent.setClass(WriteWeiboWithAppSrcActivity.this, WebViewActivity.class);
         startActivity(intent);
     }
 
@@ -609,7 +609,7 @@ public class WeiboMainActivity extends BaseLoginActivity implements LoginCallBac
                         if (mSmileyPicker.isShown()) {
                             hideSmileyPicker(true);
                         } else {
-                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(WeiboMainActivity.this));
+                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(WriteWeiboWithAppSrcActivity.this));
                         }
                         // if (mEmotionRelativeLayout.getVisibility() == View.GONE) {
                         // mEmotionRelativeLayout.setVisibility(View.VISIBLE);
