@@ -110,7 +110,7 @@
             android:id="@+id/repost_flag"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/content"
+            android:layout_below="@id/weibo_text_content"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
