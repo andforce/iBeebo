@@ -168,8 +168,6 @@ public class RightMenuFragment extends BaseStateFragment {
                 showProfilePage(true);
                 break;
         }
-        drawButtonsBackground(position);
-
         firstStart = false;
     }
 
@@ -645,23 +643,18 @@ public class RightMenuFragment extends BaseStateFragment {
             switch (v.getId()) {
                 case R.id.btn_home:
                     showHomePage(false);
-                    drawButtonsBackground(HOME_INDEX);
                     break;
                 case R.id.btn_mention:
                     showMentionPage(false);
-                    drawButtonsBackground(MENTIONS_INDEX);
                     break;
                 case R.id.btn_comment:
                     showCommentPage(false);
-                    drawButtonsBackground(COMMENTS_INDEX);
                     break;
                 case R.id.btn_search:
                     showSearchPage(false);
-                    drawButtonsBackground(SEARCH_INDEX);
                     break;
                 case R.id.btn_profile:
                     showProfilePage(false);
-                    drawButtonsBackground(PROFILE_INDEX);
                     break;
                 case R.id.btn_location:
                     startActivity(new Intent(getActivity(), NearbyTimeLineActivity.class));
@@ -669,11 +662,9 @@ public class RightMenuFragment extends BaseStateFragment {
                     break;
                 case R.id.btn_favourite:
                     showFavPage(false);
-                    drawButtonsBackground(FAV_INDEX);
                     break;
                 case R.id.btn_dm:
                     showDMPage(false);
-                    drawButtonsBackground(DM_INDEX);
                     break;
                 case R.id.btn_setting:
                     showSettingPage();
@@ -685,26 +676,6 @@ public class RightMenuFragment extends BaseStateFragment {
             ((MainTimeLineActivity) getActivity()).closeRightDrawer();
         }
     };
-
-    private void drawButtonsBackground(int position) {
-        layout.profile.setBackgroundResource(R.drawable.btn_drawer_menu);
-        switch (position) {
-
-            case PROFILE_INDEX:
-                layout.profile.setBackgroundResource(R.color.ics_blue_semi);
-                break;
-            case LOGOUT_INDEX:
-                layout.logout.setBackgroundResource(R.color.ics_blue_semi);
-                break;
-            case SETTING_INDEX:
-                layout.setting.setBackgroundResource(R.color.ics_blue_semi);
-                break;
-        }
-    }
-
-    // private SlidingMenu getSlidingMenu() {
-    // return ((MainTimeLineActivity) getActivity()).getSlidingMenu();
-    // }
 
     private void setTitle(int res) {
         ((MainTimeLineActivity) getActivity()).setTitle(res);

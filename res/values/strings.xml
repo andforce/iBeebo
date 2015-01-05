@@ -24,7 +24,7 @@
     
     <!--drawer menu-->
     <string name="home">首页</string>
-    <string name="profile">个人资料</string>
+    <string name="profile">个人主页</string>
     <string name="logout">切换帐号</string>
     <string name="detail">正文</string>
     <string name="weibo">微博</string>
