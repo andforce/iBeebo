@@ -6,7 +6,7 @@ Sina Weibo Client
 
 [CoolApk下载v2.1.1](http://coolapk.com/apk/org.zarroboogs.weibo)
 
-[百度网盘下载v2.1.3](http://yun.baidu.com/s/1eQGOhKQ)
+[百度网盘下载v2.1.4](http://yun.baidu.com/s/1eQGOhKQ)
 
 ##主页面截图
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/Screenshot_2015-01-05-19-37-43_Beebo.png)
