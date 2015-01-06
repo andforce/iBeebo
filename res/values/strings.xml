@@ -468,8 +468,8 @@
     <!--Setting Control-->
     <string name="pref_data_control_title">流量控制</string>
     <string name="pref_pic_category_title">图片</string>
-    <string name="pref_disable_download_pic_title">关闭图片</string>
-    <string name="pref_disable_download_pic_summary">关闭所有图片下载，节省流量</string>
+    <string name="pref_disable_download_pic_title">无图模式</string>
+    <string name="pref_disable_download_pic_summary">关闭微博图片下载，节省流量</string>
     <string name="pref_upload_pic_quality_title">上传图片质量</string>
     <string name="pref_close_comment_repost_list_avatar_title">关闭评论/转发列表的头像</string>
     <string name="pref_msg_count_title">每次获取数据条数</string>

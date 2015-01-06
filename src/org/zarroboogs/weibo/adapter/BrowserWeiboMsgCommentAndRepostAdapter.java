@@ -197,7 +197,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
 
         holder.avatar.checkVerified(user);
 
-        holder.content.setText(comment.getListViewSpannableString());
+        holder.weiboTextContent.setText(comment.getListViewSpannableString());
 
         holder.time.setTime(comment.getMills());
 
@@ -250,11 +250,11 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         }
 
         if (!TextUtils.isEmpty(msg.getListViewSpannableString())) {
-            holder.content.setText(msg.getListViewSpannableString());
+            holder.weiboTextContent.setText(msg.getListViewSpannableString());
 
         } else {
             TimeLineUtility.addJustHighLightLinks(msg);
-            holder.content.setText(msg.getListViewSpannableString());
+            holder.weiboTextContent.setText(msg.getListViewSpannableString());
         }
 
         holder.avatar.checkVerified(user);
@@ -275,10 +275,10 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         holder.listview_root.setClickable(false);
         holder.username.setClickable(false);
         holder.time.setClickable(false);
-        holder.content.setClickable(false);
+        holder.weiboTextContent.setClickable(false);
 
-        if (holder.content != null) {
-            holder.content.setOnTouchListener(onTouchListener);
+        if (holder.weiboTextContent != null) {
+            holder.weiboTextContent.setOnTouchListener(onTouchListener);
         }
 
     }
@@ -288,7 +288,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         holder.username = ViewUtility.findViewById(convertView, R.id.username);
         TextPaint tp = holder.username.getPaint();
         tp.setFakeBoldText(true);
-        holder.content = ViewUtility.findViewById(convertView, R.id.content);
+        holder.weiboTextContent = ViewUtility.findViewById(convertView, R.id.weibo_text_content);
         holder.time = ViewUtility.findViewById(convertView, R.id.time);
         holder.avatar = (TimeLineAvatarImageView) convertView.findViewById(R.id.avatar);
         holder.listview_root = ViewUtility.findViewById(convertView, R.id.listview_root);
@@ -307,8 +307,8 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
 
         if (View.LAYER_TYPE_SOFTWARE != currentWidgetLayerType) {
             holder.username.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            if (holder.content != null) {
-                holder.content.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            if (holder.weiboTextContent != null) {
+                holder.weiboTextContent.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
 
             if (holder.time != null) {
@@ -330,10 +330,10 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
 
         }
 
-        currentWidgetTextSizePx = holder.content.getTextSize();
+        currentWidgetTextSizePx = holder.weiboTextContent.getTextSize();
 
         if (Utility.sp2px(prefFontSizeSp) != currentWidgetTextSizePx) {
-            holder.content.setTextSize(prefFontSizeSp);
+            holder.weiboTextContent.setTextSize(prefFontSizeSp);
             holder.username.setTextSize(prefFontSizeSp);
 
         }
@@ -463,7 +463,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
 
         TextView username;
 
-        TextView content;
+        TextView weiboTextContent;
 
         TimeTextView time;
 
