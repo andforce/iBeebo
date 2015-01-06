@@ -19,9 +19,9 @@
         <item name="write_weibo">@drawable/friendstimelinefragment_write_light</item>
         <item name="write_dm">@drawable/write_dm_light</item>
         <item name="location_place">@drawable/location_place_light</item>
-        <item name="at">@drawable/at_light</item>
-        <item name="emoticon">@drawable/emoticon_light</item>
-        <item name="topic">@drawable/topic_light</item>
+        <item name="at">@drawable/at_dark</item>
+        <item name="emoticon">@drawable/emoticon_dark</item>
+        <item name="topic">@drawable/topic_dark</item>
         <item name="settings">@drawable/maintimelineactivity_settings_dark</item>
         <item name="refresh">@drawable/refresh_light</item>
         <item name="copy">@drawable/copy_light</item>
@@ -31,7 +31,7 @@
         <item name="send">@drawable/send_dark</item>
         <item name="statusnewactivity_camera">@drawable/camera_light</item>
         <item name="statusnewactivity_gps">@drawable/statusnewactivity_gps_light</item>
-        <item name="statusnewactivity_send">@drawable/statusnewactivity_send_light</item>
+        <item name="statusnewactivity_send">@drawable/statusnewactivity_send_dark</item>
         <item name="statusnewactivity_pic">@drawable/picture_light</item>
         <item name="error">@drawable/error_dark</item>
         <item name="location_map">@drawable/location_map_light</item>

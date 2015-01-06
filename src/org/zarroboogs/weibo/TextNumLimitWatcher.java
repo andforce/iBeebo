@@ -47,7 +47,7 @@ public class TextNumLimitWatcher implements TextWatcher {
         if (left < 0) {
             tv.setTextColor(activity.getResources().getColor(R.color.red));
         } else if (left >= 0 && left <= 140) {
-            tv.setTextColor(ThemeUtility.getColor(activity, android.R.attr.actionMenuTextColor));
+            tv.setTextColor(activity.getResources().getColor(R.color.black));
         }
 
     }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <android.support.v7.widget.Toolbar
@@ -15,73 +15,87 @@
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <org.zarroboogs.weibo.widget.SmileyPicker
+        android:id="@+id/smiley_picker"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@id/smiley_picker"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_marginBottom="-5dp"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginRight="-5dp"
+        android:background="@drawable/bottom_action_bg"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/menu_topic"
+            style="?android:actionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="?topic" />
+
+        <ImageButton
+            android:id="@+id/menu_at"
+            style="?android:actionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="?at" />
+
+        <ImageButton
+            android:id="@+id/menu_emoticon"
+            style="?android:actionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="?emoticon" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:textColor="#FF000000"
+            android:id="@+id/menu_send"
+            android:background="@drawable/bottom_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableRight="?statusnewactivity_send"
+            android:text="@string/send"
+             android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/container"
-        android:layout_width="fill_parent"
-        android:layout_height="0.0dip"
-        android:layout_weight="1.0" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_bottom_menu"
+        android:layout_below="@id/abstractWriteToolbar"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1.0"
+        android:background="@drawable/card_bg" >
 
         <org.zarroboogs.weibo.widget.KeyboardControlEditText
             android:id="@+id/status_new_content"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:minHeight="180dp"
             android:layout_above="@+id/ll_bottom_menu"
             android:fadeScrollbars="true"
             android:gravity="left|top"
             android:hint="@string/say_something"
+            android:padding="10dp"
             android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical" />
-
-        <LinearLayout
-            android:id="@+id/ll_bottom_menu"
-            android:layout_width="fill_parent"
-            android:layout_height="?android:actionBarSize"
-            android:layout_alignParentBottom="true"
-            android:background="?attr/split_line_between_content_and_bottom_button_panel"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                android:id="@+id/menu_topic"
-                style="?android:actionButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="?topic" />
-
-            <ImageButton
-                android:id="@+id/menu_at"
-                style="?android:actionButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="?at" />
-
-            <ImageButton
-                android:id="@+id/menu_emoticon"
-                style="?android:actionButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="?emoticon" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/menu_send"
-                style="?android:actionButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:drawableRight="?statusnewactivity_send"
-                android:text="@string/send"
-                android:textAppearance="?android:attr/actionMenuTextAppearance"
-                android:textColor="?android:actionMenuTextColor" />
-        </LinearLayout>
+            android:scrollbars="vertical"
+            app:hideUnderline="true" />
     </RelativeLayout>
 
-    <org.zarroboogs.weibo.widget.SmileyPicker
-        android:id="@+id/smiley_picker"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:visibility="gone" />
-
-</LinearLayout>
+</RelativeLayout>

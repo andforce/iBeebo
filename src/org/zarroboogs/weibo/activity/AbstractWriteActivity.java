@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -129,7 +130,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
         CheatSheet.setup(AbstractWriteActivity.this, findViewById(R.id.menu_send), R.string.send);
 
         smiley = (SmileyPicker) findViewById(R.id.smiley_picker);
-        smiley.setEditText(AbstractWriteActivity.this, ((LinearLayout) findViewById(R.id.root_layout)), et);
+        smiley.setEditText(AbstractWriteActivity.this, ((RelativeLayout) findViewById(R.id.root_layout)), et);
         container = (RelativeLayout) findViewById(R.id.container);
         et.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,8 +141,9 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     }
 
     private void showSmileyPicker(boolean showAnimation) {
-        this.smiley.show(AbstractWriteActivity.this, showAnimation);
         lockContainerHeight(SmileyPickerUtility.getAppContentHeight(AbstractWriteActivity.this));
+        this.smiley.show(AbstractWriteActivity.this, showAnimation);
+        
 
     }
 
@@ -149,9 +151,9 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
         if (this.smiley.isShown()) {
             if (showKeyBoard) {
                 // this time softkeyboard is hidden
-                LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.container.getLayoutParams();
+                RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
                 localLayoutParams.height = smiley.getTop();
-                localLayoutParams.weight = 0.0F;
+                
                 this.smiley.hide(AbstractWriteActivity.this);
 
                 SmileyPickerUtility.showKeyBoard(et);
@@ -170,14 +172,14 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     }
 
     private void lockContainerHeight(int paramInt) {
-        LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.container.getLayoutParams();
+        RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
         localLayoutParams.height = paramInt;
-        localLayoutParams.weight = 0.0F;
+//        localLayoutParams.weight = 0.0F;
     }
 
     public void unlockContainerHeightDelayed() {
 
-        ((LinearLayout.LayoutParams) AbstractWriteActivity.this.container.getLayoutParams()).weight = 1.0F;
+        ((RelativeLayout.LayoutParams) AbstractWriteActivity.this.container.getLayoutParams()).height = RelativeLayout.LayoutParams.MATCH_PARENT;
 
     }
 
@@ -185,11 +187,18 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.menu_emoticon:
-                if (smiley.isShown()) {
-                    hideSmileyPicker(true);
-                } else {
-                    showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(AbstractWriteActivity.this));
-                }
+                new Handler().post(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        if (smiley.isShown()) {
+                            hideSmileyPicker(true);
+                        } else {
+                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(AbstractWriteActivity.this));
+                        }
+                    }
+                });
+
                 break;
 
             case R.id.menu_send:
