@@ -1,20 +1,21 @@
 
 package org.zarroboogs.weibo.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.SearchView;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
@@ -24,16 +25,15 @@ import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AtUserBean;
 import org.zarroboogs.weibo.dao.AtUserDao;
 import org.zarroboogs.weibo.db.task.AtUsersDBTask;
+import org.zarroboogs.weibo.support.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: qii Date: 12-10-8
- */
-@SuppressLint("ValidFragment")
 public class AtUserFragment extends ListFragment {
 
+    private Toolbar mToolbar;
+    
     private ArrayAdapter<String> adapter;
 
     private List<String> result = new ArrayList<String>();
@@ -44,18 +44,21 @@ public class AtUserFragment extends ListFragment {
     private AtUserTask task;
 
     public AtUserFragment() {
-
+        super();
     }
 
-    public AtUserFragment(String token) {
+    public AtUserFragment(String token, Toolbar toolbar) {
+        super();
+        this.mToolbar = toolbar;
         this.token = token;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        if (task != null)
+        if (task != null){
             task.cancel(true);
+        }
     }
 
     @Override
@@ -69,6 +72,8 @@ public class AtUserFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
+        mToolbar.inflateMenu(R.menu.actionbar_menu_atuserfragment);
+        showSearchMenu(mToolbar.getMenu());
     }
 
     @Override
@@ -97,14 +102,20 @@ public class AtUserFragment extends ListFragment {
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.actionbar_menu_atuserfragment, menu);
+    private void showSearchMenu(Menu menu) {
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         searchView.setIconifiedByDefault(false);
-        searchView.setQueryHint(getString(R.string.at_other));
+        searchView.setSubmitButtonEnabled(false);
+        searchView.setMaxWidth(Utility.dip2px(200));
+//        searchView.setQueryHint(getString(R.string.at_other));
+        
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//        searchView.setIconifiedByDefault(false);
+//        searchView.setQueryHint(getString(R.string.at_other));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
