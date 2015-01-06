@@ -1,6 +1,10 @@
 
 package org.zarroboogs.weibo.support.lib;
 
+import io.vov.vitamio.demo.VideoViewBuffer;
+
+import org.zarroboogs.vup.VideoUrlParser;
+import org.zarroboogs.vup.VideoUrlParser.OnParsedListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.dialogfragment.LongClickLinkDialog;
@@ -18,6 +22,7 @@ import android.text.ParcelableSpan;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -26,7 +31,7 @@ import android.view.View;
 public class MyURLSpan extends ClickableSpan implements ParcelableSpan {
 
     private final String mURL;
-
+    
     public MyURLSpan(String url) {
         mURL = url;
     }
@@ -53,7 +58,7 @@ public class MyURLSpan extends ClickableSpan implements ParcelableSpan {
 
     public void onClick(View widget) {
         Uri uri = Uri.parse(getURL());
-        Context context = widget.getContext();
+        final Context context = widget.getContext();
         if (uri.getScheme().startsWith("http")) {
             String url = uri.toString();
             if (Utility.isWeiboAccountIdLink(url)) {
@@ -71,7 +76,26 @@ public class MyURLSpan extends ClickableSpan implements ParcelableSpan {
                 if (openUrl.endsWith("/")) {
                     openUrl = openUrl.substring(0, openUrl.lastIndexOf("/"));
                 }
-                WebBrowserSelector.openLink(context, Uri.parse(openUrl));
+                
+                final String myurl = openUrl;
+                VideoUrlParser videoUrlParser = new VideoUrlParser(context);
+                videoUrlParser.parseVideoUrl(myurl, new OnParsedListener() {
+                    
+                    @Override
+                    public void onParseFailed() {
+                    	WebBrowserSelector.openLink(context, Uri.parse(myurl));
+                    }
+
+                    @Override
+                    public void onParseSuccess(String urlname, String ulr) {
+                    	Log.d("onParseSuccess: ", "urlname " + urlname + "   " + ulr);
+                    	Intent intent = new Intent(context, VideoViewBuffer.class);
+                    	intent.putExtra(VideoViewBuffer.VIDEO_NAME,  ulr);
+                    	intent.putExtra(VideoViewBuffer.VIDEOURL, urlname);
+                    	context.startActivity(intent);
+                    }
+                });
+                
             }
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
