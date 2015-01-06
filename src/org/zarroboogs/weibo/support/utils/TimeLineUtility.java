@@ -88,7 +88,7 @@ public class TimeLineUtility {
         TimeLineUtility.addEmotions(value);
         et.setText(value);
     }
-    
+
     public static void addEmotions(EditText et, String txt) {
         String hackTxt;
         if (txt.startsWith("[") && txt.endsWith("]")) {

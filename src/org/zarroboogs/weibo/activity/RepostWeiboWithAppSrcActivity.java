@@ -13,6 +13,7 @@ import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 import org.apache.http.Header;
 import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginCallBack;
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
@@ -73,6 +74,7 @@ import android.widget.Toast;
 public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginCallBack,
         OnClickListener, OnGlobalLayoutListener, OnItemClickListener {
 
+    public static final int AT_USER = 0x1000;
     public static final String TAG = "RepostWeiboMainActivity ";
 
     private SmileyPicker mSmileyPicker = null;
@@ -86,6 +88,8 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     private ImageButton mSelectPhoto;
     private ImageButton mSendBtn;
     private ImageButton smileButton;
+    private ImageButton mTopicBtn;
+    private ImageButton mAtButton;
 
     private Button appSrcBtn;
     private AccountBean mAccountBean;
@@ -135,6 +139,11 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mEditText = (MaterialEditText) findViewById(R.id.weiboContentET);
         smileButton = (ImageButton) findViewById(R.id.smileImgButton);
         mSendBtn = (ImageButton) findViewById(R.id.sendWeiBoBtn);
+
+        mTopicBtn = (ImageButton) findViewById(R.id.menu_topic);
+        mAtButton = (ImageButton) findViewById(R.id.menu_at);
+        mTopicBtn.setOnClickListener(this);
+        mAtButton.setOnClickListener(this);
 
         // findAllEmotionImageView((ViewGroup) findViewById(R.id.emotionTL));
         mSelectPhoto.setOnClickListener(this);
@@ -379,12 +388,19 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         ImageLoader.getInstance().stop();
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == ChangeWeibaActivity.REQUEST) {
             appSrcBtn.setText(getWeiba().getText());
+        } else if (resultCode == RESULT_OK && requestCode == AT_USER && data != null) {
+            String name = data.getStringExtra("name");
+            String ori = mEditText.getText().toString();
+            int index = mEditText.getSelectionStart();
+            StringBuilder stringBuilder = new StringBuilder(ori);
+            stringBuilder.insert(index, name);
+            mEditText.setText(stringBuilder.toString());
+            mEditText.setSelection(index + name.length());
         }
     }
 
@@ -427,10 +443,28 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         appSrcBtn.setText(getWeiba().getText());
     }
 
+    protected void insertTopic() {
+        int currentCursor = mEditText.getSelectionStart();
+        Editable editable = mEditText.getText();
+        editable.insert(currentCursor, "##");
+        mEditText.setSelection(currentCursor + 1);
+    }
+
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
+            case R.id.menu_topic: {
+                insertTopic();
+                break;
+            }
+            case R.id.menu_at: {
+                Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, AtUserActivity.class);
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccountBean().getAccess_token());
+                startActivityForResult(intent, AT_USER);
+                break;
+            }
+
             case R.id.editTextLayout: {
                 mEditText.performClick();
                 break;

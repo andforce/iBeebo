@@ -33,7 +33,7 @@ import java.util.List;
 public class AtUserFragment extends ListFragment {
 
     private Toolbar mToolbar;
-    
+
     private ArrayAdapter<String> adapter;
 
     private List<String> result = new ArrayList<String>();
@@ -56,7 +56,7 @@ public class AtUserFragment extends ListFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        if (task != null){
+        if (task != null) {
             task.cancel(true);
         }
     }
@@ -105,17 +105,17 @@ public class AtUserFragment extends ListFragment {
     private void showSearchMenu(Menu menu) {
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        
+
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-//        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        // searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         searchView.setIconifiedByDefault(false);
         searchView.setSubmitButtonEnabled(false);
         searchView.setMaxWidth(Utility.dip2px(200));
-//        searchView.setQueryHint(getString(R.string.at_other));
-        
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-//        searchView.setIconifiedByDefault(false);
-//        searchView.setQueryHint(getString(R.string.at_other));
+        // searchView.setQueryHint(getString(R.string.at_other));
+
+        // searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        // searchView.setIconifiedByDefault(false);
+        // searchView.setQueryHint(getString(R.string.at_other));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

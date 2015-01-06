@@ -143,7 +143,6 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     private void showSmileyPicker(boolean showAnimation) {
         lockContainerHeight(SmileyPickerUtility.getAppContentHeight(AbstractWriteActivity.this));
         this.smiley.show(AbstractWriteActivity.this, showAnimation);
-        
 
     }
 
@@ -151,9 +150,10 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
         if (this.smiley.isShown()) {
             if (showKeyBoard) {
                 // this time softkeyboard is hidden
-                RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
+                RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.container
+                        .getLayoutParams();
                 localLayoutParams.height = smiley.getTop();
-                
+
                 this.smiley.hide(AbstractWriteActivity.this);
 
                 SmileyPickerUtility.showKeyBoard(et);
@@ -174,7 +174,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     private void lockContainerHeight(int paramInt) {
         RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) this.container.getLayoutParams();
         localLayoutParams.height = paramInt;
-//        localLayoutParams.weight = 0.0F;
+        // localLayoutParams.weight = 0.0F;
     }
 
     public void unlockContainerHeightDelayed() {
@@ -188,7 +188,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
         switch (v.getId()) {
             case R.id.menu_emoticon:
                 new Handler().post(new Runnable() {
-                    
+
                     @Override
                     public void run() {
                         if (smiley.isShown()) {

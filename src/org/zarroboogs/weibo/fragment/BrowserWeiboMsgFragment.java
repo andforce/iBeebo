@@ -357,7 +357,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         listView.setFooterDividersEnabled(false);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setOnItemClickListener(commentOnItemClickListener);
-//        listView.setOnItemLongClickListener(commentOnItemLongClickListener);
+        // listView.setOnItemLongClickListener(commentOnItemLongClickListener);
 
         initView(header, savedInstanceState);
         adapter = new BrowserWeiboMsgCommentAndRepostAdapter(this, listView, commentList.getItemList(),
@@ -881,7 +881,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         @Override
         public void onClick(View v) {
             listView.setOnItemClickListener(repostOnItemClickListener);
-//            listView.setOnItemLongClickListener(repostOnItemLongClickListener);
+            // listView.setOnItemLongClickListener(repostOnItemLongClickListener);
             emptyHeader.setText(R.string.repost_is_empty);
             resetActionMode();
 
@@ -920,7 +920,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         @Override
         public void onClick(View v) {
             listView.setOnItemClickListener(commentOnItemClickListener);
-//            listView.setOnItemLongClickListener(commentOnItemLongClickListener);
+            // listView.setOnItemLongClickListener(commentOnItemLongClickListener);
             emptyHeader.setText(R.string.comment_is_empty);
             resetActionMode();
 

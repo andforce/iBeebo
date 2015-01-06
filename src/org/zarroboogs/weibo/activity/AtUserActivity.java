@@ -14,6 +14,7 @@ import com.umeng.analytics.MobclickAgent;
 public class AtUserActivity extends AbstractAppActivity {
 
     private Toolbar mAtUserToolBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +25,8 @@ public class AtUserActivity extends AbstractAppActivity {
 
         String token = getIntent().getStringExtra(Constants.TOKEN);
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().replace(R.id.at_content_frame, new AtUserFragment(token, mAtUserToolBar)).commit();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.at_content_frame, new AtUserFragment(token, mAtUserToolBar)).commit();
         }
     }
 

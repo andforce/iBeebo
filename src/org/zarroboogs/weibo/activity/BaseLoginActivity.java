@@ -487,20 +487,23 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                     }
                 });
     };
-    
-    public interface OnFetchAppSrcListener{
+
+    public interface OnFetchAppSrcListener {
         public void onStart();
+
         public void onSuccess(List<WeiboWeiba> appsrcs);
+
         public void onFailure();
     }
+
     private OnFetchAppSrcListener mFetchAppSrcListener;
-    
+
     protected void fetchWeiBa(OnFetchAppSrcListener listener) {
         this.mFetchAppSrcListener = listener;
         if (mFetchAppSrcListener != null) {
             mFetchAppSrcListener.onStart();
         }
-        
+
         showDialogForWeiBo();
         String url = "http://appsrc.sinaapp.com/";
         Header[] srcHeaders = new Header[] {

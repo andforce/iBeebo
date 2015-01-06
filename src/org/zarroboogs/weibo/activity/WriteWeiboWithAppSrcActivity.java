@@ -12,11 +12,13 @@ import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 import org.apache.http.Header;
 import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginCallBack;
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
 import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
+import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -32,6 +34,8 @@ import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
+
+import u.aly.br;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -74,6 +78,8 @@ import android.widget.Toast;
 public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginCallBack, OnClickListener,
         OnGlobalLayoutListener, OnItemClickListener, OnSharedPreferenceChangeListener {
 
+    public static final int AT_USER = 0x1000;
+
     public static final String LOGIN_TAG = "START_SEND_WEIBO ";
     protected static final String TAG = "WeiboMainActivity  ";
     private SmileyPicker mSmileyPicker = null;
@@ -86,6 +92,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     private ImageButton mSelectPhoto;
     private ImageButton mSendBtn;
     private ImageButton smileButton;
+    private ImageButton mTopicBtn;
+    private ImageButton mAtButton;
 
     private Button appSrcBtn;
     TableLayout sendImgTL;
@@ -196,8 +204,14 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             }
         });
 
+        mTopicBtn = (ImageButton) findViewById(R.id.menu_topic);
+        mAtButton = (ImageButton) findViewById(R.id.menu_at);
+
         smileButton = (ImageButton) findViewById(R.id.smileImgButton);
         mSendBtn = (ImageButton) findViewById(R.id.sendWeiBoBtn);
+
+        mTopicBtn.setOnClickListener(this);
+        mAtButton.setOnClickListener(this);
 
         // findAllEmotionImageView((ViewGroup) findViewById(R.id.emotionTL));
         mSelectPhoto.setOnClickListener(this);
@@ -483,6 +497,14 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             for (String s : imgs) {
                 Log.d("IMG_", "   " + s + "/////" + mSelectImageViews.size());
             }
+        } else if (resultCode == RESULT_OK && requestCode == AT_USER && data != null) {
+            String name = data.getStringExtra("name");
+            String ori = mEditText.getText().toString();
+            int index = mEditText.getSelectionStart();
+            StringBuilder stringBuilder = new StringBuilder(ori);
+            stringBuilder.insert(index, name);
+            mEditText.setText(stringBuilder.toString());
+            mEditText.setSelection(index + name.length());
         }
     }
 
@@ -563,10 +585,28 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         return false;
     }
 
+    protected void insertTopic() {
+        int currentCursor = mEditText.getSelectionStart();
+        Editable editable = mEditText.getText();
+        editable.insert(currentCursor, "##");
+        mEditText.setSelection(currentCursor + 1);
+    }
+
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
+            case R.id.menu_topic: {
+                insertTopic();
+                break;
+            }
+            case R.id.menu_at: {
+                Intent intent = new Intent(WriteWeiboWithAppSrcActivity.this, AtUserActivity.class);
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccountBean().getAccess_token());
+                startActivityForResult(intent, AT_USER);
+                break;
+            }
+
             case R.id.editTextLayout: {
                 mEditText.performClick();
                 break;

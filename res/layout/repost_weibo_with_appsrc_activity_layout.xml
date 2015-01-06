@@ -83,6 +83,22 @@
                     android:background="@drawable/bottom_selector"
                     android:src="@drawable/emoticon_dark"
                     tools:ignore="ContentDescription" />
+                
+                                <ImageButton
+                   android:layout_toRightOf="@id/smileImgButton"
+                    android:id="@+id/menu_topic"
+                    android:background="@drawable/bottom_selector"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:src="?topic" />
+
+                <ImageButton
+                    android:background="@drawable/bottom_selector"
+                    android:layout_toRightOf="@id/menu_topic"
+                    android:id="@+id/menu_at"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:src="?at" />
 
                 <TextView
                     android:id="@+id/weiTextCountTV"

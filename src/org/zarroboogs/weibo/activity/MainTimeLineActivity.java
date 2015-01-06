@@ -269,8 +269,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         });
     }
 
-
-
     private void scrollCurrentListViewToTop() {
         if (this.currentFragment != null) {
             this.currentFragment.scrollToTop();
@@ -327,7 +325,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         GlobalContext.getInstance().getBitmapCache().evictAll();
         finish();
     }
-
 
     public UserBean getUser() {
         return mAccountBean.getInfo();
@@ -549,13 +546,14 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
     public void setMentionsWeiboCount(int count) {
-         LeftMenuFragment fragment = getLeftMenuFragment();
-         fragment.setMentionWeiboUnreadCount(count);
+        LeftMenuFragment fragment = getLeftMenuFragment();
+        fragment.setMentionWeiboUnreadCount(count);
     }
 
     public void setMentionsCommentCount(int count) {
         LeftMenuFragment fragment = getLeftMenuFragment();
-        fragment.setMentionCommentUnreadCount(count);}
+        fragment.setMentionCommentUnreadCount(count);
+    }
 
     public void setCommentsToMeCount(int count) {
 
