@@ -585,6 +585,11 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         return false;
     }
 
+    public boolean isMoreThan140(){
+        String charSequence = mEditText.getText().toString();
+        int count = Utility.length(charSequence);
+        return count > 140;
+    }
     protected void insertTopic() {
         int currentCursor = mEditText.getSelectionStart();
         Editable editable = mEditText.getText();
@@ -629,6 +634,10 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
                 break;
             }
             case R.id.sendWeiBoBtn: {
+            	if (isMoreThan140()) {
+            		Toast.makeText(getApplicationContext(), "字数超出限制", Toast.LENGTH_SHORT).show();
+            		return;
+				}
                 if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
                     if (checkDataEmpty()) {
                         mEmptyToast.show();
