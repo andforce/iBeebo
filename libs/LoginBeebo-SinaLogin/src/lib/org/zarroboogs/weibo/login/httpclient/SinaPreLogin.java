@@ -176,33 +176,7 @@ public class SinaPreLogin {
         return mEncodedFormEntity;
     }
 
-    public HttpEntity sendWeiboEntity(String app_src, String content, String cookie, String pids) {
-        List<NameValuePair> sendWeiboParam = new ArrayList<NameValuePair>();
-        sendWeiboParam.add(new BasicNameValuePair("app_src", app_src));
-        sendWeiboParam.add(new BasicNameValuePair("content", content));
-        if (!TextUtils.isEmpty(pids)) {
-            sendWeiboParam.add(new BasicNameValuePair("pic_id", pids));
-        }
-        sendWeiboParam.add(new BasicNameValuePair("return_type", "2"));
-        sendWeiboParam.add(new BasicNameValuePair("refer", ""));
-        sendWeiboParam.add(new BasicNameValuePair("vsrc", "base_topic"));
-        sendWeiboParam.add(new BasicNameValuePair("wsrc", "app_topic_base"));
-        sendWeiboParam.add(new BasicNameValuePair("ext", "login=>1;url=>"));
-        sendWeiboParam.add(new BasicNameValuePair("html_type", "2"));
-        sendWeiboParam.add(new BasicNameValuePair("_t", "0"));
-        if (!android.text.TextUtils.isEmpty(cookie)) {
-            sendWeiboParam.add(new BasicNameValuePair("Cookie", cookie));
-        }
 
-        UrlEncodedFormEntity mEncodedFormEntity = null;
-        try {
-            mEncodedFormEntity = new UrlEncodedFormEntity(sendWeiboParam, "UTF-8");
-        } catch (UnsupportedEncodingException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        return mEncodedFormEntity;
-    }
 
     public boolean sendWeibo(BroserContent broserContent, String url, String app_src, String content, String cookie,
             String pid) {
@@ -378,7 +352,7 @@ public class SinaPreLogin {
         return resultHeaders;
     }
 
-    public Header[] sendWeiboHeaders(String app_src) {
+    public Header[] sendWeiboHeaders(String app_src, String cookie) {
         List<Header> headers = new ArrayList<Header>();
         headers.add(new BasicHeader("Accept", "*/*"));
         headers.add(new BasicHeader("Accept-Encoding", "gzip, deflate"));
@@ -391,14 +365,42 @@ public class SinaPreLogin {
         headers.add(new BasicHeader("Referer", "http://widget.weibo.com/topics/topic_vote_base.php?" +
                 "tag=Weibo&app_src=" + app_src + "&isshowright=0&language=zh_cn"));
         headers.add(new BasicHeader("User-Agent", Constaces.User_Agent));
-
+        headers.add(new BasicHeader("Cookie", cookie));
+        
         Header[] resultHeaders = new Header[headers.size()];
         for (int i = 0; i < resultHeaders.length; i++) {
             resultHeaders[i] = headers.get(i);
         }
         return resultHeaders;
     }
+    public HttpEntity sendWeiboEntity(String app_src, String content, String cookie, String pids) {
+        List<NameValuePair> sendWeiboParam = new ArrayList<NameValuePair>();
+        sendWeiboParam.add(new BasicNameValuePair("app_src", app_src));
+        sendWeiboParam.add(new BasicNameValuePair("content", content));
+        if (!TextUtils.isEmpty(pids)) {
+            sendWeiboParam.add(new BasicNameValuePair("pic_id", pids));
+        }
+        sendWeiboParam.add(new BasicNameValuePair("return_type", "2"));
+        sendWeiboParam.add(new BasicNameValuePair("refer", ""));
+        sendWeiboParam.add(new BasicNameValuePair("vsrc", "base_topic"));
+        sendWeiboParam.add(new BasicNameValuePair("wsrc", "app_topic_base"));
+        sendWeiboParam.add(new BasicNameValuePair("ext", "login=>1;url=>"));
+        sendWeiboParam.add(new BasicNameValuePair("html_type", "2"));
+        sendWeiboParam.add(new BasicNameValuePair("_t", "0"));
+//        if (!android.text.TextUtils.isEmpty(cookie)) {
+//            sendWeiboParam.add(new BasicNameValuePair("Cookie", cookie));
+//        }
 
+        UrlEncodedFormEntity mEncodedFormEntity = null;
+        try {
+            mEncodedFormEntity = new UrlEncodedFormEntity(sendWeiboParam, "UTF-8");
+        } catch (UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        return mEncodedFormEntity;
+    }
+    
     /**
      * 新浪微博预登录，获取密码加密公钥
      * @param unameBase64

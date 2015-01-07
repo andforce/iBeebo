@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffffff" >
+    android:background="#ffffffff"
+    android:fitsSystemWindows="true" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/webAuthToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:title="网页授权" >
+    </android.support.v7.widget.Toolbar>
 
     <WebView
+        android:layout_below="@id/webAuthToolbar"
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -23,6 +36,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#7F1E90FF" >
@@ -36,4 +50,4 @@
             android:text="@string/second_login_tips" />
     </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>

@@ -268,7 +268,9 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
                 if (sendResultBean.getMsg().equals("未登录")) {
                     doPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
                     hideDialogForWeiBo();
-                }
+                }else if (sendResultBean.getMsg().equals("抱歉！登录失败，请稍候再试")) {
+					startLogIn();
+				}
                 if (sendResultBean.getCode().equals("100000")) {
                     onSendFinished(true);
                 }
@@ -290,6 +292,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            	startLogIn();
             }
         });
     }

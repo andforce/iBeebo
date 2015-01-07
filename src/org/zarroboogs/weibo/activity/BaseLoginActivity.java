@@ -30,20 +30,25 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.WeibaGson;
 import org.zarroboogs.weibo.bean.WeibaTree;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.setting.SettingUtils;
+import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 import android.view.View;
@@ -212,9 +217,16 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     };
 
     protected void sendWeibo(String pid) {
-        HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity("ZwpYj", SystemClock.uptimeMillis() + "", getCookieStore()
-                .toString(), pid);
-        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders("ZwpYj"),
+    	String cookieInDB = GlobalContext.getInstance().getAccountBean().getCookieInDB();
+    	String cookie = "";
+		if (TextUtils.isEmpty(cookieInDB)) {
+			cookie = getCookieStore().toString();
+		}else {
+			cookie = cookieInDB;
+		}
+		LogTool.D(TAG + "sendWeibo Cookie:     " + cookie);
+        HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity("ZwpYj", SystemClock.uptimeMillis() + "", cookie, pid);
+        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders("ZwpYj", cookie),
                 sendEntity,
                 "application/x-www-form-urlencoded", new AsyncHttpResponseHandler() {
 
@@ -237,8 +249,17 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
      * @param pid
      */
     protected void sendWeiboWidthPids(String weiboCode, String text, String pids) {
-        HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity(weiboCode, text, getCookieStore().toString(), pids);
-        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders(weiboCode),
+    	String cookieInDB = GlobalContext.getInstance().getAccountBean().getCookieInDB();
+    	
+    	String cookie = "";
+		if (TextUtils.isEmpty(cookieInDB)) {
+			cookie = getCookieStore().toString();
+		}else {
+			cookie = cookieInDB;
+		}
+		LogTool.D(TAG + "sendWeiboWidthPids Cookie:     " + cookie);
+        HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity(weiboCode, text, cookie, pids);
+        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders(weiboCode, cookie),
                 sendEntity,
                 "application/x-www-form-urlencoded", this.mSendWeiboHandler);
     }
@@ -473,6 +494,9 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                                 showDoorDialog();
                             } else {
                                 hideDialogForWeiBo();
+                                if (mRequestResultParser.getErrorReason().equals("抱歉！登录失败，请稍候再试")) {
+                					startLogIn();
+                				}
                                 LogTool.D(TAG + " 网络正常返回，登陆失败，原因是：" + mRequestResultParser.getErrorReason());
                             }
                             Toast.makeText(getApplicationContext(), mRequestResultParser.getErrorReason(), Toast.LENGTH_LONG)
@@ -488,6 +512,12 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 });
     };
 
+    public void startLogIn() {
+        Intent intent = new Intent();
+        intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
+        intent.setClass(BaseLoginActivity.this, WebViewActivity.class);
+        startActivity(intent);
+    }
     public interface OnFetchAppSrcListener {
         public void onStart();
 

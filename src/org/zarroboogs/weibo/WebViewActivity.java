@@ -8,7 +8,6 @@ import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 
-import com.crashlytics.android.internal.m;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
@@ -147,7 +146,7 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         String longInCookie = cookieManager.getCookie("http://widget.weibo.com/dialog/LoginMobile.php");
         Log.d("Weibo-CookieStr", cookie + " \r\n\r\n PubCookie:" + pubCookie + "  \r\n\r\r LogInCookie:" + longInCookie);
 
-        // setWeiboCookie(CookieStr);
+//         setWeiboCookie(CookieStr);
         String uid = "";
         String uname = "";
         AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());

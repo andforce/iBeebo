@@ -128,7 +128,7 @@ public class LoginBeebo extends Activity {
     protected void sendWeibo(String pid) {
         HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity("ZwpYj", SystemClock.uptimeMillis() + "",
                 cookieStore.toString(), pid);
-        mAsyncHttoClient.post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders("ZwpYj"),
+        mAsyncHttoClient.post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders("ZwpYj", null),
                 sendEntity,
                 "application/x-www-form-urlencoded", new AsyncHttpResponseHandler() {
 
