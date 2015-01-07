@@ -26,6 +26,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -138,7 +139,7 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        getListView().setOnItemLongClickListener(onItemLongClickListener);
+//        getListView().setOnItemLongClickListener(onItemLongClickListener);
     }
 
     private AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
@@ -182,6 +183,8 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     public void removeItem(int position) {
         clearActionMode();
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+        	Log.d("commentsByME: removeItem", "toaken:" + GlobalContext.getInstance().getSpecialToken() + "  ID: "+ getList().getItemList().get(position)
+                    .getId() + "   pos:"  +position);
             removeTask = new RemoveTask(GlobalContext.getInstance().getSpecialToken(), getList().getItemList().get(position)
                     .getId(), position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);

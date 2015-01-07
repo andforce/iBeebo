@@ -39,6 +39,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -214,7 +215,7 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        getListView().setOnItemLongClickListener(onItemLongClickListener);
+//        getListView().setOnItemLongClickListener(onItemLongClickListener);
         newMsgTipBar.setType(TopTipsView.Type.ALWAYS);
     }
 
@@ -252,6 +253,9 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
             removeTask = new RemoveTask(GlobalContext.getInstance().getSpecialToken(), getList().getItemList().get(position)
                     .getId(), position);
+            
+            Log.d("commentsToooME: removeItem", "toaken:" + GlobalContext.getInstance().getSpecialToken() + "  ID: "+ getList().getItemList().get(position)
+                    .getId() + "   pos:"  +position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
     }

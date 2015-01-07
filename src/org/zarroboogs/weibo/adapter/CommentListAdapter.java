@@ -7,6 +7,7 @@ import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
 import org.zarroboogs.weibo.bean.CommentBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
+import org.zarroboogs.weibo.dialogfragment.RemoveDialog;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.AutoScrollListView;
@@ -17,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -85,7 +87,7 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
     }
 
     @Override
-    protected void bindViewData(final ViewHolder holder, int position) {
+    protected void bindViewData(final ViewHolder holder, final int position) {
 
         Drawable drawable = bg.get(holder);
         if (drawable != null) {
@@ -131,6 +133,37 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
 
         holder.repost_content.setVisibility(View.GONE);
         holder.repost_content_pic.setVisibility(View.GONE);
+
+        
+        // hide repost adn comment btn
+        holder.repostBtn.setVisibility(View.GONE);
+        holder.commentBtn.setVisibility(View.GONE);
+        holder.addComment.setVisibility(View.VISIBLE);
+        holder.deleteComment.setVisibility(View.VISIBLE);
+        holder.addComment.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+                Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra("msg", comment);
+                getActivity().startActivity(intent);
+			}
+		});
+        
+        holder.deleteComment.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+//				int position = listView.getCheckedItemPosition() - listView.getHeaderViewsCount();
+                RemoveDialog dialog = new RemoveDialog(position);
+                dialog.setTargetFragment(fragment, 0);
+                dialog.show(fragment.getFragmentManager(), "");
+				
+			}
+		});
 
         CommentBean reply = comment.getReply_comment();
         if (holder.replyIV != null) {

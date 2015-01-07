@@ -263,6 +263,28 @@
             android:background="?listview_item_background_selector"
             android:focusable="false"
             android:src="@drawable/repost_dark" />
+
+        <ImageButton
+            android:id="@+id/addComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/contentMain"
+            android:background="?listview_item_background_selector"
+            android:focusable="false"
+            android:src="@drawable/reply_to_comment_dark"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/deleteComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contentMain"
+            android:layout_toLeftOf="@id/addComment"
+            android:background="?listview_item_background_selector"
+            android:focusable="false"
+            android:src="@drawable/accountactivity_remove_dark"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </RelativeLayout>
