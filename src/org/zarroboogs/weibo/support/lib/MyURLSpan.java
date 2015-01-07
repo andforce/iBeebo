@@ -1,10 +1,6 @@
 
 package org.zarroboogs.weibo.support.lib;
 
-import io.vov.vitamio.demo.VideoViewBuffer;
-
-import org.zarroboogs.vup.VideoUrlParser;
-import org.zarroboogs.vup.VideoUrlParser.OnParsedListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.dialogfragment.LongClickLinkDialog;
@@ -22,7 +18,6 @@ import android.text.ParcelableSpan;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -77,24 +72,7 @@ public class MyURLSpan extends ClickableSpan implements ParcelableSpan {
                     openUrl = openUrl.substring(0, openUrl.lastIndexOf("/"));
                 }
                 
-                final String myurl = openUrl;
-                VideoUrlParser videoUrlParser = new VideoUrlParser(context);
-                videoUrlParser.parseVideoUrl(myurl, new OnParsedListener() {
-                    
-                    @Override
-                    public void onParseFailed() {
-                    	WebBrowserSelector.openLink(context, Uri.parse(myurl));
-                    }
-
-                    @Override
-                    public void onParseSuccess(String urlname, String ulr) {
-                    	Log.d("onParseSuccess: ", "urlname " + urlname + "   " + ulr);
-                    	Intent intent = new Intent(context, VideoViewBuffer.class);
-                    	intent.putExtra(VideoViewBuffer.VIDEO_NAME,  ulr);
-                    	intent.putExtra(VideoViewBuffer.VIDEOURL, urlname);
-                    	context.startActivity(intent);
-                    }
-                });
+                WebBrowserSelector.openLink(context, Uri.parse(openUrl));
                 
             }
         } else {
