@@ -217,13 +217,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     };
 
     protected void sendWeibo(String pid) {
-    	String cookieInDB = GlobalContext.getInstance().getAccountBean().getCookieInDB();
-    	String cookie = "";
-		if (TextUtils.isEmpty(cookieInDB)) {
-			cookie = getCookieStore().toString();
-		}else {
-			cookie = cookieInDB;
-		}
+    	String cookie = getCookieIfHave();
 		LogTool.D(TAG + "sendWeibo Cookie:     " + cookie);
         HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity("ZwpYj", SystemClock.uptimeMillis() + "", cookie, pid);
         getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders("ZwpYj", cookie),
@@ -249,20 +243,21 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
      * @param pid
      */
     protected void sendWeiboWidthPids(String weiboCode, String text, String pids) {
-    	String cookieInDB = GlobalContext.getInstance().getAccountBean().getCookieInDB();
-    	
-    	String cookie = "";
-		if (TextUtils.isEmpty(cookieInDB)) {
-			cookie = getCookieStore().toString();
-		}else {
-			cookie = cookieInDB;
-		}
+    	String cookie = getCookieIfHave();
 		LogTool.D(TAG + "sendWeiboWidthPids Cookie:     " + cookie);
         HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity(weiboCode, text, cookie, pids);
         getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders(weiboCode, cookie),
                 sendEntity,
                 "application/x-www-form-urlencoded", this.mSendWeiboHandler);
     }
+
+	private String getCookieIfHave() {
+		String cookieInDB = GlobalContext.getInstance().getAccountBean().getCookieInDB();
+		if (!TextUtils.isEmpty(cookieInDB)) {
+			return cookieInDB;
+		}
+		return "";
+	}
 
     private ResponseHandlerInterface mSendWeiboHandler;
 
@@ -271,6 +266,8 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     }
 
     public void repostWeibo(String app_src, String content, String cookie, String mid) {
+    	cookie = getCookieIfHave();
+		
         List<Header> headerList = new ArrayList<Header>();
         headerList.add(new BasicHeader("Accept", "*/*"));
         headerList.add(new BasicHeader("Accept-Encoding", "gzip, deflate"));
@@ -284,6 +281,11 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 "http://widget.weibo.com/dialog/publish.php?button=forward&language=zh_cn&mid=" + mid +
                         "&app_src=" + app_src + "&refer=1&rnd=14128245"));
         headerList.add(new BasicHeader("User-Agent", Constaces.User_Agent));
+        if (!TextUtils.isEmpty(cookie)) {
+            headerList.add(new BasicHeader("Cookie", cookie));
+		}
+
+        
         Header[] repostHeaders = new Header[headerList.size()];
         headerList.toArray(repostHeaders);
 
