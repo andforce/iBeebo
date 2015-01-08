@@ -23,7 +23,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_below="@id/writeWeiboToolBar" >
 
             <org.zarroboogs.weibo.widget.SmileyPicker
                 android:id="@+id/smileLayout_ref"
@@ -83,21 +84,21 @@
                     android:background="@drawable/bottom_selector"
                     android:src="@drawable/emoticon_dark"
                     tools:ignore="ContentDescription" />
-                
-                                <ImageButton
-                   android:layout_toRightOf="@id/smileImgButton"
+
+                <ImageButton
                     android:id="@+id/menu_topic"
-                    android:background="@drawable/bottom_selector"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/smileImgButton"
+                    android:background="@drawable/bottom_selector"
                     android:src="?topic" />
 
                 <ImageButton
-                    android:background="@drawable/bottom_selector"
-                    android:layout_toRightOf="@id/menu_topic"
                     android:id="@+id/menu_at"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/menu_topic"
+                    android:background="@drawable/bottom_selector"
                     android:src="?at" />
 
                 <TextView
@@ -116,7 +117,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/action_layout"
-                android:layout_below="@id/writeWeiboToolBar"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"

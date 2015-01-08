@@ -88,7 +88,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:minHeight="180dp"
-            android:layout_above="@+id/ll_bottom_menu"
             android:fadeScrollbars="true"
             android:gravity="left|top"
             android:hint="@string/say_something"

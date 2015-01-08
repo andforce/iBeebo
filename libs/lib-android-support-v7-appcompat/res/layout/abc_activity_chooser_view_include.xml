@@ -52,7 +52,7 @@
         android:background="?attr/actionBarItemBackground">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/image2"
             android:layout_width="56dip"
             android:layout_height="36dip"
             android:layout_gravity="center"
