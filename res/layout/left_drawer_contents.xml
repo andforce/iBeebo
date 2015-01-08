@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:id="@+id/btn_home"
@@ -12,7 +12,7 @@
             style="@style/drawerMenuButton"
             android:background="@null"
             android:clickable="false"
-            android:drawableLeft="@drawable/ic_menu_home"
+            android:drawableLeft="@drawable/ic_view_day_grey600_24dp"
             android:text="@string/home" />
 
         <TextView
@@ -36,8 +36,9 @@
             style="@style/drawerMenuButton"
             android:background="@null"
             android:clickable="false"
-            android:drawableLeft="@drawable/repost_dark"
-            android:text="@string/mentions" />
+            android:drawableLeft="@drawable/ic_assignment_grey600_24dp"
+            android:text="@string/mentions"
+            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:id="@+id/tv_mention_count"
@@ -63,7 +64,7 @@
             style="@style/drawerMenuButton"
             android:background="@null"
             android:clickable="false"
-            android:drawableLeft="@drawable/comment_dark"
+            android:drawableLeft="@drawable/ic_question_answer_grey600_24dp"
             android:text="@string/comments" />
 
         <TextView
@@ -82,24 +83,27 @@
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
         android:layout_weight="0"
-        android:drawableLeft="@drawable/ic_menu_message"
-        android:text="@string/dm" />
+        android:drawableLeft="@drawable/ic_email_grey600_24dp"
+        android:text="@string/dm"
+        tools:ignore="RtlHardcoded" />
 
     <Button
         android:id="@+id/btn_favourite"
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
         android:layout_weight="0"
-        android:drawableLeft="@drawable/ic_menu_fav"
-        android:text="@string/favourite" />
+        android:drawableLeft="@drawable/ic_book_grey600_24dp"
+        android:text="@string/favourite"
+        tools:ignore="RtlHardcoded" />
 
     <Button
         android:id="@+id/btn_search"
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
         android:layout_weight="0"
-        android:drawableLeft="@drawable/ic_menu_search"
-        android:text="@string/search" />
+        android:drawableLeft="@drawable/ic_search_grey600_24dp"
+        android:text="@string/search"
+        tools:ignore="RtlHardcoded" />
 
     <Button
         android:id="@+id/btn_location"
