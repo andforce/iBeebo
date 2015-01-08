@@ -618,7 +618,7 @@ public class LeftMenuFragment extends BaseStateFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final ScrollView view = (ScrollView) inflater.inflate(R.layout.left_slidingdrawer_contents, container, false);
+        final ScrollView view = (ScrollView) inflater.inflate(R.layout.main_timeline_left_drawer_layout, container, false);
 
         layout = new Layout();
 

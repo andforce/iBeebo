@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-        <color name="accent">#ff4081</color>
+    <color name="draw_text_color">#FF616161</color>
+    
+    <color name="accent">#ff4081</color>
     <color name="accent_pressed">#f50057</color>
-        <color name="ripple">#ff80ab</color>
-        
+    <color name="ripple">#ff80ab</color>
+
     <!-- 光标的颜色 -->
     <color name="textcursordrawable">#FF202020</color>
-    
     <color name="none_color">#00000000</color>
     <color name="bule_overlay">#660D92DD</color>
     <color name="bottom_btn_pressed">#FFE6E6E6</color>

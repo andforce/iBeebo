@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff2f2f2f" >
+    android:background="@color/white" >
 
     <LinearLayout
         android:id="@+id/rightBottomView"
@@ -59,6 +59,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/rightBottomView"
         android:layout_gravity="center"
+        android:divider="@null"
         android:fastScrollEnabled="false"
         android:overScrollMode="never"
         android:scrollingCache="true"
