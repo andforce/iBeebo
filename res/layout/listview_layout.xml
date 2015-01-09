@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent" xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/empty"
@@ -54,13 +54,14 @@
         android:id="@+id/absTimeLineFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white_24dp"
+        android:src="@drawable/edit_light"
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accent_pressed"
-        fab:fab_colorRipple="@color/ripple" />
+        fab:fab_colorRipple="@color/ripple"
+        tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>
