@@ -20,11 +20,14 @@ import org.zarroboogs.weibo.support.utils.AnimationUtility;
 import org.zarroboogs.weibo.support.utils.AppEventAction;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
+import org.zarroboogs.weibo.widget.BlurImageView;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -46,6 +49,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
+
+import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 public class LeftMenuFragment extends BaseStateFragment {
 
@@ -88,6 +93,7 @@ public class LeftMenuFragment extends BaseStateFragment {
     public static final int SETTING_INDEX = 8;
 
     private Toolbar mToolbar;
+    private BlurImageView mCoverBlureImage;
 
     public static LeftMenuFragment newInstance() {
         LeftMenuFragment fragment = new LeftMenuFragment();
@@ -620,6 +626,9 @@ public class LeftMenuFragment extends BaseStateFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final ScrollView view = (ScrollView) inflater.inflate(R.layout.main_timeline_left_drawer_layout, container, false);
 
+        mCoverBlureImage = ViewUtility.findViewById(view, R.id.coverBlureImage);
+        displayCover();
+        
         layout = new Layout();
 
         layout.avatar = (Spinner) view.findViewById(R.id.avatar);
@@ -643,6 +652,17 @@ public class LeftMenuFragment extends BaseStateFragment {
         }
         return view;
     }
+
+	public void displayCover() {
+//		final String picPath = "file:///android_asset/coverImage.jpg";//GlobalContext.getInstance().getAccountBean().getInfo().getCover_image();
+//        LogTool.D("mCoverBlureImage: path: " + picPath);
+//        Uri uri =  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+//        	    + getActivity().getResources().getResourcePackageName(R.drawable.cover_image) + "/"
+//        	    + getActivity().getResources().getResourceTypeName(R.drawable.cover_image) + "/"
+//        	    + getActivity().getResources().getResourceEntryName(R.drawable.cover_image));
+        mCoverBlureImage.setImageResource(R.drawable.cover_image);//.setOriImageUrl(picPath);
+        mCoverBlureImage.setAlpha(0.5f);
+	}
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

@@ -181,7 +181,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             if (mDrawerLayout.isDrawerOpen(findViewById(R.id.menu_frame_right))) {
                 mDrawerLayout.closeDrawer(Gravity.END);
             }
-
+            getLeftMenuFragment().displayCover();
         }
     }
 

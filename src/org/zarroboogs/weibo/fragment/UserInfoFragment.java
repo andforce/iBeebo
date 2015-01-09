@@ -69,6 +69,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import lib.org.zarroboogs.weibo.login.utils.LogTool;
+
 public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> implements
         MainTimeLineActivity.ScrollableListFragment,
         Animator.AnimatorListener {
@@ -447,9 +449,13 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         // final int height = viewPager.getHeight();
         final int height = Utility.dip2px(200);
         final int width = Utility.getMaxLeftWidthOrHeightImageViewCanRead(height);
-        final String picPath = userBean.getCover_image();
+        String picPath = userBean.getCover_image();
+        if (TextUtils.isEmpty(picPath)) {
+			picPath = "http://img.t.sinajs.cn/t5/skin/public/profile_cover/062.jpg";
+		}
         blur.setAlpha(0f);
         blur.setOriImageUrl(picPath);
+        LogTool.D("mCoverBlureImage: UserInfo_ path: " + picPath);
         ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>();
         imageViewArrayList.add(cover);
         imageViewArrayList.add(blur);

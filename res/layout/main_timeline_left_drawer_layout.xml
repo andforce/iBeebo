@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
@@ -17,7 +17,16 @@
         android:paddingTop="8dp"
         android:showDividers="middle" >
 
+        <org.zarroboogs.weibo.widget.BlurImageView
+            android:id="@+id/coverBlureImage"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@color/transparent"
+            android:scaleType="centerCrop" />
+
         <LinearLayout
+            android:background="@null"
+            android:id="@+id/coverLayout"
             android:layout_width="match_parent"
             android:layout_height="155dp"
             android:layout_marginBottom="16dp"
@@ -48,7 +57,11 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <include layout="@layout/left_drawer_contents" />
-    </LinearLayout>
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/coverLayout"
+            layout="@layout/left_drawer_contents" />
+    </RelativeLayout>
 
 </ScrollView>
