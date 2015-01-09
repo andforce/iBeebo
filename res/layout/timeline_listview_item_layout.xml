@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="?listview_item_background_selector"
     android:clickable="false"
-    android:descendantFocusability="blocksDescendants" >
+    android:descendantFocusability="blocksDescendants" xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -252,7 +252,8 @@
             android:layout_below="@id/contentMain"
             android:background="?listview_item_background_selector"
             android:focusable="false"
-            android:src="@drawable/comment_dark" />
+            android:src="@drawable/ic_speaker_notes_grey600_24dp"
+            tools:ignore="RtlHardcoded" />
 
         <ImageButton
             android:id="@+id/repostButton"
@@ -262,7 +263,7 @@
             android:layout_toLeftOf="@id/commentButton"
             android:background="?listview_item_background_selector"
             android:focusable="false"
-            android:src="@drawable/repost_dark" />
+            android:src="@drawable/ic_launch_grey600_24dp" />
 
         <ImageButton
             android:id="@+id/addComment"

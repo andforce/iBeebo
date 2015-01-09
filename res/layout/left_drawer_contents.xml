@@ -13,7 +13,8 @@
             android:background="@null"
             android:clickable="false"
             android:drawableLeft="@drawable/ic_view_day_grey600_24dp"
-            android:text="@string/home" />
+            android:text="@string/home"
+            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:id="@+id/tv_home_count"
@@ -22,7 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:text="0"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:ignore="RtlHardcoded" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +68,8 @@
             android:background="@null"
             android:clickable="false"
             android:drawableLeft="@drawable/ic_question_answer_grey600_24dp"
-            android:text="@string/comments" />
+            android:text="@string/comments"
+            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:id="@+id/tv_comment_count"
@@ -75,7 +79,9 @@
             android:layout_marginRight="8dp"
             android:freezesText="false"
             android:text="0"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:ignore="RtlHardcoded" />
+
     </LinearLayout>
 
     <Button
@@ -112,6 +118,7 @@
         android:layout_weight="0"
         android:drawableLeft="@drawable/ic_menu_location"
         android:text="@string/nearby"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:ignore="RtlHardcoded" />
 
 </merge>
