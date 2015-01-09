@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="draw_text_color">#FF616161</color>
+    <color name="accent">#ff4081</color>
+    <color name="accent_pressed">#f50057</color>
+    <color name="ripple">#ff80ab</color>
+
+    <!-- 光标的颜色 -->
+    <color name="textcursordrawable">#FF202020</color>
+    <color name="none_color">#00000000</color>
+    <color name="bule_overlay">#660D92DD</color>
+    <color name="bottom_btn_pressed">#FFE6E6E6</color>
+    <color name="dark_gray">#1E2129</color>
+    <color name="actionbar_red">#E01C1C</color>
+    <color name="md_actionbar_bg_color">#009688</color>
+    <color name="light_orange">#FF7A0F</color>
+    <color name="divide_line">#FFC5CCD1</color>
+    <color name="listview_divide">#FFC5CCD1</color>
+    <color name="dark_blue">#7874b8</color>
+    <color name="listview_checked_color_holo_dark">#002E3E</color>
+    <color name="listview_checked_color_holo_light">#66ffffff</color>
+    <color name="progress_horizontal_progress">#0099CC</color>
+    <color name="ics_blue_semi">#66FFFFFF</color>
+    <color name="host_background">#FFE2E2E2</color>
+
+    <!-- TopTipBar error color -->
+    <color name="top_tip_bar_error">#7FFF4444</color>
+    <color name="top_tip_bar_tip">#7F1E90FF</color>
+    <color name="list_divider_color">#ffe6e6e6</color>
+    <color name="listview_pic_background_light">#fff0f0f0</color>
+    <color name="listview_pic_background_dark">#ff454545</color>
+
+    <!-- theme -->
+    <color name="dark_theme_background">#201E1C</color>
+
+    <!-- link -->
+    <color name="link_pressed_background_color_light">#33B5E5</color>
+    <color name="link_pressed_background_color_dark">#ff454545</color>
+
+</resources>

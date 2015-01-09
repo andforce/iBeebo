@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- if you want to modify holo theme, you should modify PrivateThemeHoloLightOnlyForInherit style instead of AppTheme_Light style -->
-
-    <style name="AppTheme_Light" parent="@style/PrivateThemeHoloLightOnlyForInherit">
+    <style name="AppMDThemeLight" parent="@style/PrivateThemeHoloLightOnlyForInherit">
 
         <!-- 去掉ActionBar下面的阴影 -->
         <item name="android:windowContentOverlay">@null</item>
@@ -70,7 +68,6 @@
 
     <style name="PrivateThemeHoloLightOnlyForInherit" parent="@style/Theme.AppCompat.Light.NoActionBar">
 
-        
         <!-- <item name="android:windowBackground">@color/host_background</item> -->
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
         <item name="android:actionDropDownStyle">@style/ActionBarDropDownStyle</item>
@@ -78,15 +75,15 @@
         <item name="android:actionBarWidgetTheme">@style/ActionBarTheme</item>
         <item name="android:actionBarItemBackground">@drawable/action_bar_item_background</item>
         <item name="android:fastScrollTrackDrawable">@null</item>
-       	
-        <item name="android:textColor">@color/black</item>        
+        <item name="android:textColor">@color/black</item>
         <item name="android:actionModeBackground">@color/md_actionbar_bg_color</item>
         <item name="android:actionOverflowButtonStyle">@android:style/Widget.ActionButton.Overflow</item>
-        
+
         <!-- toolbar（actionbar）颜色 -->
-        <item name="colorPrimary">@color/md_actionbar_bg_color</item>
+        <item name="colorPrimary">@color/md_actionbar_color</item>
         <!-- 状态栏颜色 -->
-        <item name="colorPrimaryDark">#3A5FCD</item>
+        <item name="colorPrimaryDark">@color/md_actionbar_color</item>
+        
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
         <!-- 设置字体的颜色 -->
@@ -98,10 +95,10 @@
     <style name="ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
 
         <!-- <item name="android:background">@drawable/ab_solid_custom_blue_inverse_holo</item> 4CI -->
-        <item name="android:background">@drawable/actionbar_background_dark</item>
+<!--         <item name="android:background">@drawable/actionbar_background_dark</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_inverse_holo</item>
         <item name="android:titleTextStyle">@style/ActionBar.Title.Text</item>
-        <item name="android:subtitleTextStyle">@style/ActionBar.Subtitle.Text</item>
+        <item name="android:subtitleTextStyle">@style/ActionBar.Subtitle.Text</item> -->
     </style>
 
     <style name="ActionBarDropDownStyle" parent="@android:style/Widget.Holo.Light.Spinner">

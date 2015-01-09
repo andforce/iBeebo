@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
 
-    <solid android:color="@color/actionbar_dark" />
+    <solid android:color="@color/md_actionbar_bg_color" />
 
 </shape>
