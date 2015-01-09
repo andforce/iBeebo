@@ -16,7 +16,7 @@
         <item name="edit">@drawable/edit_light</item>
         <item name="fav_en">@drawable/fav_en_light</item>
         <item name="fav_un">@drawable/fav_un_light</item>
-        <item name="write_weibo">@drawable/friendstimelinefragment_write_light</item>
+        <item name="write_weibo">@drawable/edit_light</item>
         <item name="write_dm">@drawable/write_dm_light</item>
         <item name="location_place">@drawable/location_place_light</item>
         <item name="at">@drawable/at_dark</item>
@@ -83,7 +83,6 @@
         <item name="android:actionModeBackground">@color/actionbar_dark</item>
         <item name="android:actionOverflowButtonStyle">@android:style/Widget.ActionButton.Overflow</item>
         
-        <item name="android:windowBackground">@color/host_background</item>
         <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/actionbar_dark</item>
         <!-- 状态栏颜色 -->
