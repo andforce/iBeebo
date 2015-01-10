@@ -37,6 +37,11 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_advanced_title" >
         <Preference
+            android:key="change_weibo_account"
+            android:summary="切换微博帐号"
+            android:title="切换帐号" >
+        </Preference>
+        <Preference
             android:summary="新消息通知"
             android:title="@string/notification" >
             <intent

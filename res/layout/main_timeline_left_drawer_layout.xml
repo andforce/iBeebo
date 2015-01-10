@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:background="@color/white" xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,8 +24,18 @@
             android:background="@color/transparent"
             android:scaleType="centerCrop" />
 
+        <ImageButton
+            android:id="@+id/leftDrawerSettingBtn"
+            style="@style/drawerMenuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/coverBlureImage"
+            android:layout_alignRight="@id/coverBlureImage"
+            android:src="@drawable/ic_settings_applications_grey600_24dp"
+            android:text="@string/setting"
+            tools:ignore="RtlHardcoded" />
+
         <LinearLayout
-            android:background="@null"
             android:id="@+id/coverLayout"
             android:layout_width="match_parent"
             android:layout_height="155dp"
@@ -33,13 +43,14 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
+            android:background="@null"
             android:orientation="vertical"
             android:visibility="visible" >
 
             <Spinner
                 android:id="@+id/avatar"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:background="@color/white"

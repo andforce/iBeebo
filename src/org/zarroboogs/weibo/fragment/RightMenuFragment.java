@@ -609,8 +609,6 @@ public class RightMenuFragment extends BaseStateFragment {
         layout = new Layout();
 
         layout.profile = (Button) view.findViewById(R.id.btn_profile);
-        layout.setting = (Button) view.findViewById(R.id.btn_setting);
-        layout.logout = (Button) view.findViewById(R.id.btn_logout);
 
         mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.rightGroupListView);
         mPullToRefreshListView.setAdapter(mBaseAdapter);
@@ -632,8 +630,6 @@ public class RightMenuFragment extends BaseStateFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         layout.profile.setOnClickListener(onClickListener);
-        layout.setting.setOnClickListener(onClickListener);
-        layout.logout.setOnClickListener(onClickListener);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -768,12 +764,8 @@ public class RightMenuFragment extends BaseStateFragment {
     }
 
     private class Layout {
-        // 注销
-        Button logout;
         // 个人资料
         Button profile;
-        // 设置
-        Button setting;
     }
 
 }

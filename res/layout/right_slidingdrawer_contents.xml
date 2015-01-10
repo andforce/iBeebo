@@ -38,24 +38,6 @@
             android:text="@string/profile"
             tools:ignore="RtlHardcoded" />
 
-        <Button
-            android:id="@+id/btn_logout"
-            style="@style/drawerMenuButton"
-            android:layout_width="match_parent"
-            android:layout_weight="0"
-            android:drawableLeft="@drawable/ic_label_outline_grey600_24dp"
-            android:text="@string/logout"
-            tools:ignore="RtlHardcoded" />
-
-        <Button
-            android:id="@+id/btn_setting"
-            style="@style/drawerMenuButton"
-            android:layout_width="match_parent"
-            android:layout_weight="0"
-            android:drawableLeft="@drawable/ic_settings_applications_grey600_24dp"
-            android:text="@string/setting"
-            tools:ignore="RtlHardcoded" />
-
     </LinearLayout>
 
     <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView

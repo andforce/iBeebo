@@ -23,11 +23,9 @@ import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.BlurImageView;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -40,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -50,11 +49,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import lib.org.zarroboogs.weibo.login.utils.LogTool;
-
 public class LeftMenuFragment extends BaseStateFragment {
 
-    private Layout layout;
+    private LeftDrawerViewHolder layout;
 
     private int currentIndex = -1;
 
@@ -208,7 +205,6 @@ public class LeftMenuFragment extends BaseStateFragment {
     private void showAccountSwitchPage() {
         Intent intent = AccountActivity.newIntent();
         startActivity(intent);
-        getActivity().finish();
     }
 
     private void showSettingPage() {
@@ -629,7 +625,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         mCoverBlureImage = ViewUtility.findViewById(view, R.id.coverBlureImage);
         displayCover();
         
-        layout = new Layout();
+        layout = new LeftDrawerViewHolder();
 
         layout.avatar = (Spinner) view.findViewById(R.id.avatar);
         layout.nickname = (TextView) view.findViewById(R.id.nickname);
@@ -644,6 +640,8 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.homeCount = (TextView) view.findViewById(R.id.tv_home_count);
         layout.mentionCount = (TextView) view.findViewById(R.id.tv_mention_count);
         layout.commentCount = (TextView) view.findViewById(R.id.tv_comment_count);
+        
+        layout.leftDrawerSettingBtn = (ImageButton) view.findViewById(R.id.leftDrawerSettingBtn);
 
         boolean blackMagic = GlobalContext.getInstance().getAccountBean().isBlack_magic();
         if (!blackMagic) {
@@ -675,6 +673,8 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.dm.setOnClickListener(onClickListener);
         layout.fav.setOnClickListener(onClickListener);
 
+        layout.leftDrawerSettingBtn.setOnClickListener(onClickListener);
+        
         mToolbar = (Toolbar) getActivity().findViewById(R.id.mainTimeLineToolBar);
     }
 
@@ -720,6 +720,10 @@ public class LeftMenuFragment extends BaseStateFragment {
                 case R.id.btn_logout:
                     showAccountSwitchPage();
                     break;
+                case R.id.leftDrawerSettingBtn:{
+                	showSettingPage();
+                	break;
+                }
             }
             ((MainTimeLineActivity) getActivity()).closeLeftDrawer();
         }
@@ -895,7 +899,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         }
     }
 
-    private class Layout {
+    private class LeftDrawerViewHolder {
 
         Spinner avatar;
 
@@ -919,6 +923,8 @@ public class LeftMenuFragment extends BaseStateFragment {
         Button dm;
 
         Button fav;
+        
+        ImageButton leftDrawerSettingBtn;
     }
 
 }
