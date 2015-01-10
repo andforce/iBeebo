@@ -9,12 +9,12 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:gravity="left|center_vertical"
         android:orientation="vertical"
         tools:ignore="RtlHardcoded" >
 
         <TextView
+            android:layout_centerInParent="true"
+            android:gravity="center"
             android:id="@+id/weiboGroupName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
