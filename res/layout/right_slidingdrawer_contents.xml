@@ -4,47 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/white" xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:id="@+id/rightBottomView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:baselineAligned="false"
-        android:divider="@drawable/drawer_menu_divider"
-        android:dividerPadding="0dp"
-        android:orientation="vertical"
-        android:paddingBottom="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="8dp"
-        android:showDividers="middle" >
-
-        <Button
-            android:id="@+id/btn_location"
-            style="@style/drawerMenuButton"
-            android:layout_width="match_parent"
-            android:layout_weight="0"
-            android:drawableLeft="@drawable/ic_menu_location"
-            android:text="@string/nearby"
-            android:visibility="gone"
-            tools:ignore="RtlHardcoded" />
-
-        <Button
-            android:id="@+id/btn_profile"
-            style="@style/drawerMenuButton"
-            android:layout_width="match_parent"
-            android:layout_weight="0"
-            android:drawableLeft="@drawable/ic_account_box_grey600_24dp"
-            android:text="@string/profile"
-            tools:ignore="RtlHardcoded" />
-
-    </LinearLayout>
-
     <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView
         android:id="@+id/rightGroupListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/rightBottomView"
         android:layout_gravity="center"
         android:divider="@null"
         android:fastScrollEnabled="false"

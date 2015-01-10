@@ -38,7 +38,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -50,8 +49,6 @@ import java.util.List;
 import java.util.TreeSet;
 
 public class RightMenuFragment extends BaseStateFragment {
-
-    private Layout layout;
 
     private int currentIndex = -1;
 
@@ -606,10 +603,6 @@ public class RightMenuFragment extends BaseStateFragment {
         final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.right_slidingdrawer_contents, container,
                 false);
 
-        layout = new Layout();
-
-        layout.profile = (Button) view.findViewById(R.id.btn_profile);
-
         mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.rightGroupListView);
         mPullToRefreshListView.setAdapter(mBaseAdapter);
         mPullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
@@ -629,7 +622,6 @@ public class RightMenuFragment extends BaseStateFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        layout.profile.setOnClickListener(onClickListener);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -762,10 +754,4 @@ public class RightMenuFragment extends BaseStateFragment {
             return view;
         }
     }
-
-    private class Layout {
-        // 个人资料
-        Button profile;
-    }
-
 }

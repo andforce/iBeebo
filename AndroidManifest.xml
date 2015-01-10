@@ -168,7 +168,7 @@
             </intent-filter>
         </activity>
         <activity android:name="org.zarroboogs.weibo.activity.BrowserShareTimeLineActivity" />
-        <activity
+                <activity
             android:name="org.zarroboogs.weibo.activity.AppMapActivity"
             android:launchMode="singleTop" />
 

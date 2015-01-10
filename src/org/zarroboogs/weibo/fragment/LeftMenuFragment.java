@@ -1,15 +1,16 @@
 
 package org.zarroboogs.weibo.fragment;
 
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AccountActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
+import org.zarroboogs.weibo.activity.MyInfoActivity;
 import org.zarroboogs.weibo.activity.NearbyTimeLineActivity;
-import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.TimeLinePosition;
-import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.db.task.CommentToMeTimeLineDBTask;
 import org.zarroboogs.weibo.db.task.MentionCommentsTimeLineDBTask;
 import org.zarroboogs.weibo.db.task.MentionWeiboTimeLineDBTask;
@@ -35,18 +36,15 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 public class LeftMenuFragment extends BaseStateFragment {
@@ -141,7 +139,24 @@ public class LeftMenuFragment extends BaseStateFragment {
         switchCategory(currentIndex);
 
         layout.nickname.setText(GlobalContext.getInstance().getCurrentAccountName());
-        layout.avatar.setAdapter(new AvatarAdapter(layout.avatar));
+        
+        TimeLineBitmapDownloader.getInstance().display(layout.avatar, -1, -1,
+                GlobalContext.getInstance().getAccountBean().getInfo().getAvatar_large(),
+                FileLocationMethod.avatar_large);
+        layout.avatar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+	            Intent intent = new Intent(getActivity(), MyInfoActivity.class);
+	            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccountBean().getAccess_token());
+
+	            UserBean userBean = new UserBean();
+	            userBean.setId(GlobalContext.getInstance().getCurrentAccountId());
+	            intent.putExtra("user", userBean);
+	            intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+	            startActivity(intent);
+			}
+		});
     }
 
     public void switchCategory(int position) {
@@ -627,7 +642,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         
         layout = new LeftDrawerViewHolder();
 
-        layout.avatar = (Spinner) view.findViewById(R.id.avatar);
+        layout.avatar = (ImageView) view.findViewById(R.id.avatar);
         layout.nickname = (TextView) view.findViewById(R.id.nickname);
 
         layout.home = (LinearLayout) view.findViewById(R.id.btn_home);
@@ -817,91 +832,10 @@ public class LeftMenuFragment extends BaseStateFragment {
         }
     }
 
-    private class AvatarAdapter extends BaseAdapter {
-
-        ArrayList<AccountBean> data = new ArrayList<AccountBean>();
-
-        int count = 0;
-
-        public AvatarAdapter(Spinner spinner) {
-            data.addAll(AccountDBTask.getAccountList());
-            if (data.size() == 1) {
-                count = 1;
-            } else {
-                count = data.size() - 1;
-            }
-            Iterator<AccountBean> iterator = data.iterator();
-            while (iterator.hasNext()) {
-                AccountBean accountBean = iterator.next();
-                if (accountBean.getUid().equals(GlobalContext.getInstance().getAccountBean().getUid())) {
-                    iterator.remove();
-                    break;
-                }
-            }
-
-        }
-
-        @Override
-        public int getCount() {
-            return count;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = getLayoutInflater(null).inflate(R.layout.slidingdrawer_avatar, parent, false);
-            ImageView iv = (ImageView) view.findViewById(R.id.avatar);
-            TimeLineBitmapDownloader.getInstance().display(iv, -1, -1,
-                    GlobalContext.getInstance().getAccountBean().getInfo().getAvatar_large(),
-                    FileLocationMethod.avatar_large);
-
-            return view;
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            View view = getLayoutInflater(null).inflate(R.layout.slidingdrawer_avatar_dropdown, parent, false);
-            TextView nickname = (TextView) view.findViewById(R.id.nickname);
-            ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
-
-            if (data.size() > 0) {
-                final AccountBean accountBean = data.get(position);
-                TimeLineBitmapDownloader.getInstance().display(avatar, -1, -1, accountBean.getInfo().getAvatar_large(),
-                        FileLocationMethod.avatar_large);
-
-                nickname.setText(accountBean.getUsernick());
-
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent start = MainTimeLineActivity.newIntent(accountBean);
-                        getActivity().startActivity(start);
-                        getActivity().finish();
-
-                    }
-                });
-            } else {
-                avatar.setVisibility(View.GONE);
-                nickname.setTextColor(getResources().getColor(R.color.gray));
-                nickname.setText(getString(R.string.dont_have_other_account));
-            }
-            return view;
-        }
-    }
 
     private class LeftDrawerViewHolder {
 
-        Spinner avatar;
+        ImageView avatar;
 
         TextView nickname;
 
