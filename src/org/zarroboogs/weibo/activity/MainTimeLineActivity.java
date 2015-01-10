@@ -20,7 +20,7 @@ import org.zarroboogs.weibo.fragment.CommentsTimeLineFragment;
 import org.zarroboogs.weibo.fragment.DMUserListFragment;
 import org.zarroboogs.weibo.fragment.FriendsTimeLineFragment;
 import org.zarroboogs.weibo.fragment.LeftMenuFragment;
-import org.zarroboogs.weibo.fragment.MentionsTimeLineFragment;
+import org.zarroboogs.weibo.fragment.AtMeTimeLineFragment;
 import org.zarroboogs.weibo.fragment.MyFavListFragment;
 import org.zarroboogs.weibo.fragment.RightMenuFragment;
 import org.zarroboogs.weibo.fragment.SearchMainParentFragment;
@@ -187,7 +187,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     private void initFragments() {
         Fragment friend = getFriendsTimeLineFragment();
-        Fragment mentions = getMentionsTimeLineFragment();
+        Fragment mentions = getAtMeTimeLineFragment();
         Fragment comments = getCommentsTimeLineFragment();
 
         Fragment fav = getFavFragment();
@@ -199,7 +199,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             fragmentTransaction.hide(friend);
         }
         if (!mentions.isAdded()) {
-            fragmentTransaction.add(R.id.menu_right_fl, mentions, MentionsTimeLineFragment.class.getName());
+            fragmentTransaction.add(R.id.menu_right_fl, mentions, AtMeTimeLineFragment.class.getName());
             fragmentTransaction.hide(mentions);
 
         }
@@ -469,11 +469,11 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         return fragment;
     }
 
-    public MentionsTimeLineFragment getMentionsTimeLineFragment() {
-        MentionsTimeLineFragment fragment = ((MentionsTimeLineFragment) getSupportFragmentManager().findFragmentByTag(
-                MentionsTimeLineFragment.class.getName()));
+    public AtMeTimeLineFragment getAtMeTimeLineFragment() {
+        AtMeTimeLineFragment fragment = ((AtMeTimeLineFragment) getSupportFragmentManager().findFragmentByTag(
+                AtMeTimeLineFragment.class.getName()));
         if (fragment == null) {
-            fragment = MentionsTimeLineFragment.newInstance();
+            fragment = AtMeTimeLineFragment.newInstance();
         }
         return fragment;
     }

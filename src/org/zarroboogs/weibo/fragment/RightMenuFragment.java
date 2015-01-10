@@ -129,7 +129,7 @@ public class RightMenuFragment extends BaseStateFragment {
         }
 
         rightFragments.append(HOME_INDEX, ((MainTimeLineActivity) getActivity()).getFriendsTimeLineFragment());
-        rightFragments.append(MENTIONS_INDEX, ((MainTimeLineActivity) getActivity()).getMentionsTimeLineFragment());
+        rightFragments.append(MENTIONS_INDEX, ((MainTimeLineActivity) getActivity()).getAtMeTimeLineFragment());
         rightFragments.append(COMMENTS_INDEX, ((MainTimeLineActivity) getActivity()).getCommentsTimeLineFragment());
         rightFragments.append(SEARCH_INDEX, ((MainTimeLineActivity) getActivity()).getSearchFragment());
         rightFragments.append(DM_INDEX, ((MainTimeLineActivity) getActivity()).getDMFragment());
@@ -298,7 +298,7 @@ public class RightMenuFragment extends BaseStateFragment {
         ft.show(m);
         ft.commit();
 
-        ((MentionsTimeLineFragment) m).buildActionBarAndViewPagerTitles(mentionsTabIndex);
+        ((AtMeTimeLineFragment) m).buildActionBarAndViewPagerTitles(mentionsTabIndex);
     }
 
     public int getCurrentIndex() {

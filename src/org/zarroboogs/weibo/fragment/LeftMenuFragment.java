@@ -129,7 +129,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         }
 
         rightFragments.append(HOME_INDEX, ((MainTimeLineActivity) getActivity()).getFriendsTimeLineFragment());
-        rightFragments.append(MENTIONS_INDEX, ((MainTimeLineActivity) getActivity()).getMentionsTimeLineFragment());
+        rightFragments.append(MENTIONS_INDEX, ((MainTimeLineActivity) getActivity()).getAtMeTimeLineFragment());
         rightFragments.append(COMMENTS_INDEX, ((MainTimeLineActivity) getActivity()).getCommentsTimeLineFragment());
         rightFragments.append(SEARCH_INDEX, ((MainTimeLineActivity) getActivity()).getSearchFragment());
         rightFragments.append(DM_INDEX, ((MainTimeLineActivity) getActivity()).getDMFragment());
@@ -334,7 +334,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         ViewUtility.findViewById(getActivity(), R.id.scrollToTopBtn).setVisibility(View.VISIBLE);
         mToolbar.getMenu().clear();
 
-        ((MentionsTimeLineFragment) m).buildActionBarAndViewPagerTitles(mentionsTabIndex);
+        ((AtMeTimeLineFragment) m).buildActionBarAndViewPagerTitles(mentionsTabIndex);
     }
 
     public int getCurrentIndex() {

@@ -158,7 +158,7 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     }
 
     private void setActionBarTabCount(int count) {
-        CommentsTimeLineFragment parent = (CommentsTimeLineFragment) getParentFragment();
+//        CommentsTimeLineFragment parent = (CommentsTimeLineFragment) getParentFragment();
         // ActionBar.Tab tab = parent.getCommentsToMeTab();
         // if (tab == null) {
         // return;

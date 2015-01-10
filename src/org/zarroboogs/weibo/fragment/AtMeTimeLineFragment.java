@@ -4,7 +4,7 @@ package org.zarroboogs.weibo.fragment;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
-import org.zarroboogs.weibo.adapter.MentionsTimeLinePagerAdapter;
+import org.zarroboogs.weibo.adapter.AtMeTimeLinePagerAdapter;
 import org.zarroboogs.weibo.bean.UnreadTabIndex;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
@@ -14,33 +14,34 @@ import org.zarroboogs.weibo.support.utils.Utility;
 
 import com.example.android.common.view.SlidingTabLayout;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
-public class MentionsTimeLineFragment extends BaseStateFragment implements MainTimeLineActivity.ScrollableListFragment {
+public class AtMeTimeLineFragment extends BaseStateFragment implements MainTimeLineActivity.ScrollableListFragment {
 
     private ViewPager viewPager;
 
     private SparseArray<Fragment> childrenFragments = new SparseArray<Fragment>();
 
-    public static final int MENTIONS_WEIBO_CHILD_POSITION = 0;
+	public static final int AT_ME_WEIBO = 0;
+	public static final int AT_ME_COMMENT = 1;
 
-    public static final int MENTIONS_COMMENT_CHILD_POSITION = 1;
+	public static final int COMMENT_TO_ME = 2;
+	public static final int COMMENT_BY_ME = 3;
+    
 
     private SlidingTabLayout mSlidingTabLayout;
 
-    public static MentionsTimeLineFragment newInstance() {
-        MentionsTimeLineFragment fragment = new MentionsTimeLineFragment();
+    public static AtMeTimeLineFragment newInstance() {
+        AtMeTimeLineFragment fragment = new AtMeTimeLineFragment();
         fragment.setArguments(new Bundle());
         return fragment;
     }
@@ -62,7 +63,7 @@ public class MentionsTimeLineFragment extends BaseStateFragment implements MainT
     // mentionsCommentTab =
     // getActivity().getActionBar().newTab().setCustomView(customView).setTag(MentionsCommentTimeLineFragment.class.getName())
     // .setTabListener(tabListener);
-    // tabMap.append(MENTIONS_COMMENT_CHILD_POSITION, mentionsCommentTab);
+    // tabMap.append(AT_ME_COMMENT, mentionsCommentTab);
     // return mentionsCommentTab;
     // }
     //
@@ -74,7 +75,7 @@ public class MentionsTimeLineFragment extends BaseStateFragment implements MainT
     // mentionsWeiboTab =
     // getActivity().getActionBar().newTab().setCustomView(customView).setTag(MentionsWeiboTimeLineFragment.class.getName())
     // .setTabListener(tabListener);
-    // tabMap.append(MENTIONS_WEIBO_CHILD_POSITION, mentionsWeiboTab);
+    // tabMap.append(AT_ME_WEIBO, mentionsWeiboTab);
     // return mentionsWeiboTab;
     // }
 
@@ -92,7 +93,7 @@ public class MentionsTimeLineFragment extends BaseStateFragment implements MainT
         viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setOnPageChangeListener(onPageChangeListener);
-        MentionsTimeLinePagerAdapter adapter = new MentionsTimeLinePagerAdapter(this, viewPager, getChildFragmentManager(),
+        AtMeTimeLinePagerAdapter adapter = new AtMeTimeLinePagerAdapter(this, viewPager, getChildFragmentManager(),
                 childrenFragments);
         viewPager.setAdapter(adapter);
         mSlidingTabLayout.setViewPager(viewPager);
@@ -173,11 +174,11 @@ public class MentionsTimeLineFragment extends BaseStateFragment implements MainT
     }
 
     // public ActionBar.Tab getWeiboTab() {
-    // return tabMap.get(MENTIONS_WEIBO_CHILD_POSITION);
+    // return tabMap.get(AT_ME_WEIBO);
     // }
     //
     // public ActionBar.Tab getCommentTab() {
-    // return tabMap.get(MENTIONS_COMMENT_CHILD_POSITION);
+    // return tabMap.get(AT_ME_COMMENT);
     // }
 
     ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
@@ -237,6 +238,29 @@ public class MentionsTimeLineFragment extends BaseStateFragment implements MainT
         return fragment;
     }
 
+    public CommentsToMeTimeLineFragment getCommentsToMeTimeLineFragment() {
+        CommentsToMeTimeLineFragment fragment = ((CommentsToMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
+                CommentsToMeTimeLineFragment.class.getName()));
+        if (fragment == null) {
+            fragment = new CommentsToMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
+                    .getInstance().getAccountBean().getInfo(),
+                    GlobalContext.getInstance().getSpecialToken());
+        }
+
+        return fragment;
+    }
+
+    public CommentsByMeTimeLineFragment getCommentsByMeTimeLineFragment() {
+        CommentsByMeTimeLineFragment fragment = ((CommentsByMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
+                CommentsByMeTimeLineFragment.class.getName()));
+        if (fragment == null) {
+            fragment = new CommentsByMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
+                    .getInstance().getAccountBean().getInfo(),
+                    GlobalContext.getInstance().getSpecialToken());
+        }
+        return fragment;
+    }
+    
     @Override
     public void scrollToTop() {
         AbsBaseTimeLineFragment fragment = (AbsBaseTimeLineFragment) (childrenFragments.get(viewPager.getCurrentItem()));
