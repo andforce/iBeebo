@@ -31,6 +31,8 @@ public class TranslucentStatusBarActivity extends ActionBarActivity {
             tintManager.setStatusBarTintEnabled(true);
             // R.color.actionbar_dark
             tintManager.setStatusBarTintResource(R.color.md_actionbar_bg_color);// .setStatusBarTintColor(0xFF01345d);
+            tintManager.setNavigationBarTintEnabled(true);
+            tintManager.setNavigationBarTintResource(R.color.md_actionbar_bg_color);
         }
     }
 

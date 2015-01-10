@@ -70,7 +70,6 @@
 
     <style name="PrivateThemeHoloLightOnlyForInherit" parent="@style/Theme.AppCompat.Light.NoActionBar">
 
-        
         <!-- <item name="android:windowBackground">@color/host_background</item> -->
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
         <item name="android:actionDropDownStyle">@style/ActionBarDropDownStyle</item>
@@ -78,19 +77,24 @@
         <item name="android:actionBarWidgetTheme">@style/ActionBarTheme</item>
         <item name="android:actionBarItemBackground">@drawable/action_bar_item_background</item>
         <item name="android:fastScrollTrackDrawable">@null</item>
-       	
-        <item name="android:textColor">@color/black</item>        
+        <item name="android:textColor">@color/black</item>
         <item name="android:actionModeBackground">@color/md_actionbar_bg_color</item>
         <item name="android:actionOverflowButtonStyle">@android:style/Widget.ActionButton.Overflow</item>
-        
+
         <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/md_actionbar_bg_color</item>
         <!-- 状态栏颜色 -->
-        <item name="colorPrimaryDark">#3A5FCD</item>
+        <item name="colorPrimaryDark">@color/md_actionbar_bg_color</item>
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
         <!-- 设置字体的颜色 -->
         <item name="android:textColorPrimary">@android:color/white</item>
+        <!--
+             虚拟按键的颜色
+        <item name="navigationBarColor">@color/md_actionbar_bg_color</item>
+        -->
+
+
         <!-- 设置EditText光标的颜色跟输入的字一样 -->
         <item name="android:textCursorDrawable">@null</item>
     </style>
