@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 public class SettingActivity extends AbstractAppActivity {
 
+	public static final String SETTING_PREF_NAVIGATIONBAR_MD = "setting_pref_navigationbar_md";
     public static final String SOUND = "sound";
 
     public static final String AUTO_REFRESH = "auto_refresh";

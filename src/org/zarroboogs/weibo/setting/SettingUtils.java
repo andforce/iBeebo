@@ -359,4 +359,7 @@ public class SettingUtils {
         return SettingHelper.getSharedPreferences(getContext(), SettingActivity.UPLOAD_BIG_PIC, true);
     }
 
+    public static boolean isNaviGationBarIm(){
+    	return SettingHelper.getSharedPreferences(getContext(), SettingActivity.SETTING_PREF_NAVIGATIONBAR_MD, false);
+    }
 }

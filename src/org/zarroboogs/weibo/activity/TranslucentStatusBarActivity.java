@@ -2,6 +2,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.setting.SettingUtils;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -30,9 +31,16 @@ public class TranslucentStatusBarActivity extends ActionBarActivity {
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
             // R.color.actionbar_dark
-            tintManager.setStatusBarTintResource(R.color.md_actionbar_bg_color);// .setStatusBarTintColor(0xFF01345d);
-            tintManager.setNavigationBarTintEnabled(true);
-            tintManager.setNavigationBarTintResource(R.color.md_actionbar_bg_color);
+            tintManager.setStatusBarTintResource(R.color.md_actionbar_bg_color);
+            
+            if (SettingUtils.isNaviGationBarIm()) {
+                tintManager.setNavigationBarTintEnabled(true);
+                tintManager.setNavigationBarTintResource(R.color.md_actionbar_bg_color);
+			}else {
+				tintManager.setNavigationBarTintEnabled(true);
+				tintManager.setNavigationBarTintResource(R.color.black);
+			}
+
         }
     }
 

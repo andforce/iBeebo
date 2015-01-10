@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="root_screen"
-    android:fitsSystemWindows="true" >
+    android:fitsSystemWindows="true"
+    android:key="root_screen" >
 
     <PreferenceCategory android:title="@string/pref_normal_title" >
         <Preference
@@ -27,8 +27,13 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="sound"
-            android:summary="开关操作音效"
+            android:summary="开关操作音效,需重启应用生效"
             android:title="@string/pref_sound_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="setting_pref_navigationbar_md"
+            android:summary="底部虚拟按键沉浸,需重启应用生效"
+            android:title="虚拟按键沉浸" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_advanced_title" >
         <Preference
@@ -54,27 +59,27 @@
 
         <ListPreference
             android:defaultValue="1"
-            android:summary="设置头像画质"
             android:dialogTitle="@string/pref_list_avatar_mode_title"
             android:entries="@array/list_avatar_mode"
             android:entryValues="@array/list_avatar_mode_value"
             android:key="list_avatar_mode"
+            android:summary="设置头像画质"
             android:title="@string/pref_list_avatar_mode_title" />
         <ListPreference
-            android:summary="设置微博图片画质"
             android:defaultValue="1"
             android:dialogTitle="@string/pref_list_pic_mode_title"
             android:entries="@array/list_pic_mode"
             android:entryValues="@array/list_pic_mode_value"
             android:key="list_pic_mode"
+            android:summary="设置微博图片画质"
             android:title="@string/pref_list_pic_mode_title" />
-        
+
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="disable_download"
             android:summary="@string/pref_disable_download_pic_summary"
             android:title="@string/pref_disable_download_pic_title" />
-                
+
         <!--
              <Preference
             android:key="draft"
