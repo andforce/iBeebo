@@ -49,6 +49,7 @@ import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -142,9 +143,11 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     private AtomicInteger finishedWatcher;
 
     private TimeLinePosition position;
+    
+    private Toolbar mUserToolbar;
 
-    public static UserInfoFragment newInstance(UserBean userBean, String token) {
-        UserInfoFragment fragment = new UserInfoFragment(userBean, token);
+    public static UserInfoFragment newInstance(Toolbar toolbar,UserBean userBean, String token) {
+        UserInfoFragment fragment = new UserInfoFragment(userBean, token, toolbar);
         fragment.setArguments(new Bundle());
         return fragment;
     }
@@ -504,7 +507,8 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         }
     };
 
-    public UserInfoFragment(UserBean userBean, String token) {
+    public UserInfoFragment(UserBean userBean, String token, Toolbar toolbar) {
+    	this.mUserToolbar = toolbar;
         this.userBean = userBean;
         this.token = token;
     }

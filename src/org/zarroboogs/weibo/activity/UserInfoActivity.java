@@ -37,6 +37,7 @@ import android.os.Looper;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -85,12 +86,16 @@ public class UserInfoActivity extends AbstractAppActivity {
         super.onDestroy();
         Utility.cancelTasks(followOrUnfollowTask, modifyGroupMemberTask);
     }
-
+    
+    
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userinfoactivity_layout);
         mUserInfoToolbar = (Toolbar) findViewById(R.id.userInfoToolBar);
+        
         initLayout();
         token = getIntent().getStringExtra(Constants.TOKEN);
         bean = getIntent().getParcelableExtra("user");
@@ -137,6 +142,87 @@ public class UserInfoActivity extends AbstractAppActivity {
             finish();
         }
 
+        if (isMyselfProfile()) {
+            mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_myinfoactivity);
+            MenuItem edit = mUserInfoToolbar.getMenu().findItem(R.id.menu_edit);
+            edit.setVisible(GlobalContext.getInstance().getAccountBean().isBlack_magic());
+        }else {
+            mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_infofragment);
+            Menu menu = mUserInfoToolbar.getMenu();
+            if (bean.isFollowing()) {
+                menu.findItem(R.id.menu_follow).setVisible(false);
+                menu.findItem(R.id.menu_unfollow).setVisible(true);
+                menu.findItem(R.id.menu_manage_group).setVisible(true);
+            } else {
+                menu.findItem(R.id.menu_follow).setVisible(true);
+                menu.findItem(R.id.menu_unfollow).setVisible(false);
+                menu.findItem(R.id.menu_manage_group).setVisible(false);
+            }
+
+            if (!bean.isFollowing() && bean.isFollow_me()) {
+                menu.findItem(R.id.menu_remove_fan).setVisible(true);
+            } else {
+                menu.findItem(R.id.menu_remove_fan).setVisible(false);
+            }
+		}
+        mUserInfoToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+		        Intent intent;
+		        switch (item.getItemId()) {
+		            case android.R.id.home:
+		                intent = MainTimeLineActivity.newIntent();
+		                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		                startActivity(intent);
+		                return true;
+		            case R.id.menu_edit:
+		                intent = new Intent(UserInfoActivity.this, EditMyProfileActivity.class);
+		                intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
+		                startActivity(intent);
+		                return true;
+		            case R.id.menu_at:
+		                intent = new Intent(UserInfoActivity.this, WriteWeiboWithAppSrcActivity.class);
+		                intent.putExtra(Constants.TOKEN, getToken());
+		                intent.putExtra("content", "@" + bean.getScreen_name());
+		                intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());
+		                startActivity(intent);
+		                break;
+		            case R.id.menu_modify_remark:
+		                UpdateRemarkDialog dialog = new UpdateRemarkDialog();
+		                dialog.show(getFragmentManager(), "");
+		                break;
+		            case R.id.menu_follow:
+		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+		                    followOrUnfollowTask = new FollowTask();
+		                    followOrUnfollowTask.execute();
+		                }
+		                break;
+		            case R.id.menu_unfollow:
+		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+		                    followOrUnfollowTask = new UnFollowTask();
+		                    followOrUnfollowTask.execute();
+		                }
+		                break;
+		            case R.id.menu_remove_fan:
+		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+		                    followOrUnfollowTask = new RemoveFanTask();
+		                    followOrUnfollowTask.execute();
+		                }
+		                break;
+		            case R.id.menu_add_to_app_filter:
+		                if (!TextUtils.isEmpty(bean.getScreen_name())) {
+		                    FilterDBTask.addFilterKeyword(FilterDBTask.TYPE_USER, bean.getScreen_name());
+		                    Toast.makeText(UserInfoActivity.this, getString(R.string.filter_successfully), Toast.LENGTH_SHORT).show();
+		                }
+		                break;
+		            case R.id.menu_manage_group:
+		                manageGroup();
+		                break;
+		        }
+		        return false;
+		    }
+		});
     }
 
     @Override
@@ -195,7 +281,7 @@ public class UserInfoActivity extends AbstractAppActivity {
             @Override
             public void run() {
                 if (getSupportFragmentManager().findFragmentByTag(UserInfoFragment.class.getName()) == null) {
-                    UserInfoFragment userInfoFragment = UserInfoFragment.newInstance(getUser(), getToken());
+                    UserInfoFragment userInfoFragment = UserInfoFragment.newInstance(mUserInfoToolbar,getUser(), getToken());
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.content, userInfoFragment, UserInfoFragment.class.getName()).commit();
                     getSupportFragmentManager().executePendingTransactions();
@@ -208,90 +294,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        if (isMyselfProfile()) {
-
-            getMenuInflater().inflate(R.menu.actionbar_menu_myinfoactivity, menu);
-            MenuItem edit = menu.findItem(R.id.menu_edit);
-            edit.setVisible(GlobalContext.getInstance().getAccountBean().isBlack_magic());
-        } else {
-            getMenuInflater().inflate(R.menu.actionbar_menu_infofragment, menu);
-            if (bean.isFollowing()) {
-                menu.findItem(R.id.menu_follow).setVisible(false);
-                menu.findItem(R.id.menu_unfollow).setVisible(true);
-                menu.findItem(R.id.menu_manage_group).setVisible(true);
-            } else {
-                menu.findItem(R.id.menu_follow).setVisible(true);
-                menu.findItem(R.id.menu_unfollow).setVisible(false);
-                menu.findItem(R.id.menu_manage_group).setVisible(false);
-            }
-
-            if (!bean.isFollowing() && bean.isFollow_me()) {
-                menu.findItem(R.id.menu_remove_fan).setVisible(true);
-            } else {
-                menu.findItem(R.id.menu_remove_fan).setVisible(false);
-            }
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                intent = MainTimeLineActivity.newIntent();
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
-            case R.id.menu_edit:
-                intent = new Intent(this, EditMyProfileActivity.class);
-                intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
-                startActivity(intent);
-                return true;
-            case R.id.menu_at:
-                intent = new Intent(this, WriteWeiboWithAppSrcActivity.class);
-                intent.putExtra(Constants.TOKEN, getToken());
-                intent.putExtra("content", "@" + bean.getScreen_name());
-                intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());
-                startActivity(intent);
-                break;
-            case R.id.menu_modify_remark:
-                UpdateRemarkDialog dialog = new UpdateRemarkDialog();
-                dialog.show(getFragmentManager(), "");
-                break;
-            case R.id.menu_follow:
-                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-                    followOrUnfollowTask = new FollowTask();
-                    followOrUnfollowTask.execute();
-                }
-                break;
-            case R.id.menu_unfollow:
-                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-                    followOrUnfollowTask = new UnFollowTask();
-                    followOrUnfollowTask.execute();
-                }
-                break;
-            case R.id.menu_remove_fan:
-                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-                    followOrUnfollowTask = new RemoveFanTask();
-                    followOrUnfollowTask.execute();
-                }
-                break;
-            case R.id.menu_add_to_app_filter:
-                if (!TextUtils.isEmpty(bean.getScreen_name())) {
-                    FilterDBTask.addFilterKeyword(FilterDBTask.TYPE_USER, bean.getScreen_name());
-                    Toast.makeText(this, getString(R.string.filter_successfully), Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.menu_manage_group:
-                manageGroup();
-                break;
-        }
-        return false;
-    }
+    
 
     public void updateRemark(String remark) {
 

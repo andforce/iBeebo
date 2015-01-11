@@ -523,7 +523,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         UserInfoFragment fragment = ((UserInfoFragment) getSupportFragmentManager().findFragmentByTag(
                 UserInfoFragment.class.getName()));
         if (fragment == null) {
-            fragment = UserInfoFragment.newInstance(GlobalContext.getInstance().getAccountBean().getInfo(), GlobalContext
+            fragment = UserInfoFragment.newInstance(mToolbar, GlobalContext.getInstance().getAccountBean().getInfo(), GlobalContext
                     .getInstance().getSpecialToken());
         }
         return fragment;
