@@ -3,6 +3,8 @@ Beebo
 
 Sina Weibo Client
 -----------------
+暂时不支持平板分辨率
+-----------------
 
 [CoolApk下载v2.1.1](http://coolapk.com/apk/org.zarroboogs.weibo)
 
