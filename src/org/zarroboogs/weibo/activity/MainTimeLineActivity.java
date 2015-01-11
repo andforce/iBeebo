@@ -119,6 +119,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         if (AppNewMsgAlarm.DEBUG) {
 			AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, getApplicationContext(), true);
 		}
+        
     }
 
     public void closeLeftDrawer() {
