@@ -77,7 +77,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
         setContentView(R.layout.browser_weibo_msg_activity_layout);
         mToolbar = (Toolbar) findViewById(R.id.accountToolBar);
-        mToolbar.setTitle(R.string.detail);
+        mToolbar.setTitle(R.string.weibo_detail);
         setSupportActionBar(mToolbar);
 
         mToolbar.inflateMenu(R.menu.actionbar_menu_browserweibomsgactivity);

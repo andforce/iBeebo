@@ -571,10 +571,10 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         ((MainTimeLineActivity) getActivity()).setCurrentFragment(this);
 
         if (Utility.isDevicePort()) {
-            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.profile));
+            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.weibo_change_account));
             // getBaseToolbar().setLogo(R.drawable.ic_menu_profile);
         } else {
-            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.profile));
+            ((MainTimeLineActivity) getActivity()).setTitle(getString(R.string.weibo_change_account));
             // getBaseToolbar().setLogo(R.drawable.beebo_launcher);
         }
     }

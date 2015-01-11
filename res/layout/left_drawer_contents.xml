@@ -13,11 +13,11 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/homeButton"
             style="@style/drawerMenuButton"
-            android:background="@null"
             android:clickable="false"
             android:drawableLeft="@drawable/ic_view_day_grey600_24dp"
-            android:text="@string/home"
+            android:text="@string/weibo_home_page"
             tools:ignore="RtlHardcoded" />
 
         <TextView
@@ -39,8 +39,8 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/mentionButton"
             style="@style/drawerMenuButton"
-            android:background="@null"
             android:clickable="false"
             android:drawableLeft="@drawable/ic_assignment_grey600_24dp"
             android:text="@string/mentions"
@@ -68,6 +68,7 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/commentButton"
             style="@style/drawerMenuButton"
             android:background="@null"
             android:clickable="false"

@@ -119,7 +119,7 @@
         <activity
             android:name="org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity"
             android:exported="false"
-            android:label="@string/detail"
+            android:label="@string/weibo_detail"
             android:theme="@style/AppTheme_Dummy"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity

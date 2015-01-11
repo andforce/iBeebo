@@ -23,11 +23,11 @@
     <string name="drawer_close">关闭</string>
     
     <!--drawer menu-->
-    <string name="home">首页</string>
-    <string name="profile">个人主页</string>
-    <string name="logout">切换帐号</string>
-    <string name="detail">正文</string>
-    <string name="weibo">微博</string>
+    <string name="weibo_home_page">首页</string>
+    <string name="weibo_myprofile_page">个人主页</string>
+    <string name="weibo_change_account">切换帐号</string>
+    <string name="weibo_detail">正文</string>
+    <string name="weibo_weibo">微博</string>
 
     <!--Account -->
     <string name="oauthing">授权中</string>

@@ -59,7 +59,7 @@ public class SearchTimeLinePagerAdapter extends AppFragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         if (position == 0) {
-            return fragmentList.get(position).getActivity().getResources().getString(R.string.weibo);
+            return fragmentList.get(position).getActivity().getResources().getString(R.string.weibo_weibo);
         } else {
             return fragmentList.get(position).getActivity().getResources().getString(R.string.user);
         }

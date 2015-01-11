@@ -624,46 +624,6 @@ public class RightMenuFragment extends BaseStateFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // getSlidingMenu().toggle();
-            switch (v.getId()) {
-                case R.id.btn_home:
-                    showHomePage(false);
-                    break;
-                case R.id.btn_mention:
-                    showMentionPage(false);
-                    break;
-                case R.id.btn_comment:
-                    showCommentPage(false);
-                    break;
-                case R.id.btn_search:
-                    showSearchPage(false);
-                    break;
-                case R.id.btn_profile:
-                    showProfilePage(false);
-                    break;
-                case R.id.btn_location:
-                    startActivity(new Intent(getActivity(), NearbyTimeLineActivity.class));
-                    // drawButtonsBackground(5);
-                    break;
-                case R.id.btn_favourite:
-                    showFavPage(false);
-                    break;
-                case R.id.btn_dm:
-                    showDMPage(false);
-                    break;
-                case R.id.btn_setting:
-                    showSettingPage();
-                    break;
-                case R.id.btn_logout:
-                    showAccountSwitchPage();
-                    break;
-            }
-            ((MainTimeLineActivity) getActivity()).closeRightDrawer();
-        }
-    };
 
     private void setTitle(int res) {
         ((MainTimeLineActivity) getActivity()).setTitle(res);

@@ -149,7 +149,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mToolbar = (Toolbar) getActivity().findViewById(R.id.mainTimeLineToolBar);
-        mToolbar.setTitle(R.string.home);
+        mToolbar.setTitle(R.string.weibo_home_page);
         mToolbar.inflateMenu(R.menu.actionbar_menu_friendstimelinefragment);
         // mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
         //

@@ -241,7 +241,7 @@ public class LeftMenuFragment extends BaseStateFragment {
                 public void onReceive(Context context, Intent intent) {
                     LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
                     if (currentIndex == HOME_INDEX) {
-                        mToolbar.setTitle(R.string.home);
+                        mToolbar.setTitle(R.string.weibo_home_page);
                         showHomePageImp();
                     }
 
@@ -657,6 +657,10 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.commentCount = (TextView) view.findViewById(R.id.tv_comment_count);
         
         layout.leftDrawerSettingBtn = (ImageButton) view.findViewById(R.id.leftDrawerSettingBtn);
+        
+        layout.homeButton = (Button) view.findViewById(R.id.homeButton);
+        layout.mentionButton = (Button) view.findViewById(R.id.mentionButton);
+        layout.commentButton = (Button) view.findViewById(R.id.commentButton);
 
         boolean blackMagic = GlobalContext.getInstance().getAccountBean().isBlack_magic();
         if (!blackMagic) {
@@ -713,10 +717,6 @@ public class LeftMenuFragment extends BaseStateFragment {
                     showSearchPage(false);
                     drawButtonsBackground(SEARCH_INDEX);
                     break;
-                case R.id.btn_profile:
-                    showProfilePage(false);
-                    drawButtonsBackground(PROFILE_INDEX);
-                    break;
                 case R.id.btn_location:
                     startActivity(new Intent(getActivity(), NearbyTimeLineActivity.class));
                     // drawButtonsBackground(5);
@@ -729,12 +729,6 @@ public class LeftMenuFragment extends BaseStateFragment {
                     showDMPage(false);
                     drawButtonsBackground(DM_INDEX);
                     break;
-                case R.id.btn_setting:
-                    showSettingPage();
-                    break;
-                case R.id.btn_logout:
-                    showAccountSwitchPage();
-                    break;
                 case R.id.leftDrawerSettingBtn:{
                 	showSettingPage();
                 	break;
@@ -745,33 +739,46 @@ public class LeftMenuFragment extends BaseStateFragment {
     };
 
     private void drawButtonsBackground(int position) {
-        layout.home.setBackgroundResource(R.drawable.btn_drawer_menu);
-        layout.mention.setBackgroundResource(R.drawable.btn_drawer_menu);
-        layout.comment.setBackgroundResource(R.drawable.btn_drawer_menu);
-        layout.search.setBackgroundResource(R.drawable.btn_drawer_menu);
-        // layout.location.setBackgroundResource(R.color.transparent);
-        // layout.setting.setBackgroundResource(R.color.transparent);
-        layout.dm.setBackgroundResource(R.drawable.btn_drawer_menu);
-        layout.fav.setBackgroundResource(R.drawable.btn_drawer_menu);
-        // layout.logout.setBackgroundResource(R.color.transparent);
+    	layout.homeButton.setTextColor(getResources().getColor(R.color.draw_text_color));
+    	layout.mentionButton.setTextColor(getResources().getColor(R.color.draw_text_color));
+    	
+    	layout.dm.setTextColor(getResources().getColor(R.color.draw_text_color));
+		layout.fav.setTextColor(getResources().getColor(R.color.draw_text_color));
+		layout.search.setTextColor(getResources().getColor(R.color.draw_text_color));
+		
+//		layout.home.setBackgroundResource(R.drawable.btn_drawer_menu);
+//		layout.mention.setBackgroundResource(R.drawable.btn_drawer_menu);
+//		layout.comment.setBackgroundResource(R.drawable.btn_drawer_menu);
+//		layout.search.setBackgroundResource(R.drawable.btn_drawer_menu);
+//		layout.location.setBackgroundResource(R.color.transparent);
+//		layout.setting.setBackgroundResource(R.color.transparent);
+//		layout.dm.setBackgroundResource(R.drawable.btn_drawer_menu);
+//		layout.fav.setBackgroundResource(R.drawable.btn_drawer_menu);
+//		layout.logout.setBackgroundResource(R.color.transparent);
         switch (position) {
             case HOME_INDEX:
-                layout.home.setBackgroundResource(R.color.ics_blue_semi);
+//                layout.home.setBackgroundResource(R.color.ics_blue_semi);
+            	layout.homeButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
             case MENTIONS_INDEX:
-                layout.mention.setBackgroundResource(R.color.ics_blue_semi);
+//                layout.mention.setBackgroundResource(R.color.ics_blue_semi);
+            	layout.mentionButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
             case COMMENTS_INDEX:
-                layout.comment.setBackgroundResource(R.color.ics_blue_semi);
+//                layout.comment.setBackgroundResource(R.color.ics_blue_semi);
+            	layout.commentButton.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
             case SEARCH_INDEX:
-                layout.search.setBackgroundResource(R.color.ics_blue_semi);
+//                layout.search.setBackgroundResource(R.color.ics_blue_semi);
+            	layout.search.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
             case DM_INDEX:
-                layout.dm.setBackgroundResource(R.color.ics_blue_semi);
+//                layout.dm.setBackgroundResource(R.color.ics_blue_semi);
+            	layout.dm.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
             case FAV_INDEX:
-                layout.fav.setBackgroundResource(R.color.ics_blue_semi);
+//                layout.fav.setBackgroundResource(R.color.ics_blue_semi);
+            	layout.fav.setTextColor(getResources().getColor(R.color.md_actionbar_bg_color));
                 break;
         // case 5:
         // layout.location.setBackgroundResource(R.color.ics_blue_semi);
@@ -840,11 +847,17 @@ public class LeftMenuFragment extends BaseStateFragment {
         TextView nickname;
 
         LinearLayout home;
+        
+        Button homeButton;
 
         LinearLayout mention;
 
+        Button mentionButton;
+        
         LinearLayout comment;
 
+        Button commentButton;
+        
         TextView homeCount;
 
         TextView mentionCount;
