@@ -74,6 +74,8 @@ import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import lib.org.zarroboogs.weibo.login.utils.LogTool;
+
 public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean> implements
         GlobalContext.MyProfileInfoChangeListener,
         MainTimeLineActivity.ScrollableListFragment {
@@ -527,6 +529,8 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         // });
         currentGroupId = FriendsTimeLineDBTask.getRecentGroupId(GlobalContext.getInstance().getCurrentAccountId());
 
+        LogTool.D("RecentGroupID Friend-asyncUpdateRecentGroupId : " + currentGroupId);
+        
         // if (Utility.isDevicePort()) {
         // ((MainTimeLineActivity) getActivity()).setTitle("");
         // getBaseToolbar().setLogo(R.drawable.ic_menu_home);
@@ -671,7 +675,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
     }
 
     @Override
-    protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
+    protected void onTimeListViewItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent mIntent = BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                 getList().getItem(position), GlobalContext
                         .getInstance().getSpecialToken());

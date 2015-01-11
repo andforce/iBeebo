@@ -6,7 +6,6 @@ import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AccountActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
-import org.zarroboogs.weibo.activity.NearbyTimeLineActivity;
 import org.zarroboogs.weibo.adapter.FriendsTimeLineListNavAdapter;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.GroupBean;
@@ -88,7 +87,7 @@ public class RightMenuFragment extends BaseStateFragment {
 
     public static final String SWITCH_GROUP_KEY = "switch_group";
     private PullToRefreshListView mPullToRefreshListView;
-    private BaseAdapter mBaseAdapter;
+    private FriendsTimeLineListNavAdapter mBaseAdapter;
 
     public static RightMenuFragment newInstance() {
         RightMenuFragment fragment = new RightMenuFragment();
@@ -594,7 +593,7 @@ public class RightMenuFragment extends BaseStateFragment {
             name.add(b.getName());
         }
 
-        String[] valueArray = name.toArray(new String[0]);
+        String[] valueArray = name.toArray(new String[name.size()]);
         return valueArray;
     }
 
@@ -610,6 +609,8 @@ public class RightMenuFragment extends BaseStateFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ((MainTimeLineActivity) getActivity()).closeRightDrawer();
+
+                mBaseAdapter.setSelectId(position - 1);
                 Intent mIntent = new Intent(AppEventAction.SWITCH_WEIBO_GROUP_BROADCAST);
                 mIntent.putExtra(SWITCH_GROUP_KEY, position - 1);
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(mIntent);
