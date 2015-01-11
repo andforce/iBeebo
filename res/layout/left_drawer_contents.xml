@@ -94,7 +94,7 @@
         android:layout_width="match_parent"
         android:layout_weight="0"
         android:drawableLeft="@drawable/ic_email_grey600_24dp"
-        android:text="@string/dm"
+        android:text="@string/private_message"
         tools:ignore="RtlHardcoded" />
 
     <Button
@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_weight="0"
         android:drawableLeft="@drawable/ic_book_grey600_24dp"
-        android:text="@string/favourite"
+        android:text="@string/favourite_weibo"
         tools:ignore="RtlHardcoded" />
 
     <Button
@@ -112,7 +112,7 @@
         android:layout_width="match_parent"
         android:layout_weight="0"
         android:drawableLeft="@drawable/ic_search_grey600_24dp"
-        android:text="@string/search"
+        android:text="@string/weibo_search"
         tools:ignore="RtlHardcoded" />
 
     <Button

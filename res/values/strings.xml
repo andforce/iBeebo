@@ -23,7 +23,7 @@
     <string name="drawer_close">关闭</string>
     
     <!--drawer menu-->
-    <string name="weibo_home_page">首页</string>
+    <string name="weibo_home_page">微博首页</string>
     <string name="weibo_myprofile_page">个人主页</string>
     <string name="weibo_change_account">切换帐号</string>
     <string name="weibo_detail">正文</string>
@@ -143,9 +143,12 @@
     <string name="is_following_me">正在关注</string>
 
     <!--main category -->
-    <string name="mentions">提及</string>
+    <string name="mentions">与我相关</string>
     <string name="comments">评论</string>
     <string name="discover">探索</string>
+    
+    <string name="private_message">微博私信</string>
+    <string name="favourite_weibo">我的收藏</string>
     <string name="me">个人</string>
     <string name="repost">转发</string>
     <string name="mail">私信</string>
@@ -311,6 +314,8 @@
 
     <!-- serach -->
     <string name="search">搜索</string>
+    <string name="weibo_search">搜索页面</string>
+    
     <string name="status">微博</string>
     <string name="user">用户</string>
 
