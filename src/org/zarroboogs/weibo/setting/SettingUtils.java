@@ -178,7 +178,8 @@ public class SettingUtils {
     // end water mark setting
 
     public static boolean getEnableAutoRefresh() {
-        return SettingHelper.getSharedPreferences(getContext(), SettingActivity.AUTO_REFRESH, false);
+    	return false;
+//        return SettingHelper.getSharedPreferences(getContext(), SettingActivity.AUTO_REFRESH, false);
     }
 
     public static boolean getEnableBigAvatar() {
