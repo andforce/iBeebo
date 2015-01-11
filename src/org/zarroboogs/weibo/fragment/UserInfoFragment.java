@@ -50,6 +50,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -555,9 +556,36 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
                 && (((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).getCurrentIndex() == LeftMenuFragment.PROFILE_INDEX) {
             buildActionBarAndViewPagerTitles();
         }
-
+        
     }
+    
+	public boolean editMyFileOnItemClick() {
+		if (isMyself() && isOpenedFromMainPage()) {
+		    Intent intent = new Intent(getActivity(), EditMyProfileActivity.class);
+		    intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
+		    startActivity(intent);
+		    return true;
+		} else {
+		    return false;
+		}
+	}
+	
+	public void refreshMyProFile() {
+		startRefreshMenuAnimation();
+		finishedWatcher = new AtomicInteger(3);
+		fetchLastestUserInfoFromServer();
+		fetchTopicInfoFromServer();
+		loadNewMsg();
+	}
+	
 
+	public void editMyProFile() {
+		Menu menu = mUserToolbar.getMenu();
+		MenuItem edit = menu.findItem(R.id.menu_edit);
+		edit.setVisible(GlobalContext.getInstance().getAccountBean().isBlack_magic());
+		refreshItem = menu.findItem(R.id.menu_refresh_my_profile);
+	}
+    
     private void fetchTopicInfoFromServer() {
         topicListTask = new TopicListTask();
         topicListTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
@@ -681,40 +709,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         Utility.stopListViewScrollingAndScrollToTop(getListView());
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        if (isMyself() && isOpenedFromMainPage()) {
-            inflater.inflate(R.menu.actionbar_menu_newuserinfofragment_main_page, menu);
-            MenuItem edit = menu.findItem(R.id.menu_edit);
-            edit.setVisible(GlobalContext.getInstance().getAccountBean().isBlack_magic());
-            refreshItem = menu.findItem(R.id.menu_refresh_my_profile);
-
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_refresh_my_profile:
-                startRefreshMenuAnimation();
-                finishedWatcher = new AtomicInteger(3);
-                fetchLastestUserInfoFromServer();
-                fetchTopicInfoFromServer();
-                loadNewMsg();
-                return true;
-            case R.id.menu_edit:
-                if (isMyself() && isOpenedFromMainPage()) {
-                    Intent intent = new Intent(getActivity(), EditMyProfileActivity.class);
-                    intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
-                    startActivity(intent);
-                    return true;
-                } else {
-                    return super.onOptionsItemSelected(item);
-                }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+   
 
     private void startRefreshMenuAnimation() {
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

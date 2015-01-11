@@ -51,6 +51,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
     private UserBean bean;
 
+    private UserInfoFragment userInfoFragment;
     private MyAsyncTask<Void, UserBean, UserBean> followOrUnfollowTask;
 
     private ModifyGroupMemberTask modifyGroupMemberTask;
@@ -142,87 +143,7 @@ public class UserInfoActivity extends AbstractAppActivity {
             finish();
         }
 
-        if (isMyselfProfile()) {
-            mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_myinfoactivity);
-            MenuItem edit = mUserInfoToolbar.getMenu().findItem(R.id.menu_edit);
-            edit.setVisible(GlobalContext.getInstance().getAccountBean().isBlack_magic());
-        }else {
-            mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_infofragment);
-            Menu menu = mUserInfoToolbar.getMenu();
-            if (bean.isFollowing()) {
-                menu.findItem(R.id.menu_follow).setVisible(false);
-                menu.findItem(R.id.menu_unfollow).setVisible(true);
-                menu.findItem(R.id.menu_manage_group).setVisible(true);
-            } else {
-                menu.findItem(R.id.menu_follow).setVisible(true);
-                menu.findItem(R.id.menu_unfollow).setVisible(false);
-                menu.findItem(R.id.menu_manage_group).setVisible(false);
-            }
-
-            if (!bean.isFollowing() && bean.isFollow_me()) {
-                menu.findItem(R.id.menu_remove_fan).setVisible(true);
-            } else {
-                menu.findItem(R.id.menu_remove_fan).setVisible(false);
-            }
-		}
-        mUserInfoToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-		        Intent intent;
-		        switch (item.getItemId()) {
-		            case android.R.id.home:
-		                intent = MainTimeLineActivity.newIntent();
-		                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-		                startActivity(intent);
-		                return true;
-		            case R.id.menu_edit:
-		                intent = new Intent(UserInfoActivity.this, EditMyProfileActivity.class);
-		                intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
-		                startActivity(intent);
-		                return true;
-		            case R.id.menu_at:
-		                intent = new Intent(UserInfoActivity.this, WriteWeiboWithAppSrcActivity.class);
-		                intent.putExtra(Constants.TOKEN, getToken());
-		                intent.putExtra("content", "@" + bean.getScreen_name());
-		                intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());
-		                startActivity(intent);
-		                break;
-		            case R.id.menu_modify_remark:
-		                UpdateRemarkDialog dialog = new UpdateRemarkDialog();
-		                dialog.show(getFragmentManager(), "");
-		                break;
-		            case R.id.menu_follow:
-		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-		                    followOrUnfollowTask = new FollowTask();
-		                    followOrUnfollowTask.execute();
-		                }
-		                break;
-		            case R.id.menu_unfollow:
-		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-		                    followOrUnfollowTask = new UnFollowTask();
-		                    followOrUnfollowTask.execute();
-		                }
-		                break;
-		            case R.id.menu_remove_fan:
-		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-		                    followOrUnfollowTask = new RemoveFanTask();
-		                    followOrUnfollowTask.execute();
-		                }
-		                break;
-		            case R.id.menu_add_to_app_filter:
-		                if (!TextUtils.isEmpty(bean.getScreen_name())) {
-		                    FilterDBTask.addFilterKeyword(FilterDBTask.TYPE_USER, bean.getScreen_name());
-		                    Toast.makeText(UserInfoActivity.this, getString(R.string.filter_successfully), Toast.LENGTH_SHORT).show();
-		                }
-		                break;
-		            case R.id.menu_manage_group:
-		                manageGroup();
-		                break;
-		        }
-		        return false;
-		    }
-		});
+        
     }
 
     @Override
@@ -281,7 +202,7 @@ public class UserInfoActivity extends AbstractAppActivity {
             @Override
             public void run() {
                 if (getSupportFragmentManager().findFragmentByTag(UserInfoFragment.class.getName()) == null) {
-                    UserInfoFragment userInfoFragment = UserInfoFragment.newInstance(mUserInfoToolbar,getUser(), getToken());
+                    userInfoFragment = UserInfoFragment.newInstance(mUserInfoToolbar,getUser(), getToken());
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.content, userInfoFragment, UserInfoFragment.class.getName()).commit();
                     getSupportFragmentManager().executePendingTransactions();
@@ -289,6 +210,99 @@ public class UserInfoActivity extends AbstractAppActivity {
                     AnimationUtility.translateFragmentY(userInfoFragment, -400, 0, userInfoFragment);
 
                 }
+                
+                
+                if (isMyselfProfile()) {
+                    mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_myinfoactivity);
+                    
+                    mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_newuserinfofragment_main_page);
+                    
+                    MenuItem edit = mUserInfoToolbar.getMenu().findItem(R.id.menu_edit);
+                    edit.setVisible(false);
+                    
+                    userInfoFragment.editMyProFile();
+                    
+                }else {
+                    mUserInfoToolbar.inflateMenu(R.menu.actionbar_menu_infofragment);
+                    Menu menu = mUserInfoToolbar.getMenu();
+                    if (bean.isFollowing()) {
+                        menu.findItem(R.id.menu_follow).setVisible(false);
+                        menu.findItem(R.id.menu_unfollow).setVisible(true);
+                        menu.findItem(R.id.menu_manage_group).setVisible(true);
+                    } else {
+                        menu.findItem(R.id.menu_follow).setVisible(true);
+                        menu.findItem(R.id.menu_unfollow).setVisible(false);
+                        menu.findItem(R.id.menu_manage_group).setVisible(false);
+                    }
+
+                    if (!bean.isFollowing() && bean.isFollow_me()) {
+                        menu.findItem(R.id.menu_remove_fan).setVisible(true);
+                    } else {
+                        menu.findItem(R.id.menu_remove_fan).setVisible(false);
+                    }
+        		}
+                mUserInfoToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        			
+        			@Override
+        			public boolean onMenuItemClick(MenuItem item) {
+        		        Intent intent;
+        		        switch (item.getItemId()) {
+        		            case android.R.id.home:
+        		                intent = MainTimeLineActivity.newIntent();
+        		                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        		                startActivity(intent);
+        		                return true;
+        		            case R.id.menu_edit:
+        		                intent = new Intent(UserInfoActivity.this, EditMyProfileActivity.class);
+        		                intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
+        		                startActivity(intent);
+        		                return true;
+        		            case R.id.menu_at:
+        		                intent = new Intent(UserInfoActivity.this, WriteWeiboWithAppSrcActivity.class);
+        		                intent.putExtra(Constants.TOKEN, getToken());
+        		                intent.putExtra("content", "@" + bean.getScreen_name());
+        		                intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());
+        		                startActivity(intent);
+        		                break;
+        		            case R.id.menu_modify_remark:
+        		                UpdateRemarkDialog dialog = new UpdateRemarkDialog();
+        		                dialog.show(getFragmentManager(), "");
+        		                break;
+        		            case R.id.menu_follow:
+        		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+        		                    followOrUnfollowTask = new FollowTask();
+        		                    followOrUnfollowTask.execute();
+        		                }
+        		                break;
+        		            case R.id.menu_unfollow:
+        		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+        		                    followOrUnfollowTask = new UnFollowTask();
+        		                    followOrUnfollowTask.execute();
+        		                }
+        		                break;
+        		            case R.id.menu_remove_fan:
+        		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+        		                    followOrUnfollowTask = new RemoveFanTask();
+        		                    followOrUnfollowTask.execute();
+        		                }
+        		                break;
+        		            case R.id.menu_add_to_app_filter:
+        		                if (!TextUtils.isEmpty(bean.getScreen_name())) {
+        		                    FilterDBTask.addFilterKeyword(FilterDBTask.TYPE_USER, bean.getScreen_name());
+        		                    Toast.makeText(UserInfoActivity.this, getString(R.string.filter_successfully), Toast.LENGTH_SHORT).show();
+        		                }
+        		                break;
+        		            case R.id.menu_manage_group:
+        		                manageGroup();
+        		                break;
+        		            case R.id.menu_refresh_my_profile:
+        		                userInfoFragment.refreshMyProFile();
+        		                return true;
+        		                
+        		        }
+        		        return false;
+        		    }
+        		});
             }
         });
 
