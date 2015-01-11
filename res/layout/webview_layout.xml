@@ -10,6 +10,7 @@
         android:id="@+id/webAuthToolbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:background="?attr/colorPrimary"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:title="网页授权" >
