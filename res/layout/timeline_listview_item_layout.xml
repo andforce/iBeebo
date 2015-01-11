@@ -122,7 +122,7 @@
                 android:layout_below="@id/repost_flag_invisile"
                 android:layout_marginTop="3dp"
                 android:clickable="true"
-                android:lineSpacingMultiplier="1.2"
+                android:lineSpacingMultiplier="1.1"
                 android:textColor="?listview_text_color"
                 android:textSize="15sp" />
 
@@ -191,7 +191,7 @@
                     android:layout_marginTop="3dp"
                     android:clickable="false"
                     android:includeFontPadding="true"
-                    android:lineSpacingMultiplier="1.2"
+                    android:lineSpacingMultiplier="1.1"
                     android:textColor="?listview_text_color"
                     android:textSize="15sp"
                     android:visibility="gone" />
