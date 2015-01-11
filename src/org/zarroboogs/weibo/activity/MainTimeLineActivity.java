@@ -25,6 +25,7 @@ import org.zarroboogs.weibo.fragment.MyFavListFragment;
 import org.zarroboogs.weibo.fragment.RightMenuFragment;
 import org.zarroboogs.weibo.fragment.SearchMainParentFragment;
 import org.zarroboogs.weibo.fragment.UserInfoFragment;
+import org.zarroboogs.weibo.othercomponent.AppNewMsgAlarm;
 import org.zarroboogs.weibo.othercomponent.ConnectionChangeReceiver;
 import org.zarroboogs.weibo.othercomponent.MusicReceiver;
 import org.zarroboogs.weibo.setting.SettingUtils;
@@ -115,6 +116,9 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             }
         });
 
+        if (AppNewMsgAlarm.DEBUG) {
+			AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, getApplicationContext(), true);
+		}
     }
 
     public void closeLeftDrawer() {

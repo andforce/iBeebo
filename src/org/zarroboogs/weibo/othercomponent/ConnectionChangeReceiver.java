@@ -43,7 +43,7 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
 
             if (forceStartFetchNewUnreadBackgroundService) {
                 if (SettingUtils.getEnableFetchMSG()) {
-                    AppNewMsgAlarm.startAlarm(context, true);
+                    AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, context, true);
                 } else {
                     AppNewMsgAlarm.stopAlarm(context, false);
                 }

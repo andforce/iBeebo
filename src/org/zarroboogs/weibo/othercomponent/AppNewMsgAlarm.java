@@ -13,14 +13,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-/**
- * User: qii Date: 12-9-14
- */
 public class AppNewMsgAlarm {
 
+	public static final boolean DEBUG = false;
+	
     private static final int REQUEST_CODE = 195;
 
-    public static void startAlarm(Context context, boolean silent) {
+    public static void startAlarm(boolean debug,Context context, boolean silent) {
 
         String value = SettingUtils.getFrequency();
 
@@ -35,6 +34,10 @@ public class AppNewMsgAlarm {
         if (value.equals("3")) {
             time = (AlarmManager.INTERVAL_HALF_HOUR);
         }
+        
+        if (DEBUG) {
+			time = 1000 * 5;// 5秒
+		}
 
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, FetchNewMsgService.class);

@@ -120,7 +120,7 @@ public class NotificationFragment extends PreferenceFragment implements SharedPr
             boolean value = sharedPreferences.getBoolean(key, false);
             buildSummary();
             if (value) {
-                AppNewMsgAlarm.startAlarm(getActivity(), false);
+                AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, getActivity(), false);
             } else {
                 AppNewMsgAlarm.stopAlarm(getActivity(), true);
             }
@@ -128,7 +128,7 @@ public class NotificationFragment extends PreferenceFragment implements SharedPr
 
         if (key.equals(SettingActivity.FREQUENCY)) {
 
-            AppNewMsgAlarm.startAlarm(getActivity(), false);
+            AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, getActivity(), false);
             buildSummary();
         }
 
