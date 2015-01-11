@@ -186,7 +186,7 @@ public class SettingUtils {
     }
 
     public static boolean getEnableSound() {
-        return SettingHelper.getSharedPreferences(getContext(), SettingActivity.SOUND, true)
+        return SettingHelper.getSharedPreferences(getContext(), SettingActivity.SOUND_OF_PULL_TO_FRESH, true)
                 && Utility.isSystemRinger(getContext());
     }
 

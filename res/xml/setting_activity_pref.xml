@@ -19,14 +19,14 @@
                 android:targetPackage="org.zarroboogs.weibo" />
         </Preference>
         -->
-        <CheckBoxPreference
+<!--         <CheckBoxPreference
             android:defaultValue="false"
             android:key="auto_refresh"
             android:summary="@string/pref_auto_refresh_summary"
-            android:title="@string/pref_auto_refresh_title" />
+            android:title="@string/pref_auto_refresh_title" /> -->
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="sound"
+            android:key="sound_of_pull_to_fresh"
             android:summary="开关操作音效,需重启应用生效"
             android:title="@string/pref_sound_title" />
         <CheckBoxPreference
