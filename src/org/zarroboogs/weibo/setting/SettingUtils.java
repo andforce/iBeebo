@@ -63,11 +63,11 @@ public class SettingUtils {
         String value = SettingHelper.getSharedPreferences(getContext(), SettingActivity.THEME, "1");
 
         switch (Integer.valueOf(value)) {
-            case 1:
-                return R.style.AppTheme_Light;
-
-            case 2:
-                return R.style.AppTheme_Dark;
+//            case 1:
+//                return R.style.AppTheme_Light;
+//
+//            case 2:
+//                return R.style.AppTheme_Dark;
 
             default:
                 return R.style.AppTheme_Light;
