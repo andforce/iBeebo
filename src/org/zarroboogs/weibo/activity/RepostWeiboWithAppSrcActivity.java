@@ -193,7 +193,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
 
-        setOnRepostWeiboListener(new AsyncHttpResponseHandler() {
+        setAutoRepostWeiboListener(new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -205,12 +205,16 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
                 if (sendResultBean.getMsg().equals("未登录")) {
                     startAutoPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
                     hideDialogForWeiBo();
-                }
+                }else if (sendResultBean.getMsg().equals("抱歉！登录失败，请稍候再试")) {
+					startWebLogin();
+				}
 
                 if (sendResultBean.getCode().equals("100000")) {
                     hideDialogForWeiBo();
                     mEditText.setText("");
                     Toast.makeText(getApplicationContext(), "转发成功", Toast.LENGTH_SHORT).show();
+                    
+                    RepostWeiboWithAppSrcActivity.this.finish();
                 }
             }
 
@@ -231,6 +235,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            	startWebLogin();
             }
         });
     }

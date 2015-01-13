@@ -736,6 +736,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
                 Log.d("LIST_CAXCHE", " " + file.getName());
                 file.delete();
             }
+            this.finish();
         } else {
             Toast.makeText(getApplicationContext(), R.string.send_wei_failed, Toast.LENGTH_SHORT).show();
         }
