@@ -583,4 +583,5 @@
     <string name="developer_weibo">访问开发者微博,获取最新版本信息</string>
     <string name="first_login_tips">进行第(1/2)步登录，为了获取微博</string>
     <string name="second_login_tips">进行第(2/2)步登录，为了自定义尾巴</string>
+    <string name="weibo_text_large_error">字数超出限制</string>
 </resources>

@@ -155,7 +155,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 @Override
                 public void onUpLoadFailed() {
                     // TODO Auto-generated method stub
-                    doPreLogin(mUserName, mPassword);
+                    startAutoPreLogin(mUserName, mPassword);
                     LogTool.D(TAG + " UploadPic:  [onUpLoadFailed] doPreLogin");
                 }
             });
@@ -193,7 +193,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                         showDoorDialog();
                     } else {
                         LogTool.D(TAG + "   不不需要验证码");
-                        doAfterPreLogin(mPreLoginResult, null);
+                        doAutoAfterPreLogin(mPreLoginResult, null);
                     }
 
                     break;
@@ -248,7 +248,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity(weiboCode, text, cookie, pids);
         getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders(weiboCode, cookie),
                 sendEntity,
-                "application/x-www-form-urlencoded", this.mSendWeiboHandler);
+                "application/x-www-form-urlencoded", this.mAutoSendWeiboListener);
     }
 
 	private String getCookieIfHave() {
@@ -259,10 +259,10 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 		return "";
 	}
 
-    private ResponseHandlerInterface mSendWeiboHandler;
+    private ResponseHandlerInterface mAutoSendWeiboListener;
 
-    public void setOnSendWeiboListener(ResponseHandlerInterface rhi) {
-        this.mSendWeiboHandler = rhi;
+    public void setAutoSendWeiboListener(ResponseHandlerInterface rhi) {
+        this.mAutoSendWeiboListener = rhi;
     }
 
     public void repostWeibo(String app_src, String content, String cookie, String mid) {
@@ -330,7 +330,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 
     private ResponseHandlerInterface mLoginHandler;;
 
-    public void setOnLoginListener(ResponseHandlerInterface rhi) {
+    public void setAutoLogInLoginListener(ResponseHandlerInterface rhi) {
         this.mLoginHandler = rhi;
     }
 
@@ -356,7 +356,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
             @Override
             public void onClick(View v) {
                 showDialogForWeiBo();
-                doAfterPreLogin(mPreLoginResult, doorEdittext.getText().toString().trim());
+                doAutoAfterPreLogin(mPreLoginResult, doorEdittext.getText().toString().trim());
                 hideDoorDialog();
             }
         });
@@ -435,7 +435,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
      * @param uname
      * @param upwd
      */
-    public void doPreLogin(String uname, String upwd) {
+    public void startAutoPreLogin(String uname, String upwd) {
         this.mUserName = uname;
         this.mPassword = upwd;
 
@@ -459,7 +459,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 });
     }
 
-    private void doAfterPreLogin(PreLoginResult preLoginResult, String door) {
+    private void doAutoAfterPreLogin(PreLoginResult preLoginResult, String door) {
         HttpEntity httpEntity = mSinaPreLogin.afterPreLoginEntity(encodeAccount(mUserName), rsaPwd, door, preLoginResult);
         getAsyncHttpClient().post(getApplicationContext(), Constaces.LOGIN_FIRST_URL, mSinaPreLogin.afterPreLoginHeaders(),
                 httpEntity, "application/x-www-form-urlencoded", new AsyncHttpResponseHandler() {
@@ -496,25 +496,26 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                                 showDoorDialog();
                             } else {
                                 hideDialogForWeiBo();
+                                startWebLogin();
                                 if (mRequestResultParser.getErrorReason().equals("抱歉！登录失败，请稍候再试")) {
-                					startLogIn();
+                					
                 				}
                                 LogTool.D(TAG + " 网络正常返回，登陆失败，原因是：" + mRequestResultParser.getErrorReason());
                             }
-                            Toast.makeText(getApplicationContext(), mRequestResultParser.getErrorReason(), Toast.LENGTH_LONG)
-                                    .show();
+                            Toast.makeText(getApplicationContext(), mRequestResultParser.getErrorReason(), Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                         LogTool.D(TAG + " AfterPreLogin:  [onFailure] " + error.getLocalizedMessage());
+                        startWebLogin();
 
                     }
                 });
     };
 
-    public void startLogIn() {
+    public void startWebLogin() {
         Intent intent = new Intent();
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
         intent.setClass(BaseLoginActivity.this, WebViewActivity.class);

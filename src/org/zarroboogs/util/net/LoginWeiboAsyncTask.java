@@ -7,15 +7,15 @@ import android.os.AsyncTask;
 
 public class LoginWeiboAsyncTask extends AsyncTask<Context, Integer, Boolean> {
 
-    public static interface LoginCallBack {
-        public void reSizeWeiboPictures(boolean isSuccess);
+    public static interface LoginWeiboCallack {
+        public void onLonginWeiboCallback(boolean isSuccess);
     }
 
-    public LoginCallBack mInSuccessListener;
+    public LoginWeiboCallack mInSuccessListener;
 
     private String mCookie = "";
 
-    public LoginWeiboAsyncTask(LoginCallBack listener, String cookie) {
+    public LoginWeiboAsyncTask(LoginWeiboCallack listener, String cookie) {
         // TODO Auto-generated constructor stub
         this.mInSuccessListener = listener;
         this.mCookie = cookie;
@@ -34,7 +34,7 @@ public class LoginWeiboAsyncTask extends AsyncTask<Context, Integer, Boolean> {
     protected void onPostExecute(Boolean result) {
         // TODO Auto-generated method stub
         super.onPostExecute(result);
-        this.mInSuccessListener.reSizeWeiboPictures(result);
+        this.mInSuccessListener.onLonginWeiboCallback(result);
     }
 
 }

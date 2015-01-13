@@ -12,7 +12,7 @@ import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask.OnDoorOpenList
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 import org.apache.http.Header;
-import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginCallBack;
+import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginWeiboCallack;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
@@ -71,7 +71,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginCallBack,
+public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginWeiboCallack,
         OnClickListener, OnGlobalLayoutListener, OnItemClickListener {
 
     public static final int AT_USER = 0x1000;
@@ -203,7 +203,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
                 RequestResultBean sendResultBean = getRequestResultParser().parse(responseBody, RequestResultBean.class);
                 LogTool.D(TAG + "onSuccess " + sendResultBean.getMsg());
                 if (sendResultBean.getMsg().equals("未登录")) {
-                    doPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
+                    startAutoPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
                     hideDialogForWeiBo();
                 }
 
@@ -221,7 +221,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
             }
         });
 
-        setOnLoginListener(new AsyncHttpResponseHandler() {
+        setAutoLogInLoginListener(new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -415,7 +415,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         super.onBackPressed();
     }
 
-    public void startLogIn() {
+    public void startWebLogin() {
         hideDialogForWeiBo();
         Intent intent = new Intent();
         intent.setClass(RepostWeiboWithAppSrcActivity.this, WebViewActivity.class);
@@ -424,9 +424,9 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     }
 
     @Override
-    public void reSizeWeiboPictures(boolean isSuccess) {
+    public void onLonginWeiboCallback(boolean isSuccess) {
         if (!isSuccess) {
-            startLogIn();
+            startWebLogin();
         } else {
             final SendImgData sendImgData = SendImgData.getInstance();
 
