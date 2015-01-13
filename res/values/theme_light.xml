@@ -79,7 +79,8 @@
         <item name="android:fastScrollTrackDrawable">@null</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:actionModeBackground">@color/md_actionbar_bg_color</item>
-        <item name="android:actionOverflowButtonStyle">@android:style/Widget.ActionButton.Overflow</item>
+        <!-- 右上角那三个点的样式 -->
+        <!-- <item name="android:actionOverflowButtonStyle">@android:style/Widget.ActionButton.Overflow</item> -->
 
         <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/md_actionbar_bg_color</item>
