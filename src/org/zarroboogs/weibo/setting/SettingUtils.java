@@ -361,6 +361,6 @@ public class SettingUtils {
     }
 
     public static boolean isNaviGationBarIm(){
-    	return SettingHelper.getSharedPreferences(getContext(), SettingActivity.SETTING_PREF_NAVIGATIONBAR_MD, false);
+    	return SettingHelper.getSharedPreferences(getContext(), SettingActivity.SETTING_PREF_NAVIGATIONBAR_MD, true);
     }
 }
