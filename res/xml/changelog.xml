@@ -1,37 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="V1.02-2014.10.22" versioncode="2">
-        <change>基于四次元开发</change>
-        <change>每个账户由于自定义尾巴功能，需要登录2次，不是BUG</change>
-        <change>支持转发，自定义尾巴</change>
-    </release>
-    
-    
-	<release version="V1.03-2014.10.26" versioncode="3">
-        <change>添加图片水印</change>
-        <change>如果升级时候出现异常，请完全卸载重新安装</change>
-    </release>
-    
-	<release version="V1.031-2014.11.1" versioncode="4">
-	    <change>对源代码进行完全开源</change>
-        <change>添加发图水印开关以及设置</change>
-        <change>添加对崩溃信息的收集</change>
-        <change>修改了几个容易让人困惑的提示</change>
-        <change>调整了设置的层次</change>
-    </release>
-    
-	<release version="V1.04-2014.11.16" versioncode="7">
-	    <change>修正Android5.0下gif黑屏崩溃问题</change>
-        <change>添加发现版本自动升级功能</change>
-    </release>
-    
-	<release version="V2.0.0-2014.12.22" versioncode="9">
-	    <change>去掉二次登陆</change>
-        <change>修改UI</change>
-        <change>改名为：Beebo</change>
-        <change>修正一些崩溃</change>
-        <change>添加了无图模式</change>
-        <change>还有一些小细节，忘记了</change>
+	<release version="v2.3.0(beta)" versioncode="19">
+	    <change>适配5.0虚拟按键</change>
+        <change>修正5.0下拉没声音的问题</change>
+        <change>优化发微博逻辑</change>
+        <change>修正菜单黑色背景问题</change>
+        <change>调整左右抽屉UI</change>
+        <change>合并与我相关菜单</change>
+        <change>修改部分图标</change>
     </release>
     
 </changelog>
