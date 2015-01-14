@@ -12,13 +12,11 @@ import android.util.Log;
 /*
  * This class controls the sound playback according to the API level.
  */
-public class SoundClips {
+public class SoundPlayer {
 
     public interface Player {
 
         public void release();
-        
-        public void stop();
 
         public void play(int action);
     }
@@ -41,8 +39,8 @@ public class SoundClips {
 
         private static final int NUM_SOUND_STREAMS = 1;
 
-        private static final int[] SOUND_RES = { 
-        R.raw.pop,R.raw.psst1, R.raw.psst2 };
+        private static final int[] SOUND_RES = { // Soundtrack res IDs.
+        	R.raw.pop,R.raw.psst1 };
 
         // ID returned by load() should be non-zero.
         private static final int ID_NOT_LOADED = 0;
@@ -86,14 +84,19 @@ public class SoundClips {
         }
 
         @Override
-        public synchronized void play(int action) {
-            
-            int index = -1;
+        public synchronized void play(int resID) {
+            if (resID < 0) {
+                Log.e(TAG, "Resource ID not found for action:" + resID + " in play().");
+                return;
+            }
+
+            int index = ID_NOT_LOADED;
             for (int i = 0; i < SOUND_RES.length; i++) {
-				if (action == SOUND_RES[i]) {
+				if (resID == SOUND_RES[i]) {
 					index = i;
 				}
 			}
+            
             if (mSoundIDs[index] == ID_NOT_LOADED) {
                 // Not loaded yet, load first and then play when the loading is complete.
                 mSoundIDs[index] = mSoundPool.load(mContext, SOUND_RES[index], 1);
@@ -131,13 +134,5 @@ public class SoundClips {
                 mSoundPool.play(soundID, 1f, 1f, 0, 0, 1f);
             }
         }
-
-		@Override
-		public void stop() {
-			// TODO Auto-generated method stub
-			if (mSoundPool != null) {
-				mSoundPool.stop(mSoundIDToPlay);
-			}
-		}
     }
 }
