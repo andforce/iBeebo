@@ -177,6 +177,12 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
+	            case Constaces.MSG_ENCODE_PWD_ERROR:{
+	            	if (mLoginHandler != null) {
+		            	((AsyncHttpResponseHandler)mLoginHandler).onFailure(0, null, null, null);
+					}
+	            	break;
+	            }
                 case Constaces.MSG_ENCODE_PWD: {
                     encodePassword(mPassword, mPreLoginResult);
                     break;
@@ -400,12 +406,15 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 + "); rsaPassWord; ";
         String jsMethod = "getRsaPassWord(" + pwd + ", " + servertime + ", " + nonce + ", " + pubkey + ")";
 
+        mHandler.sendEmptyMessageDelayed(Constaces.MSG_ENCODE_PWD_ERROR, 5 * 1000);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mJsEvaluator.evaluate("file:///android_asset/ssologin.html", jsMethod, new JsCallback() {
 
                 @Override
                 public void onResult(String value) {
                     // TODO Auto-generated method stub
+                	mHandler.removeMessages(Constaces.MSG_ENCODE_PWD_ERROR);
+                	
                     Log.d("mJsEvaluator", "[" + value + "]");
                     Message msg = new Message();
                     rsaPwd = value.replace("\"", "");
@@ -418,7 +427,8 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 
                 @Override
                 public void onResult(String value) {
-
+                	mHandler.removeMessages(Constaces.MSG_ENCODE_PWD_ERROR);
+                	
                     // TODO Auto-generated method stub
                     Message msg = new Message();
                     rsaPwd = value;

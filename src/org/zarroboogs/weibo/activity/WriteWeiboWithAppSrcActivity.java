@@ -280,6 +280,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//            	startWebLogin();
                 onSendFinished(false);
             }
         });

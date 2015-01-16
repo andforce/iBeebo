@@ -46,24 +46,33 @@ public class TranslucentStatusBarActivity extends ActionBarActivity {
 			boolean hasMenuKey = ViewConfiguration.get(this).hasPermanentMenuKey();
 			boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
 
-			if (!hasMenuKey && !hasBackKey) {
-				// Do whatever you need to do, this device has a navigation bar
-				LogTool.D("getNavigationBarHeight_:" + height + "有虚拟按键");
-				if (SettingUtils.isNaviGationBarIm()) {
-					tintManager.setNavigationBarTintEnabled(true);
-					tintManager.setNavigationBarTintResource(R.color.md_actionbar_bg_color);
+			if (!(isMeiZu() || isHuaWei())) {
+				if (!hasMenuKey && !hasBackKey) {
+					// Do whatever you need to do, this device has a navigation bar
+					LogTool.D("getNavigationBarHeight_:" + height + "有虚拟按键");
+					if (SettingUtils.isNaviGationBarIm()) {
+						tintManager.setNavigationBarTintEnabled(true);
+						tintManager.setNavigationBarTintResource(R.color.md_actionbar_bg_color);
+					} else {
+						tintManager.setNavigationBarTintEnabled(true);
+						tintManager.setNavigationBarTintResource(R.color.black);
+					}
 				} else {
-					tintManager.setNavigationBarTintEnabled(true);
-					tintManager.setNavigationBarTintResource(R.color.black);
+					LogTool.D("getNavigationBarHeight_:" + height + "没有虚拟按键");
+					tintManager.setNavigationBarTintEnabled(false);
 				}
-			} else {
-				LogTool.D("getNavigationBarHeight_:" + height + "没有虚拟按键");
-				tintManager.setNavigationBarTintEnabled(false);
 			}
-
 		}
 
     }
+
+	public static boolean isMeiZu() {
+		return "Meizu".equalsIgnoreCase(android.os.Build.MANUFACTURER);
+	}
+
+	public static boolean isHuaWei() {
+		return "HUAWEI".equalsIgnoreCase(android.os.Build.MANUFACTURER);
+	}
     private int getNavigationBarHeight(Context context, int orientation) {
         Resources resources = context.getResources();
 

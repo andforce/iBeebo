@@ -84,7 +84,7 @@ public class JsEvaluator implements CallJavaResultInterface, JsEvaluatorInterfac
 
 	/**
 	 * @param jsFileUrl "file:///android_asset/ssologin.html"
-	 * @param jsMethod  String method = "getRsaPassWord(\"Andforce!@#\", \"1416987599\", \"JXBHTP\", \"aaaa\")";
+	 * @param jsMethod  String method = "getRsaPassWord(\"!@#\", \"1416987599\", \"JXBHTP\", \"aaaa\")";
 	 * @param resultCallback
 	 */
 	public void evaluate(String jsFileUrl , final String jsMethod, final JsCallback resultCallback){
