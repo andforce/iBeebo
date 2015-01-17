@@ -29,4 +29,5 @@ public class Constaces {
     public static final int MSG_SHOW_DOOR = 0x0006;
     
     public static final int MSG_ENCODE_PWD_ERROR = 0x0007;
+    public static final boolean isBeeboPlus = true;
 }

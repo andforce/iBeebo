@@ -301,7 +301,7 @@
         <!-- provider -->
         <provider
             android:name="org.zarroboogs.weibo.adapter.SearchSuggestionProvider"
-            android:authorities="org.zarroboogs.weibo.ui.search.SearchSuggestionProvider"
+            android:authorities="beebo_plus_org.zarroboogs.weibo.ui.search.SearchSuggestionProvider"
             android:exported="false" />
 
         <!-- black magic -->
