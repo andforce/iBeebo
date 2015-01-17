@@ -224,30 +224,26 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm.isActive()) {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-                finish();
-                break;
-            case R.id.menu_enable_repost:
-                if (enableRepost.isChecked()) {
-                    enableRepost.setChecked(false);
-                } else {
-                    enableRepost.setChecked(true);
-                }
-                break;
-            case R.id.menu_at:
-                Intent intent = new Intent(WriteReplyToCommentActivity.this, AtUserActivity.class);
-                intent.putExtra(Constants.TOKEN, token);
-                startActivityForResult(intent, AT_USER);
-                break;
-            case R.id.menu_clear:
-                clearContentMenu();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (imm.isActive()) {
+			    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+			finish();
+		} else if (itemId == R.id.menu_enable_repost) {
+			if (enableRepost.isChecked()) {
+			    enableRepost.setChecked(false);
+			} else {
+			    enableRepost.setChecked(true);
+			}
+		} else if (itemId == R.id.menu_at) {
+			Intent intent = new Intent(WriteReplyToCommentActivity.this, AtUserActivity.class);
+			intent.putExtra(Constants.TOKEN, token);
+			startActivityForResult(intent, AT_USER);
+		} else if (itemId == R.id.menu_clear) {
+			clearContentMenu();
+		}
         return true;
     }
 

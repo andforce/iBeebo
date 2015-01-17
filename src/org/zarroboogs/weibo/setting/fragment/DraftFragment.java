@@ -148,15 +148,15 @@ public class DraftFragment extends ListFragment {
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.menu_remove:
-                    if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-                        removeTask = new RemoveDraftDBTask();
-                        removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                    }
-                    mode.finish();
-                    return true;
-            }
+            int itemId = item.getItemId();
+			if (itemId == R.id.menu_remove) {
+				if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+				    removeTask = new RemoveDraftDBTask();
+				    removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+				}
+				mode.finish();
+				return true;
+			}
             return false;
         }
 

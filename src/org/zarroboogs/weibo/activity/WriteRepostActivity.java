@@ -248,42 +248,35 @@ public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm.isActive())
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-                finish();
-                break;
-            case R.id.menu_enable_comment:
-                if (menuEnableComment.isChecked()) {
-                    menuEnableComment.setChecked(false);
-                } else {
-                    menuEnableComment.setChecked(true);
-                }
-                break;
-            case R.id.menu_enable_ori_comment:
-                if (menuEnableOriComment != null && menuEnableOriComment.isChecked()) {
-                    menuEnableOriComment.setChecked(false);
-                } else if (menuEnableOriComment != null && !menuEnableOriComment.isChecked()) {
-                    menuEnableOriComment.setChecked(true);
-                }
-                break;
-            case R.id.menu_at:
-                Intent intent = new Intent(WriteRepostActivity.this, AtUserActivity.class);
-                intent.putExtra(Constants.TOKEN, token);
-                startActivityForResult(intent, AT_USER);
-                break;
-            case R.id.menu_clear:
-                clearContentMenu();
-                break;
-            case R.id.menu_short_right:
-                shortContent();
-                break;
-            case R.id.menu_short_middle:
-                shortMiddleContent();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (imm.isActive())
+			    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+			finish();
+		} else if (itemId == R.id.menu_enable_comment) {
+			if (menuEnableComment.isChecked()) {
+			    menuEnableComment.setChecked(false);
+			} else {
+			    menuEnableComment.setChecked(true);
+			}
+		} else if (itemId == R.id.menu_enable_ori_comment) {
+			if (menuEnableOriComment != null && menuEnableOriComment.isChecked()) {
+			    menuEnableOriComment.setChecked(false);
+			} else if (menuEnableOriComment != null && !menuEnableOriComment.isChecked()) {
+			    menuEnableOriComment.setChecked(true);
+			}
+		} else if (itemId == R.id.menu_at) {
+			Intent intent = new Intent(WriteRepostActivity.this, AtUserActivity.class);
+			intent.putExtra(Constants.TOKEN, token);
+			startActivityForResult(intent, AT_USER);
+		} else if (itemId == R.id.menu_clear) {
+			clearContentMenu();
+		} else if (itemId == R.id.menu_short_right) {
+			shortContent();
+		} else if (itemId == R.id.menu_short_middle) {
+			shortMiddleContent();
+		}
         return true;
     }
 

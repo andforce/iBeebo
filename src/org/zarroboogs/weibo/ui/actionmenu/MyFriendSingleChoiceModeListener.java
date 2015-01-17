@@ -80,26 +80,23 @@ public class MyFriendSingleChoiceModeListener implements ActionMode.Callback {
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.menu_at:
-                Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra("content", "@" + bean.getScreen_name());
-                intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
-                getActivity().startActivity(intent);
-                listView.clearChoices();
-                mode.finish();
-                break;
-
-            case R.id.menu_unfollow:
-                if (unfollowTask == null || unfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-                    unfollowTask = new UnFollowTask();
-                    unfollowTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                listView.clearChoices();
-                mode.finish();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_at) {
+			Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra("content", "@" + bean.getScreen_name());
+			intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+			getActivity().startActivity(intent);
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_unfollow) {
+			if (unfollowTask == null || unfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+			    unfollowTask = new UnFollowTask();
+			    unfollowTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+			listView.clearChoices();
+			mode.finish();
+		}
 
         return true;
     }

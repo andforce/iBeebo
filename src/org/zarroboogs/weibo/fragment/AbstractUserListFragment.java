@@ -251,12 +251,11 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.loading_progressbar:
-                pullToRefreshListView.setRefreshing();
-                loadNewMsg();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.loading_progressbar) {
+			pullToRefreshListView.setRefreshing();
+			loadNewMsg();
+		}
         return super.onOptionsItemSelected(item);
     }
 

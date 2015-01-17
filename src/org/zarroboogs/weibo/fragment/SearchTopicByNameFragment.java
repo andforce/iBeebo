@@ -120,32 +120,27 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_write:
-                Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
-                intent.putExtra("content", "#" + q + "#");
-                startActivity(intent);
-                break;
-
-            case R.id.menu_refresh:
-                mPullToRefreshListView.setRefreshing();
-                loadNewMsg();
-                break;
-            case R.id.menu_follow_topic:
-                if (Utility.isTaskStopped(followTopicTask)) {
-                    followTopicTask = new FollowTopicTask();
-                    followTopicTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                break;
-            case R.id.menu_unfollow_topic:
-                if (Utility.isTaskStopped(unFollowTopicTask)) {
-                    unFollowTopicTask = new UnFollowTopicTask();
-                    unFollowTopicTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_write) {
+			Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+			intent.putExtra("content", "#" + q + "#");
+			startActivity(intent);
+		} else if (itemId == R.id.menu_refresh) {
+			mPullToRefreshListView.setRefreshing();
+			loadNewMsg();
+		} else if (itemId == R.id.menu_follow_topic) {
+			if (Utility.isTaskStopped(followTopicTask)) {
+			    followTopicTask = new FollowTopicTask();
+			    followTopicTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+		} else if (itemId == R.id.menu_unfollow_topic) {
+			if (Utility.isTaskStopped(unFollowTopicTask)) {
+			    unFollowTopicTask = new UnFollowTopicTask();
+			    unFollowTopicTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+		}
         return super.onOptionsItemSelected(item);
     }
 

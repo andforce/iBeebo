@@ -185,34 +185,28 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.menu_emoticon:
-                new Handler().post(new Runnable() {
+        int id = v.getId();
+		if (id == R.id.menu_emoticon) {
+			new Handler().post(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        if (smiley.isShown()) {
-                            hideSmileyPicker(true);
-                        } else {
-                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(AbstractWriteActivity.this));
-                        }
-                    }
-                });
-
-                break;
-
-            case R.id.menu_send:
-                send();
-                break;
-            case R.id.menu_topic:
-                insertTopic();
-                break;
-            case R.id.menu_at:
-                Intent intent = new Intent(AbstractWriteActivity.this, AtUserActivity.class);
-                intent.putExtra(Constants.TOKEN, token);
-                startActivityForResult(intent, AT_USER);
-                break;
-        }
+			    @Override
+			    public void run() {
+			        if (smiley.isShown()) {
+			            hideSmileyPicker(true);
+			        } else {
+			            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(AbstractWriteActivity.this));
+			        }
+			    }
+			});
+		} else if (id == R.id.menu_send) {
+			send();
+		} else if (id == R.id.menu_topic) {
+			insertTopic();
+		} else if (id == R.id.menu_at) {
+			Intent intent = new Intent(AbstractWriteActivity.this, AtUserActivity.class);
+			intent.putExtra(Constants.TOKEN, token);
+			startActivityForResult(intent, AT_USER);
+		}
     }
 
     protected void insertTopic() {

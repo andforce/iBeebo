@@ -49,32 +49,31 @@ public class BlackMagicActivity extends AbstractAppActivity {
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {
 
-                switch (arg0.getItemId()) {
-                    case R.id.menu_login:
-                        if (username.getText().toString().length() == 0) {
-                            username.setError(getString(R.string.email_cant_be_empty));
-                            return true;
-                        }
+                int itemId = arg0.getItemId();
+				if (itemId == R.id.menu_login) {
+					if (username.getText().toString().length() == 0) {
+					    username.setError(getString(R.string.email_cant_be_empty));
+					    return true;
+					}
+					if (password.getText().toString().length() == 0) {
+					    password.setError(getString(R.string.password_cant_be_empty));
+					    return true;
+					}
+					if (Utility.isTaskStopped(loginTask)) {
 
-                        if (password.getText().toString().length() == 0) {
-                            password.setError(getString(R.string.password_cant_be_empty));
-                            return true;
-                        }
-                        if (Utility.isTaskStopped(loginTask)) {
-
-                            String[] array = getResources().getStringArray(R.array.tail_value);
-                            String value = array[0];
-                            appkey = value.substring(0, value.indexOf(","));
-                            appSecret = value.substring(value.indexOf(",") + 1);
-                            Log.d("APPKEY", "key:" + appkey + "  secret:" + appSecret);
-                            loginTask = new BlackMagicLoginTask(BlackMagicActivity.this, username.getText().toString(),
-                                    password.getText().toString(), appkey, appSecret);
-                            loginTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                        }
-                        return true;
-                    default:
-                        return false;
-                }
+					    String[] array = getResources().getStringArray(R.array.tail_value);
+					    String value = array[0];
+					    appkey = value.substring(0, value.indexOf(","));
+					    appSecret = value.substring(value.indexOf(",") + 1);
+					    Log.d("APPKEY", "key:" + appkey + "  secret:" + appSecret);
+					    loginTask = new BlackMagicLoginTask(BlackMagicActivity.this, username.getText().toString(),
+					            password.getText().toString(), appkey, appSecret);
+					    loginTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+					}
+					return true;
+				} else {
+					return false;
+				}
             }
         });
 

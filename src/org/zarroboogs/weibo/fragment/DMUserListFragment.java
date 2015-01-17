@@ -104,12 +104,11 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
 
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {
-                switch (arg0.getItemId()) {
-                    case R.id.menu_write_dm:
-                        Intent intent = new Intent(getActivity(), DMSelectUserActivity.class);
-                        startActivityForResult(intent, 0);
-                        break;
-                }
+                int itemId = arg0.getItemId();
+				if (itemId == R.id.menu_write_dm) {
+					Intent intent = new Intent(getActivity(), DMSelectUserActivity.class);
+					startActivityForResult(intent, 0);
+				}
                 return false;
             }
         });
@@ -151,12 +150,11 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_write_dm:
-                Intent intent = new Intent(getActivity(), DMSelectUserActivity.class);
-                startActivityForResult(intent, 0);
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_write_dm) {
+			Intent intent = new Intent(getActivity(), DMSelectUserActivity.class);
+			startActivityForResult(intent, 0);
+		}
         return super.onOptionsItemSelected(item);
     }
 

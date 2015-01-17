@@ -90,18 +90,18 @@ public class OAuthActivity extends AbstractAppActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = AccountActivity.newIntent();
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
-            case R.id.menu_refresh:
-                refresh();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			Intent intent = AccountActivity.newIntent();
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return true;
+		} else if (itemId == R.id.menu_refresh) {
+			refresh();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
     }
 
     public void refresh() {

@@ -148,13 +148,12 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.menu_refresh:
-                getPullToRefreshListView().setRefreshing();
-                loadNewMsg();
-                return true;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_refresh) {
+			getPullToRefreshListView().setRefreshing();
+			loadNewMsg();
+			return true;
+		}
         return super.onOptionsItemSelected(item);
     }
 

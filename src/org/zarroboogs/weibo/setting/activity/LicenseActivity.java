@@ -95,18 +95,18 @@ public class LicenseActivity extends AbstractAppActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                intent = new Intent(this, AboutActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
-            case R.id.menu_print:
-                PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
-                PrintDocumentAdapter adapter = webView.createPrintDocumentAdapter();
-                printManager.print(getString(R.string.app_name), adapter, null);
-                return true;
-        }
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			intent = new Intent(this, AboutActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return true;
+		} else if (itemId == R.id.menu_print) {
+			PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+			PrintDocumentAdapter adapter = webView.createPrintDocumentAdapter();
+			printManager.print(getString(R.string.app_name), adapter, null);
+			return true;
+		}
         return false;
     }
 

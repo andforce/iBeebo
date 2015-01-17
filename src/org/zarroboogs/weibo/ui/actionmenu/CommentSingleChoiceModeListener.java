@@ -121,63 +121,52 @@ public class CommentSingleChoiceModeListener implements ActionMode.Callback {
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         Intent intent;
-        switch (item.getItemId()) {
-            case R.id.menu_view:
-                intent = new Intent(getActivity(), BrowserCommentActivity.class);
-                intent.putExtra("comment", bean);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                getActivity().startActivity(intent);
-                listView.clearChoices();
-                mode.finish();
-
-                break;
-
-            case R.id.menu_comment:
-                intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra("msg", bean);
-                getActivity().startActivity(intent);
-                listView.clearChoices();
-                mode.finish();
-
-                break;
-            case R.id.menu_share:
-                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, bean.getText());
-                PackageManager packageManager = getActivity().getPackageManager();
-                List<ResolveInfo> activities = packageManager.queryIntentActivities(sharingIntent, 0);
-                boolean isIntentSafe = activities.size() > 0;
-                if (isIntentSafe && mShareActionProvider != null) {
-                    mShareActionProvider.setShareIntent(sharingIntent);
-                }
-                mShareActionProvider
-                        .setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
-                            @Override
-                            public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
-                                finish();
-                                return false;
-                            }
-                        });
-                break;
-            case R.id.menu_copy:
-                ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", bean.getText()));
-                Toast.makeText(getActivity(), getActivity().getString(R.string.copy_successfully), Toast.LENGTH_SHORT)
-                        .show();
-                listView.clearChoices();
-                mode.finish();
-                break;
-            case R.id.menu_remove:
-
-                int position = listView.getCheckedItemPosition() - listView.getHeaderViewsCount();
-                RemoveDialog dialog = new RemoveDialog(position);
-                dialog.setTargetFragment(fragment, 0);
-                dialog.show(fragment.getFragmentManager(), "");
-
-                break;
-
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_view) {
+			intent = new Intent(getActivity(), BrowserCommentActivity.class);
+			intent.putExtra("comment", bean);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			getActivity().startActivity(intent);
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_comment) {
+			intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra("msg", bean);
+			getActivity().startActivity(intent);
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_share) {
+			Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+			sharingIntent.setType("text/plain");
+			sharingIntent.putExtra(Intent.EXTRA_TEXT, bean.getText());
+			PackageManager packageManager = getActivity().getPackageManager();
+			List<ResolveInfo> activities = packageManager.queryIntentActivities(sharingIntent, 0);
+			boolean isIntentSafe = activities.size() > 0;
+			if (isIntentSafe && mShareActionProvider != null) {
+			    mShareActionProvider.setShareIntent(sharingIntent);
+			}
+			mShareActionProvider
+			        .setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
+			            @Override
+			            public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
+			                finish();
+			                return false;
+			            }
+			        });
+		} else if (itemId == R.id.menu_copy) {
+			ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+			cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", bean.getText()));
+			Toast.makeText(getActivity(), getActivity().getString(R.string.copy_successfully), Toast.LENGTH_SHORT)
+			        .show();
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_remove) {
+			int position = listView.getCheckedItemPosition() - listView.getHeaderViewsCount();
+			RemoveDialog dialog = new RemoveDialog(position);
+			dialog.setTargetFragment(fragment, 0);
+			dialog.show(fragment.getFragmentManager(), "");
+		}
 
         return true;
     }

@@ -578,85 +578,64 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
-        switch (v.getId()) {
-            case R.id.menu_topic: {
-                insertTopic();
-                break;
-            }
-            case R.id.menu_at: {
-                Intent intent = new Intent(WriteWeiboWithAppSrcActivity.this, AtUserActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccountBean().getAccess_token());
-                startActivityForResult(intent, AT_USER);
-                break;
-            }
-
-            case R.id.editTextLayout: {
-                mEditText.performClick();
-                break;
-            }
-            case R.id.scrollView1: {
-                mEditText.performClick();
-                break;
-            }
-            case R.id.appSrcBtn: {
-                if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-                    mDrawerLayout.openDrawer(Gravity.START);
-                    /*
-                     * if (isKeyBoardShowed) { imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,
-                     * InputMethodManager.HIDE_NOT_ALWAYS); }
-                     */
-                    // menu.toggle();
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-                }
-                break;
-            }
-            case R.id.sendWeiBoBtn: {
-            	if (isMoreThan140()) {
-            		Toast.makeText(getApplicationContext(), R.string.weibo_text_large_error, Toast.LENGTH_SHORT).show();
-            		return;
-				}
-                if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-                    if (checkDataEmpty()) {
-                        mEmptyToast.show();
-                    } else {
-                        showDialogForWeiBo();
-                        startPicCacheAndSendWeibo();
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-                }
-
-                break;
-            }
-            case R.id.smileImgButton: {
-                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-                mHandler.postDelayed(new Runnable() {
-                    public void run() {
-                        if (mSmileyPicker.isShown()) {
-                            hideSmileyPicker(true);
-                        } else {
-                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(WriteWeiboWithAppSrcActivity.this));
-                        }
-                        // if (mEmotionRelativeLayout.getVisibility() == View.GONE) {
-                        // mEmotionRelativeLayout.setVisibility(View.VISIBLE);
-                        // } else {
-                        // mEmotionRelativeLayout.setVisibility(View.GONE);
-                        // }
-                    }
-                }, 100);
-
-                break;
-            }
-            case R.id.imageButton1: {
-                Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
-                startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
-                break;
-            }
-            default:
-                break;
-        }
+        int id = v.getId();
+		if (id == R.id.menu_topic) {
+			insertTopic();
+		} else if (id == R.id.menu_at) {
+			Intent intent = new Intent(WriteWeiboWithAppSrcActivity.this, AtUserActivity.class);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccountBean().getAccess_token());
+			startActivityForResult(intent, AT_USER);
+		} else if (id == R.id.editTextLayout) {
+			mEditText.performClick();
+		} else if (id == R.id.scrollView1) {
+			mEditText.performClick();
+		} else if (id == R.id.appSrcBtn) {
+			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+			    mDrawerLayout.openDrawer(Gravity.START);
+			    /*
+			     * if (isKeyBoardShowed) { imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,
+			     * InputMethodManager.HIDE_NOT_ALWAYS); }
+			     */
+			    // menu.toggle();
+			} else {
+			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+			}
+		} else if (id == R.id.sendWeiBoBtn) {
+			if (isMoreThan140()) {
+				Toast.makeText(getApplicationContext(), R.string.weibo_text_large_error, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+			    if (checkDataEmpty()) {
+			        mEmptyToast.show();
+			    } else {
+			        showDialogForWeiBo();
+			        startPicCacheAndSendWeibo();
+			    }
+			} else {
+			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+			}
+		} else if (id == R.id.smileImgButton) {
+			imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+			mHandler.postDelayed(new Runnable() {
+			    public void run() {
+			        if (mSmileyPicker.isShown()) {
+			            hideSmileyPicker(true);
+			        } else {
+			            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(WriteWeiboWithAppSrcActivity.this));
+			        }
+			        // if (mEmotionRelativeLayout.getVisibility() == View.GONE) {
+			        // mEmotionRelativeLayout.setVisibility(View.VISIBLE);
+			        // } else {
+			        // mEmotionRelativeLayout.setVisibility(View.GONE);
+			        // }
+			    }
+			}, 100);
+		} else if (id == R.id.imageButton1) {
+			Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
+			startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
+		} else {
+		}
 
     }
 

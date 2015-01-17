@@ -227,11 +227,9 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_clear:
-
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_clear) {
+		}
         return super.onOptionsItemSelected(item);
     }
 

@@ -228,17 +228,15 @@ public class FilterActivity extends AbstractAppActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                intent = new Intent(this, SettingActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
-            case R.id.filter_rule:
-                new FilterRuleDialog().show(getSupportFragmentManager(), "");
-                break;
-
-        }
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			intent = new Intent(this, SettingActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return true;
+		} else if (itemId == R.id.filter_rule) {
+			new FilterRuleDialog().show(getSupportFragmentManager(), "");
+		}
         return false;
     }
 

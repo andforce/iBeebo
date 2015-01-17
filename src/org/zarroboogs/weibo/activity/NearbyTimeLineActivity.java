@@ -147,18 +147,9 @@ public class NearbyTimeLineActivity extends AbstractAppActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.refresh:
-                // Set<Marker> markers = bindEvent.keySet();
-                // for (Marker marker : markers) {
-                // marker.remove();
-                // }
-                // if (Utility.isTaskStopped(fetchWeiboMsg)) {
-                // fetchWeiboMsg = new FetchWeiboMsg();
-                // fetchWeiboMsg.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                // }
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.refresh) {
+		}
         return super.onOptionsItemSelected(item);
     }
 

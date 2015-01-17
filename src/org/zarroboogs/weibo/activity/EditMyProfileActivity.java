@@ -86,16 +86,16 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
             public boolean onMenuItemClick(MenuItem item) {
                 // TODO Auto-generated method stub
                 Intent intent;
-                switch (item.getItemId()) {
-                    case android.R.id.home:
-                        intent = MainTimeLineActivity.newIntent();
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        return true;
-                    case R.id.menu_save:
-                        save();
-                        return true;
-                }
+                int itemId = item.getItemId();
+				if (itemId == android.R.id.home) {
+					intent = MainTimeLineActivity.newIntent();
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
+					return true;
+				} else if (itemId == R.id.menu_save) {
+					save();
+					return true;
+				}
                 return false;
             }
         });

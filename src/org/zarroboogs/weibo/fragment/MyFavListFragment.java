@@ -169,13 +169,11 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.menu_refresh:
-                getPullToRefreshListView().setRefreshing();
-                loadNewMsg();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_refresh) {
+			getPullToRefreshListView().setRefreshing();
+			loadNewMsg();
+		}
         return super.onOptionsItemSelected(item);
     }
 

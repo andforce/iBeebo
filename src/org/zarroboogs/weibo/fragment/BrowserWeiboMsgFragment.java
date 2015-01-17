@@ -568,22 +568,19 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.menu_refresh:
-                if (Utility.isTaskStopped(updateMsgTask)) {
-                    updateMsgTask = new UpdateMessageTask(BrowserWeiboMsgFragment.this, layout.content, layout.recontent,
-                            msg, true);
-                    updateMsgTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                if (isCommentList) {
-                    loadNewCommentData();
-                } else {
-                    loadNewRepostData();
-                }
-                break;
-
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_refresh) {
+			if (Utility.isTaskStopped(updateMsgTask)) {
+			    updateMsgTask = new UpdateMessageTask(BrowserWeiboMsgFragment.this, layout.content, layout.recontent,
+			            msg, true);
+			    updateMsgTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+			if (isCommentList) {
+			    loadNewCommentData();
+			} else {
+			    loadNewRepostData();
+			}
+		}
         return true;
     }
 

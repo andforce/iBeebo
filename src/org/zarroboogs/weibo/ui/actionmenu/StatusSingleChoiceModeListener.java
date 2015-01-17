@@ -132,72 +132,62 @@ public class StatusSingleChoiceModeListener implements ActionMode.Callback {
 
         Intent intent;
         long[] ids = listView.getCheckedItemIds();
-        switch (item.getItemId()) {
-            case R.id.menu_repost:
-                intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
-                intent.putExtra("id", String.valueOf(ids[0]));
-                intent.putExtra("msg", bean);
-                getActivity().startActivity(intent);
-                listView.clearChoices();
-                mode.finish();
-                break;
-            case R.id.menu_comment:
-                intent = new Intent(getActivity(), WriteCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra("id", String.valueOf(ids[0]));
-                intent.putExtra("msg", bean);
-                getActivity().startActivity(intent);
-                listView.clearChoices();
-                mode.finish();
-
-                break;
-            case R.id.menu_fav:
-                if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-                    favTask = new FavAsyncTask(GlobalContext.getInstance().getSpecialToken(), bean.getId());
-                    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                listView.clearChoices();
-                mode.finish();
-                break;
-            case R.id.menu_unfav:
-                if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-                    unFavTask = new UnFavAsyncTask(GlobalContext.getInstance().getSpecialToken(), bean.getId());
-                    unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                listView.clearChoices();
-                mode.finish();
-                break;
-            case R.id.menu_remove:
-
-                int position = listView.getCheckedItemPosition() - listView.getHeaderViewsCount();
-                RemoveDialog dialog = new RemoveDialog(position);
-                dialog.setTargetFragment(fragment, 0);
-                dialog.show(fragment.getFragmentManager(), "");
-
-                break;
-            case R.id.menu_share:
-                if (fragment.getActivity() != null) {
-                    Utility.setShareIntent(fragment.getActivity(), mShareActionProvider, bean);
-                }
-                mShareActionProvider
-                        .setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
-                            @Override
-                            public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
-                                finish();
-                                return false;
-                            }
-                        });
-                break;
-            case R.id.menu_copy:
-                ClipboardManager cm = (ClipboardManager) fragment.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", bean.getText()));
-                Toast.makeText(fragment.getActivity(), fragment.getString(R.string.copy_successfully), Toast.LENGTH_SHORT)
-                        .show();
-                mode.finish();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_repost) {
+			intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
+			intent.putExtra("id", String.valueOf(ids[0]));
+			intent.putExtra("msg", bean);
+			getActivity().startActivity(intent);
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_comment) {
+			intent = new Intent(getActivity(), WriteCommentActivity.class);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra("id", String.valueOf(ids[0]));
+			intent.putExtra("msg", bean);
+			getActivity().startActivity(intent);
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_fav) {
+			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
+			    favTask = new FavAsyncTask(GlobalContext.getInstance().getSpecialToken(), bean.getId());
+			    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_unfav) {
+			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
+			    unFavTask = new UnFavAsyncTask(GlobalContext.getInstance().getSpecialToken(), bean.getId());
+			    unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_remove) {
+			int position = listView.getCheckedItemPosition() - listView.getHeaderViewsCount();
+			RemoveDialog dialog = new RemoveDialog(position);
+			dialog.setTargetFragment(fragment, 0);
+			dialog.show(fragment.getFragmentManager(), "");
+		} else if (itemId == R.id.menu_share) {
+			if (fragment.getActivity() != null) {
+			    Utility.setShareIntent(fragment.getActivity(), mShareActionProvider, bean);
+			}
+			mShareActionProvider
+			        .setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
+			            @Override
+			            public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
+			                finish();
+			                return false;
+			            }
+			        });
+		} else if (itemId == R.id.menu_copy) {
+			ClipboardManager cm = (ClipboardManager) fragment.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+			cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", bean.getText()));
+			Toast.makeText(fragment.getActivity(), fragment.getString(R.string.copy_successfully), Toast.LENGTH_SHORT)
+			        .show();
+			mode.finish();
+		}
 
         return true;
     }

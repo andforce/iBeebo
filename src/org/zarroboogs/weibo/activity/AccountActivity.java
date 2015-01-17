@@ -96,14 +96,11 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {
-                switch (arg0.getItemId()) {
-                    case R.id.menu_add_account: {
-                        showAddAccountDialog();
-                        break;
-                    }
-                    default:
-                        break;
-                }
+                int itemId = arg0.getItemId();
+				if (itemId == R.id.menu_add_account) {
+					showAddAccountDialog();
+				} else {
+				}
                 return false;
             }
         });
@@ -321,12 +318,12 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.menu_remove_account:
-                    remove();
-                    mode.finish();
-                    return true;
-            }
+            int itemId = item.getItemId();
+			if (itemId == R.id.menu_remove_account) {
+				remove();
+				mode.finish();
+				return true;
+			}
             return false;
         }
 
