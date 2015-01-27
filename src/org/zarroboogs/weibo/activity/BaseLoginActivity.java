@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import lib.org.zarroboogs.weibo.login.httpclient.RealLibrary;
-import lib.org.zarroboogs.weibo.login.httpclient.SinaPreLogin;
+import lib.org.zarroboogs.weibo.login.httpclient.SinaLoginHelper;
 import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper;
 import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper.OnUpFilesListener;
 import lib.org.zarroboogs.weibo.login.httpclient.WaterMark;
@@ -67,7 +67,7 @@ import com.loopj.android.http.ResponseHandlerInterface;
 
 public class BaseLoginActivity extends SharedPreferenceActivity {
     private static final String TAG = "Beebo_Login: ";
-    private SinaPreLogin mSinaPreLogin;
+    private SinaLoginHelper mSinaLoginHelper;
     private PreLoginResult mPreLoginResult;
 
     private JsEvaluator mJsEvaluator;
@@ -91,7 +91,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         super.onCreate(savedInstanceState);
         mJsEvaluator = new JsEvaluator(getApplicationContext());
 
-        mSinaPreLogin = new SinaPreLogin();
+        mSinaLoginHelper = new SinaLoginHelper();
 
         mRequestResultParser = new RequestResultParser();
 
@@ -225,8 +225,8 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     protected void sendWeibo(String pid) {
     	String cookie = getCookieIfHave();
 		LogTool.D(TAG + "sendWeibo Cookie:     " + cookie);
-        HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity("ZwpYj", SystemClock.uptimeMillis() + "", cookie, pid);
-        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders("ZwpYj", cookie),
+        HttpEntity sendEntity = mSinaLoginHelper.sendWeiboEntity("ZwpYj", SystemClock.uptimeMillis() + "", cookie, pid);
+        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaLoginHelper.sendWeiboHeaders("ZwpYj", cookie),
                 sendEntity,
                 "application/x-www-form-urlencoded", new AsyncHttpResponseHandler() {
 
@@ -251,8 +251,8 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     protected void sendWeiboWidthPids(String weiboCode, String text, String pids) {
     	String cookie = getCookieIfHave();
 		LogTool.D(TAG + "sendWeiboWidthPids Cookie:     " + cookie);
-        HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity(weiboCode, text, cookie, pids);
-        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders(weiboCode, cookie),
+        HttpEntity sendEntity = mSinaLoginHelper.sendWeiboEntity(weiboCode, text, cookie, pids);
+        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaLoginHelper.sendWeiboHeaders(weiboCode, cookie),
                 sendEntity,
                 "application/x-www-form-urlencoded", this.mAutoSendWeiboListener);
     }
@@ -450,15 +450,15 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         this.mPassword = upwd;
 
         long time = new Date().getTime();
-        String encodeName = mSinaPreLogin.encodeAccount(mUserName);
-        String url = mSinaPreLogin.buildPreLoginUrl(encodeName, Constaces.SSOLOGIN_JS, time + "");
-        getAsyncHttpClient().get(getApplicationContext(), url, mSinaPreLogin.preloginHeaders(), null,
+        String encodeName = mSinaLoginHelper.encodeAccount(mUserName);
+        String url = mSinaLoginHelper.buildPreLoginUrl(encodeName, Constaces.SSOLOGIN_JS, time + "");
+        getAsyncHttpClient().get(getApplicationContext(), url, mSinaLoginHelper.preloginHeaders(), null,
                 new AsyncHttpResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         LogTool.D(TAG + " PreLogin:  [Success] " + new String(responseBody));
-                        mPreLoginResult = mSinaPreLogin.buildPreLoginResult(new String(responseBody));
+                        mPreLoginResult = mSinaLoginHelper.buildPreLoginResult(new String(responseBody));
                         mHandler.sendEmptyMessage(Constaces.MSG_ENCODE_PWD);
                     }
 
@@ -470,8 +470,8 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     }
 
     private void doAutoAfterPreLogin(PreLoginResult preLoginResult, String door) {
-        HttpEntity httpEntity = mSinaPreLogin.afterPreLoginEntity(encodeAccount(mUserName), rsaPwd, door, preLoginResult);
-        getAsyncHttpClient().post(getApplicationContext(), Constaces.LOGIN_FIRST_URL, mSinaPreLogin.afterPreLoginHeaders(),
+        HttpEntity httpEntity = mSinaLoginHelper.afterPreLoginEntity(encodeAccount(mUserName), rsaPwd, door, preLoginResult);
+        getAsyncHttpClient().post(getApplicationContext(), Constaces.LOGIN_FIRST_URL, mSinaLoginHelper.afterPreLoginHeaders(),
                 httpEntity, "application/x-www-form-urlencoded", new AsyncHttpResponseHandler() {
 
                     @Override
