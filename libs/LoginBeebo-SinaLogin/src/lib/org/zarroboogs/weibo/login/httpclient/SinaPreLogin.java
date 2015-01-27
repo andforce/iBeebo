@@ -36,6 +36,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.util.TextUtils;
+import org.zarroboogs.utils.http.HeaderList;
 import org.zarroboogs.utils.http.HttpEntryList;
 
 import android.util.Log;
@@ -354,25 +355,20 @@ public class SinaPreLogin {
     }
 
     public Header[] sendWeiboHeaders(String app_src, String cookie) {
-        List<Header> headers = new ArrayList<Header>();
-        headers.add(new BasicHeader("Accept", "*/*"));
-        headers.add(new BasicHeader("Accept-Encoding", "gzip, deflate"));
-        headers.add(new BasicHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4"));
-        headers.add(new BasicHeader("Connection", "keep-alive"));
-        headers.add(new BasicHeader("Content-Type", "application/x-www-form-urlencoded"));
-        headers.add(new BasicHeader("Host", "widget.weibo.com"));
-        headers.add(new BasicHeader("Origin", "http://widget.weibo.com"));
-        headers.add(new BasicHeader("X-Requested-With", "XMLHttpRequest"));
-        headers.add(new BasicHeader("Referer", "http://widget.weibo.com/topics/topic_vote_base.php?" +
-                "tag=Weibo&app_src=" + app_src + "&isshowright=0&language=zh_cn"));
-        headers.add(new BasicHeader("User-Agent", Constaces.User_Agent));
-        headers.add(new BasicHeader("Cookie", cookie));
+    	HeaderList headerList = new HeaderList();
+    	headerList.addAccept("*/*");
+        headerList.addAcceptEncoding("gzip, deflate");
+        headerList.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+        headerList.addHost("widget.weibo.com");
+        headerList.addOrigin("http://widget.weibo.com");
+        headerList.addReferer("http://widget.weibo.com/topics/topic_vote_base.php?tag=Weibo&app_src=" + app_src + "&isshowright=0&language=zh_cn");
+        headerList.addUserAgent(Constaces.User_Agent);
         
-        Header[] resultHeaders = new Header[headers.size()];
-        for (int i = 0; i < resultHeaders.length; i++) {
-            resultHeaders[i] = headers.get(i);
-        }
-        return resultHeaders;
+        headerList.addHeader("Cookie", cookie);
+        headerList.addHeader("X-Requested-With", "XMLHttpRequest");
+        headerList.addHeader("Connection", "keep-alive");
+        headerList.addHeader("Content-Type", "application/x-www-form-urlencoded");
+        return headerList.build();
     }
     public HttpEntity sendWeiboEntity(String app_src, String content, String cookie, String pids) {
     	HttpEntryList sendWriteEntryList = new HttpEntryList();
