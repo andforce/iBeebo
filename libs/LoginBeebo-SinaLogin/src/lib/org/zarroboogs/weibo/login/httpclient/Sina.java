@@ -35,6 +35,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.util.TextUtils;
+import org.zarroboogs.utils.http.HeaderList;
 
 import android.content.Context;
 import android.os.Handler;
@@ -139,17 +140,15 @@ public class Sina {
 
     };
 
-    private HttpPost doLogin(String userName, String passWord,
-            PreLoginResult params) {
-        List<Header> headers = new ArrayList<Header>();
+    private HttpPost doLogin(String userName, String passWord,PreLoginResult params) {
+        HeaderList headers = new HeaderList();
         headers.add(new BasicHeader("Host", "login.sina.com.cn"));
         headers.add(new BasicHeader("Cache-Control", "max-age=0"));
         headers.add(new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"));
         headers.add(new BasicHeader("Origin", "http://widget.weibo.com"));
         headers.add(new BasicHeader("User-Agent", Constaces.User_Agent));
         headers.add(new BasicHeader("Content-Type", "application/x-www-form-urlencoded"));
-        headers.add(new BasicHeader("Referer",
-                "http://widget.weibo.com/dialog/PublishWeb.php?button=public&app_src=6gBvZH"));
+        headers.add(new BasicHeader("Referer","http://widget.weibo.com/dialog/PublishWeb.php?button=public&app_src=6gBvZH"));
         headers.add(new BasicHeader("Accept-Encoding", "gzip,deflate"));
         headers.add(new BasicHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4"));
 
@@ -174,17 +173,17 @@ public class Sina {
                 "http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack"));
         nvps.add(new BasicNameValuePair("returntype", "META"));
 
-        HttpPost post = HttpFactory.createHttpPost(Constaces.LOGIN_FIRST_URL, headers, nvps);
+        HttpPost post = HttpFactory.createHttpPost(Constaces.LOGIN_FIRST_URL, headers.build(), nvps);
         return post;
     }
 
-    public static boolean sendWeibo(BroserContent broserContent, String url, String app_src, String content, String cookie,
-            String pid) {
+    public static boolean sendWeibo(BroserContent broserContent, String url, String app_src, String content, String cookie,String pid) {
         CloseableHttpClient httpClient = broserContent.getHttpClient();
         // http://widget.weibo.com/dialog/PublishWeb.php?button=public&app_src=6gBvZH
         // http://widget.weibo.com/public/aj_addMblog.php
 
-        List<Header> headers = new ArrayList<Header>();
+        HeaderList headers = new HeaderList();
+        
         headers.add(new BasicHeader("Accept", "*/*"));
         headers.add(new BasicHeader("Accept-Encoding", "gzip, deflate"));
         headers.add(new BasicHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4"));
@@ -213,7 +212,7 @@ public class Sina {
         loginParams.add(new BasicNameValuePair("_t", "0"));
         // loginParams.add(new BasicNameValuePair("Cookie", cookie));
 
-        HttpPost logInPost = HttpFactory.createHttpPost(url, headers, loginParams);
+        HttpPost logInPost = HttpFactory.createHttpPost(url, headers.build(), loginParams);
 
         // logInPost.addHeader("Cookie", cookie);
         CloseableHttpResponse logInResponse = null;

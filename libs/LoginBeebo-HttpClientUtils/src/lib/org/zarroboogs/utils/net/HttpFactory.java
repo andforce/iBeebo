@@ -27,7 +27,7 @@ public class HttpFactory {
         return httpGet;
     }
 
-    public static HttpPost createHttpPost(String mPostURL, List<Header> requestHeaders, List<NameValuePair> mFornData) {
+    public static HttpPost createHttpPost(String mPostURL, Header[] headers, List<NameValuePair> mFornData) {
         HttpPost mHttpPost = new HttpPost(mPostURL);
 
         // RequestConfig postConfig =
@@ -35,7 +35,6 @@ public class HttpFactory {
         // .setConnectTimeout(5000).setSocketTimeout(5000).setConnectionRequestTimeout(5000).build();
         // mHttpPost.setConfig(postConfig);
 
-        Header[] headers = requestHeaders.toArray(new Header[requestHeaders.size()]);
         mHttpPost.setHeaders(headers);
 
         UrlEncodedFormEntity mEncodedFormEntity = null;
