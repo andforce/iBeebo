@@ -36,6 +36,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.util.TextUtils;
+import org.zarroboogs.utils.http.HttpEntryList;
 
 import android.util.Log;
 
@@ -374,31 +375,24 @@ public class SinaPreLogin {
         return resultHeaders;
     }
     public HttpEntity sendWeiboEntity(String app_src, String content, String cookie, String pids) {
-        List<NameValuePair> sendWeiboParam = new ArrayList<NameValuePair>();
-        sendWeiboParam.add(new BasicNameValuePair("app_src", app_src));
-        sendWeiboParam.add(new BasicNameValuePair("content", content));
-        if (!TextUtils.isEmpty(pids)) {
-            sendWeiboParam.add(new BasicNameValuePair("pic_id", pids));
-        }
-        sendWeiboParam.add(new BasicNameValuePair("return_type", "2"));
-        sendWeiboParam.add(new BasicNameValuePair("refer", ""));
-        sendWeiboParam.add(new BasicNameValuePair("vsrc", "base_topic"));
-        sendWeiboParam.add(new BasicNameValuePair("wsrc", "app_topic_base"));
-        sendWeiboParam.add(new BasicNameValuePair("ext", "login=>1;url=>"));
-        sendWeiboParam.add(new BasicNameValuePair("html_type", "2"));
-        sendWeiboParam.add(new BasicNameValuePair("_t", "0"));
-//        if (!android.text.TextUtils.isEmpty(cookie)) {
-//            sendWeiboParam.add(new BasicNameValuePair("Cookie", cookie));
-//        }
-
-        UrlEncodedFormEntity mEncodedFormEntity = null;
-        try {
-            mEncodedFormEntity = new UrlEncodedFormEntity(sendWeiboParam, "UTF-8");
-        } catch (UnsupportedEncodingException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        return mEncodedFormEntity;
+    	HttpEntryList sendWriteEntryList = new HttpEntryList();
+    	sendWriteEntryList.addEntry("app_src", app_src);
+    	sendWriteEntryList.addEntry("content", content);
+    	if (!TextUtils.isEmpty(pids)) {
+    		sendWriteEntryList.addEntry("pic_id", pids);
+    	}
+    	sendWriteEntryList.addEntry("return_type", "2");
+    	sendWriteEntryList.addEntry("refer", "");
+    	sendWriteEntryList.addEntry("vsrc", "base_topic");
+    	sendWriteEntryList.addEntry("wsrc", "app_topic_base");
+    	sendWriteEntryList.addEntry("ext", "login=>1;url=>");
+    	sendWriteEntryList.addEntry("html_type", "2");
+    	sendWriteEntryList.addEntry("_t", "0");
+    	sendWriteEntryList.addEntry("html_type", "2");
+    	sendWriteEntryList.addEntry("html_type", "2");
+    	sendWriteEntryList.addEntry("html_type", "2");
+    	sendWriteEntryList.addEntry("html_type", "2");
+    	return sendWriteEntryList.build();
     }
     
     /**
