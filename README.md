@@ -1,5 +1,3 @@
-
-
 =====
 
 Sina Weibo Client
@@ -13,17 +11,13 @@ Google Play 上架的版本叫：Beebo+；
 国内市场上线的叫：Beebo；
 
 两者唯一的区别是：Beebo+可智能解析微博中视频链接，直接播放视频，因此apk体积会大一点。
-
+-----------------------------------
 #GooglePlay
-[![image]](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
-[image]: https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png
-***
+[image]: https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png [![image]](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
+******
 
-[![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
-[image]:https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png
-***
-#WanDouJia
-
+[image]:https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png [![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
+*****
 
 
     [![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
