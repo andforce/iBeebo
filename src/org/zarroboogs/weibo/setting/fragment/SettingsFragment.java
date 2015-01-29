@@ -15,7 +15,10 @@ public class SettingsFragment extends PreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.setting_activity_pref);
+//		addPreferencesFromResource(R.xml.setting_activity_pref);
+		
+		addPreferencesFromResource(R.xml.beebo_plus_setting_activity_pref);
+		
 		Preference myPref = (Preference) findPreference(SettingActivity.CHANGE_WEIBO_ACCOUNT);
 		myPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 

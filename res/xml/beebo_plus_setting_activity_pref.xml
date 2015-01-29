@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:key="root_screen" >
+
+    <PreferenceCategory android:title="@string/pref_normal_title" >
+        <Preference
+            android:key="pref_official_weibo_key"
+            android:summary="@string/developer_weibo"
+            android:title="@string/pref_official_weibo_title" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="org.zarroboogs.weibo://@andforce" />
+        </Preference>
+        <!--
+             <Preference android:title="@string/pref_appearance_title" >
+            <intent
+                android:targetClass="org.zarroboogs.weibo.ui.preference.AppearanceActivity"
+                android:targetPackage="org.zarroboogs.weibo.plus" />
+        </Preference>
+        -->
+<!--         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="auto_refresh"
+            android:summary="@string/pref_auto_refresh_summary"
+            android:title="@string/pref_auto_refresh_title" /> -->
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="sound_of_pull_to_fresh"
+            android:summary="开关操作音效,需重启应用生效"
+            android:title="@string/pref_sound_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="setting_pref_navigationbar_md"
+            android:summary="底部虚拟按键同顶部一样,需重启应用生效"
+            android:title="虚拟按键颜色" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_advanced_title" >
+        <Preference
+            android:key="change_weibo_account"
+            android:summary="切换微博帐号"
+            android:title="切换帐号" >
+        </Preference>
+        <Preference
+            android:summary="新消息通知"
+            android:title="@string/notification" >
+            <intent
+                android:targetClass="org.zarroboogs.weibo.setting.activity.NotificationActivity"
+                android:targetPackage="org.zarroboogs.weibo.plus" />
+        </Preference>
+        <Preference
+            android:summary="设置微博发图水印"
+            android:title="图片水印" >
+            <intent
+                android:targetClass="org.zarroboogs.weibo.setting.activity.WaterMarkPrefActivity"
+                android:targetPackage="org.zarroboogs.weibo.plus" />
+        </Preference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="weibo_upload_big_pic"
+            android:summary="开启后上传高质量图片"
+            android:title="原图上传" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:dialogTitle="@string/pref_list_avatar_mode_title"
+            android:entries="@array/list_avatar_mode"
+            android:entryValues="@array/list_avatar_mode_value"
+            android:key="list_avatar_mode"
+            android:summary="设置头像画质"
+            android:title="@string/pref_list_avatar_mode_title" />
+        <ListPreference
+            android:defaultValue="1"
+            android:dialogTitle="@string/pref_list_pic_mode_title"
+            android:entries="@array/list_pic_mode"
+            android:entryValues="@array/list_pic_mode_value"
+            android:key="list_pic_mode"
+            android:summary="设置微博图片画质"
+            android:title="@string/pref_list_pic_mode_title" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="disable_download"
+            android:summary="@string/pref_disable_download_pic_summary"
+            android:title="@string/pref_disable_download_pic_title" />
+
+        <!--
+             <Preference
+            android:key="draft"
+            android:title="@string/draft" >
+            <intent
+                android:targetClass="org.zarroboogs.weibo.ui.preference.DraftActivity"
+                android:targetPackage="org.zarroboogs.weibo.plus" />
+        </Preference>
+        -->
+        <!--
+             <Preference
+            android:key="data_control"
+            android:title="@string/pref_data_control_title" >
+            <intent
+                android:targetClass="org.zarroboogs.weibo.ui.preference.ControlActivity"
+                android:targetPackage="org.zarroboogs.weibo.plus" />
+        </Preference>
+        -->
+        <Preference
+            android:key="filter"
+            android:summary="眼不见心不烦"
+            android:title="@string/filter" >
+            <intent
+                android:targetClass="org.zarroboogs.weibo.setting.activity.FilterActivity"
+                android:targetPackage="org.zarroboogs.weibo.plus" />
+        </Preference>
+        <!--
+             <Preference android:title="@string/pref_performance_title" >
+            <intent
+                android:targetClass="org.zarroboogs.weibo.ui.preference.PerformanceActivity"
+                android:targetPackage="org.zarroboogs.weibo.plus" />
+        </Preference>
+        -->
+        <!--
+             <Preference android:title="@string/pref_other_title" >
+            <intent
+                android:targetClass="org.zarroboogs.weibo.ui.preference.OtherActivity"
+                android:targetPackage="org.zarroboogs.weibo.plus" />
+        </Preference>
+        -->
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_support_title" >
+        <Preference
+            android:summary="@string/pref_play_store_address_summary"
+            android:title="@string/pref_play_store_address_title" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="market://details?id=org.zarroboogs.weibo" />
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_about_title" >
+        <Preference android:title="@string/pref_about_title" >
+            <intent
+                android:targetClass="org.zarroboogs.weibo.setting.activity.AboutActivity"
+                android:targetPackage="org.zarroboogs.weibo.plus" />
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
