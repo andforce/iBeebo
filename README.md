@@ -18,16 +18,16 @@ Google Play 上架的版本叫：Beebo+；
 [image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_google_play.png "google play"
 -------------------
 
-[![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
-[image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_coolapk.png "coolpak"
+#[![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
+#[image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_coolapk.png "coolpak"
 ------------------
 
-[![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
-[image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_wandoujia.png "wandoujia"
+#[![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
+#[image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_wandoujia.png "wandoujia"
 -------------------
 
-[![image]](http://yun.baidu.com/s/1eQGOhKQ)
-[image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_baidu.png "baidu"
+#[![image]](http://yun.baidu.com/s/1eQGOhKQ)
+#[image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_baidu.png "baidu"
 ------------------
 
 -------------------------------------------
