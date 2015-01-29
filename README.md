@@ -1,6 +1,8 @@
+Beebo
 =====
 
 Sina Weibo Client
+
 ![image](http://img.wdjimg.com/mms/icon/v1/d/44/52ed35dcd4591c4cdbd5cfccc4b2344d_256_256.png)
 
 -----------------
@@ -11,23 +13,20 @@ Google Play 上架的版本叫：Beebo+；
 国内市场上线的叫：Beebo；
 
 两者唯一的区别是：Beebo+可智能解析微博中视频链接，直接播放视频，因此apk体积会大一点。
------------------------------------
-#GooglePlay
-[image]: https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png
-[![image]](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
-******
 
-[image]:https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png
-[![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
-*****
+************************
+[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png"title")](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
 
 
-    [![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
-    [image]:https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png "wandoujia"
-    #百度网盘：
-    [![image]](http://yun.baidu.com/s/1eQGOhKQ)
-    [image]:https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "baidu"
+[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png"title")](http://coolapk.com/apk/org.zarroboogs.weibo)
 
+
+[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png"title")](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
+
+
+[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png"title")](http://yun.baidu.com/s/1eQGOhKQ)
+
+************************
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/mouse.gif)
 ##一定要注意锻炼身体，代码永远写不完！
 -------------------------------------------
