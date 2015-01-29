@@ -16,8 +16,6 @@ Google Play 上架的版本叫：Beebo+；
 [![image]](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
 [image]: http://mtpisgahdayton.org/wp-content/uploads/2014/07/google-play-icon-mount-pisgah.png
 
-[Google Play 下载Beebo+](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
-
 [CoolApk 下载Beebo](http://coolapk.com/apk/org.zarroboogs.weibo)
 
 [豌豆荚下载Beebo](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
