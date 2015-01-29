@@ -2,6 +2,8 @@ Beebo
 =====
 
 Sina Weibo Client
+![image](http://img.wdjimg.com/mms/icon/v1/d/44/52ed35dcd4591c4cdbd5cfccc4b2344d_256_256.png)
+
 -----------------
 暂时不支持平板分辨率
 -----------------
