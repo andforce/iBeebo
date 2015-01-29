@@ -15,7 +15,7 @@ Google Play 上架的版本叫：Beebo+；
 
 
 [![image]](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
-[image]: https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_google_play.png
+[image]: https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_google_play.png "google play"
 
 
 [![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
