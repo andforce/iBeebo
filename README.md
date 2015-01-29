@@ -15,20 +15,19 @@ Google Play 上架的版本叫：Beebo+；
 
 
 [![image]](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
-[image]: https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_google_play.png
+[image]: https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png
 
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_google_play.png)
 
-#[![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
-#[image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_coolapk.png "coolpak"
+[![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
+[image]:https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png "coolpak"
 ------------------
 
-#[![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
-#[image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_wandoujia.png "wandoujia"
+[![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
+[image]:https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png "wandoujia"
 -------------------
 
-#[![image]](http://yun.baidu.com/s/1eQGOhKQ)
-#[image]:https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_baidu.png "baidu"
+[![image]](http://yun.baidu.com/s/1eQGOhKQ)
+[image]:https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "baidu"
 ------------------
 
 -------------------------------------------
@@ -48,5 +47,3 @@ Google Play 上架的版本叫：Beebo+；
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-13-17-59.png)
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-05.png) 
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-41.png) 
-
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png)
