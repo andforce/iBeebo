@@ -161,7 +161,6 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         if (!TextUtils.isEmpty(id)) {
             AccountBean bean = AccountDBTask.getAccount(id);
             if (bean != null) {
-                Log.d("getUUUUU", "" + bean.getUname() + bean.getPwd());
                 Intent start = MainTimeLineActivity.newIntent(bean);
                 startActivity(start);
                 finish();
