@@ -15,13 +15,9 @@ Google Play 上架的版本叫：Beebo+；
 两者唯一的区别是：Beebo+可智能解析微博中视频链接，直接播放视频，因此apk体积会大一点。
 
 ************************
-[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png "Google Play")](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
+[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png "Google Play")](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus) [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png "CoolApk")](http://coolapk.com/apk/org.zarroboogs.weibo)
 
-[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png "CoolApk")](http://coolapk.com/apk/org.zarroboogs.weibo)
-
-[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJIa.png "豌豆荚")](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
-
-[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "百度网盘")](http://yun.baidu.com/s/1eQGOhKQ)
+[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJIa.png "豌豆荚")](http://www.wandoujia.com/apps/org.zarroboogs.weibo) [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "百度网盘")](http://yun.baidu.com/s/1eQGOhKQ)
 ************************
 
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/mouse.gif)
