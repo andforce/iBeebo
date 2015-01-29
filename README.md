@@ -16,13 +16,18 @@ Google Play 上架的版本叫：Beebo+；
 #GooglePlay
 [![image]](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
 [image]: https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png
-#CoolApk
-[![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
-[image]:https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png "coolpak"
-#WanDouJia
-[![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
-[image]:https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png "wandoujia"
 
+
+
+
+     [![image]](http://coolapk.com/apk/org.zarroboogs.weibo)
+    [image]:https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png "coolpak"
+    #WanDouJia
+    [![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
+    [image]:https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png "wandoujia"
+    #百度网盘：
+    [![image]](http://yun.baidu.com/s/1eQGOhKQ)
+    [image]:https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "baidu"
 
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/mouse.gif)
 ##一定要注意锻炼身体，代码永远写不完！
@@ -32,14 +37,11 @@ Google Play 上架的版本叫：Beebo+；
 
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-59.png)
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-55.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-38-48.png)  
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-45.png) 
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-38-48.png)
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-45.png)
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-40-38.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-38-57.png) 
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-38-57.png)
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-50.png)
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-13-17-59.png)
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-05.png) 
-![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-41.png) 
-#WanDouJia
-[![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
-[image]:https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png "wandoujia"
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-05.png)
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-41.png)
