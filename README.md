@@ -1,18 +1,15 @@
-Beebo
-=====
-
-Sina Weibo Client
-
-![image](http://img.wdjimg.com/mms/icon/v1/d/44/52ed35dcd4591c4cdbd5cfccc4b2344d_256_256.png)
+<center>![image](http://img.wdjimg.com/mms/icon/v1/d/44/52ed35dcd4591c4cdbd5cfccc4b2344d_256_256.png)</center>
 
 -----------------
-暂时不支持平板分辨率
------------------
-Google Play 上架的版本叫：Beebo+；
+#Beebo
+##Sina Weibo Client
+#暂时不支持平板分辨率
 
-国内市场上线的叫：Beebo；
+##Google Play 上架的版本叫：Beebo+；
 
-两者唯一的区别是：Beebo+可智能解析微博中视频链接，直接播放视频，因此apk体积会大一点。
+##国内市场上线的叫：Beebo；
+
+###两者唯一的区别是：Beebo+可以智能解析微博中的视频链接，并直接播放，因此apk体积会比Beebo大一点。
 
 ************************
 [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png "Google Play")](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus) [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png "CoolApk")](http://coolapk.com/apk/org.zarroboogs.weibo)
