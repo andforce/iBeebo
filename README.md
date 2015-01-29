@@ -49,3 +49,4 @@ Google Play 上架的版本叫：Beebo+；
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-05.png) 
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-41.png) 
 
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/get_it_on_google_play.png)
