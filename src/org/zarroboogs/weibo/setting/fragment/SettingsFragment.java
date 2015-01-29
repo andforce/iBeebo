@@ -1,5 +1,6 @@
 package org.zarroboogs.weibo.setting.fragment;
 
+import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AccountActivity;
 import org.zarroboogs.weibo.setting.activity.SettingActivity;
@@ -15,10 +16,12 @@ public class SettingsFragment extends PreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		addPreferencesFromResource(R.xml.setting_activity_pref);
-		
-		addPreferencesFromResource(R.xml.beebo_plus_setting_activity_pref);
-		
+		if (Constants.isBeeboPlus) {
+			addPreferencesFromResource(R.xml.beebo_plus_setting_activity_pref);
+		} else {
+			addPreferencesFromResource(R.xml.setting_activity_pref);
+		}
+
 		Preference myPref = (Preference) findPreference(SettingActivity.CHANGE_WEIBO_ACCOUNT);
 		myPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 

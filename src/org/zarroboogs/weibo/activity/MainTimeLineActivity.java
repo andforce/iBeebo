@@ -87,8 +87,9 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UmengUpdateAgent.update(this);
-
+        if (!Constants.isBeeboPlus) {
+            UmengUpdateAgent.update(this);
+		}
         if (savedInstanceState != null) {
             mAccountBean = savedInstanceState.getParcelable(Constants.ACCOUNT);
         } else {
