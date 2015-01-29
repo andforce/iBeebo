@@ -22,9 +22,8 @@ Google Play 上架的版本叫：Beebo+；
 #WanDouJia
 [![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
 [image]:https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png "wandoujia"
-#百度网盘：
-[![image]](http://yun.baidu.com/s/1eQGOhKQ)
-[image]:https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "baidu"
+
+
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/mouse.gif)
 ##一定要注意锻炼身体，代码永远写不完！
 -------------------------------------------
@@ -41,3 +40,6 @@ Google Play 上架的版本叫：Beebo+；
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-13-17-59.png)
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-05.png) 
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/DFG_2015-01-12-09-39-41.png) 
+#WanDouJia
+[![image]](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
+[image]:https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png "wandoujia"
