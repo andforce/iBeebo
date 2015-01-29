@@ -5,10 +5,19 @@ Sina Weibo Client
 -----------------
 暂时不支持平板分辨率
 -----------------
+Google Play 上架的版本叫：Beebo+；
 
-[CoolApk下载v2.2.1](http://coolapk.com/apk/org.zarroboogs.weibo)
+国内市场上线的叫：Beebo；
 
-[百度网盘下载v2.3.0-beta](http://yun.baidu.com/s/1eQGOhKQ)
+两者唯一的区别是：Beebo+可智能解析微博中视频链接，直接播放视频，因此apk体积会大一点。
+
+[Google Play 下载Beebo+](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
+
+[CoolApk 下载Beebo](http://coolapk.com/apk/org.zarroboogs.weibo)
+
+[豌豆荚下载Beebo](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
+
+[百度网盘下载Beebo](http://yun.baidu.com/s/1eQGOhKQ)
 
 ##主页面截图
 
