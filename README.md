@@ -21,6 +21,10 @@ Google Play 上架的版本叫：Beebo+；
 [豌豆荚下载Beebo](http://www.wandoujia.com/apps/org.zarroboogs.weibo)
 
 [百度网盘下载Beebo](http://yun.baidu.com/s/1eQGOhKQ)
+-------------------------------------------
+![image](https://github.com/andforce/Beebo/blob/master/screenshot/mouse.gif)
+##一定要注意锻炼身体，代码永远写不完！
+-------------------------------------------
 
 ##主页面截图
 
