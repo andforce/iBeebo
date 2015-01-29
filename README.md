@@ -13,6 +13,8 @@ Google Play 上架的版本叫：Beebo+；
 
 两者唯一的区别是：Beebo+可智能解析微博中视频链接，直接播放视频，因此apk体积会大一点。
 
+[image]:http://mtpisgahdayton.org/wp-content/uploads/2014/07/google-play-icon-mount-pisgah.png https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus
+
 [Google Play 下载Beebo+](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus)
 
 [CoolApk 下载Beebo](http://coolapk.com/apk/org.zarroboogs.weibo)
