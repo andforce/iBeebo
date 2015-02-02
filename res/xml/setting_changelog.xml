@@ -43,5 +43,12 @@
         <change>合并与我相关菜单</change>
         <change>修改部分图标</change>
     </release>
-    
+
+	<release version="v2.3.3" versioncode="21">
+	    <change>添加点赞功能</change>
+        <change>修正分组展开难的问题</change>
+        <change>更换图标</change>
+        <change>添加特别感谢</change>
+        <change>修正Beebo+点设置崩溃问题</change>
+    </release>
 </changelog>

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-	<release version="v2.3.0(beta)" versioncode="19">
-	    <change>适配5.0虚拟按键</change>
-        <change>修正5.0下拉没声音的问题</change>
-        <change>优化发微博逻辑</change>
-        <change>修正菜单黑色背景问题</change>
-        <change>调整左右抽屉UI</change>
-        <change>合并与我相关菜单</change>
-        <change>修改部分图标</change>
+	<release version="v2.3.3" versioncode="21">
+	    <change>添加[点赞]功能</change>
+        <change>修正分组展开难的问题</change>
+        <change>更换图标</change>
+        <change>添加特别感谢</change>
+        <change>修正Beebo+点设置崩溃问题</change>
     </release>
     
 </changelog>
