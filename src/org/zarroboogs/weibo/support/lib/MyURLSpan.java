@@ -1,10 +1,6 @@
 
 package org.zarroboogs.weibo.support.lib;
 
-import io.vov.vitamio.demo.VideoViewBuffer;
-
-import org.zarroboogs.vup.VideoUrlParser;
-import org.zarroboogs.vup.VideoUrlParser.OnParsedListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.dialogfragment.LongClickLinkDialog;
@@ -77,26 +73,28 @@ public class MyURLSpan extends ClickableSpan implements ParcelableSpan {
                 }
                 
                 final String urlString = openUrl;
-                VideoUrlParser videoUrlParser = new VideoUrlParser(widget.getContext());
-                videoUrlParser.parseVideoUrl(openUrl, new OnParsedListener() {
-					
-					@Override
-					public void onParseSuccess(String url, String name) {
-						// TODO Auto-generated method stub
-						Intent intent = new Intent(context, VideoViewBuffer.class);
-						intent.putExtra(VideoViewBuffer.VIDEO_NAME, name);
-						intent.putExtra(VideoViewBuffer.VIDEOURL, url);
-						context.startActivity(intent);
-					}
-					
-					@Override
-					public void onParseFailed() {
-						// TODO Auto-generated method stub
-		                WebBrowserSelector.openLink(context, Uri.parse(urlString));
-					}
-				});
-
+                // Compile Beebo, open this line
+                WebBrowserSelector.openLink(context, Uri.parse(urlString));
                 
+                // Compile Beebo+, open under line
+//                org.zarroboogs.vup.VideoUrlParser videoUrlParser = new org.zarroboogs.vup.VideoUrlParser(widget.getContext());
+//                videoUrlParser.parseVideoUrl(openUrl, new org.zarroboogs.vup.VideoUrlParser.OnParsedListener() {
+//					
+//					@Override
+//					public void onParseSuccess(String url, String name) {
+//						// TODO Auto-generated method stub
+//						Intent intent = new Intent(context, io.vov.vitamio.demo.VideoViewBuffer.class);
+//						intent.putExtra(io.vov.vitamio.demo.VideoViewBuffer.VIDEO_NAME, name);
+//						intent.putExtra(io.vov.vitamio.demo.VideoViewBuffer.VIDEOURL, url);
+//						context.startActivity(intent);
+//					}
+//					
+//					@Override
+//					public void onParseFailed() {
+//						// TODO Auto-generated method stub
+//		                WebBrowserSelector.openLink(context, Uri.parse(urlString));
+//					}
+//				});
             }
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
