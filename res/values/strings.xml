@@ -527,6 +527,8 @@
     <string name="pref_open_source_license_title">开源协议</string>
     <string name="pref_special_thanks">特别感谢</string>
     <string name="pref_special_thanks_summary">"@欺凌君，给起得新名字：Beebo"</string>
+    
+    <string name="pref_special_thanks_new_icon">"@法国老破鞋，给新绘制的图标"</string>
 
     <string name="pref_ui_summary">"@NovaDNG，给予的UI指导"</string>
     <string name="pref_google_plus_group_summary">获取最新测试版</string>

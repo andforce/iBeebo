@@ -21,11 +21,15 @@
                 android:targetPackage="org.zarroboogs.weibo" />
         </Preference>
         <Preference
+            android:summary="@string/pref_ui_summary"
+            android:title="@string/pref_special_thanks" >
+        </Preference>
+        <Preference
             android:summary="@string/pref_special_thanks_summary"
             android:title="@string/pref_special_thanks" >
         </Preference>
         <Preference
-            android:summary="@string/pref_ui_summary"
+            android:summary="@string/pref_special_thanks_new_icon"
             android:title="@string/pref_special_thanks" >
         </Preference>
     </PreferenceCategory>
