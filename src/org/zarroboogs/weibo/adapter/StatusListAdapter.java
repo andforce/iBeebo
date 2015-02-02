@@ -1,7 +1,11 @@
 
 package org.zarroboogs.weibo.adapter;
 
+import org.zarroboogs.util.net.HttpUtility;
+import org.zarroboogs.util.net.HttpUtility.HttpMethod;
+import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
+import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
@@ -18,6 +22,7 @@ import org.zarroboogs.weibo.widget.VelocityListView;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -29,8 +34,11 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
@@ -150,6 +158,40 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
                 getActivity().startActivity(intent);
             }
         });
+        holder.giveHeart.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new AsyncTask<Void, Void, Boolean>() {
+
+					@Override
+					protected Boolean doInBackground(Void... params) {
+						// TODO Auto-generated method stub
+				        Map<String, String> map = new HashMap<String, String>();
+				        map.put("access_token", GlobalContext.getInstance().getSpecialToken());
+				        map.put("id", msg.getId());
+				        map.put("attitude", "heart");
+						try {
+							String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, WeiBoURLs.GIVE_HEART, map);
+							return true;
+						} catch (WeiboException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							return false;
+						}
+					}
+					protected void onPostExecute(Boolean result) {
+						if (result) {
+							Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
+						}else {
+							Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+						}
+						
+					};
+				}.execute();
+			}
+		});
 
         UserBean user = msg.getUser();
         if (user != null) {

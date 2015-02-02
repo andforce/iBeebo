@@ -141,4 +141,12 @@ public class WeiBoURLs {
     // edit my profile
     public static final String MYPROFILE_EDIT = URL_SINA_WEIBO + "account/profile/basic_update.json";
     public static final String AVATAR_UPLOAD = URL_SINA_WEIBO + "account/avatar/upload.json";
+    
+    // heart
+    // give heart
+    public static final String GIVE_HEART = URL_SINA_WEIBO + "attitudes/create.json";
+    // delete heart
+    public static final String DELETE_HEART = URL_SINA_WEIBO + "attitudes/destroy.json";
+    // show heart
+    public static final String SHOW_HEART = URL_SINA_WEIBO + "attitudes/show.json";
 }

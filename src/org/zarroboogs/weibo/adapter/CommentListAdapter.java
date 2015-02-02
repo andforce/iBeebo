@@ -1,7 +1,10 @@
 
 package org.zarroboogs.weibo.adapter;
 
+import org.zarroboogs.util.net.HttpUtility;
+import org.zarroboogs.util.net.HttpUtility.HttpMethod;
 import org.zarroboogs.utils.Constants;
+import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
 import org.zarroboogs.weibo.bean.CommentBean;
@@ -15,6 +18,7 @@ import org.zarroboogs.weibo.widget.TopTipsView;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,6 +27,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -134,12 +139,12 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
         holder.repost_content.setVisibility(View.GONE);
         holder.repost_content_pic.setVisibility(View.GONE);
 
-        
         // hide repost adn comment btn
         holder.repostBtn.setVisibility(View.GONE);
         holder.commentBtn.setVisibility(View.GONE);
         holder.addComment.setVisibility(View.VISIBLE);
         holder.deleteComment.setVisibility(View.VISIBLE);
+        
         holder.addComment.setOnClickListener(new OnClickListener() {
 			
 			@Override

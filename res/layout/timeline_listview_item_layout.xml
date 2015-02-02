@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/listview_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?listview_item_background_selector"
     android:clickable="false"
-    android:descendantFocusability="blocksDescendants" xmlns:tools="http://schemas.android.com/tools">
+    android:descendantFocusability="blocksDescendants" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -286,6 +287,16 @@
             android:focusable="false"
             android:src="@drawable/accountactivity_remove_dark"
             android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/giveHeart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contentMain"
+            android:layout_toLeftOf="@id/repostButton"
+            android:background="?listview_item_background_selector"
+            android:focusable="false"
+            android:src="@drawable/give_heart_dark" />
     </RelativeLayout>
 
 </RelativeLayout>
