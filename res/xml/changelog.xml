@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-	<release version="v2.3.3" versioncode="21">
-	    <change>添加[点赞]功能</change>
-        <change>修正分组展开难的问题</change>
-        <change>更换图标</change>
-        <change>添加特别感谢</change>
-        <change>修正Beebo+点设置崩溃问题</change>
+	<release version="v2.3.4" versioncode="23">
+	    <change>修复带图微博无法发送的BUG</change>
     </release>
     
 </changelog>

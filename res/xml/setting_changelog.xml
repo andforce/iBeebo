@@ -51,4 +51,8 @@
         <change>添加特别感谢</change>
         <change>修正Beebo+点设置崩溃问题</change>
     </release>
+    
+	<release version="v2.3.4" versioncode="23">
+	    <change>修复带图微博无法发送的BUG</change>
+    </release>
 </changelog>
