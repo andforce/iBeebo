@@ -2,9 +2,11 @@
 package org.zarroboogs.weibo.activity;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -33,8 +35,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
-import org.zarroboogs.weibo.bean.WeibaGson;
-import org.zarroboogs.weibo.bean.WeibaTree;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
@@ -49,7 +49,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -62,6 +61,7 @@ import android.widget.Toast;
 import com.evgenii.jsevaluator.JsEvaluator;
 import com.evgenii.jsevaluator.interfaces.JsCallback;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.ResponseHandlerInterface;
 
@@ -548,7 +548,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         }
 
         showDialogForWeiBo();
-        String url = "http://appsrc.sinaapp.com/";
+        String url = "http://appsrc.sinaapp.com/appsrc_v2_0.txt";//"http://appsrc.sinaapp.com/";
         Header[] srcHeaders = new Header[] {
                 new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
                 new BasicHeader("Accept-Encoding", "gzip,deflate,sdch"),
@@ -564,18 +564,16 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String resp = new String(responseBody);
-                String jsonString = resp.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
+                String jsonString = resp;//.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
                 Gson gson = new Gson();
-                WeibaGson weibaGson = gson.fromJson(jsonString, WeibaGson.class);
-                List<WeibaTree> weibaTrees = weibaGson.getData();
-
-                List<WeiboWeiba> weibas = new ArrayList<WeiboWeiba>();
-                for (WeibaTree weibaTree : weibaTrees) {
-                    weibas.addAll(weibaTree.getData());
-                }
+                
+                Type listType = new TypeToken<List<WeiboWeiba>>(){}.getType();
+                List<WeiboWeiba> mAppsrc = (List<WeiboWeiba>) gson.fromJson(jsonString, listType);
+                
+//                List<WeiboWeiba> mAppsrc = Arrays.asList(gson.fromJson(jsonString,WeiboWeiba.class));
 
                 if (mFetchAppSrcListener != null) {
-                    mFetchAppSrcListener.onSuccess(weibas);
+                    mFetchAppSrcListener.onSuccess(mAppsrc);
                 }
                 hideDialogForWeiBo();
             }
