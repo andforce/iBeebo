@@ -511,6 +511,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
 	private void startPicCacheAndSendWeibo() {
 		sendImgData = SendImgData.getInstance();
+		sendImgData.clearReSizeImgs();
 
 		ArrayList<String> send = sendImgData.getSendImgs();
 		final int count = send.size();
@@ -525,6 +526,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		                        Log.d(LOGIN_TAG, "has create new File : " + newFile);
 		                        sendImgData.addReSizeImg(newFile);
 		                        if (sendImgData.getReSizeImgs().size() == count) {
+		                        	Log.d(LOGIN_TAG, "Create File Finished start send Weibo ");
 		                            sendWeibo(sendImgData);
 		                        }
 		                    }

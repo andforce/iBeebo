@@ -27,6 +27,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class UploadHelper {
+	
+	private String mCookie = "";
     private Context mContext;
     private AsyncHttpClient mAsyncHttpClient;
 
@@ -53,11 +55,12 @@ public class UploadHelper {
         public void onUpLoadFailed();
     }
 
-    public void uploadFiles(String waterMark, List<String> files, OnUpFilesListener listener) {
+    public void uploadFiles(String waterMark, List<String> files, OnUpFilesListener listener, String cookie) {
         this.mNeedToUpload = files;
         this.mOnUpFilesListener = listener;
         mHasUploadFlag = 0;
         this.mWaterMark = waterMark;
+        this.mCookie = cookie;
         mHandler.sendEmptyMessage(MSG_UPLOAD);
     }
 
@@ -65,7 +68,7 @@ public class UploadHelper {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_UPLOAD: {
-                    uploadFile(mWaterMark, mNeedToUpload.get(mHasUploadFlag));
+                    uploadFile(mWaterMark, mNeedToUpload.get(mHasUploadFlag), mCookie);
                     break;
                 }
                 case MSG_UPLOAD_DONE: {
@@ -86,7 +89,7 @@ public class UploadHelper {
         };
     };
 
-    private void uploadFile(String waterMark, String file) {
+    private void uploadFile(String waterMark, String file,String cookie) {
         // "/sdcard/tencent/zebrasdk/Photoplus.jpg"
 
 		HeaderList headerList = new HeaderList();
@@ -101,6 +104,8 @@ public class UploadHelper {
 		headerList.add(new BasicHeader("Origin", "http://weibo.com"));
 		headerList.add(new BasicHeader("User-Agent", Constaces.User_Agent));
 		headerList.add(new BasicHeader("Referer","http://tjs.sjs.sinajs.cn/open/widget/static/swf/MultiFilesUpload.swf?version=1411256448572"));
+		headerList.add(new BasicHeader("Cookie",cookie));
+		
         final String contentType = RequestParams.APPLICATION_OCTET_STREAM;
         
         

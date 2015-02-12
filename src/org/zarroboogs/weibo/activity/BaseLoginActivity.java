@@ -158,7 +158,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                     startAutoPreLogin(mUserName, mPassword);
                     LogTool.D(TAG + " UploadPic:  [onUpLoadFailed] doPreLogin");
                 }
-            });
+            }, getCookieIfHave());
         }
     }
 
