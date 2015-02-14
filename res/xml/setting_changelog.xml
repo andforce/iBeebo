@@ -55,4 +55,8 @@
 	<release version="v2.3.4" versioncode="23">
 	    <change>修复带图微博无法发送的BUG</change>
     </release>
+    
+	<release version="v2.3.5" versioncode="24">
+	    <change>修复无法登陆问题</change>
+    </release>
 </changelog>
