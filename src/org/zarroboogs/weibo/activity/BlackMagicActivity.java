@@ -63,8 +63,13 @@ public class BlackMagicActivity extends AbstractAppActivity {
 
 					    String[] array = getResources().getStringArray(R.array.tail_value);
 					    String value = array[0];
-					    appkey = value.substring(0, value.indexOf(","));
-					    appSecret = value.substring(value.indexOf(",") + 1);
+					    
+					    
+					    appkey = "2027761570";//value.substring(0, value.indexOf(","));
+					    appSecret = "5042214816d14b2d9e8ae8255f96180d";//value.substring(value.indexOf(",") + 1);
+					    
+					    
+					    
 					    Log.d("APPKEY", "key:" + appkey + "  secret:" + appSecret);
 					    loginTask = new BlackMagicLoginTask(BlackMagicActivity.this, username.getText().toString(),
 					            password.getText().toString(), appkey, appSecret);
