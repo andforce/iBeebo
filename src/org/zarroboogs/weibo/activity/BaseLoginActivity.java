@@ -386,6 +386,9 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         try {
             encodedString = new String(Base64.encodeBase64(URLEncoder.encode(account, "UTF-8").getBytes()));
             String userName = encodedString.replace('+', '-').replace('/', '_');
+            
+            Log.d("rsaUserName=", "" + userName);
+            
             return userName;
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
@@ -418,6 +421,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                     Log.d("mJsEvaluator", "[" + value + "]");
                     Message msg = new Message();
                     rsaPwd = value.replace("\"", "");
+                    Log.d("rsaPwd=", "" + rsaPwd);
                     msg.what = Constaces.MSG_ENCODE_PWD_DONW;
                     mHandler.sendMessage(msg);
                 }

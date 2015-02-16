@@ -171,12 +171,12 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
     private void showAddAccountDialog() {
 
-        if (true) {
-
-            Intent intent = new Intent(AccountActivity.this, BlackMagicActivity.class);
-            startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
-            return;
-        }
+//        if (true) {
+//
+//            Intent intent = new Intent(AccountActivity.this, OAuthActivity.class);
+//            startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
+//            return;
+//        }
         final ArrayList<Class> activityList = new ArrayList<Class>();
         ArrayList<String> itemValueList = new ArrayList<String>();
 

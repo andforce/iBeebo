@@ -7,18 +7,26 @@ import org.zarroboogs.weibo.support.utils.Utility;
  * User: qii Date: 12-7-28
  */
 public class WeiBoURLs {
+	
+	
+	  public static final String KEY_FLURRY = "3MVKXSRZ4PNHT4KG8HJF";
+	  public static final String SINA_REDIRECT_URL = "http://oauth.weico.cc";
+	  public static final String SINA_SCOPE = "email,direct_messages_read,direct_messages_write,friendships_groups_read,friendships_groups_write,statuses_to_me_read,follow_app_official_microblog,invitation_write";
+	  public static String passwordUrl = "http://m.weibo.cn/setting/forgotpwd?vt=4&wm=ig_0001_index";
+	  public static String regUrl = "http://weibo.cn/dpool/ttt/h5/reg.php";
+	  
+	  
     // base url
     private static final String URL_SINA_WEIBO = "https://api.weibo.com/2/";
 
     // login
     public static final String UID = URL_SINA_WEIBO + "account/get_uid.json";
-    public static final String URL_OAUTH2_ACCESS_AUTHORIZE = "https://api.weibo.com/oauth2/authorize";
-
-    public static final String APP_KEY = Utility.rot47("`_edd``d`b");
-
-    public static final String APP_SECRET = Utility.rot47("57cag6gg226g35b`7a_cg`5`ch4gde65");
-
-    public static final String DIRECT_URL = Utility.rot47("9EEADi^^2A:]H6:3@]4@>^@2FE9a^5672F=E]9E>=");
+    
+    
+    public static final String URL_OAUTH2_ACCESS_AUTHORIZE = "https://open.weibo.cn/oauth2/authorize";
+    public static final String APP_KEY = "211160679";
+    public static final String APP_SECRET = "63b64d531b98c2dbff2443816f274dd3";//Utility.rot47("57cag6gg226g35b`7a_cg`5`ch4gde65");
+    public static final String DIRECT_URL = SINA_REDIRECT_URL;//Utility.rot47("9EEADi^^2A:]H6:3@]4@>^@2FE9a^5672F=E]9E>=");
 
     // main timeline
     public static final String FRIENDS_TIMELINE = URL_SINA_WEIBO + "statuses/friends_timeline.json";

@@ -3,7 +3,6 @@ package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -15,7 +14,6 @@ import org.zarroboogs.weibo.support.utils.Utility;
 
 import com.umeng.analytics.MobclickAgent;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -26,8 +24,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
@@ -49,15 +45,10 @@ public class OAuthActivity extends AbstractAppActivity {
 
     private WebView webView;
 
-    private MenuItem refreshItem;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.oauthactivity_layout);
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setTitle(getString(R.string.login));
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WeiboWebViewClient());
 
@@ -72,6 +63,7 @@ public class OAuthActivity extends AbstractAppActivity {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
 
+        refresh();
     }
 
     @Override
@@ -80,29 +72,6 @@ public class OAuthActivity extends AbstractAppActivity {
         webView.clearCache(true);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_menu_oauthactivity, menu);
-        refreshItem = menu.findItem(R.id.menu_refresh);
-        refresh();
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-		if (itemId == android.R.id.home) {
-			Intent intent = AccountActivity.newIntent();
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			return true;
-		} else if (itemId == R.id.menu_refresh) {
-			refresh();
-			return true;
-		} else {
-			return super.onOptionsItemSelected(item);
-		}
-    }
 
     public void refresh() {
         webView.clearView();
@@ -113,26 +82,25 @@ public class OAuthActivity extends AbstractAppActivity {
         Animation rotation = AnimationUtils.loadAnimation(this, R.anim.refresh);
         iv.startAnimation(rotation);
 
-        refreshItem.setActionView(iv);
         webView.loadUrl(getWeiboOAuthUrl());
-    }
-
-    private void completeRefresh() {
-        if (refreshItem.getActionView() != null) {
-            refreshItem.getActionView().clearAnimation();
-            refreshItem.setActionView(null);
-        }
     }
 
     private String getWeiboOAuthUrl() {
 
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("client_id", WeiBoURLs.APP_KEY);
-        parameters.put("response_type", Constants.TOKEN);
-        parameters.put("redirect_uri", WeiBoURLs.DIRECT_URL);
+//        parameters.put("response_type", Constants.TOKEN);
+        parameters.put("redirect_uri", WeiBoURLs.SINA_REDIRECT_URL);
+        parameters.put("response_type", "code");
         parameters.put("display", "mobile");
-        return WeiBoURLs.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters)
-                + "&scope=friendships_groups_read,friendships_groups_write";
+        parameters.put("scope", WeiBoURLs.SINA_SCOPE);
+        
+        
+        parameters.put("packagename", "com.eico.weico");
+        parameters.put("key_hash", "1e6e33db08f9192306c4afa0a61ad56c");
+        
+        
+        return WeiBoURLs.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters);
     }
 
     private class WeiboWebViewClient extends WebViewClient {
@@ -166,7 +134,6 @@ public class OAuthActivity extends AbstractAppActivity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             if (!url.equals("about:blank")) {
-                completeRefresh();
             }
         }
     }
