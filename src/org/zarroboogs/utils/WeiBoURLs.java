@@ -11,7 +11,7 @@ public class WeiBoURLs {
 	
 	  public static final String KEY_FLURRY = "3MVKXSRZ4PNHT4KG8HJF";
 	  public static final String SINA_REDIRECT_URL = "http://oauth.weico.cc";
-	  public static final String SINA_SCOPE = "email,direct_messages_read,direct_messages_write,friendships_groups_read,friendships_groups_write,statuses_to_me_read,follow_app_official_microblog,invitation_write";
+	  public static final String SINA_SCOPE = "email,direct_messages_read,direct_messages_write,friendships_groups_read,friendships_groups_write,statuses_to_me_read,invitation_write";
 	  public static String passwordUrl = "http://m.weibo.cn/setting/forgotpwd?vt=4&wm=ig_0001_index";
 	  public static String regUrl = "http://weibo.cn/dpool/ttt/h5/reg.php";
 	  
@@ -22,7 +22,7 @@ public class WeiBoURLs {
     // login
     public static final String UID = URL_SINA_WEIBO + "account/get_uid.json";
     
-    
+    //
     public static final String URL_OAUTH2_ACCESS_AUTHORIZE = "https://open.weibo.cn/oauth2/authorize";
     public static final String APP_KEY = "211160679";
     public static final String APP_SECRET = "63b64d531b98c2dbff2443816f274dd3";//Utility.rot47("57cag6gg226g35b`7a_cg`5`ch4gde65");

@@ -333,7 +333,7 @@ public class SettingUtils {
     }
 
     public static boolean isBlackMagicEnabled() {
-        return SettingHelper.getSharedPreferences(getContext(), BLACK_MAGIC, false);
+        return true;//SettingHelper.getSharedPreferences(getContext(), BLACK_MAGIC, false);
     }
 
     public static void setBlackMagicEnabled() {

@@ -92,9 +92,9 @@ public class OAuthActivity extends AbstractAppActivity {
 //        parameters.put("response_type", Constants.TOKEN);
         parameters.put("redirect_uri", WeiBoURLs.SINA_REDIRECT_URL);
         parameters.put("response_type", "code");
-        parameters.put("display", "mobile");
+//        parameters.put("display", "mobile");
         parameters.put("scope", WeiBoURLs.SINA_SCOPE);
-        
+        parameters.put("version", "0030105000");
         
         parameters.put("packagename", "com.eico.weico");
         parameters.put("key_hash", "1e6e33db08f9192306c4afa0a61ad56c");

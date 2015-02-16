@@ -89,7 +89,7 @@ public class AccountBean implements Parcelable {
     }
 
     public boolean isBlack_magic() {
-        return black_magic;
+        return /*black_magic*/true;
     }
 
     public void setBlack_magic(boolean black_magic) {
