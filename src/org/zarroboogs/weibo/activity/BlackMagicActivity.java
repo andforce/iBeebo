@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.BlackMagicLoginTask;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -85,6 +86,7 @@ public class BlackMagicActivity extends AbstractAppActivity {
         username = (MaterialEditText) findViewById(R.id.username);
         password = (MaterialEditText) findViewById(R.id.password);
 
+        username.setText("123" + GlobalContext.getInstance().getAccountBean().getUname());
         // SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.tail,
         // android.R.layout.simple_spinner_dropdown_item);
 

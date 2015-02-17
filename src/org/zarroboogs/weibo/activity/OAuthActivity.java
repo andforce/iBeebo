@@ -14,6 +14,7 @@ import org.zarroboogs.weibo.support.utils.Utility;
 
 import com.umeng.analytics.MobclickAgent;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -38,9 +39,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-7-28
- */
+@SuppressLint("SetJavaScriptEnabled")
 public class OAuthActivity extends AbstractAppActivity {
 
     private WebView webView;
@@ -54,8 +53,7 @@ public class OAuthActivity extends AbstractAppActivity {
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setSaveFormData(false);
-        settings.setSavePassword(false);
+        settings.setSaveFormData(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
@@ -189,7 +187,7 @@ public class OAuthActivity extends AbstractAppActivity {
 
             OAuthActivity activity = oAuthActivityWeakReference.get();
             if (activity != null) {
-                progressFragment.show(activity.getSupportFragmentManager(), "");
+//                progressFragment.show(activity.getSupportFragmentManager(), "");
             }
 
         }
