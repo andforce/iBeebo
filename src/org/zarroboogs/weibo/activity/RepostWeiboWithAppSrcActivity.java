@@ -134,6 +134,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         appSrcBtn.setText(getWeiba().getText());
 
         mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
+        mSelectPhoto.setVisibility(View.GONE);
         mRootView = (RelativeLayout) findViewById(R.id.container);
         mEditText = (MaterialEditText) findViewById(R.id.weiboContentET);
         smileButton = (ImageButton) findViewById(R.id.smileImgButton);

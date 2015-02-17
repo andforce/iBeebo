@@ -11,6 +11,7 @@
         android:id="@+id/writeWeiboToolBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:minHeight="48dp"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/repost"
