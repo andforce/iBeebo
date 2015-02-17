@@ -95,6 +95,28 @@
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             app:hideUnderline="true" />
+        
+                <CheckBox
+            android:padding="5dp"
+            android:id="@+id/repostCheckBox"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:text="" />
+        
+        <TextView
+            android:layout_alignTop="@id/repostCheckBox"
+            android:layout_alignBottom="@id/repostCheckBox"
+            android:padding="5dp"
+            android:layout_toLeftOf="@id/repostCheckBox"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="right"
+	        android:layout_alignParentBottom="true"
+	        android:text="同时转发" />
     </RelativeLayout>
 
 </RelativeLayout>

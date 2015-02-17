@@ -19,10 +19,12 @@ import com.umeng.analytics.MobclickAgent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -42,7 +44,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
     private MenuItem enableCommentOri;
 
-    private MenuItem enableRepost;
+    private CheckBox enableRepost;
 
     private boolean savedEnableCommentOri;
 
@@ -55,6 +57,8 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
         // getActionBar().setTitle(R.string.comments);
         // getActionBar().setSubtitle(getCurrentAccountBean().getUsernick());
 
+//        setContentView(R.layout.write_comment_layout);
+        
         if (savedInstanceState == null) {
 
             Intent intent = getIntent();
@@ -76,7 +80,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
         getToolbar().setTitle(R.string.comments);
 
         enableCommentOri = getToolbar().getMenu().findItem(R.id.menu_enable_ori_comment);
-        enableRepost = getToolbar().getMenu().findItem(R.id.menu_enable_repost);
+        enableRepost = (CheckBox) findViewById(R.id.repostCheckBox);
 
         enableCommentOri.setChecked(savedEnableCommentOri);
         enableRepost.setChecked(savedEnableRepost);
@@ -86,9 +90,9 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
         }
         String contentStr = getEditTextView().getText().toString();
         if (!TextUtils.isEmpty(contentStr)) {
-            getToolbar().getMenu().findItem(R.id.menu_clear).setVisible(true);
+        	getToolbar().getMenu().findItem(R.id.menu_clear).setVisible(true);
         } else {
-            getToolbar().getMenu().findItem(R.id.menu_clear).setVisible(false);
+        	getToolbar().getMenu().findItem(R.id.menu_clear).setVisible(false);
         }
 
     }
