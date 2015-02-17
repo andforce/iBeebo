@@ -63,4 +63,9 @@
 	<release version="v2.3.6" versioncode="25">
 	    <change>修改登陆方式为网页授权</change>
     </release>
+    
+	<release version="v2.3.7" versioncode="26">
+	    <change>添加评论并转发和转发并评论</change>
+	    <change>添加部分页面Title</change>
+    </release>
 </changelog>
