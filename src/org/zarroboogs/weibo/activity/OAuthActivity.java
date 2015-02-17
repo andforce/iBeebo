@@ -25,6 +25,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
@@ -33,6 +34,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -44,6 +46,7 @@ public class OAuthActivity extends AbstractAppActivity {
 
     private WebView webView;
 
+    private ProgressBar mprogressbar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,8 @@ public class OAuthActivity extends AbstractAppActivity {
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WeiboWebViewClient());
 
+        mprogressbar = (ProgressBar) findViewById(R.id.oauthProgress);
+        
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setSaveFormData(true);
@@ -72,13 +77,13 @@ public class OAuthActivity extends AbstractAppActivity {
 
 
     public void refresh() {
-        webView.clearView();
-        webView.loadUrl("about:blank");
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
-
-        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.refresh);
-        iv.startAnimation(rotation);
+//        webView.clearView();
+//        webView.loadUrl("about:blank");
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
+//
+//        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.refresh);
+//        iv.startAnimation(rotation);
 
         webView.loadUrl(getWeiboOAuthUrl());
     }
@@ -111,7 +116,7 @@ public class OAuthActivity extends AbstractAppActivity {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
+        	mprogressbar.setVisibility(View.VISIBLE);
             if (url.startsWith(WeiBoURLs.DIRECT_URL)) {
 
                 handleRedirectUrl(view, url);
@@ -125,6 +130,7 @@ public class OAuthActivity extends AbstractAppActivity {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
+            mprogressbar.setVisibility(View.GONE);
             new SinaWeiboErrorDialog().show(getSupportFragmentManager(), "");
         }
 
@@ -133,6 +139,7 @@ public class OAuthActivity extends AbstractAppActivity {
             super.onPageFinished(view, url);
             if (!url.equals("about:blank")) {
             }
+            mprogressbar.setVisibility(View.GONE);
         }
     }
 
