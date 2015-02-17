@@ -59,4 +59,8 @@
 	<release version="v2.3.5" versioncode="24">
 	    <change>修复无法登陆问题</change>
     </release>
+    
+	<release version="v2.3.6" versioncode="25">
+	    <change>修改登陆方式为网页授权</change>
+    </release>
 </changelog>
