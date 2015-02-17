@@ -271,7 +271,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         this.mAutoSendWeiboListener = rhi;
     }
 
-    public void repostWeibo(String app_src, String content, String cookie, String mid) {
+    public void repostWeibo(String app_src, String content, String cookie, String mid, boolean isComment) {
     	cookie = getCookieIfHave();
 		
         List<Header> headerList = new ArrayList<Header>();
@@ -309,7 +309,12 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         nvs.add(new BasicNameValuePair("wsrc", "app_publish"));
         nvs.add(new BasicNameValuePair("ext", "login=>1;url=>"));
         nvs.add(new BasicNameValuePair("html_type", "2"));
-        nvs.add(new BasicNameValuePair("is_comment", "1"));
+        if (isComment) {
+        	nvs.add(new BasicNameValuePair("is_comment", "1"));
+		}else {
+			nvs.add(new BasicNameValuePair("is_comment", "0"));
+		}
+        
         nvs.add(new BasicNameValuePair("_t", "0"));
 
         UrlEncodedFormEntity repostEntity = null;

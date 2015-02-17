@@ -26,6 +26,7 @@ import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
+import org.zarroboogs.weibo.service.SendCommentService;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
@@ -62,6 +63,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -107,6 +110,8 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     private AppsrcDatabaseManager mDBmanager = null;
     private PullToRefreshListView listView;
     private ChangeWeibaAdapter listAdapter;
+    
+    private CheckBox mComments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +119,8 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         setContentView(R.layout.repost_weibo_with_appsrc_activity_layout);
 
+        mComments = (CheckBox) findViewById(R.id.repostCommentsCheck);
+        
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);
 
@@ -442,7 +449,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
             if (TextUtils.isEmpty(text)) {
                 text = "转发微博";
             }
-            repostWeibo(getWeiba().getCode(), text, "", msg.getId());
+            repostWeibo(getWeiba().getCode(), text, "", msg.getId(), mComments.isChecked());
 
         }
     }
@@ -557,7 +564,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
             text = "转发微博";
         }
 
-        repostWeibo(getWeiba().getCode(), text, "", msg.getId());
+        repostWeibo(getWeiba().getCode(), text, "", msg.getId(), mComments.isChecked());
     }
 
     Handler mHandler = new Handler() {

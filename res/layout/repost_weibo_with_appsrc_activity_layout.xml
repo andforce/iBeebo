@@ -11,11 +11,11 @@
         android:id="@+id/writeWeiboToolBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:minHeight="48dp"
         android:background="?attr/colorPrimary"
+        android:minHeight="48dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="@string/repost"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/repost" />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/writeWeiboDrawerL"
@@ -117,7 +117,7 @@
             <RelativeLayout
                 android:id="@+id/mainBoady"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_above="@id/action_layout"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
@@ -171,7 +171,7 @@
                     android:id="@+id/scrollView1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@id/editAppSrc"
+                    android:layout_above="@id/commentRoot"
                     android:layout_alignParentTop="true"
                     android:layout_alignWithParentIfMissing="true"
                     android:focusable="true" >
@@ -196,6 +196,34 @@
                         </com.rengwuxian.materialedittext.MaterialEditText>
                     </RelativeLayout>
                 </ScrollView>
+
+                <RelativeLayout
+                    android:id="@+id/commentRoot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/editAppSrc"
+                    android:layout_alignParentRight="true" >
+
+                    <CheckBox
+                        android:id="@+id/repostCommentsCheck"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:padding="5dp"
+                        android:text=""
+                        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/repostCommentsCheck"
+                        android:layout_alignTop="@id/repostCommentsCheck"
+                        android:layout_toLeftOf="@id/repostCommentsCheck"
+                        android:gravity="right"
+                        android:padding="5dp"
+                        android:text="同时评论" />
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
 
