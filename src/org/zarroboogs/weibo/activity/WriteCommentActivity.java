@@ -19,10 +19,9 @@ import com.umeng.analytics.MobclickAgent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -42,7 +41,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
     private CommentDraftBean commentDraftBean;
 
-    private MenuItem enableCommentOri;
+    private CheckBox enableCommentOri;
 
     private CheckBox enableRepost;
 
@@ -54,11 +53,6 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // getActionBar().setTitle(R.string.comments);
-        // getActionBar().setSubtitle(getCurrentAccountBean().getUsernick());
-
-//        setContentView(R.layout.write_comment_layout);
-        
         if (savedInstanceState == null) {
 
             Intent intent = getIntent();
@@ -76,51 +70,22 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
             }
         }
 
-        getToolbar().inflateMenu(R.menu.actionbar_menu_commentnewactivity);
         getToolbar().setTitle(R.string.comments);
 
-        enableCommentOri = getToolbar().getMenu().findItem(R.id.menu_enable_ori_comment);
+        enableCommentOri = (CheckBox) findViewById(R.id.commentCheckBox);
         enableRepost = (CheckBox) findViewById(R.id.repostCheckBox);
 
         enableCommentOri.setChecked(savedEnableCommentOri);
         enableRepost.setChecked(savedEnableRepost);
 
         if (msg != null && msg.getRetweeted_status() != null) {
-            enableCommentOri.setVisible(true);
-        }
-        String contentStr = getEditTextView().getText().toString();
-        if (!TextUtils.isEmpty(contentStr)) {
-        	getToolbar().getMenu().findItem(R.id.menu_clear).setVisible(true);
-        } else {
-        	getToolbar().getMenu().findItem(R.id.menu_clear).setVisible(false);
+//            enableCommentOri.setVisible(true);
         }
 
+        mCommentRoot.setVisibility(View.GONE);
+        mRepostRoot.setVisibility(View.VISIBLE);
     }
 
-    // @Override
-    // public boolean onCreateOptionsMenu(Menu menu) {
-    // getMenuInflater().inflate(R.menu.actionbar_menu_commentnewactivity, menu);
-    // enableCommentOri = menu.findItem(R.id.menu_enable_ori_comment);
-    // enableRepost = menu.findItem(R.id.menu_enable_repost);
-    //
-    // enableCommentOri.setChecked(savedEnableCommentOri);
-    // enableRepost.setChecked(savedEnableRepost);
-    // return true;
-    // }
-
-    // @Override
-    // public boolean onPrepareOptionsMenu(Menu menu) {
-    // if (msg != null && msg.getRetweeted_status() != null) {
-    // enableCommentOri.setVisible(true);
-    // }
-    // String contentStr = getEditTextView().getText().toString();
-    // if (!TextUtils.isEmpty(contentStr)) {
-    // menu.findItem(R.id.menu_clear).setVisible(true);
-    // } else {
-    // menu.findItem(R.id.menu_clear).setVisible(false);
-    // }
-    // return super.onPrepareOptionsMenu(menu);
-    // }
 
     @Override
     protected void onResume() {

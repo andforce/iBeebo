@@ -13,6 +13,7 @@
         android:layout_height="48dp"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/repost"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <android.support.v4.widget.DrawerLayout

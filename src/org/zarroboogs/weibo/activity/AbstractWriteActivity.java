@@ -50,6 +50,10 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     protected String token;
 
     private Toolbar abstractWriteToolbar;
+    
+    public RelativeLayout mCommentRoot;
+    public RelativeLayout mRepostRoot;
+    
 
     protected EditText getEditTextView() {
         return et;
@@ -86,6 +90,9 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
         super.onCreate(savedInstanceState);
         setContentView(R.layout.abstractwriteactivity_layout);
 
+        mCommentRoot = (RelativeLayout) findViewById(R.id.commentRoot);
+        mRepostRoot = (RelativeLayout) findViewById(R.id.repostRoot);
+        
         abstractWriteToolbar = (Toolbar) findViewById(R.id.abstractWriteToolbar);
         // ActionBar actionBar = getActionBar();
         // actionBar.setDisplayHomeAsUpEnabled(false);
