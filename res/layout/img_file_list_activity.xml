@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#EFEFEF"
+    android:fitsSystemWindows="true"
     android:orientation="vertical" >
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/mainTimeLineToolBar"
         android:layout_width="match_parent"
@@ -13,11 +14,13 @@
         android:background="?attr/colorPrimary"
         android:minHeight="48dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/select_img_title" />
+
     <ListView
-        android:id="@+id/listView1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:id="@+id/imageVileListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
     </ListView>
 
 </LinearLayout>

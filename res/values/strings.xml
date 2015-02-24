@@ -563,4 +563,5 @@
     <string name="second_login_tips">进行第(2/2)步登录，为了自定义尾巴</string>
     <string name="weibo_text_large_error">字数超出限制</string>
 
+    <string name="select_img_title">选取图片</string>
 </resources>

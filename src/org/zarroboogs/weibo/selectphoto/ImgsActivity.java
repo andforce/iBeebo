@@ -28,24 +28,19 @@ import android.widget.Toast;
 public class ImgsActivity extends Activity {
 
     public static final int REQUEST_CODE = 0x0001;
-    SendImgData mSendImgData = SendImgData.getInstance();
-    Bundle bundle;
-    FileTraversal fileTraversal;
-    GridView imgGridView;
-    ImgsAdapter imgsAdapter;
-    Util util;
-    Button mButton;
-    HashMap<Integer, ImageView> hashImage;
+    private SendImgData mSendImgData = SendImgData.getInstance();
+    private Bundle bundle;
+    private FileTraversal fileTraversal;
+    private GridView imgGridView;
+    private ImgsAdapter imgsAdapter;
+    private Util util;
+    private Button mButton;
+    private HashMap<Integer, ImageView> hashImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photogrally);
-        // ActionBar actionBar = getActionBar();
-        // actionBar.setHomeButtonEnabled(true);
-        // actionBar.setDisplayHomeAsUpEnabled(true);
-        // actionBar.setDisplayShowHomeEnabled(true);
-        // actionBar.show();
 
         mButton = (Button) findViewById(R.id.img_select_done);
         updateCount();

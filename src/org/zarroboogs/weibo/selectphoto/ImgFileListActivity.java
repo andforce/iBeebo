@@ -22,22 +22,17 @@ import android.widget.ListView;
 public class ImgFileListActivity extends Activity implements OnItemClickListener {
 
     public static final int REQUEST_CODE = 0x0000;
-    ListView listView;
-    Util util;
-    ImgFileListAdapter listAdapter;
-    List<FileTraversal> locallist;
+    private ListView listView;
+    private Util util;
+    private ImgFileListAdapter listAdapter;
+    private List<FileTraversal> locallist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.imgfilelist);
-        // ActionBar actionBar = getActionBar();
-        // actionBar.setHomeButtonEnabled(true);
-        // actionBar.setDisplayHomeAsUpEnabled(true);
-        // actionBar.setDisplayShowHomeEnabled(true);
-        // actionBar.show();
+        setContentView(R.layout.img_file_list_activity);
 
-        listView = (ListView) findViewById(R.id.listView1);
+        listView = (ListView) findViewById(R.id.imageVileListView);
         util = new Util(this);
         locallist = util.LocalImgFileList();
         List<HashMap<String, String>> listdata = new ArrayList<HashMap<String, String>>();
