@@ -101,16 +101,16 @@
 
     <!-- timeline -->
     <string name="refresh">刷新</string>
-    <string name="refreshing">刷新中……</string>
+    <string name="refreshing">刷新中…</string>
     <string name="no_new_message">没有新消息</string>
     <string name="total">共计</string>
     <string name="new_messages_count">%s条新消息</string>
     <string name="new_messages">条新消息</string>
     <string name="old_messages">条旧消息</string>
     <string name="weibos">条微博</string>
-    <string name="loading">载入中……</string>
+    <string name="loading">载入中…</string>
     <string name="click_to_load_some_older_msg">点击载入中间数据</string>
-    <string name="loading_middle_msg">载入中间数据……</string>
+    <string name="loading_middle_msg">载入中间数据…</string>
     <string name="click_to_load_older_message">网络有问题，点击重新载入</string>
     <string name="older_message_empty">没有更早的消息了</string>
     <string name="more">载入更多</string>
@@ -197,7 +197,7 @@
     <string name="send">发送</string>
     <string name="sending">发送中</string>
     <string name="photo">照片</string>
-    <string name="say_something">说点什么吧……</string>
+    <string name="say_something">说点什么吧…</string>
     <string name="left">剩余</string>
     <string name="share_pic">分享图片</string>
     <string name="save_to_draft">保存到草稿箱</string>
@@ -207,7 +207,7 @@
     <string name="convert_failed">转换失败</string>
     <string name="failed_reason">发送失败：%s</string>
     <string name="share_failed_because_of_no_account">请先登陆再发微博哦</string>
-    <string name="fetch_picture_from_other_apps">提取图片……</string>
+    <string name="fetch_picture_from_other_apps">提取图片…</string>
     <string name="fetch_picture_from_other_apps_failed">提取图片失败</string>
 
     <!-- accountactivity_layout -->
@@ -248,7 +248,7 @@
     <string name="switch_to_ori_pic">原图</string>
     <string name="cant_open_deleted_weibo">原微博已经被删除，看不懂中文吗？</string>
     <string name="retry_download_pic">重新下载图片</string>
-    <string name="fetching_weibo_info">获取微博信息……</string>
+    <string name="fetching_weibo_info">获取微博信息…</string>
     <string name="comment_is_empty">没有评论</string>
     <string name="repost_is_empty">没有转发</string>
 
@@ -298,7 +298,7 @@
     <string name="nickname_cant_have_space">昵称不能有空格</string>
     <string name="user_not_exists">用户不存在</string>
     <string name="network_error">网络有问题</string>
-    <string name="fetching_user_info">获取用户信息……</string>
+    <string name="fetching_user_info">获取用户信息…</string>
     <string name="following_and_fan_list_tip">注意，不知道新浪是有意的限制或是无意的bug，第三方客户端无法查看到全部的关注和粉丝</string>
 
     <!-- serach -->
@@ -385,14 +385,14 @@
     <string name="share_sum">微博统计的分享次数</string>
     <string name="total_share_count">累计分享了%s次</string>
     <string name="cant_not_convert_to_weibo_id">链接地址无法解析成微博地址</string>
-    <string name="converting_weibo_link">正在转换微博链接……</string>
+    <string name="converting_weibo_link">正在转换微博链接…</string>
 
     <!-- gallery -->
     <string name="download_finished_but_cant_read_picture_file">下载完成，但是无法读取图片</string>
     <string name="picture_is_too_large_to_read_so_gallery_load_thumbnails_of_this_picture">        原图太大无法显示，载入缩略图</string>
-    <string name="picture_is_too_large_so_enable_software_layer">图片太大，启用软件渲染模式，滚动会掉帧……</string>
+    <string name="picture_is_too_large_so_enable_software_layer">图片太大，启用软件渲染模式，滚动会掉帧…</string>
     <string name="picture_read_failed">图片解析失败</string>
-    <string name="wait_for_download_picture">等待图片下载……</string>
+    <string name="wait_for_download_picture">等待图片下载…</string>
     <string name="picture_cant_download_or_sd_cant_read">图片下载失败或是SD卡无法读取</string>
 
     <!-- user dialog -->
@@ -441,7 +441,7 @@
     <string name="notification">通知</string>
     <string name="silent">静音</string>
     <string name="enable_fetch_new_msg">获取未读的消息</string>
-    <string name="start_fetch_msg">开始后台自动获取……</string>
+    <string name="start_fetch_msg">开始后台自动获取…</string>
     <string name="frequency">间隔</string>
     <string name="stopped">已终止</string>
     <string name="you_have_new_unread_count">你有 %s 条新未读消息</string>
@@ -500,7 +500,7 @@
     <string name="pref_click_to_clean_cache">点击清理缓存图片</string>
     <string name="start_clean_cache">开始清理缓存</string>
     <string name="clean_cache_finish">清理完成</string>
-    <string name="getting_cache_size">缓存大小正在统计……</string>
+    <string name="getting_cache_size">缓存大小正在统计…</string>
     <string name="pref_max_file_cache_size_is_300mb_current_size_is">最大缓存体积 300MB，当前已用 %s</string>
     <string name="please_insert_sd_card">请插入SD卡</string>
     <string name="pref_black_magic_title">黑魔法</string>
@@ -516,7 +516,7 @@
     <string name="pref_official_weibo_title">"@andforce</string>
     <string name="pref_recommend_title">推荐给微博好友</string>
     <string name="pref_donate_summary">捐之前想清楚，下个版本不一定会支持你的设备</string>
-    <string name="donate_summary2">没钱好痛苦……_(:3」∠)_</string>
+    <string name="donate_summary2">没钱好痛苦…_(:3」∠)_</string>
     <string name="pref_play_store_address_title">去App市场反馈</string>
     <string name="pref_play_store_address_summary">打分支持该应用</string>
     <string name="pref_github_title">Github</string>
