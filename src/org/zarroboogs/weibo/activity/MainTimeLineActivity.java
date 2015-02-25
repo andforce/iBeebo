@@ -105,6 +105,8 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         GlobalContext.getInstance().setAccountBean(mAccountBean);
         SettingUtils.setDefaultAccountId(mAccountBean.getUid());
 
+        setContentView(R.layout.layout_main_time_line_activity);
+        
         buildInterface(savedInstanceState);
 
         mScrollTopBtn = (Button) findViewById(R.id.scrollToTopBtn);
@@ -132,7 +134,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
     private void buildInterface(Bundle savedInstanceState) {
-        setContentView(R.layout.layout_main_time_line_activity);
+        
         mToolbar = (Toolbar) findViewById(R.id.mainTimeLineToolBar);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);

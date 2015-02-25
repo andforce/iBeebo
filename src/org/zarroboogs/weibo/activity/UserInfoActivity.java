@@ -122,12 +122,12 @@ public class UserInfoActivity extends AbstractAppActivity {
                 }
             }
             fetchUserInfoFromServer();
-            // findViewById(android.R.id.content).setBackgroundDrawable(ThemeUtility.getDrawable(android.R.attr.windowBackground));
         } else {
-            // findViewById(android.R.id.content).setBackgroundDrawable(ThemeUtility.getDrawable(android.R.attr.windowBackground));
             buildContent();
         }
 
+        findViewById(R.id.userInfoFragmentContent).setBackgroundColor(getResources().getColor(R.color.gray));
+        
         if (isMyselfProfile()) {
             if (getClass() == MyInfoActivity.class) {
                 return;
@@ -185,7 +185,7 @@ public class UserInfoActivity extends AbstractAppActivity {
     }
 
     private void initLayout() {
-        getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+//        getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
         // getActionBar().setDisplayHomeAsUpEnabled(true);
         // getActionBar().setDisplayShowHomeEnabled(false);
@@ -204,7 +204,7 @@ public class UserInfoActivity extends AbstractAppActivity {
                 if (getSupportFragmentManager().findFragmentByTag(UserInfoFragment.class.getName()) == null) {
                     userInfoFragment = UserInfoFragment.newInstance(mUserInfoToolbar,getUser(), getToken());
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.content, userInfoFragment, UserInfoFragment.class.getName()).commit();
+                            .replace(R.id.userInfoFragmentContent, userInfoFragment, UserInfoFragment.class.getName()).commit();
                     getSupportFragmentManager().executePendingTransactions();
 
                     AnimationUtility.translateFragmentY(userInfoFragment, -400, 0, userInfoFragment);

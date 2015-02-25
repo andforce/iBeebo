@@ -50,12 +50,10 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -189,7 +187,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        view.setBackgroundDrawable(null);
+//        view.setBackgroundDrawable(null);
         header = inflater.inflate(R.layout.newuserinfofragment_header_layout, getListView(), false);
         getListView().addHeaderView(header);
 
@@ -282,6 +280,8 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getPullToRefreshListView().setMode(PullToRefreshBase.Mode.DISABLED);
+        getPullToRefreshListView().setPullToRefreshOverScrollEnabled(false);
+        
         getPullToRefreshListView().setOnLastItemVisibleListener(null);
         getPullToRefreshListView().getRefreshableView().setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         viewPager.setOnTouchListener(new View.OnTouchListener() {

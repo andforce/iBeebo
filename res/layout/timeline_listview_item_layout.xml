@@ -4,7 +4,7 @@
     android:id="@+id/listview_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?listview_item_background_selector"
+    android:background="@drawable/listview_item_background_selector_light"
     android:clickable="false"
     android:descendantFocusability="blocksDescendants" >
 
@@ -223,7 +223,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/contentMain"
-            android:background="?listview_item_background_selector"
+            android:background="@drawable/button_background_selector"
             android:focusable="false"
             android:src="@drawable/ic_speaker_notes_grey600_24dp"
             tools:ignore="RtlHardcoded" />
@@ -234,7 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/contentMain"
             android:layout_toLeftOf="@id/commentButton"
-            android:background="?listview_item_background_selector"
+            android:background="@drawable/button_background_selector"
             android:focusable="false"
             android:src="@drawable/ic_launch_grey600_24dp" />
 
@@ -244,7 +244,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/contentMain"
-            android:background="?listview_item_background_selector"
+            android:background="@drawable/button_background_selector"
             android:focusable="false"
             android:src="@drawable/reply_to_comment_dark"
             android:visibility="gone" />
@@ -255,7 +255,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/contentMain"
             android:layout_toLeftOf="@id/addComment"
-            android:background="?listview_item_background_selector"
+            android:background="@drawable/button_background_selector"
             android:focusable="false"
             android:src="@drawable/accountactivity_remove_dark"
             android:visibility="gone" />
@@ -266,7 +266,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/contentMain"
             android:layout_toLeftOf="@id/repostButton"
-            android:background="?listview_item_background_selector"
+            android:background="@drawable/button_background_selector"
             android:focusable="false"
             android:src="@drawable/give_heart_dark" />
     </RelativeLayout>
