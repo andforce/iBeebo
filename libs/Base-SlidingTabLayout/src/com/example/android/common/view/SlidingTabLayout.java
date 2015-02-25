@@ -16,6 +16,7 @@
 
 package com.example.android.common.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -46,6 +47,7 @@ import android.widget.TextView;
  * The views used as tabs can be customized by calling {@link #setCustomTabView(int, int)},
  * providing the layout ID of your custom layout.
  */
+@SuppressLint("NewApi")
 public class SlidingTabLayout extends HorizontalScrollView {
 
     /**
@@ -176,6 +178,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         textView.setTypeface(Typeface.DEFAULT_BOLD);
         // add by andforce
         textView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        textView.setTextColor(getResources().getColor(android.R.color.white));
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // If we're running on Honeycomb or newer, then we can use the Theme's

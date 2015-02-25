@@ -143,14 +143,15 @@ class SlidingTabStrip extends LinearLayout {
                         (1.0f - mSelectionOffset) * right);
             }
 
-            mSelectedIndicatorPaint.setColor(color);
-
-            canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
-                    height, mSelectedIndicatorPaint);
+            // edit by andforce
+            //mSelectedIndicatorPaint.setColor(color);
+            mSelectedIndicatorPaint.setColor(getResources().getColor(android.R.color.white));
+            canvas.drawRect(left, height - mSelectedIndicatorThickness + 6 , right, height - 5, mSelectedIndicatorPaint);
         }
 
         // Thin underline along the entire bottom edge
-        canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
+        // edit by andfore
+        //canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
 
         // Vertical separators between the titles
         int separatorTop = (height - dividerHeightPx) / 2;
