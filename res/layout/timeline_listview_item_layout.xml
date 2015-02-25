@@ -152,23 +152,10 @@
                 android:useDefaultMargins="false"
                 android:visibility="gone" >
 
-                <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    layout="@layout/repost_nine_pic_layout" />
             </GridLayout>
 
             <RelativeLayout
@@ -222,23 +209,10 @@
                     android:useDefaultMargins="false"
                     android:visibility="gone" >
 
-                    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
-
-                    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+                    <include
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        layout="@layout/repost_nine_pic_layout" />
                 </GridLayout>
             </RelativeLayout>
         </RelativeLayout>
