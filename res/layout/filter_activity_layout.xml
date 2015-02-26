@@ -13,7 +13,7 @@
         android:background="?attr/colorPrimary"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="@string/app_name" >
+        app:title="@string/filter" >
     </android.support.v7.widget.Toolbar>
 
     <com.example.android.common.view.SlidingTabLayout
@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:background="@color/md_actionbar_bg_color"
         android:layout_below="@id/viewPagerToolBar" />
 
     <android.support.v4.view.ViewPager
