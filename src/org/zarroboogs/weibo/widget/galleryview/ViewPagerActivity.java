@@ -11,8 +11,10 @@ import org.zarroboogs.weibo.widget.galleryview.PhotoViewAttacher.OnViewTapListen
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 public class ViewPagerActivity extends AbstractViewPagerActivity implements OnViewTapListener, View.OnClickListener {
 
@@ -42,11 +44,12 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 
     private List<String> mNinePics;
 
-    private Button mDeletePicBtn;
     
     public static final String IMG_LIST = "img_list";
     public static final String IMG_ID = "img_id";
 
+    private Toolbar mToolbar;
+    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -57,9 +60,8 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 
         setContentView(R.layout.weibo_single_gallery_activity);
 
-        mDeletePicBtn = (Button) findViewById(R.id.gallery_delete_btn);
-        mDeletePicBtn.setOnClickListener(this);
-
+        mToolbar = (Toolbar) findViewById(R.id.selectImgBar);
+        
         mViewPager = (ViewPager) findViewById(R.id.weibo_nine_pic_gallery);
 
         mPhotoViewAdapter = new WeiboGalleryPhotoViewAdapter(getApplicationContext(), mViewPager);
@@ -73,6 +75,26 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
             mPhotoViewAdapter.setNinePics(mNinePics);
             addGalleryViewActionBar(mPhotoViewAdapter);
         }
+        
+        mToolbar.inflateMenu(R.menu.select_image_action_menu);
+        
+        mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem arg0) {
+				// TODO Auto-generated method stub
+				if (arg0.getItemId() == R.id.change_image) {
+					
+				}else if(arg0.getItemId() == R.id.delete_image){
+					if (mNinePics != null && !mNinePics.isEmpty()) {
+						mNinePics.remove(selected_id);
+						mPhotoViewAdapter.setNinePics(mNinePics);
+						mPhotoViewAdapter.notifyDataSetChanged();
+					}
+				}
+				return false;
+			}
+		});
     }
 
     @Override
@@ -120,14 +142,13 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
     @Override
     public void onClick(View arg0) {
         int id = arg0.getId();
-        if (id == R.id.gallery_delete_btn) {
-            if (mNinePics != null && !mNinePics.isEmpty()) {
-                mNinePics.remove(selected_id);
-                mPhotoViewAdapter.setNinePics(mNinePics);
-                mPhotoViewAdapter.notifyDataSetChanged();
-            }
-        } else {
-        }
+//        if (id == R.id.gallery_delete_btn) {
+//            if (mNinePics != null && !mNinePics.isEmpty()) {
+//                mNinePics.remove(selected_id);
+//                mPhotoViewAdapter.setNinePics(mNinePics);
+//                mPhotoViewAdapter.notifyDataSetChanged();
+//            }
+//        } 
 
     }
 

@@ -564,4 +564,8 @@
     <string name="weibo_text_large_error">字数超出限制</string>
 
     <string name="select_img_title">选取图片</string>
+    
+   	<string name="delete_image">删除</string>
+   	<string name="change_image">更换</string>
+    
 </resources>
