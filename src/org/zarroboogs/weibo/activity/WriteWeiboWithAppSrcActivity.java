@@ -1,8 +1,12 @@
 
 package org.zarroboogs.weibo.activity;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +20,14 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
+import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
+import org.zarroboogs.weibo.bean.HotWeiboBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
@@ -36,6 +42,9 @@ import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
+import com.crashlytics.android.internal.s;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -277,33 +286,106 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             }
         });
     }
+    
+    String test = "";
 
     protected void fetchAppSrc() {
-        fetchWeiBa(new OnFetchAppSrcListener() {
+    	
+    	String json = readStringFromAssert().replaceAll(" ", "");
+    	if (json.length() > 3000) {
+        	Log.d("===========after_READ_JSON_DONE:", "\r\n"+ json.substring(0, 3000));
+        	Log.d("===========after_READ_JSON_DONE:", "\r\n"+ json.substring(3000, json.length()));
+		}else {
+			Log.d("===========after_READ_JSON_DONE:", "\r\n"+ json);
+		}
 
-            @Override
-            public void onSuccess(List<WeiboWeiba> appsrcs) {
-                for (WeiboWeiba weiboWeiba : appsrcs) {
-                    if (mDBmanager.searchAppsrcByCode(weiboWeiba.getCode()) == null) {
-                        mDBmanager.insertCategoryTree(0, weiboWeiba.getCode(), weiboWeiba.getText());
-                    }
-                }
-                listView.onRefreshComplete();
-                listAdapter.setWeibas(mDBmanager.fetchAllAppsrc());
-                hideDialogForWeiBo();
-            }
+//    	Log.d("===========after_READ_JSON_DONE:", "\r\n"+ json.substring(6001, json.length()));
+    	
+    	
+    	Gson gson = new Gson();
+    	HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
+    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
+		
+            
+		if (false) {
+	    	getAsyncHttpClient().get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", 1), new AsyncHttpResponseHandler() {
+				
+				@Override
+				public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+					// TODO Auto-generated method stub
+					Gson gson = new Gson();
+					HotWeiboBean hotWeiboBean = gson.fromJson(new String(responseBody), HotWeiboBean.class);
+					Toast.makeText(getApplicationContext(), hotWeiboBean.getCardlistInfo().getDesc(), Toast.LENGTH_LONG).show();
+				}
+				
+				@Override
+				public void onFailure(int statusCode, Header[] headers,
+						byte[] responseBody, Throwable error) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
 
-            @Override
-            public void onStart() {
-                showDialogForWeiBo();
-            }
+		fetchWeiBa(new OnFetchAppSrcListener() {
 
-            @Override
-            public void onFailure() {
-                hideDialogForWeiBo();
-            }
-        });
+			@Override
+			public void onSuccess(List<WeiboWeiba> appsrcs) {
+				for (WeiboWeiba weiboWeiba : appsrcs) {
+					if (mDBmanager.searchAppsrcByCode(weiboWeiba.getCode()) == null) {
+						mDBmanager.insertCategoryTree(0, weiboWeiba.getCode(),
+								weiboWeiba.getText());
+					}
+				}
+				listView.onRefreshComplete();
+				listAdapter.setWeibas(mDBmanager.fetchAllAppsrc());
+				hideDialogForWeiBo();
+			}
+
+			@Override
+			public void onStart() {
+				showDialogForWeiBo();
+			}
+
+			@Override
+			public void onFailure() {
+				hideDialogForWeiBo();
+			}
+		});
     }
+
+	private String readStringFromAssert() {
+		InputStream json = null;
+		try {
+			json = getAssets().open("test.json");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		InputStreamReader read = new InputStreamReader(json);// 考虑到编码格式
+		BufferedReader bufferedReader = new BufferedReader(read);
+		StringBuffer sb = new StringBuffer();
+		String lineTxt = "";
+		try {
+			while ((lineTxt = bufferedReader.readLine()) != null) {
+//				Log.d("READ_JSON:", "" + lineTxt);
+//				lineTxt += lineTxt.trim();
+				sb.append(lineTxt);
+			}
+			Log.d("===========READ_JSON_DONE:", "" + sb.toString());
+//			lineTxt = "";
+//			while ((lineTxt = bufferedReader.readLine()) != null) {
+//				lineTxt += lineTxt.trim();
+//			}
+//			Log.d("===========READ_JSON_DONE:", "" + lineTxt);
+			read.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
 
     class MyDrawerToggle extends ActionBarDrawerToggle {
 

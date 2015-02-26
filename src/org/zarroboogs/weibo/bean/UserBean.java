@@ -6,9 +6,6 @@ import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * User: qii Date: 12-7-29
- */
 public class UserBean implements Parcelable {
 
     public static final int V_TYPE_NONE = -1;
