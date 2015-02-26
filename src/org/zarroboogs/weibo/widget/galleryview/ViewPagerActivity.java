@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.List;
 
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.widget.galleryview.PhotoViewAttacher.OnViewTapListener;
 
 import android.os.Bundle;
@@ -94,7 +95,7 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 						mPhotoViewAdapter.setNinePics(mNinePics);
 						mPhotoViewAdapter.notifyDataSetChanged();
 						
-						
+						SendImgData.getInstance().removeSendImg(mNinePics.get(mPicId));
 					}
 					if (mNinePics != null && mNinePics.isEmpty()) {
 						mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-0");

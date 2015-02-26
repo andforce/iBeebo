@@ -375,6 +375,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getName());
         MobclickAgent.onResume(this);
+        
+        refreshNineGridView();
     }
 
     @Override
@@ -434,6 +436,9 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         mRootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
         ImageLoader.getInstance().stop();
         getAppSrcSharedPreference().unregisterOnSharedPreferenceChangeListener(this);
+        
+        SendImgData.getInstance().clearSendImgs();
+        SendImgData.getInstance().clearReSizeImgs();
     }
 
     @Override
@@ -442,47 +447,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         if (resultCode == RESULT_OK && requestCode == ChangeWeibaActivity.REQUEST) {
             appSrcBtn.setText(getWeiba().getText());
         } else if (resultCode == RESULT_OK && requestCode == ImgFileListActivity.REQUEST_CODE) {
-            SendImgData sid = SendImgData.getInstance();
-            ArrayList<String> imgs = sid.getSendImgs();
-            if (imgs.size() > 0) {
-                sendImgTL.setVisibility(View.VISIBLE);
-            }
-            for (int i = 0; i < imgs.size(); i++) {
-                ImageView iv = mSelectImageViews.get(i);
-                mImageLoader.displayImage("file://" + imgs.get(i), iv, options);
-                iv.setVisibility(View.VISIBLE);
-                // BitmapWorkerTask mWorkerTask = new BitmapWorkerTask(iv);
-                // mWorkerTask.execute(imgs.get(i));
-            }
+            refreshNineGridView();
 
-            int offset = imgs.size() % 3;
-            int row = offset == 0 ? imgs.size() / 3 : imgs.size() / 3 + 1;
-            if (imgs.size() > 0) {
-                switch (row) {
-                    case 1:
-                        mRow001.setVisibility(View.VISIBLE);
-                        break;
-                    case 2: {
-                        mRow001.setVisibility(View.VISIBLE);
-                        mRow002.setVisibility(View.VISIBLE);
-                        break;
-                    }
-
-                    case 3: {
-                        mRow001.setVisibility(View.VISIBLE);
-                        mRow002.setVisibility(View.VISIBLE);
-                        mRow003.setVisibility(View.VISIBLE);
-                        break;
-                    }
-
-                    default:
-                        break;
-                }
-            }
-
-            for (String s : imgs) {
-                Log.d("IMG_", "   " + s + "/////" + mSelectImageViews.size());
-            }
         } else if (resultCode == RESULT_OK && requestCode == AT_USER && data != null) {
             String name = data.getStringExtra("name");
             String ori = mEditText.getText().toString();
@@ -493,6 +459,46 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             mEditText.setSelection(index + name.length());
         }
     }
+
+	private void refreshNineGridView() {
+		SendImgData sid = SendImgData.getInstance();
+		ArrayList<String> imgs = sid.getSendImgs();
+		if (imgs.size() > 0) {
+		    sendImgTL.setVisibility(View.VISIBLE);
+		}
+		for (int i = 0; i < imgs.size(); i++) {
+		    ImageView iv = mSelectImageViews.get(i);
+		    mImageLoader.displayImage("file://" + imgs.get(i), iv, options);
+		    iv.setVisibility(View.VISIBLE);
+		    // BitmapWorkerTask mWorkerTask = new BitmapWorkerTask(iv);
+		    // mWorkerTask.execute(imgs.get(i));
+		}
+
+		int offset = imgs.size() % 3;
+		int row = offset == 0 ? imgs.size() / 3 : imgs.size() / 3 + 1;
+		if (imgs.size() > 0) {
+		    switch (row) {
+		        case 1:
+		            mRow001.setVisibility(View.VISIBLE);
+		            break;
+		        case 2: {
+		            mRow001.setVisibility(View.VISIBLE);
+		            mRow002.setVisibility(View.VISIBLE);
+		            break;
+		        }
+
+		        case 3: {
+		            mRow001.setVisibility(View.VISIBLE);
+		            mRow002.setVisibility(View.VISIBLE);
+		            mRow003.setVisibility(View.VISIBLE);
+		            break;
+		        }
+
+		        default:
+		            break;
+		    }
+		}
+	}
 
     @Override
     public void onBackPressed() {
