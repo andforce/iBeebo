@@ -6,9 +6,9 @@
         android:id="@+id/delete_image"
         android:title="@string/delete_image"
         app:showAsAction="always"/>
-    <item
+<!--     <item
         android:id="@+id/change_image"
         android:title="@string/change_image"
-        app:showAsAction="always"/>
+        app:showAsAction="always"/> -->
 
 </menu>

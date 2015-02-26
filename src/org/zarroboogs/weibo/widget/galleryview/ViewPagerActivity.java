@@ -87,9 +87,10 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 			@Override
 			public boolean onMenuItemClick(MenuItem arg0) {
 				// TODO Auto-generated method stub
-				if (arg0.getItemId() == R.id.change_image) {
-					
-				}else if(arg0.getItemId() == R.id.delete_image){
+//				if (arg0.getItemId() == R.id.change_image) {
+//					
+//				}else 
+				if(arg0.getItemId() == R.id.delete_image){
 					if (mNinePics != null && !mNinePics.isEmpty()) {
 						SendImgData.getInstance().removeSendImg(mNinePics.remove(mViewPager.getCurrentItem()));
 							mPhotoViewAdapter.setNinePics(mNinePics);
