@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/top_relativelayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/selectImgBar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="48dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/select_img_title" />
+
+    <Button
+        android:id="@+id/gallery_delete_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/delete" />
+
+    <org.zarroboogs.weibo.widget.galleryview.WeiboGifView
+        android:id="@+id/weibo_wdy_gif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/gallery_delete_btn"
+        android:layout_below="@id/selectImgBar"
+        android:layout_centerInParent="true" />
+
+    <org.zarroboogs.weibo.widget.galleryview.HackyViewPager
+        android:id="@+id/weibo_nine_pic_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/gallery_delete_btn"
+        android:layout_below="@id/selectImgBar" />
+
+</RelativeLayout>

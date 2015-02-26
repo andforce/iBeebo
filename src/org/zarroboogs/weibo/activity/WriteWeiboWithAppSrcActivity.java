@@ -31,6 +31,7 @@ import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
+import org.zarroboogs.weibo.widget.galleryview.ViewPagerActivity;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
@@ -180,6 +181,16 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         mImageView008 = (ImageView) findViewById(R.id.IVRow302);
         mImageView009 = (ImageView) findViewById(R.id.IVRow303);
 
+        mImageView001.setOnClickListener(this);
+        mImageView002.setOnClickListener(this);
+        mImageView003.setOnClickListener(this);
+        mImageView004.setOnClickListener(this);
+        mImageView005.setOnClickListener(this);
+        mImageView006.setOnClickListener(this);
+        mImageView007.setOnClickListener(this);
+        mImageView008.setOnClickListener(this);
+        mImageView009.setOnClickListener(this);
+        
         mSelectImageViews.add(mImageView001);
         mSelectImageViews.add(mImageView002);
         mSelectImageViews.add(mImageView003);
@@ -637,7 +648,72 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 			Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
 			startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
 		} else {
+			
+			Intent intent = new Intent(this, ViewPagerActivity.class);
+			intent.putStringArrayListExtra(ViewPagerActivity.IMG_LIST, SendImgData.getInstance().getSendImgs());
+			switch (id) {
+			case R.id.IVRow101: {
+				intent.putExtra(ViewPagerActivity.IMG_ID, 0);
+				startActivity(intent);
+				break;
+			}
+			case R.id.IVRow102: {
+				intent.putExtra(ViewPagerActivity.IMG_ID, 1);
+				startActivity(intent);
+				break;
+			}
+			case R.id.IVRow103: {
+				intent.putExtra(ViewPagerActivity.IMG_ID, 2);
+				startActivity(intent);
+				break;
+			}
+			case R.id.IVRow201: {
+				intent.putExtra(ViewPagerActivity.IMG_ID, 3);
+				startActivity(intent);
+				break;
+			}
+			case R.id.IVRow202: {
+				intent.putExtra(ViewPagerActivity.IMG_ID, 4);
+				startActivity(intent);
+				break;
+			}
+			case R.id.IVRow203: {
+				intent.putExtra(ViewPagerActivity.IMG_ID, 5);
+				startActivity(intent);
+				break;
+			}
+			case R.id.IVRow301: {
+				intent.putExtra(ViewPagerActivity.IMG_ID, 6);
+				startActivity(intent);
+				break;
+			}
+			case R.id.IVRow302: {
+				intent.putExtra(ViewPagerActivity.IMG_ID,7);
+				startActivity(intent);
+				break;
+			}
+			case R.id.IVRow303: {
+				intent.putExtra(ViewPagerActivity.IMG_ID, 8);
+				startActivity(intent);
+				break;
+			}
+	
+			default:
+				break;
 		}
+		}
+		
+//        mImageView001 = (ImageView) findViewById(R.id.IVRow101);
+//        mImageView002 = (ImageView) findViewById(R.id.IVRow102);
+//        mImageView003 = (ImageView) findViewById(R.id.IVRow103);
+//        mImageView004 = (ImageView) findViewById(R.id.IVRow201);
+//        mImageView005 = (ImageView) findViewById(R.id.IVRow202);
+//        mImageView006 = (ImageView) findViewById(R.id.IVRow203);
+//        mImageView007 = (ImageView) findViewById(R.id.IVRow301);
+//        mImageView008 = (ImageView) findViewById(R.id.IVRow302);
+//        mImageView009 = (ImageView) findViewById(R.id.IVRow303);
+        
+
 
     }
 

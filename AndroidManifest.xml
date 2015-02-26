@@ -337,6 +337,9 @@
             android:label="@string/app_name" >
         </activity>
 
+        <activity 
+            android:name="org.zarroboogs.weibo.widget.galleryview.ViewPagerActivity"
+            ></activity>
         <service
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService" >
