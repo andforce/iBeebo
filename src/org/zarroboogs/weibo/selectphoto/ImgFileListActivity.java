@@ -23,17 +23,17 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
 
     public static final int REQUEST_CODE = 0x0000;
     private ListView listView;
-    private Util util;
+    private SelectImgUtil util;
     private ImgFileListAdapter listAdapter;
     private List<FileTraversal> locallist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.img_file_list_activity);
+        setContentView(R.layout.select_imgdirs_activity_layout);
 
         listView = (ListView) findViewById(R.id.imageVileListView);
-        util = new Util(this);
+        util = new SelectImgUtil(this);
         locallist = util.LocalImgFileList();
         List<HashMap<String, String>> listdata = new ArrayList<HashMap<String, String>>();
         // Bitmap bitmap[] = null;

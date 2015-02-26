@@ -18,11 +18,11 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 
-public class Util {
+public class SelectImgUtil {
 
     Context context;
 
-    public Util(Context context) {
+    public SelectImgUtil(Context context) {
         this.context = context;
     }
 
@@ -33,11 +33,9 @@ public class Util {
         String[] proj = {
                 MediaStore.Images.Media.DATA
         };
-        Cursor cursor = context.getContentResolver().query(uri, proj, null, null, null);// managedQuery(uri,
-                                                                                        // proj,
-                                                                                        // null,
-                                                                                        // null,
-                                                                                        // null);
+        String orderBy = MediaStore.Images.Media.DATE_TAKEN + " DESC";
+        Cursor cursor = context.getContentResolver().query(uri, proj, null, null, orderBy);
+        
         while (cursor.moveToNext()) {
             String path = cursor.getString(0);
             list.add(new File(path).getAbsolutePath());

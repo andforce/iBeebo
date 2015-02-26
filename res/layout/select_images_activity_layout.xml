@@ -3,18 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="#EFEFEF" >
-        <android.support.v7.widget.Toolbar
-            android:layout_alignParentTop="true"
+    android:background="#EFEFEF"
+    android:fitsSystemWindows="true" >
+
+    <android.support.v7.widget.Toolbar
         android:id="@+id/mainTimeLineToolBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary"
         android:minHeight="48dp"
+        app:title="@string/select_img_title"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-        
 
     <RelativeLayout
         android:id="@+id/bottomActionBar"
@@ -35,12 +36,12 @@
     </RelativeLayout>
 
     <GridView
-        android:layout_marginTop="5dp"
         android:id="@+id/gridView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomActionBar"
         android:layout_below="@id/mainTimeLineToolBar"
+        android:layout_marginTop="5dp"
         android:listSelector="@color/bule_overlay"
         android:numColumns="4" >
     </GridView>

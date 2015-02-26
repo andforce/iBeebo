@@ -33,14 +33,14 @@ public class ImgsActivity extends Activity {
     private FileTraversal fileTraversal;
     private GridView imgGridView;
     private ImgsAdapter imgsAdapter;
-    private Util util;
+    private SelectImgUtil util;
     private Button mButton;
     private HashMap<Integer, ImageView> hashImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.photogrally);
+        setContentView(R.layout.select_images_activity_layout);
 
         mButton = (Button) findViewById(R.id.img_select_done);
         updateCount();
@@ -51,7 +51,7 @@ public class ImgsActivity extends Activity {
         imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent, onItemClickClass);
         imgGridView.setAdapter(imgsAdapter);
         hashImage = new HashMap<Integer, ImageView>();
-        util = new Util(this);
+        util = new SelectImgUtil(this);
     }
 
     @Override
