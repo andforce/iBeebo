@@ -5,13 +5,15 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.activity.TranslucentStatusBarActivity;
 import org.zarroboogs.weibo.selectphoto.ImgsAdapter.OnItemClickClass;
 
 import com.umeng.analytics.MobclickAgent;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +27,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class ImgsActivity extends Activity {
+public class ImgsActivity extends TranslucentStatusBarActivity {
 
     public static final int REQUEST_CODE = 0x0001;
     private SendImgData mSendImgData = SendImgData.getInstance();
@@ -34,17 +36,17 @@ public class ImgsActivity extends Activity {
     private GridView imgGridView;
     private ImgsAdapter imgsAdapter;
     private SelectImgUtil util;
-    private Button mButton;
     private HashMap<Integer, ImageView> hashImage;
 
+    private Toolbar mToolbar;
+    private MenuItem mMenuItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_images_activity_layout);
 
-        mButton = (Button) findViewById(R.id.img_select_done);
-        updateCount();
-        mButton.setOnClickListener(new SelectDoneListener());
+        mToolbar = (Toolbar) findViewById(R.id.selectImgsToobar);
+        
         imgGridView = (GridView) findViewById(R.id.gridView1);
         bundle = getIntent().getExtras();
         fileTraversal = bundle.getParcelable("data");
@@ -52,6 +54,23 @@ public class ImgsActivity extends Activity {
         imgGridView.setAdapter(imgsAdapter);
         hashImage = new HashMap<Integer, ImageView>();
         util = new SelectImgUtil(this);
+        
+        mToolbar.inflateMenu(R.menu.imgs_activity_menu);
+        mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem arg0) {
+				// TODO Auto-generated method stub
+				if (arg0.getItemId() == R.id.select_done) {
+		            setResult(RESULT_OK);
+		            finish();
+				}
+				return false;
+			}
+		});
+        mMenuItem = mToolbar.getMenu().findItem(R.id.select_done);
+        
+        updateCount(mMenuItem);
     }
 
     @Override
@@ -70,18 +89,8 @@ public class ImgsActivity extends Activity {
         MobclickAgent.onPause(this);
     }
 
-    private void updateCount() {
-        mButton.setText(getString(R.string.img_select) + "(" + mSendImgData.getSendImgs().size() + ")");
-    }
-
-    class SelectDoneListener implements OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            setResult(RESULT_OK);
-            finish();
-        }
-
+    private void updateCount(MenuItem menuItem) {
+    	menuItem.setTitle(getString(R.string.img_select) + "(" + mSendImgData.getSendImgs().size() + ")");
     }
 
     @Override
@@ -176,7 +185,7 @@ public class ImgsActivity extends Activity {
                 }
             }
 
-            updateCount();
+            updateCount(mMenuItem);
         }
     };
 }
