@@ -71,6 +71,8 @@ public class WeiboGalleryPhotoViewAdapter extends PagerAdapter {
         }
         return lis.size();
     }
+    
+    
 
     @Override
     public Object instantiateItem(View container, final int position) {
@@ -88,7 +90,9 @@ public class WeiboGalleryPhotoViewAdapter extends PagerAdapter {
             task.setOnCreateBitmapListener(new OnCreateBitmapListener() {
                 @Override
                 public void onCreateBitmap(Bitmap newBitmap) {
-                    mLruCaches.put(lis.get(position), newBitmap);
+                	if (!lis.isEmpty()) {
+                        mLruCaches.put(lis.get(position), newBitmap);
+					}
                 }
             });
             // add to set

@@ -91,11 +91,9 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 					
 				}else if(arg0.getItemId() == R.id.delete_image){
 					if (mNinePics != null && !mNinePics.isEmpty()) {
-						mNinePics.remove(mPicId);
-						mPhotoViewAdapter.setNinePics(mNinePics);
-						mPhotoViewAdapter.notifyDataSetChanged();
-						
-						SendImgData.getInstance().removeSendImg(mNinePics.get(mPicId));
+						SendImgData.getInstance().removeSendImg(mNinePics.remove(mViewPager.getCurrentItem()));
+							mPhotoViewAdapter.setNinePics(mNinePics);
+							mPhotoViewAdapter.notifyDataSetChanged();
 					}
 					if (mNinePics != null && mNinePics.isEmpty()) {
 						mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-0");

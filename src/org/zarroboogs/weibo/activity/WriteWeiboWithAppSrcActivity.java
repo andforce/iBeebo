@@ -65,12 +65,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,29 +95,13 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     private ImageButton mAtButton;
 
     private Button appSrcBtn;
-    TableLayout sendImgTL;
 
     AccountBean mAccountBean;
 
     private boolean isKeyBoardShowed = false;
     private ScrollView mEditPicScrollView;
-    private RelativeLayout mRow001;
-    private RelativeLayout mRow002;
-    private RelativeLayout mRow003;
-
-    private ImageView mImageView001;
-    private ImageView mImageView002;
-    private ImageView mImageView003;
-    private ImageView mImageView004;
-    private ImageView mImageView005;
-    private ImageView mImageView006;
-    private ImageView mImageView007;
-    private ImageView mImageView008;
-    private ImageView mImageView009;
 
     private TextView weiTextCountTV;
-
-    ArrayList<ImageView> mSelectImageViews = new ArrayList<ImageView>();
 
     ArrayList<ImageView> mEmotionArrayList = new ArrayList<ImageView>();
 
@@ -138,6 +122,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     private SendImgData sendImgData;
 
+    private GridView mNinePicGridView;
+    private NinePicGriViewAdapter mNinePicAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,45 +147,27 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         editTextLayout = (RelativeLayout) findViewById(R.id.editTextLayout);
 
         weiTextCountTV = (TextView) findViewById(R.id.weiTextCountTV);
-        sendImgTL = (TableLayout) findViewById(R.id.sendImgTL_ref);
-        sendImgTL.setVisibility(View.GONE);
+        
+        mNinePicAdapter = new NinePicGriViewAdapter(getApplicationContext());
+        mNinePicGridView = (GridView) findViewById(R.id.ninePicGridView);
+        mNinePicGridView.setAdapter(mNinePicAdapter);
 
-        mRow001 = (RelativeLayout) findViewById(R.id.sendPicRow01);
-        mRow002 = (RelativeLayout) findViewById(R.id.sendPicRow02);
-        mRow003 = (RelativeLayout) findViewById(R.id.sendPicRow03);
+        mNinePicGridView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+					Intent intent = new Intent(WriteWeiboWithAppSrcActivity.this, ViewPagerActivity.class);
+					intent.putStringArrayListExtra(ViewPagerActivity.IMG_LIST, SendImgData.getInstance().getSendImgs());
+					intent.putExtra(ViewPagerActivity.IMG_ID, position);
+					startActivity(intent);
+					
+			}
+		});
 
         appSrcBtn = (Button) findViewById(R.id.appSrcBtn);
         appSrcBtn.setText(getWeiba().getText());
-        Log.d("MAIN_", "" + sendImgTL.getChildCount());
-        mImageView001 = (ImageView) findViewById(R.id.IVRow101);
-        mImageView002 = (ImageView) findViewById(R.id.IVRow102);
-        mImageView003 = (ImageView) findViewById(R.id.IVRow103);
-        mImageView004 = (ImageView) findViewById(R.id.IVRow201);
-        mImageView005 = (ImageView) findViewById(R.id.IVRow202);
-        mImageView006 = (ImageView) findViewById(R.id.IVRow203);
-        mImageView007 = (ImageView) findViewById(R.id.IVRow301);
-        mImageView008 = (ImageView) findViewById(R.id.IVRow302);
-        mImageView009 = (ImageView) findViewById(R.id.IVRow303);
-
-        mImageView001.setOnClickListener(this);
-        mImageView002.setOnClickListener(this);
-        mImageView003.setOnClickListener(this);
-        mImageView004.setOnClickListener(this);
-        mImageView005.setOnClickListener(this);
-        mImageView006.setOnClickListener(this);
-        mImageView007.setOnClickListener(this);
-        mImageView008.setOnClickListener(this);
-        mImageView009.setOnClickListener(this);
-        
-        mSelectImageViews.add(mImageView001);
-        mSelectImageViews.add(mImageView002);
-        mSelectImageViews.add(mImageView003);
-        mSelectImageViews.add(mImageView004);
-        mSelectImageViews.add(mImageView005);
-        mSelectImageViews.add(mImageView006);
-        mSelectImageViews.add(mImageView007);
-        mSelectImageViews.add(mImageView008);
-        mSelectImageViews.add(mImageView009);
 
         mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
         mRootView = (RelativeLayout) findViewById(R.id.container);
@@ -460,44 +428,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         }
     }
 
-	private void refreshNineGridView() {
-		SendImgData sid = SendImgData.getInstance();
-		ArrayList<String> imgs = sid.getSendImgs();
-		if (imgs.size() > 0) {
-		    sendImgTL.setVisibility(View.VISIBLE);
-		}
-		for (int i = 0; i < imgs.size(); i++) {
-		    ImageView iv = mSelectImageViews.get(i);
-		    mImageLoader.displayImage("file://" + imgs.get(i), iv, options);
-		    iv.setVisibility(View.VISIBLE);
-		    // BitmapWorkerTask mWorkerTask = new BitmapWorkerTask(iv);
-		    // mWorkerTask.execute(imgs.get(i));
-		}
-
-		int offset = imgs.size() % 3;
-		int row = offset == 0 ? imgs.size() / 3 : imgs.size() / 3 + 1;
-		if (imgs.size() > 0) {
-		    switch (row) {
-		        case 1:
-		            mRow001.setVisibility(View.VISIBLE);
-		            break;
-		        case 2: {
-		            mRow001.setVisibility(View.VISIBLE);
-		            mRow002.setVisibility(View.VISIBLE);
-		            break;
-		        }
-
-		        case 3: {
-		            mRow001.setVisibility(View.VISIBLE);
-		            mRow002.setVisibility(View.VISIBLE);
-		            mRow003.setVisibility(View.VISIBLE);
-		            break;
-		        }
-
-		        default:
-		            break;
-		    }
-		}
+	private void refreshNineGridView() { 
+		mNinePicAdapter.notifyDataSetChanged();
 	}
 
     @Override
@@ -653,74 +585,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		} else if (id == R.id.imageButton1) {
 			Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
 			startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
-		} else {
-			
-			Intent intent = new Intent(this, ViewPagerActivity.class);
-			intent.putStringArrayListExtra(ViewPagerActivity.IMG_LIST, SendImgData.getInstance().getSendImgs());
-			switch (id) {
-			case R.id.IVRow101: {
-				intent.putExtra(ViewPagerActivity.IMG_ID, 0);
-				startActivity(intent);
-				break;
-			}
-			case R.id.IVRow102: {
-				intent.putExtra(ViewPagerActivity.IMG_ID, 1);
-				startActivity(intent);
-				break;
-			}
-			case R.id.IVRow103: {
-				intent.putExtra(ViewPagerActivity.IMG_ID, 2);
-				startActivity(intent);
-				break;
-			}
-			case R.id.IVRow201: {
-				intent.putExtra(ViewPagerActivity.IMG_ID, 3);
-				startActivity(intent);
-				break;
-			}
-			case R.id.IVRow202: {
-				intent.putExtra(ViewPagerActivity.IMG_ID, 4);
-				startActivity(intent);
-				break;
-			}
-			case R.id.IVRow203: {
-				intent.putExtra(ViewPagerActivity.IMG_ID, 5);
-				startActivity(intent);
-				break;
-			}
-			case R.id.IVRow301: {
-				intent.putExtra(ViewPagerActivity.IMG_ID, 6);
-				startActivity(intent);
-				break;
-			}
-			case R.id.IVRow302: {
-				intent.putExtra(ViewPagerActivity.IMG_ID,7);
-				startActivity(intent);
-				break;
-			}
-			case R.id.IVRow303: {
-				intent.putExtra(ViewPagerActivity.IMG_ID, 8);
-				startActivity(intent);
-				break;
-			}
-	
-			default:
-				break;
-		}
-		}
+		} 
 		
-//        mImageView001 = (ImageView) findViewById(R.id.IVRow101);
-//        mImageView002 = (ImageView) findViewById(R.id.IVRow102);
-//        mImageView003 = (ImageView) findViewById(R.id.IVRow103);
-//        mImageView004 = (ImageView) findViewById(R.id.IVRow201);
-//        mImageView005 = (ImageView) findViewById(R.id.IVRow202);
-//        mImageView006 = (ImageView) findViewById(R.id.IVRow203);
-//        mImageView007 = (ImageView) findViewById(R.id.IVRow301);
-//        mImageView008 = (ImageView) findViewById(R.id.IVRow302);
-//        mImageView009 = (ImageView) findViewById(R.id.IVRow303);
-        
-
-
     }
 
     private void showSmileyPicker(boolean showAnimation) {
@@ -790,10 +656,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
             SendImgData sid = SendImgData.getInstance();
             sid.clearSendImgs();
             sid.clearReSizeImgs();
-            sendImgTL.setVisibility(View.GONE);
-            for (int i = 0; i < 9; i++) {
-                mSelectImageViews.get(i).setVisibility(View.INVISIBLE);
-            }
 
             File[] cacheFiles = getExternalCacheDir().listFiles(new WeiBaCacheFile());
             for (File file : cacheFiles) {
