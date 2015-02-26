@@ -15,7 +15,7 @@
         android:minHeight="48dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="@string/select_img_title" />
+        app:title="@string/pref_pic_category_title" />
 
     <org.zarroboogs.weibo.widget.galleryview.WeiboGifView
         android:id="@+id/weibo_wdy_gif"

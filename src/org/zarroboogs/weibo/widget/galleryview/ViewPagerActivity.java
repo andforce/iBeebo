@@ -40,7 +40,7 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 
     private WeiboGalleryPhotoViewAdapter mPhotoViewAdapter;
 
-    private int selected_id = 0; // 选中哪张图了
+    private int mPicId = 0; // 选中哪张图了
 
     private List<String> mNinePics;
 
@@ -56,11 +56,14 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
         // mViewPager = new HackyViewPager(this);
 
         mNinePics = getIntent().getStringArrayListExtra(IMG_LIST);
-        selected_id = getIntent().getIntExtra(IMG_ID, 0);
+        mPicId = getIntent().getIntExtra(IMG_ID, 0);
 
         setContentView(R.layout.weibo_single_gallery_activity);
 
         mToolbar = (Toolbar) findViewById(R.id.selectImgBar);
+        
+        mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-" + (mPicId + 1));
+        
         
         mViewPager = (ViewPager) findViewById(R.id.weibo_nine_pic_gallery);
 
@@ -87,9 +90,14 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 					
 				}else if(arg0.getItemId() == R.id.delete_image){
 					if (mNinePics != null && !mNinePics.isEmpty()) {
-						mNinePics.remove(selected_id);
+						mNinePics.remove(mPicId);
 						mPhotoViewAdapter.setNinePics(mNinePics);
 						mPhotoViewAdapter.notifyDataSetChanged();
+						
+						
+					}
+					if (mNinePics != null && mNinePics.isEmpty()) {
+						mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-0");
 					}
 				}
 				return false;
@@ -110,7 +118,7 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
         // mLayout.addView(mViewPager, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
         // mViewPager.bringChildToFront(mViewPager.getChildAt(selected_id));
-        mViewPager.setCurrentItem(selected_id);
+        mViewPager.setCurrentItem(mPicId);
 
         mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -118,7 +126,8 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
             public void onPageSelected(int arg0) {
                 // TODO Auto-generated method stub
                 // mImageCounter.setText("" + (arg0 + 1) + "/100");
-                selected_id = arg0;
+                mPicId = arg0;
+                mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-" + (arg0 + 1));
             }
 
             @Override
