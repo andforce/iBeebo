@@ -16,7 +16,7 @@ import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.view.MenuItem;
 import android.view.View;
 
-public class ViewPagerActivity extends AbstractViewPagerActivity implements OnViewTapListener, View.OnClickListener {
+public class ViewPagerActivity extends AbstractViewPagerActivity implements OnViewTapListener {
 
     private ViewPager mViewPager;
     public static final int VIEW_TAP = 0x10000;
@@ -68,7 +68,7 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 
         mGifView = (WeiboGifView) findViewById(R.id.weibo_wdy_gif);
 
-        mGifView.setOnClickListener(this);
+//        mGifView.setOnClickListener(this);
 
         // 多图微博
         if (true) {
@@ -137,19 +137,6 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 
     public void onViewTap(View view, float x, float y) {
         // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onClick(View arg0) {
-        int id = arg0.getId();
-//        if (id == R.id.gallery_delete_btn) {
-//            if (mNinePics != null && !mNinePics.isEmpty()) {
-//                mNinePics.remove(selected_id);
-//                mPhotoViewAdapter.setNinePics(mNinePics);
-//                mPhotoViewAdapter.notifyDataSetChanged();
-//            }
-//        } 
-
     }
 
     @Override

@@ -4,13 +4,14 @@ package org.zarroboogs.weibo.widget.galleryview;
 import java.io.File;
 import java.util.Random;
 
-import android.app.Activity;
+import org.zarroboogs.weibo.activity.TranslucentStatusBarActivity;
+
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ProgressBar;
 
-public abstract class AbstractViewPagerActivity extends Activity {
+public abstract class AbstractViewPagerActivity extends TranslucentStatusBarActivity {
 
     public static final int START_PROGRESS = 0x30001;
     public static final int PLUS_PROGRESS = 0x30002;
