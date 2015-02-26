@@ -157,4 +157,29 @@ public class WeiBoURLs {
     public static final String DELETE_HEART = URL_SINA_WEIBO + "attitudes/destroy.json";
     // show heart
     public static final String SHOW_HEART = URL_SINA_WEIBO + "attitudes/show.json";
+    
+    // hack 小时热门微博
+    public static String hotWeiboUrl(String gsid, int page){
+		String url = "http://api.weibo.cn/2/cardlist?"
+				+ "gsid="+ gsid + "&"
+				+ "wm=3333_2001&"
+				+ "i=d5d6f09&"
+				+ "b=1&"
+				+ "from=1051293010&"
+				+ "c=iphone&"
+				+ "v_p=18&"
+				+ "skin=default&"
+				+ "v_f=1&"
+				+ "s=a57eef07&"
+				+ "lang=zh_CN&"
+				+ "ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&"
+				+ "uicode=10000011&"
+				+ "luicode=10000011&"
+				+ "count=10&"
+				+ "containerid=102803_ctg1_8999_-_ctg1_8999&"
+				+ "fid=102803_ctg1_8999_-_ctg1_8999&"
+				+ "lfid=102803&"
+				+ "page="+page+"";
+		return url;
+    }
 }
