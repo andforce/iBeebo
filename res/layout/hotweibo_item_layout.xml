@@ -159,7 +159,6 @@
             </GridLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/repost_flag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -169,7 +168,8 @@
                 android:layout_marginRight="0dp"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/repost_bg"
-                android:padding="10dp" >
+                android:padding="10dp"
+                android:visibility="gone" >
 
                 <TextView
                     android:id="@+id/repost_content"

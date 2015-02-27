@@ -2,9 +2,13 @@ package org.zarroboogs.weibo.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.HotMblogBean;
+import org.zarroboogs.weibo.bean.MessageBean;
+import org.zarroboogs.weibo.bean.MessageListBean;
+import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
 import org.zarroboogs.weibo.widget.TimeLineImageView;
@@ -202,8 +206,34 @@ public class HotWeiboAdapter extends BaseAdapter {
         return holder;
     }
 
-	public void addNewData(List<HotMblogBean> list) {
-		this.list.addAll(list);
-		notifyDataSetChanged();
-	}
+//	public void addNewData(List<HotMblogBean> list) {
+//		this.list.addAll(list);
+//		notifyDataSetChanged();
+//	}
+	
+    public void addNewData(List<HotMblogBean> newValue) {
+
+        if (newValue == null || newValue.size() == 0) {
+            return;
+        }
+
+        this.list.addAll(0, newValue);
+        
+        // remove duplicate null flag, [x,y,null,null,z....]
+ 
+        ListIterator<HotMblogBean> listIterator = this.list.listIterator();
+
+        boolean isLastItemNull = false;
+        while (listIterator.hasNext()) {
+        	HotMblogBean msg = listIterator.next();
+            if (msg == null) {
+                if (isLastItemNull) {
+                    listIterator.remove();
+                }
+                isLastItemNull = true;
+            } else {
+                isLastItemNull = false;
+            }
+        }
+    }
 }

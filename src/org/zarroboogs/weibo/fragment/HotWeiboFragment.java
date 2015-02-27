@@ -4,23 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
-import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.file.FileLocationMethod;
-import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.AppMapActivity;
-import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
-import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.adapter.HotWeiboAdapter;
-import org.zarroboogs.weibo.asynctask.GetWeiboLocationInfoTask;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
-import org.zarroboogs.weibo.bean.GeoBean;
 import org.zarroboogs.weibo.bean.HotCardBean;
 import org.zarroboogs.weibo.bean.HotMblogBean;
 import org.zarroboogs.weibo.bean.HotWeiboBean;
 import org.zarroboogs.weibo.bean.MessageBean;
+import org.zarroboogs.weibo.bean.MessageListBean;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.IWeiciyuanDrawable;
@@ -28,13 +22,11 @@ import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
 import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
 import org.zarroboogs.weibo.support.gallery.GalleryAnimationActivity;
 import org.zarroboogs.weibo.support.lib.AnimationRect;
-import org.zarroboogs.weibo.support.lib.ClickableTextViewMentionLinkOnTouchListener;
-import org.zarroboogs.weibo.support.utils.AppEventAction;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.widget.ProfileTopAvatarImageView;
-import org.zarroboogs.weibo.widget.SwipeFrameLayout;
+import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.WeiboDetailImageView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
+import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
 import com.google.gson.Gson;
@@ -42,16 +34,8 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -59,7 +43,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -67,8 +50,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class HotWeiboFragment extends BaseStateFragment {
-
-    private MessageBean msg;
 
     private MsgDetailReadWorker picTask;
     
@@ -80,27 +61,17 @@ public class HotWeiboFragment extends BaseStateFragment {
 
     private static final int OLD_REPOST_LOADER_ID = 4;
 
-
-    private TextView emptyHeader;
-
     private View footerView;
 
     private ActionMode actionMode;
 
     private boolean canLoadOldRepostData = true;
 
+    private int mPage = 1;
+    
+    private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
 
-    public static BrowserWeiboMsgFragment newInstance(MessageBean msg) {
-        BrowserWeiboMsgFragment fragment = new BrowserWeiboMsgFragment(msg);
-        return fragment;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable("msg", msg);
-    }
-
+    private PullToRefreshListView pullToRefreshListView;
     @Override
     public void onResume() {
         super.onResume();
@@ -111,12 +82,20 @@ public class HotWeiboFragment extends BaseStateFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout swipeFrameLayout = (RelativeLayout) inflater.inflate(R.layout.hotweibo_fragment_layout,container, false);
         
-        PullToRefreshListView pullToRefreshListView = (PullToRefreshListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);
+        pullToRefreshListView = (PullToRefreshListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);
 
-        pullToRefreshListView.setMode(PullToRefreshBase.Mode.DISABLED);
         pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
         pullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
+        pullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				// TODO Auto-generated method stub
+				loadNewRepostData();
+				refreshView.setRefreshing();
+			}
+        	
+		});
         listView = pullToRefreshListView.getRefreshableView();
 
 
@@ -139,30 +118,6 @@ public class HotWeiboFragment extends BaseStateFragment {
         loadNewRepostData();
         return swipeFrameLayout;
     }
-
-//    private void initView(View view, Bundle savedInstanceState) {
-//        layout = new BrowserWeiboMsgLayout();
-//        layout.username = (TextView) view.findViewById(R.id.username);
-//        layout.content = (TextView) view.findViewById(R.id.content);
-//        layout.recontent = (TextView) view.findViewById(R.id.repost_content);
-//        layout.time = (TextView) view.findViewById(R.id.time);
-//        layout.location = (TextView) view.findViewById(R.id.location);
-//        layout.source = (TextView) view.findViewById(R.id.source);
-//
-//        layout.mapView = (ImageView) view.findViewById(R.id.map);
-//
-//        layout.comment_count = (TextView) view.findViewById(R.id.comment_count);
-//        layout.repost_count = (TextView) view.findViewById(R.id.repost_count);
-//        layout.count_layout = view.findViewById(R.id.count_layout);
-//
-//        layout.avatar = (ProfileTopAvatarImageView) view.findViewById(R.id.avatar);
-//        layout.content_pic = (WeiboDetailImageView) view.findViewById(R.id.content_pic);
-//        layout.content_pic_multi = (GridLayout) view.findViewById(R.id.content_pic_multi);
-//        layout.repost_pic = (WeiboDetailImageView) view.findViewById(R.id.repost_content_pic);
-//        layout.repost_pic_multi = (GridLayout) view.findViewById(R.id.repost_content_pic_multi);
-//
-//        layout.repost_layout = (LinearLayout) view.findViewById(R.id.repost_layout);
-//    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -506,13 +461,12 @@ public class HotWeiboFragment extends BaseStateFragment {
 
 
     public void loadNewRepostData() {
-        	AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
-        	mAsyncHttoClient.get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", 2), new AsyncHttpResponseHandler() {
+        	mAsyncHttoClient.get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", mPage), new AsyncHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 				// TODO Auto-generated method stub
-				
+				mPage++;
 				String json = new String(responseBody).replace("", "");
 				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
 				
@@ -534,18 +488,43 @@ public class HotWeiboFragment extends BaseStateFragment {
 					Log.d("===========after_READ_JSON_DONE:", i.getUser().getId());
 				}
 				
-				adapter.addNewData(hotMblogBeans);
+//				adapter.addNewData(hotMblogBeans);
+				addNewDataAndRememberPosition(hotMblogBeans);
+				pullToRefreshListView.onRefreshComplete();
 			}
 			
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
 				// TODO Auto-generated method stub
-				
+				pullToRefreshListView.onRefreshComplete();
 			}
 		});
 	}
 
+    private void addNewDataAndRememberPosition(final List<HotMblogBean> newValue) {
+
+        int initSize = getListView().getCount();
+
+        if (getActivity() != null && newValue.size() > 0) {
+            adapter.addNewData(newValue);
+            int index = getListView().getFirstVisiblePosition();
+            adapter.notifyDataSetChanged();
+            int finalSize = getListView().getCount();
+            final int positionAfterRefresh = index + finalSize - initSize + getListView().getHeaderViewsCount();
+            // use 1 px to show newMsgTipBar
+            Utility.setListViewSelectionFromTop(getListView(), positionAfterRefresh, 1, new Runnable() {
+
+                @Override
+                public void run() {
+
+                }
+            });
+
+        }
+
+    }
+    
 
     public void loadOldRepostData() {
         if (getLoaderManager().getLoader(OLD_REPOST_LOADER_ID) != null || !canLoadOldRepostData) {
