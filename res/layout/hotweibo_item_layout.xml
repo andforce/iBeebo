@@ -159,6 +159,7 @@
             </GridLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/repost_flag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.adapter.AbstractAppListAdapter.ViewHolder;
 import org.zarroboogs.weibo.bean.HotMblogBean;
-import org.zarroboogs.weibo.support.asyncdrawable.IWeiciyuanDrawable;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
 import org.zarroboogs.weibo.widget.TimeLineImageView;
@@ -15,7 +13,6 @@ import org.zarroboogs.weibo.widget.TimeTextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.umeng.analytics.a;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -89,6 +86,7 @@ public class HotWeiboAdapter extends BaseAdapter {
 		
 		holder.repost_count.setText(blog.getReposts_count() + "");
 		holder.comment_count.setText(blog.getComments_count()+ "");
+		holder.count_layout.setVisibility(View.VISIBLE);
 		
 		Bitmap m = mImageLoader.loadImageSync(blog.getBmiddle_pic(), options);
 		
@@ -97,8 +95,6 @@ public class HotWeiboAdapter extends BaseAdapter {
 		final TimeLineImageView content_pic = holder.content_pic;
 		
 		loadContentPic(holder, blog, m, content_pic);
-		
-		TimeLineAvatarImageView avatar = holder.avatar;
 		mImageLoader.displayImage(blog.getUser().getAvatar_large(), holder.avatar);
 		
 		
