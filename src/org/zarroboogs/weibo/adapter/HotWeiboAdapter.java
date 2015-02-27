@@ -15,6 +15,7 @@ import org.zarroboogs.weibo.widget.TimeTextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.umeng.analytics.a;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -95,6 +96,17 @@ public class HotWeiboAdapter extends BaseAdapter {
 		
 		final TimeLineImageView content_pic = holder.content_pic;
 		
+		loadContentPic(holder, blog, m, content_pic);
+		
+		TimeLineAvatarImageView avatar = holder.avatar;
+		mImageLoader.displayImage(blog.getUser().getAvatar_large(), holder.avatar);
+		
+		
+		return convertView;
+	}
+
+	private void loadContentPic(ViewHolder holder, HotMblogBean blog, Bitmap m,
+			final TimeLineImageView content_pic) {
 		mImageLoader.loadImage(blog.getBmiddle_pic(),options, new SimpleImageLoadingListener(){
 
 			@Override
@@ -109,8 +121,6 @@ public class HotWeiboAdapter extends BaseAdapter {
 		});
 		holder.content_pic.setImageBitmap(m);
 		holder.content_pic.setVisibility(View.VISIBLE);
-		
-		return convertView;
 	}
 
     public static class ViewHolder {
