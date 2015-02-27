@@ -59,7 +59,7 @@ public class HotUserBean implements Parcelable {
 	private int block_app = 1;
 	private int level = 2;
 	private int type = 1;
-	private int ulevel = 0;
+	private long ulevel = 0;
 	private int credit_score = 80;
 	private int urank = 14;
 	private String badge_top = "";
@@ -539,11 +539,12 @@ public class HotUserBean implements Parcelable {
 		this.type = type;
 	}
 
-	public int getUlevel() {
+	
+	public long getUlevel() {
 		return ulevel;
 	}
 
-	public void setUlevel(int ulevel) {
+	public void setUlevel(long ulevel) {
 		this.ulevel = ulevel;
 	}
 

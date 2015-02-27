@@ -7,24 +7,24 @@ import android.os.Parcelable;
 
 public class HotWeiboBean implements Parcelable{
 
-	private CardlistInfoBean cardlistInfo = null;
-	private List<CardBean> cards = null;
+	private HotCardlistInfoBean cardlistInfo = null;
+	private List<HotCardBean> cards = null;
 	
 	
 	
-	public CardlistInfoBean getCardlistInfo() {
+	public HotCardlistInfoBean getCardlistInfo() {
 		return cardlistInfo;
 	}
 
-	public void setCardlistInfo(CardlistInfoBean cardlistInfo) {
+	public void setCardlistInfo(HotCardlistInfoBean cardlistInfo) {
 		this.cardlistInfo = cardlistInfo;
 	}
 
-	public List<CardBean> getCards() {
+	public List<HotCardBean> getCards() {
 		return cards;
 	}
 
-	public void setCards(List<CardBean> cards) {
+	public void setCards(List<HotCardBean> cards) {
 		this.cards = cards;
 	}
 

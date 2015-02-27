@@ -27,6 +27,8 @@ import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
+import org.zarroboogs.weibo.bean.HotCardBean;
+import org.zarroboogs.weibo.bean.HotMblogBean;
 import org.zarroboogs.weibo.bean.HotWeiboBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
@@ -290,32 +292,40 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     String test = "";
 
     protected void fetchAppSrc() {
-    	
-    	String json = readStringFromAssert().replaceAll(" ", "");
-    	if (json.length() > 3000) {
-        	Log.d("===========after_READ_JSON_DONE:", "\r\n"+ json.substring(0, 3000));
-        	Log.d("===========after_READ_JSON_DONE:", "\r\n"+ json.substring(3000, json.length()));
-		}else {
-			Log.d("===========after_READ_JSON_DONE:", "\r\n"+ json);
+    	if (false) {
+        	String json = readStringFromAssert();
+        	org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
+        	Gson gson = new Gson();
+//	    	HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
+	    	HotWeiboBean result = gson.fromJson(json, HotWeiboBean.class);
+	    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
 		}
 
-//    	Log.d("===========after_READ_JSON_DONE:", "\r\n"+ json.substring(6001, json.length()));
     	
-    	
-    	Gson gson = new Gson();
-    	HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
-    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
-		
-            
-		if (false) {
+		if (true) {
 	    	getAsyncHttpClient().get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", 1), new AsyncHttpResponseHandler() {
 				
 				@Override
 				public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 					// TODO Auto-generated method stub
+					
+					String json = new String(responseBody).replace("", "");
+					org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
+					
 					Gson gson = new Gson();
-					HotWeiboBean hotWeiboBean = gson.fromJson(new String(responseBody), HotWeiboBean.class);
-					Toast.makeText(getApplicationContext(), hotWeiboBean.getCardlistInfo().getDesc(), Toast.LENGTH_LONG).show();
+			    	HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
+			    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
+					List<HotCardBean> cardBeans = result.getCards();
+					Log.d("===========after_READ_JSON_DONE:", "-----------" + "Cards Size: " + cardBeans.size());
+//					
+//					List<HotMblogBean> hotMblogBeans = new ArrayList<HotMblogBean>();
+//					for (HotCardBean i : cardBeans) {
+//						hotMblogBeans.add(i.getMblog());
+//					}
+//			            
+//					for (HotMblogBean i : hotMblogBeans) {
+//						Log.d("===========after_READ_JSON_DONE:", i.getIdstr());
+//					}
 				}
 				
 				@Override
@@ -357,7 +367,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 	private String readStringFromAssert() {
 		InputStream json = null;
 		try {
-			json = getAssets().open("test.json");
+			json = getAssets().open("test_bak.json");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

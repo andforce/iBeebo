@@ -3,17 +3,21 @@ package org.zarroboogs.weibo.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class CardBean implements Parcelable {
+public class HotCardBean implements Parcelable {
 
 	private int card_type = 9;
 	private String card_type_name = "";
 	private String itemid = "102803_ctg1_8999_-_ctg1_8999_-_mbloglist_3814182711869974";
 	private String scheme = "sinaweibo://detail/?mblogid=C5WXl7QsS";
+
 	private String weibo_need = "mblog";
-	private int show_type = 1;
-	private String openurl="";
 	private HotMblogBean mblog = null;
-	
+
+	private int show_type = 1;
+	private String openurl = "";
+
+	// ===========================================================================//
+
 	public HotMblogBean getMblog() {
 		return mblog;
 	}
@@ -87,7 +91,7 @@ public class CardBean implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

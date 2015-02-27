@@ -1,27 +1,40 @@
 package org.zarroboogs.weibo.bean;
 
+import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class CardlistInfoBean implements Parcelable {
-
-	private int total = 0;
-	private int show_style = 1;
-	private int can_shared = 1;
+public class HotCardlistInfoBean implements Parcelable {
 
 	private String v_p = "11";
 	private String containerid = "102803_ctg1_8999_-_ctg1_8999";
+	private int show_style = 1;
 	private String title_top = "24小时";
-
+	private int total = 0;
+	private int can_shared = 1;
 	private String shared_text = "热门微博24小时榜http://weibo.com/p/102803_ctg1_8999_-_ctg1_8999";
 	private String shared_text_qrcode = "热门微博24小时榜http://weibo.com/p/102803_ctg1_8999_-_ctg1_8999";
 	private String cardlist_title = "热门微博24小时榜";
 	private String desc = "纵览全天资讯热点尽在掌握";
 	private String page_type = "03";
 	private String background = "";
-
+	private List<HotCardlistMenuBean> cardlist_menus = null;
+//==========================================================//
+	
+	
+	
+	
 	public int getTotal() {
 		return total;
+	}
+
+	public List<HotCardlistMenuBean> getCardlist_menus() {
+		return cardlist_menus;
+	}
+
+	public void setCardlist_menus(List<HotCardlistMenuBean> cardlist_menus) {
+		this.cardlist_menus = cardlist_menus;
 	}
 
 	public void setTotal(int total) {

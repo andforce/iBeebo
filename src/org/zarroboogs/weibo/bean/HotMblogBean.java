@@ -20,10 +20,10 @@ public class HotMblogBean implements Parcelable {
 	private String in_reply_to_status_id = "";
 	private String in_reply_to_user_id = "";
 	private String in_reply_to_screen_name = "";
-	private int[] pic_ids = {};
+	private List<String> pic_ids = null;
 	private String geo = "";
 
-	private String[] darwin_tags = { "" };
+	private List<String> darwin_tags = null;
 	private String mblogid = "C5YtJ3LA8";
 	private String scheme = "sinaweibo://detail/?mblogid=C5YtJ3LA8";
 	private String mblogtypename = "";
@@ -39,17 +39,36 @@ public class HotMblogBean implements Parcelable {
 	private HotUserBean user = null;
 	private List<HotUrlStructBean> url_struct = null;
 
-	private String[] page_info = {};
+	private HotPageInfoBean page_info = null;
 
 	private List<HotButtonsBean> buttons = null;
 
-	public String[] getDarwin_tags() {
+	
+	public List<String> getDarwin_tags() {
 		return darwin_tags;
 	}
 
-	public void setDarwin_tags(String[] darwin_tags) {
+	public void setDarwin_tags(List<String> darwin_tags) {
 		this.darwin_tags = darwin_tags;
 	}
+
+
+	public HotPageInfoBean getPage_info() {
+		return page_info;
+	}
+
+	public void setPage_info(HotPageInfoBean page_info) {
+		this.page_info = page_info;
+	}
+
+	public List<String> getPic_ids() {
+		return pic_ids;
+	}
+
+	public void setPic_ids(List<String> pic_ids) {
+		this.pic_ids = pic_ids;
+	}
+
 
 	public String getMblogid() {
 		return mblogid;
@@ -145,14 +164,6 @@ public class HotMblogBean implements Parcelable {
 
 	public void setUrl_struct(List<HotUrlStructBean> url_struct) {
 		this.url_struct = url_struct;
-	}
-
-	public String[] getPage_info() {
-		return page_info;
-	}
-
-	public void setPage_info(String[] page_info) {
-		this.page_info = page_info;
 	}
 
 	public List<HotButtonsBean> getButtons() {
@@ -267,13 +278,6 @@ public class HotMblogBean implements Parcelable {
 		this.in_reply_to_screen_name = in_reply_to_screen_name;
 	}
 
-	public int[] getPic_ids() {
-		return pic_ids;
-	}
-
-	public void setPic_ids(int[] pic_ids) {
-		this.pic_ids = pic_ids;
-	}
 
 	public String getGeo() {
 		return geo;
