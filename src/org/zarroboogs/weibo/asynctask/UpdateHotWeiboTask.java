@@ -15,18 +15,18 @@ import org.zarroboogs.utils.ErrorCode;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.dao.ShowStatusDao;
-import org.zarroboogs.weibo.fragment.BrowserWeiboMsgFragment;
+import org.zarroboogs.weibo.fragment.HotWeiboFragment;
 import org.zarroboogs.weibo.support.utils.Utility;
 
-public class UpdateMessageTask extends MyAsyncTask<Void, Void, MessageBean> {
+public class UpdateHotWeiboTask extends MyAsyncTask<Void, Void, MessageBean> {
     private MessageBean msg;
     private TextView content;
     private TextView recontent;
-    private BrowserWeiboMsgFragment fragment;
+    private HotWeiboFragment fragment;
     private WeiboException e;
     private boolean refreshPic;
 
-    public UpdateMessageTask(BrowserWeiboMsgFragment fragment, TextView content, TextView recontent, MessageBean msg,
+    public UpdateHotWeiboTask(HotWeiboFragment fragment, TextView content, TextView recontent, MessageBean msg,
             boolean refreshPic) {
         this.fragment = fragment;
         this.content = content;

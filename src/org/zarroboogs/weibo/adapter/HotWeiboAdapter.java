@@ -5,8 +5,6 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
-import org.zarroboogs.weibo.activity.WriteReplyToCommentActivity;
-import org.zarroboogs.weibo.bean.CommentBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dialogfragment.UserDialog;
@@ -48,11 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
-
-    private boolean isCommentList = true;
-
-    private List<CommentBean> commentListBean;
+public class HotWeiboAdapter extends BaseAdapter {
 
     private List<MessageBean> repostListBean;
 
@@ -66,14 +60,12 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
-    private Map<BrowserWeiboMsgCommentAndRepostAdapter.ViewHolder, Drawable> bg = new WeakHashMap<BrowserWeiboMsgCommentAndRepostAdapter.ViewHolder, Drawable>();
+    private Map<HotWeiboAdapter.ViewHolder, Drawable> bg = new WeakHashMap<HotWeiboAdapter.ViewHolder, Drawable>();
 
-    public BrowserWeiboMsgCommentAndRepostAdapter(Fragment fragment, ListView listView, List<CommentBean> commentListBean,
-            List<MessageBean> repostListBean) {
+    public HotWeiboAdapter(Fragment fragment, ListView listView, List<MessageBean> repostListBean) {
 
         this.fragment = fragment;
         this.listView = listView;
-        this.commentListBean = commentListBean;
         this.repostListBean = repostListBean;
         this.inflater = fragment.getActivity().getLayoutInflater();
 
@@ -87,40 +79,23 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
     }
 
     public void switchToRepostType() {
-        this.isCommentList = false;
         notifyDataSetChanged();
     }
 
-    public void switchToCommentType() {
-        this.isCommentList = true;
-        notifyDataSetChanged();
-    }
 
     @Override
     public int getCount() {
-        if (isCommentList) {
-            return commentListBean.size();
-        } else {
-            return repostListBean.size();
-        }
+    	return repostListBean.size();
     }
 
     @Override
     public Object getItem(int position) {
-        if (isCommentList) {
-            return commentListBean.get(position);
-        } else {
-            return repostListBean.get(position);
-        }
+    	return repostListBean.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        if (isCommentList) {
-            return commentListBean.get(position).getIdLong();
-        } else {
-            return repostListBean.get(position).getIdLong();
-        }
+    	return repostListBean.get(position).getIdLong();
     }
 
     @Override
@@ -149,66 +124,9 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
     }
 
     public void bindViewData(ViewHolder holder, int position) {
-        if (isCommentList) {
-            bindCommentData(holder, position);
-        } else {
-            bindRepostData(holder, position);
-        }
+    	bindRepostData(holder, position);
     }
 
-    private void bindCommentData(ViewHolder holder, int position) {
-        Drawable drawable = bg.get(holder);
-        if (drawable != null) {
-            holder.listview_root.setBackgroundDrawable(drawable);
-
-        } else {
-            drawable = holder.listview_root.getBackground();
-            bg.put(holder, drawable);
-        }
-
-        if (listView.getCheckedItemPosition() == position + listView.getHeaderViewsCount()) {
-            holder.listview_root.setBackgroundColor(checkedBG);
-        }
-
-        final CommentBean comment = (CommentBean) getItem(position);
-
-        UserBean user = comment.getUser();
-        if (user != null) {
-            holder.username.setVisibility(View.VISIBLE);
-            if (!TextUtils.isEmpty(user.getRemark())) {
-                holder.username.setText(new StringBuilder(user.getScreen_name()).append("(").append(user.getRemark())
-                        .append(")").toString());
-            } else {
-                holder.username.setText(user.getScreen_name());
-            }
-            if (!SettingUtils.getEnableCommentRepostListAvatar()) {
-                holder.avatar.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
-            } else {
-                buildAvatar(holder.avatar, position, user);
-            }
-
-        } else {
-            holder.username.setVisibility(View.INVISIBLE);
-            holder.avatar.setVisibility(View.INVISIBLE);
-        }
-
-        holder.avatar.checkVerified(user);
-
-        holder.weiboTextContent.setText(comment.getListViewSpannableString());
-
-        holder.time.setTime(comment.getMills());
-
-        holder.reply.setVisibility(View.VISIBLE);
-        holder.reply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra("msg", comment);
-                getActivity().startActivity(intent);
-            }
-        });
-    }
 
     private void bindRepostData(ViewHolder holder, int position) {
         Drawable drawable = bg.get(holder);
@@ -502,40 +420,4 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         }
     }
 
-    public void removeCommentItem(final int postion) {
-        if (postion >= 0 && postion < commentListBean.size()) {
-            Animation anim = AnimationUtils.loadAnimation(fragment.getActivity(), R.anim.account_delete_slide_out_right);
-
-            anim.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    commentListBean.remove(postion);
-                    BrowserWeiboMsgCommentAndRepostAdapter.this.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-
-            int positonInListView = postion + 1;
-            int start = listView.getFirstVisiblePosition();
-            int end = listView.getLastVisiblePosition();
-
-            if (positonInListView >= start && positonInListView <= end) {
-                int positionInCurrentScreen = postion - start;
-                listView.getChildAt(positionInCurrentScreen + 1).startAnimation(anim);
-            } else {
-                commentListBean.remove(postion);
-                BrowserWeiboMsgCommentAndRepostAdapter.this.notifyDataSetChanged();
-            }
-
-        }
-    }
 }
