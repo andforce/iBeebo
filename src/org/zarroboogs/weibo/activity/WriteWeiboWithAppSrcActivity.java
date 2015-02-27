@@ -303,7 +303,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     	
 		if (true) {
-	    	getAsyncHttpClient().get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", 1), new AsyncHttpResponseHandler() {
+	    	getAsyncHttpClient().get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", 2), new AsyncHttpResponseHandler() {
 				
 				@Override
 				public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -317,15 +317,18 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 			    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
 					List<HotCardBean> cardBeans = result.getCards();
 					Log.d("===========after_READ_JSON_DONE:", "-----------" + "Cards Size: " + cardBeans.size());
-//					
-//					List<HotMblogBean> hotMblogBeans = new ArrayList<HotMblogBean>();
-//					for (HotCardBean i : cardBeans) {
-//						hotMblogBeans.add(i.getMblog());
-//					}
-//			            
-//					for (HotMblogBean i : hotMblogBeans) {
-//						Log.d("===========after_READ_JSON_DONE:", i.getIdstr());
-//					}
+					
+					List<HotMblogBean> hotMblogBeans = new ArrayList<HotMblogBean>();
+					for (HotCardBean i : cardBeans) {
+						HotMblogBean blog = i.getMblog();
+						if (blog != null) {
+							hotMblogBeans.add(blog);
+						}
+					}
+			            
+					for (HotMblogBean i : hotMblogBeans) {
+						Log.d("===========after_READ_JSON_DONE:", i.getText());
+					}
 				}
 				
 				@Override

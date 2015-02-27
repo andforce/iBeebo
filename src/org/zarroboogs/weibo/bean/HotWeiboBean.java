@@ -5,13 +5,13 @@ import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class HotWeiboBean implements Parcelable{
+public class HotWeiboBean implements Parcelable {
 
 	private HotCardlistInfoBean cardlistInfo = null;
 	private List<HotCardBean> cards = null;
-	
-	
-	
+
+	// ===================================//
+
 	public HotCardlistInfoBean getCardlistInfo() {
 		return cardlistInfo;
 	}
@@ -37,7 +37,7 @@ public class HotWeiboBean implements Parcelable{
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
