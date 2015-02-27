@@ -3,6 +3,7 @@ package org.zarroboogs.weibo.support.gallery;
 
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.bean.HotMblogBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.AnimationUtility;
@@ -54,6 +55,14 @@ public class GalleryAnimationActivity extends FragmentActivity {
     private ColorDrawable backgroundColor;
 
     public static Intent newIntent(MessageBean msg, ArrayList<AnimationRect> rectList, int initPosition) {
+        Intent intent = new Intent(GlobalContext.getInstance(), GalleryAnimationActivity.class);
+        intent.putExtra("msg", msg);
+        intent.putExtra("rect", rectList);
+        intent.putExtra("position", initPosition);
+        return intent;
+    }
+    
+    public static Intent newIntent(HotMblogBean msg, ArrayList<AnimationRect> rectList, int initPosition) {
         Intent intent = new Intent(GlobalContext.getInstance(), GalleryAnimationActivity.class);
         intent.putExtra("msg", msg);
         intent.putExtra("rect", rectList);

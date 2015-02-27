@@ -1,7 +1,9 @@
 package org.zarroboogs.weibo.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.zarroboogs.weibo.bean.MessageBean.PicUrls;
 import org.zarroboogs.weibo.bean.data.DataItem;
 
 import android.os.Parcel;
@@ -372,5 +374,53 @@ public class HotMblogBean extends DataItem implements Parcelable {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	public boolean havePicture(){
+		if (pic_ids != null && pic_ids.size() > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isMultiPics(){
+		if (havePicture() && pic_ids.size() > 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public int getPicCount(){
+		if (havePicture()) {
+			return pic_ids.size();
+		}else {
+			return 0;
+		}
+	}
+	
+    public ArrayList<String> getHighPicUrls() {
+
+        ArrayList<String> value = new ArrayList<String>();
+
+        if (value.size() == 0) {
+            String prefStr = "http://ww4.sinaimg.cn/large/";
+            for (String url : pic_ids) {
+                value.add(prefStr + url + ".jpg");
+            }
+        }
+        return value;
+    }
+    
+    public ArrayList<String> getThumbnailPicUrls() {
+        ArrayList<String> value = new ArrayList<String>();
+
+        if (value.size() == 0) {
+            String prefStr = "http://ww4.sinaimg.cn/thumbnail/";
+            for (String url : pic_ids) {
+                value.add(prefStr + url + ".jpg");
+            }
+        }
+        return value;
+    }
 
 }

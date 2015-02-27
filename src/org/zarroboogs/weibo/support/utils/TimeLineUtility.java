@@ -6,6 +6,7 @@ import org.zarroboogs.utils.WeiboPatterns;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.bean.AdBean;
 import org.zarroboogs.weibo.bean.CommentBean;
+import org.zarroboogs.weibo.bean.HotMblogBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
 import org.zarroboogs.weibo.bean.UserBean;
@@ -110,7 +111,7 @@ public class TimeLineUtility {
             bean.getRetweeted_status().getSourceString();
         }
     }
-
+    
     private static SpannableString buildOriWeiboSpannalString(MessageBean oriMsg) {
         String name = "";
         UserBean oriUser = oriMsg.getUser();

@@ -1,28 +1,27 @@
 package org.zarroboogs.weibo.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.zarroboogs.util.net.WeiboException;
+import org.apache.http.Header;
 import org.zarroboogs.utils.Constants;
+import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.weibo.GlobalContext;
-import org.zarroboogs.weibo.IRemoveItem;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AppMapActivity;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
-import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.adapter.HotWeiboAdapter;
 import org.zarroboogs.weibo.asynctask.GetWeiboLocationInfoTask;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
-import org.zarroboogs.weibo.asynctask.UpdateHotWeiboTask;
-import org.zarroboogs.weibo.bean.AsyncTaskLoaderResult;
 import org.zarroboogs.weibo.bean.GeoBean;
+import org.zarroboogs.weibo.bean.HotCardBean;
+import org.zarroboogs.weibo.bean.HotMblogBean;
+import org.zarroboogs.weibo.bean.HotWeiboBean;
 import org.zarroboogs.weibo.bean.MessageBean;
-import org.zarroboogs.weibo.bean.data.RepostListBean;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
-import org.zarroboogs.weibo.loader.RepostByIdMsgLoader;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.IWeiciyuanDrawable;
 import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
@@ -32,12 +31,16 @@ import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.lib.ClickableTextViewMentionLinkOnTouchListener;
 import org.zarroboogs.weibo.support.utils.AppEventAction;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.ui.actionmenu.StatusSingleChoiceModeListener;
 import org.zarroboogs.weibo.widget.ProfileTopAvatarImageView;
 import org.zarroboogs.weibo.widget.SwipeFrameLayout;
 import org.zarroboogs.weibo.widget.WeiboDetailImageView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -46,53 +49,37 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
+public class HotWeiboFragment extends BaseStateFragment {
 
     private MessageBean msg;
 
-    private BrowserWeiboMsgLayout layout;
-
-    private UpdateHotWeiboTask updateMsgTask;
-
-    private GetWeiboLocationInfoTask geoTask;
-
     private MsgDetailReadWorker picTask;
-
-    private Handler handler = new Handler();
-
+    
     private ListView listView;
 
     private HotWeiboAdapter adapter;
 
-    private RepostListBean repostList = new RepostListBean();
-
-    private TextView repostTab;
-
-    private static final int NEW_REPOST_LOADER_ID = 3;
+    private List<HotMblogBean> repostList = new ArrayList<HotMblogBean>();
 
     private static final int OLD_REPOST_LOADER_ID = 4;
 
-
-    private View progressHeader;
 
     private TextView emptyHeader;
 
@@ -100,47 +87,8 @@ public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
 
     private ActionMode actionMode;
 
-    private BroadcastReceiver sendRepostCompletedReceiver;
-
-    private boolean canLoadOldCommentData = true;
-
     private boolean canLoadOldRepostData = true;
 
-    private static class BrowserWeiboMsgLayout {
-
-        TextView username;
-
-        TextView content;
-
-        TextView recontent;
-
-        TextView time;
-
-        TextView location;
-
-        TextView source;
-
-        ImageView mapView;
-
-        ProfileTopAvatarImageView avatar;
-
-        WeiboDetailImageView content_pic;
-
-        GridLayout content_pic_multi;
-
-        WeiboDetailImageView repost_pic;
-
-        GridLayout repost_pic_multi;
-
-        LinearLayout repost_layout;
-
-        TextView comment_count;
-
-        TextView repost_count;
-
-        View count_layout;
-
-    }
 
     public static BrowserWeiboMsgFragment newInstance(MessageBean msg) {
         BrowserWeiboMsgFragment fragment = new BrowserWeiboMsgFragment(msg);
@@ -151,92 +99,19 @@ public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("msg", msg);
-        outState.putParcelable("repostList", repostList);
     }
 
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
-        setRetainInstance(true);
-
-        switch (getCurrentState(savedInstanceState)) {
-            case FIRST_TIME_START:
-                if (Utility.isTaskStopped(updateMsgTask)) {
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateMsgTask = new UpdateHotWeiboTask(HotWeiboFragment.this, layout.content,
-                                    layout.recontent, msg, false);
-                            updateMsgTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                        }
-                    }, 2000);
-                }
-                buildViewData(true);
-                break;
-            case SCREEN_ROTATE:
-                // nothing
-                buildViewData(true);
-                break;
-            case ACTIVITY_DESTROY_AND_CREATE:
-                msg = savedInstanceState.getParcelable("msg");
-                repostList.replaceAll((RepostListBean) savedInstanceState.getParcelable("repostList"));
-                buildViewData(true);
-                adapter.notifyDataSetChanged();
-                break;
-        }
-
-    }
-
-    // android has a bug,I am tired. I use another color and disable underline
-    // for link,but when I open "dont save activity" in
-    // developer option,click the link to open another activity, then press
-    // back,this fragment is restored,
-    // but the link color is restored to android own blue color,not my custom
-    // color,the underline appears
-    // the workaround is set textview value in onresume() method
     @Override
     public void onResume() {
         super.onResume();
-        // buildViewData(false);
-        // if (hasGpsInfo())
-        // layout.mapView.onResume();
         getListView().setFastScrollEnabled(SettingUtils.allowFastScroll());
-
-        sendRepostCompletedReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-            	loadNewRepostData();
-            }
-        };
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(sendRepostCompletedReceiver,
-                new IntentFilter(AppEventAction.buildSendRepostSuccessfullyAction(msg)));
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(sendRepostCompletedReceiver);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Utility.cancelTasks(updateMsgTask, geoTask, picTask);
-
-        layout.avatar.setImageDrawable(null);
-        layout.content_pic.setImageDrawable(null);
-        layout.repost_pic.setImageDrawable(null);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        SwipeFrameLayout swipeFrameLayout = (SwipeFrameLayout) inflater.inflate(R.layout.browser_weibo_msg_layout,
-                container, false);
-        PullToRefreshListView pullToRefreshListView = (PullToRefreshListView) swipeFrameLayout
-                .findViewById(R.id.pullToFreshView);
+        RelativeLayout swipeFrameLayout = (RelativeLayout) inflater.inflate(R.layout.hotweibo_fragment_layout,container, false);
+        
+        PullToRefreshListView pullToRefreshListView = (PullToRefreshListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);
 
         pullToRefreshListView.setMode(PullToRefreshBase.Mode.DISABLED);
         pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
@@ -244,161 +119,136 @@ public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
 
         listView = pullToRefreshListView.getRefreshableView();
 
-        View header = inflater.inflate(R.layout.browserweibomsgfragment_layout, listView, false);
-        listView.addHeaderView(header);
-
-        View switchView = inflater.inflate(R.layout.browserweibomsgfragment_switch_list_type_header, listView, false);
-        listView.addHeaderView(switchView);
-
-        switchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // empty
-            }
-        });
-
-        View progressHeaderLayout = inflater.inflate(R.layout.browserweibomsgfragment_progress_header, listView, false);
-        progressHeader = progressHeaderLayout.findViewById(R.id.progressbar);
-        progressHeader.setVisibility(View.GONE);
-        listView.addHeaderView(progressHeaderLayout);
-
-        View emptyLayout = inflater.inflate(R.layout.browserweibomsgfragment_empty_header, listView, false);
-        emptyHeader = (TextView) emptyLayout.findViewById(R.id.empty_text);
-        emptyHeader.setOnClickListener(new EmptyHeaderOnClickListener());
-        listView.addHeaderView(emptyLayout);
 
         footerView = inflater.inflate(R.layout.listview_footer_layout, null);
         listView.addFooterView(footerView);
         dismissFooterView();
 
-        repostTab = (TextView) switchView.findViewById(R.id.repost);
-
-        repostTab.setOnClickListener(new RepostTabOnClickListener());
+//        repostTab.setOnClickListener(new RepostTabOnClickListener());
 
         listView.setFooterDividersEnabled(false);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         // listView.setOnItemLongClickListener(commentOnItemLongClickListener);
 
-        initView(header, savedInstanceState);
-        adapter = new HotWeiboAdapter(this, listView, repostList.getItemList());
+//        initView(swipeFrameLayout, savedInstanceState);
+        adapter = new HotWeiboAdapter(this.getActivity());
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         listView.setHeaderDividersEnabled(false);
 
+        loadNewRepostData();
         return swipeFrameLayout;
     }
 
-    private void initView(View view, Bundle savedInstanceState) {
-        layout = new BrowserWeiboMsgLayout();
-        layout.username = (TextView) view.findViewById(R.id.username);
-        layout.content = (TextView) view.findViewById(R.id.content);
-        layout.recontent = (TextView) view.findViewById(R.id.repost_content);
-        layout.time = (TextView) view.findViewById(R.id.time);
-        layout.location = (TextView) view.findViewById(R.id.location);
-        layout.source = (TextView) view.findViewById(R.id.source);
-
-        layout.mapView = (ImageView) view.findViewById(R.id.map);
-
-        layout.comment_count = (TextView) view.findViewById(R.id.comment_count);
-        layout.repost_count = (TextView) view.findViewById(R.id.repost_count);
-        layout.count_layout = view.findViewById(R.id.count_layout);
-
-        layout.avatar = (ProfileTopAvatarImageView) view.findViewById(R.id.avatar);
-        layout.content_pic = (WeiboDetailImageView) view.findViewById(R.id.content_pic);
-        layout.content_pic_multi = (GridLayout) view.findViewById(R.id.content_pic_multi);
-        layout.repost_pic = (WeiboDetailImageView) view.findViewById(R.id.repost_content_pic);
-        layout.repost_pic_multi = (GridLayout) view.findViewById(R.id.repost_content_pic_multi);
-
-        layout.repost_layout = (LinearLayout) view.findViewById(R.id.repost_layout);
-    }
+//    private void initView(View view, Bundle savedInstanceState) {
+//        layout = new BrowserWeiboMsgLayout();
+//        layout.username = (TextView) view.findViewById(R.id.username);
+//        layout.content = (TextView) view.findViewById(R.id.content);
+//        layout.recontent = (TextView) view.findViewById(R.id.repost_content);
+//        layout.time = (TextView) view.findViewById(R.id.time);
+//        layout.location = (TextView) view.findViewById(R.id.location);
+//        layout.source = (TextView) view.findViewById(R.id.source);
+//
+//        layout.mapView = (ImageView) view.findViewById(R.id.map);
+//
+//        layout.comment_count = (TextView) view.findViewById(R.id.comment_count);
+//        layout.repost_count = (TextView) view.findViewById(R.id.repost_count);
+//        layout.count_layout = view.findViewById(R.id.count_layout);
+//
+//        layout.avatar = (ProfileTopAvatarImageView) view.findViewById(R.id.avatar);
+//        layout.content_pic = (WeiboDetailImageView) view.findViewById(R.id.content_pic);
+//        layout.content_pic_multi = (GridLayout) view.findViewById(R.id.content_pic_multi);
+//        layout.repost_pic = (WeiboDetailImageView) view.findViewById(R.id.repost_content_pic);
+//        layout.repost_pic_multi = (GridLayout) view.findViewById(R.id.repost_content_pic_multi);
+//
+//        layout.repost_layout = (LinearLayout) view.findViewById(R.id.repost_layout);
+//    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        layout.location.setOnClickListener(locationInfoOnClickListener);
-        view.findViewById(R.id.first).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra("user", msg.getUser());
-                startActivity(intent);
-            }
-        });
-        layout.recontent.setOnClickListener(repostContentOnClickListener);
+//        layout.location.setOnClickListener(locationInfoOnClickListener);
+//        view.findViewById(R.id.first).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+//                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+//                intent.putExtra("user", msg.getUser());
+//                startActivity(intent);
+//            }
+//        });
+//        layout.recontent.setOnClickListener(repostContentOnClickListener);
     }
 
-    public void buildViewData(final boolean refreshPic) {
-        layout.avatar.checkVerified(msg.getUser());
-        if (msg.getUser() != null) {
-            if (TextUtils.isEmpty(msg.getUser().getRemark())) {
-                layout.username.setText(msg.getUser().getScreen_name());
-            } else {
-                layout.username.setText(msg.getUser().getScreen_name() + "(" + msg.getUser().getRemark() + ")");
-            }
-
-            TimeLineBitmapDownloader.getInstance().downloadAvatar(layout.avatar.getImageView(), msg.getUser());
-        }
-        layout.content.setText(msg.getListViewSpannableString());
-        layout.content.setOnTouchListener(new ClickableTextViewMentionLinkOnTouchListener());
-
-        layout.time.setText(msg.getTimeInFormat());
-
-        if (msg.getGeo() != null) {
-            layout.mapView.setVisibility(View.VISIBLE);
-            if (Utility.isTaskStopped(geoTask)) {
-                geoTask = new GetWeiboLocationInfoTask(getActivity(), msg.getGeo(), layout.mapView, layout.location);
-                geoTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        } else {
-            layout.mapView.setVisibility(View.GONE);
-        }
-        if (!TextUtils.isEmpty(msg.getSource())) {
-            layout.source.setText(Html.fromHtml(msg.getSource()).toString());
-        }
-
-        layout.content_pic.setVisibility(View.GONE);
-        layout.content_pic_multi.setVisibility(View.GONE);
-
-        // sina weibo official account can send repost message with picture,
-        // fuck sina weibo
-        if (msg.havePicture() && msg.getRetweeted_status() == null) {
-            displayPictures(msg, layout.content_pic_multi, layout.content_pic, refreshPic);
-        }
-
-        final MessageBean repostMsg = msg.getRetweeted_status();
-
-        layout.repost_layout.setVisibility(repostMsg != null ? View.VISIBLE : View.GONE);
-
-        if (repostMsg != null) {
-            // sina weibo official account can send repost message with picture,
-            // fuck sina weibo
-            layout.content_pic.setVisibility(View.GONE);
-
-            layout.repost_layout.setVisibility(View.VISIBLE);
-            layout.recontent.setVisibility(View.VISIBLE);
-            layout.recontent.setOnTouchListener(new ClickableTextViewMentionLinkOnTouchListener());
-            if (repostMsg.getUser() != null) {
-                layout.recontent.setText(repostMsg.getListViewSpannableString());
-                buildRepostCount();
-            } else {
-                layout.recontent.setText(repostMsg.getListViewSpannableString());
-            }
-
-            layout.repost_pic.setVisibility(View.GONE);
-            layout.repost_pic_multi.setVisibility(View.GONE);
-
-            if (repostMsg.havePicture()) {
-                displayPictures(repostMsg, layout.repost_pic_multi, layout.repost_pic, refreshPic);
-            }
-        }
-
-        Utility.buildTabCount(repostTab, getString(R.string.repost), msg.getReposts_count());
-
-        ((BrowserWeiboMsgActivity) getActivity()).updateRepostCount(msg.getReposts_count());
-
-    }
+//    public void buildViewData(final boolean refreshPic) {
+//        layout.avatar.checkVerified(msg.getUser());
+//        if (msg.getUser() != null) {
+//            if (TextUtils.isEmpty(msg.getUser().getRemark())) {
+//                layout.username.setText(msg.getUser().getScreen_name());
+//            } else {
+//                layout.username.setText(msg.getUser().getScreen_name() + "(" + msg.getUser().getRemark() + ")");
+//            }
+//
+//            TimeLineBitmapDownloader.getInstance().downloadAvatar(layout.avatar.getImageView(), msg.getUser());
+//        }
+//        layout.content.setText(msg.getListViewSpannableString());
+//        layout.content.setOnTouchListener(new ClickableTextViewMentionLinkOnTouchListener());
+//
+//        layout.time.setText(msg.getTimeInFormat());
+//
+//        if (msg.getGeo() != null) {
+//            layout.mapView.setVisibility(View.VISIBLE);
+//            if (Utility.isTaskStopped(geoTask)) {
+//                geoTask = new GetWeiboLocationInfoTask(getActivity(), msg.getGeo(), layout.mapView, layout.location);
+//                geoTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+//            }
+//        } else {
+//            layout.mapView.setVisibility(View.GONE);
+//        }
+//        if (!TextUtils.isEmpty(msg.getSource())) {
+//            layout.source.setText(Html.fromHtml(msg.getSource()).toString());
+//        }
+//
+//        layout.content_pic.setVisibility(View.GONE);
+//        layout.content_pic_multi.setVisibility(View.GONE);
+//
+//        // sina weibo official account can send repost message with picture,
+//        // fuck sina weibo
+//        if (msg.havePicture() && msg.getRetweeted_status() == null) {
+//            displayPictures(msg, layout.content_pic_multi, layout.content_pic, refreshPic);
+//        }
+//
+//        final MessageBean repostMsg = msg.getRetweeted_status();
+//
+//        layout.repost_layout.setVisibility(repostMsg != null ? View.VISIBLE : View.GONE);
+//
+//        if (repostMsg != null) {
+//            // sina weibo official account can send repost message with picture,
+//            // fuck sina weibo
+//            layout.content_pic.setVisibility(View.GONE);
+//
+//            layout.repost_layout.setVisibility(View.VISIBLE);
+//            layout.recontent.setVisibility(View.VISIBLE);
+//            layout.recontent.setOnTouchListener(new ClickableTextViewMentionLinkOnTouchListener());
+//            if (repostMsg.getUser() != null) {
+//                layout.recontent.setText(repostMsg.getListViewSpannableString());
+//                buildRepostCount();
+//            } else {
+//                layout.recontent.setText(repostMsg.getListViewSpannableString());
+//            }
+//
+//            layout.repost_pic.setVisibility(View.GONE);
+//            layout.repost_pic_multi.setVisibility(View.GONE);
+//
+//            if (repostMsg.havePicture()) {
+//                displayPictures(repostMsg, layout.repost_pic_multi, layout.repost_pic, refreshPic);
+//            }
+//        }
+//
+//        ((BrowserWeiboMsgActivity) getActivity()).updateRepostCount(msg.getReposts_count());
+//
+//    }
 
     private void displayPictures(final MessageBean msg, final GridLayout layout, WeiboDetailImageView view,
             boolean refreshPic) {
@@ -458,42 +308,42 @@ public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
 
     }
 
-    private void buildRepostCount() {
-        MessageBean repostBean = msg.getRetweeted_status();
-
-        if (repostBean.getComments_count() == 0 && repostBean.getReposts_count() == 0) {
-            layout.count_layout.setVisibility(View.GONE);
-            return;
-        } else {
-            layout.count_layout.setVisibility(View.VISIBLE);
-        }
-
-        if (repostBean.getComments_count() > 0) {
-            layout.comment_count.setVisibility(View.VISIBLE);
-            layout.comment_count.setText(String.valueOf(repostBean.getComments_count()));
-        } else {
-            layout.comment_count.setVisibility(View.GONE);
-        }
-
-        if (repostBean.getReposts_count() > 0) {
-            layout.repost_count.setVisibility(View.VISIBLE);
-            layout.repost_count.setText(String.valueOf(repostBean.getReposts_count()));
-        } else {
-            layout.repost_count.setVisibility(View.GONE);
-        }
-    }
+//    private void buildRepostCount() {
+//        MessageBean repostBean = msg.getRetweeted_status();
+//
+//        if (repostBean.getComments_count() == 0 && repostBean.getReposts_count() == 0) {
+//            layout.count_layout.setVisibility(View.GONE);
+//            return;
+//        } else {
+//            layout.count_layout.setVisibility(View.VISIBLE);
+//        }
+//
+//        if (repostBean.getComments_count() > 0) {
+//            layout.comment_count.setVisibility(View.VISIBLE);
+//            layout.comment_count.setText(String.valueOf(repostBean.getComments_count()));
+//        } else {
+//            layout.comment_count.setVisibility(View.GONE);
+//        }
+//
+//        if (repostBean.getReposts_count() > 0) {
+//            layout.repost_count.setVisibility(View.VISIBLE);
+//            layout.repost_count.setText(String.valueOf(repostBean.getReposts_count()));
+//        } else {
+//            layout.repost_count.setVisibility(View.GONE);
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-		if (itemId == R.id.menu_refresh) {
-			if (Utility.isTaskStopped(updateMsgTask)) {
-			    updateMsgTask = new UpdateHotWeiboTask(HotWeiboFragment.this, layout.content, layout.recontent,
-			            msg, true);
-			    updateMsgTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-			}
-			loadNewRepostData();
-		}
+//		if (itemId == R.id.menu_refresh) {
+//			if (Utility.isTaskStopped(updateMsgTask)) {
+//			    updateMsgTask = new UpdateHotWeiboTask(HotWeiboFragment.this, layout.content, layout.recontent,
+//			            msg, true);
+//			    updateMsgTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+//			}
+//			loadNewRepostData();
+//		}
         return true;
     }
 
@@ -539,17 +389,6 @@ public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
         }
     }
 
-    // only can remove comment
-    @Override
-    public void removeItem(int position) {
-        clearActionMode();
-    }
-
-    @Override
-    public void removeCancel() {
-        clearActionMode();
-    }
-
     private ListView getListView() {
         return listView;
     }
@@ -573,106 +412,61 @@ public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
         }
     }
 
-    private View.OnClickListener repostContentOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+//    private View.OnClickListener repostContentOnClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//
+//            // This condition will satisfy only when it is not an autolinked
+//            // text
+//            // onClick action
+//            boolean isNotLink = layout.recontent.getSelectionStart() == -1 && layout.recontent.getSelectionEnd() == -1;
+//            boolean isDeleted = msg.getRetweeted_status() == null || msg.getRetweeted_status().getUser() == null;
+//
+//            if (isNotLink && !isDeleted) {
+//                startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
+//                        msg.getRetweeted_status(), GlobalContext
+//                                .getInstance().getSpecialToken()));
+//            } else if (isNotLink && isDeleted) {
+//                Toast.makeText(getActivity(), getString(R.string.cant_open_deleted_weibo), Toast.LENGTH_SHORT).show();
+//            }
+//
+//        }
+//    };
 
-            // This condition will satisfy only when it is not an autolinked
-            // text
-            // onClick action
-            boolean isNotLink = layout.recontent.getSelectionStart() == -1 && layout.recontent.getSelectionEnd() == -1;
-            boolean isDeleted = msg.getRetweeted_status() == null || msg.getRetweeted_status().getUser() == null;
-
-            if (isNotLink && !isDeleted) {
-                startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-                        msg.getRetweeted_status(), GlobalContext
-                                .getInstance().getSpecialToken()));
-            } else if (isNotLink && isDeleted) {
-                Toast.makeText(getActivity(), getString(R.string.cant_open_deleted_weibo), Toast.LENGTH_SHORT).show();
-            }
-
-        }
-    };
-
-    private View.OnClickListener locationInfoOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (Utility.isGooglePlaySafe(getActivity())) {
-                GeoBean bean = msg.getGeo();
-                Intent intent = new Intent(getActivity(), AppMapActivity.class);
-                intent.putExtra("lat", bean.getLat());
-                intent.putExtra("lon", bean.getLon());
-                if (!String.valueOf(bean.getLat() + "," + bean.getLon()).equals(layout.location.getText())) {
-                    intent.putExtra("locationStr", layout.location.getText());
-                }
-                startActivity(intent);
-            } else {
-                GeoBean bean = msg.getGeo();
-                String geoUriString = "geo:" + bean.getLat() + "," + bean.getLon() + "?q=" + layout.location.getText();
-                Uri geoUri = Uri.parse(geoUriString);
-                Intent mapCall = new Intent(Intent.ACTION_VIEW, geoUri);
-                if (Utility.isIntentSafe(getActivity(), mapCall)) {
-                    startActivity(mapCall);
-                }
-
-            }
-        }
-    };
-
-    private AdapterView.OnItemLongClickListener repostOnItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-            if (position - getListView().getHeaderViewsCount() < repostList.getSize()
-                    && position - getListView().getHeaderViewsCount() >= 0
-                    && adapter.getItem(position - getListView().getHeaderViewsCount()) != null) {
-                MessageBean msg = repostList.getItemList().get(position - getListView().getHeaderViewsCount());
-                StatusSingleChoiceModeListener choiceModeListener = new StatusSingleChoiceModeListener(
-                        ((MainTimeLineActivity) getActivity()).getAccount(),
-                        getListView(), adapter, HotWeiboFragment.this, msg);
-                if (actionMode != null) {
-                    actionMode.finish();
-                    actionMode = null;
-                }
-
-                getListView().setItemChecked(position, true);
-                adapter.notifyDataSetChanged();
-                actionMode = getActivity().startActionMode(choiceModeListener);
-                return true;
-
-            }
-            return false;
-        }
-    };
+//    private View.OnClickListener locationInfoOnClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            if (Utility.isGooglePlaySafe(getActivity())) {
+//                GeoBean bean = msg.getGeo();
+//                Intent intent = new Intent(getActivity(), AppMapActivity.class);
+//                intent.putExtra("lat", bean.getLat());
+//                intent.putExtra("lon", bean.getLon());
+//                if (!String.valueOf(bean.getLat() + "," + bean.getLon()).equals(layout.location.getText())) {
+//                    intent.putExtra("locationStr", layout.location.getText());
+//                }
+//                startActivity(intent);
+//            } else {
+//                GeoBean bean = msg.getGeo();
+//                String geoUriString = "geo:" + bean.getLat() + "," + bean.getLon() + "?q=" + layout.location.getText();
+//                Uri geoUri = Uri.parse(geoUriString);
+//                Intent mapCall = new Intent(Intent.ACTION_VIEW, geoUri);
+//                if (Utility.isIntentSafe(getActivity(), mapCall)) {
+//                    startActivity(mapCall);
+//                }
+//
+//            }
+//        }
+//    };
 
 
-    private AdapterView.OnItemClickListener repostOnItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (resetActionMode()) {
-                return;
-            }
-
-            getListView().clearChoices();
-
-            if (position - listView.getHeaderViewsCount() < repostList.getSize()
-                    && position >= listView.getHeaderViewsCount()) {
-                startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
-                        repostList.getItemList().get(position - listView.getHeaderViewsCount()), GlobalContext.getInstance()
-                                .getSpecialToken()));
-            } else {
-                loadOldRepostData();
-            }
-        }
-    };
 
 
     private PullToRefreshBase.OnLastItemVisibleListener onLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
         @Override
         public void onLastItemVisible() {
-        	if (msg.getReposts_count() > 0 && repostList.getSize() > 0) {
-                loadOldRepostData();
-            }
+//        	if (msg.getReposts_count() > 0 && repostList.size() > 0) {
+//                loadOldRepostData();
+//            }
         }
     };
 
@@ -695,7 +489,7 @@ public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
             if (getListView().getLastVisiblePosition() > 7
                     && getListView().getFirstVisiblePosition() != getListView().getHeaderViewsCount()) {
 
-            	if (getListView().getLastVisiblePosition() > repostList.getSize() - 3) {
+            	if (getListView().getLastVisiblePosition() > repostList.size() - 3) {
                     loadOldRepostData();
                 }
             }
@@ -710,36 +504,47 @@ public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
         }
     }
 
-    private class RepostTabOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            listView.setOnItemClickListener(repostOnItemClickListener);
-            // listView.setOnItemLongClickListener(repostOnItemLongClickListener);
-            emptyHeader.setText(R.string.repost_is_empty);
-            resetActionMode();
-
-            dismissFooterView();
-            loadNewRepostData();
-
-            if (repostList.getSize() > 0) {
-                emptyHeader.setVisibility(View.GONE);
-            } else {
-                emptyHeader.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
 
     public void loadNewRepostData() {
-        canLoadOldRepostData = true;
-        if (getLoaderManager().getLoader(NEW_REPOST_LOADER_ID) != null) {
-            return;
-        }
-        progressHeader.setVisibility(View.VISIBLE);
-        getLoaderManager().destroyLoader(OLD_REPOST_LOADER_ID);
-        getLoaderManager().restartLoader(NEW_REPOST_LOADER_ID, null, repostMsgCallback);
-    }
+        	AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
+        	mAsyncHttoClient.get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", 2), new AsyncHttpResponseHandler() {
+			
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+				// TODO Auto-generated method stub
+				
+				String json = new String(responseBody).replace("", "");
+				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
+				
+				Gson gson = new Gson();
+		    	HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
+		    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
+				List<HotCardBean> cardBeans = result.getCards();
+				Log.d("===========after_READ_JSON_DONE:", "-----------" + "Cards Size: " + cardBeans.size());
+				
+				List<HotMblogBean> hotMblogBeans = new ArrayList<HotMblogBean>();
+				for (HotCardBean i : cardBeans) {
+					HotMblogBean blog = i.getMblog();
+					if (blog != null) {
+						hotMblogBeans.add(blog);
+					}
+				}
+		            
+				for (HotMblogBean i : hotMblogBeans) {
+					Log.d("===========after_READ_JSON_DONE:", i.getUser().getId());
+				}
+				
+				adapter.addNewData(hotMblogBeans);
+			}
+			
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
 
 
     public void loadOldRepostData() {
@@ -747,93 +552,7 @@ public class HotWeiboFragment extends BaseStateFragment implements IRemoveItem {
             return;
         }
         showFooterView();
-        getLoaderManager().destroyLoader(NEW_REPOST_LOADER_ID);
-        getLoaderManager().restartLoader(OLD_REPOST_LOADER_ID, null, repostMsgCallback);
+
     }
-
-
-    protected LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>> repostMsgCallback = 
-    										new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>>() {
-
-        @Override
-        public Loader<AsyncTaskLoaderResult<RepostListBean>> onCreateLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getSpecialToken();
-
-            switch (id) {
-                case NEW_REPOST_LOADER_ID:
-                    String sinceId = null;
-                    return new RepostByIdMsgLoader(getActivity(), msg.getId(), token, sinceId, null);
-                case OLD_REPOST_LOADER_ID:
-                    String maxId = null;
-
-                    if (repostList.getSize() > 0) {
-                        maxId = repostList.getItemList().get(repostList.getSize() - 1).getId();
-                    }
-
-                    return new RepostByIdMsgLoader(getActivity(), msg.getId(), token, null, maxId);
-            }
-
-            return null;
-        }
-
-        @Override
-        public void onLoadFinished(Loader<AsyncTaskLoaderResult<RepostListBean>> loader,
-                AsyncTaskLoaderResult<RepostListBean> result) {
-
-            RepostListBean data = result != null ? result.data : null;
-            WeiboException exception = result != null ? result.exception : null;
-            Bundle args = result != null ? result.args : null;
-
-            if (data != null) {
-                Utility.buildTabCount(repostTab, getString(R.string.repost), data.getTotal_number());
-                ((BrowserWeiboMsgActivity) getActivity()).updateRepostCount(data.getTotal_number());
-            }
-
-            switch (loader.getId()) {
-                case NEW_REPOST_LOADER_ID:
-                	progressHeader.setVisibility(View.GONE);
-                	
-                    if (Utility.isAllNotNull(exception)) {
-                        Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (data != null && data.getSize() > 0) {
-                            repostList.replaceAll(data);
-                            adapter.notifyDataSetChanged();
-
-                        }
-
-                        if (repostList.getSize() > 0) {
-                            emptyHeader.setVisibility(View.GONE);
-                        } else {
-                            emptyHeader.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    break;
-                case OLD_REPOST_LOADER_ID:
-
-                    if (Utility.isAllNotNull(exception)) {
-                        Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
-                        showErrorFooterView();
-                    } else {
-                        if (data != null && data.getSize() <= 1) {
-                            canLoadOldRepostData = false;
-                        } else {
-                            canLoadOldRepostData = true;
-                        }
-                        dismissFooterView();
-                        repostList.addOldData(data);
-                        adapter.notifyDataSetChanged();
-                    }
-                    break;
-            }
-            getLoaderManager().destroyLoader(loader.getId());
-        }
-
-        @Override
-        public void onLoaderReset(Loader<AsyncTaskLoaderResult<RepostListBean>> loader) {
-
-        }
-    };
-
 
 }

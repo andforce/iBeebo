@@ -8,6 +8,7 @@ import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
+import org.zarroboogs.weibo.bean.HotMblogBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.data.DataItem;
@@ -55,9 +56,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * User: qii Date: 12-9-15
- */
 public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAdapter {
 
     protected List<T> bean;
@@ -544,6 +542,108 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         }
     }
 
+    protected void buildMultiPic(final HotMblogBean msg, final GridLayout gridLayout) {
+        if (SettingUtils.isEnablePic()) {
+            gridLayout.setVisibility(View.VISIBLE);
+
+            final int count = msg.getPicCount();
+            for (int i = 0; i < count; i++) {
+                final IWeiciyuanDrawable pic = (IWeiciyuanDrawable) gridLayout.getChildAt(i);
+                pic.setVisibility(View.VISIBLE);
+                if (SettingUtils.getEnableBigPic()) {
+                    TimeLineBitmapDownloader.getInstance().displayMultiPicture(pic, msg.getHighPicUrls().get(i),
+                            FileLocationMethod.picture_large,
+                            (AbsBaseTimeLineFragment) fragment);
+                } else {
+                    TimeLineBitmapDownloader.getInstance().displayMultiPicture(pic, msg.getThumbnailPicUrls().get(i),
+                            FileLocationMethod.picture_thumbnail,
+                            (AbsBaseTimeLineFragment) fragment);
+                }
+
+                final int finalI = i;
+                pic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ArrayList<AnimationRect> animationRectArrayList = new ArrayList<AnimationRect>();
+                        for (int i = 0; i < count; i++) {
+                            final IWeiciyuanDrawable pic = (IWeiciyuanDrawable) gridLayout.getChildAt(i);
+                            ImageView imageView = (ImageView) pic;
+                            if (imageView.getVisibility() == View.VISIBLE) {
+                                AnimationRect rect = AnimationRect.buildFromImageView(imageView);
+                                animationRectArrayList.add(rect);
+                            }
+                        }
+
+                        Intent intent = GalleryAnimationActivity.newIntent(msg, animationRectArrayList, finalI);
+                        getActivity().startActivity(intent);
+                    }
+                });
+
+            }
+
+            if (count < 9) {
+                ImageView pic;
+                switch (count) {
+                    case 8:
+                        pic = (ImageView) gridLayout.getChildAt(8);
+                        pic.setVisibility(View.INVISIBLE);
+                        break;
+                    case 7:
+                        for (int i = 8; i > 6; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.INVISIBLE);
+                        }
+                        break;
+                    case 6:
+                        for (int i = 8; i > 5; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+
+                        break;
+                    case 5:
+                        for (int i = 8; i > 5; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+                        pic = (ImageView) gridLayout.getChildAt(5);
+                        pic.setVisibility(View.INVISIBLE);
+                        break;
+                    case 4:
+                        for (int i = 8; i > 5; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+                        pic = (ImageView) gridLayout.getChildAt(5);
+                        pic.setVisibility(View.INVISIBLE);
+                        pic = (ImageView) gridLayout.getChildAt(4);
+                        pic.setVisibility(View.INVISIBLE);
+                        break;
+                    case 3:
+                        for (int i = 8; i > 2; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+                        break;
+                    case 2:
+                        for (int i = 8; i > 2; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+                        pic = (ImageView) gridLayout.getChildAt(2);
+                        pic.setVisibility(View.INVISIBLE);
+                        break;
+
+                }
+
+            }
+
+        } else {
+            gridLayout.setVisibility(View.GONE);
+        }
+
+    }
+    
     protected void buildMultiPic(final MessageBean msg, final GridLayout gridLayout) {
         if (SettingUtils.isEnablePic()) {
             gridLayout.setVisibility(View.VISIBLE);
@@ -677,6 +777,30 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         view.getImageView().setImageDrawable(null);
     }
 
+    protected void buildPic(final HotMblogBean msg, final IWeiciyuanDrawable view, int position) {
+        if (SettingUtils.isEnablePic()) {
+            view.setVisibility(View.VISIBLE);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ImageView imageView = view.getImageView();
+
+                    AnimationRect rect = AnimationRect.buildFromImageView(imageView);
+                    ArrayList<AnimationRect> animationRectArrayList = new ArrayList<AnimationRect>();
+                    animationRectArrayList.add(rect);
+
+                    Intent intent = GalleryAnimationActivity.newIntent(msg, animationRectArrayList, 0);
+                    getActivity().startActivity(intent);
+                }
+            });
+            buildPic(msg, view);
+
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
+    
     protected void buildPic(final MessageBean msg, final IWeiciyuanDrawable view, int position) {
         if (SettingUtils.isEnablePic()) {
             view.setVisibility(View.VISIBLE);
@@ -711,6 +835,11 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         TimeLineBitmapDownloader.getInstance().downContentPic(view, msg, (AbsBaseTimeLineFragment) fragment);
     }
 
+    private void buildPic(final HotMblogBean msg, IWeiciyuanDrawable view) {
+        view.setVisibility(View.VISIBLE);
+        TimeLineBitmapDownloader.getInstance().downContentPic(view, msg, (AbsBaseTimeLineFragment) fragment);
+    }
+    
     public static class ViewHolder {
 
         TextView username;

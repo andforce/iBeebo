@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootSwipLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true" >
+
+    <org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView
+        android:id="@+id/pullToFreshView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fastScrollEnabled="false"
+        android:overScrollMode="never"
+        android:scrollingCache="true"
+        android:smoothScrollbar="true"
+        android:visibility="visible" >
+
+
+    </org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView>
+
+</RelativeLayout>
