@@ -2,16 +2,19 @@ package org.zarroboogs.weibo.bean;
 
 import java.util.List;
 
+import org.zarroboogs.weibo.bean.data.DataItem;
+
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.SpannableString;
 
-public class HotMblogBean implements Parcelable {
+public class HotMblogBean extends DataItem implements Parcelable {
 
 	private String created_at = "Wed Feb 25 21:03:57 +0800 2015";
-	private long id = 0;
+	private String id = "";
 	private String mid = "3814241230897892";
 	private String idstr = "3814241230897892";
-	private String text = "起飞途中孙姑娘惊恐的大叫：放我下来！放我下来！我无比镇定从容淡定地拍了拍她说：实在是太远了，他们听不见的，凑合飞会儿吧[偷笑][偷笑][偷笑] http://t.cn/RwpHbd9";
+	private String text = "";
 	private int source_allowclick = 0;
 	private int source_type = 1;
 	private String source = "<a href=\"http://app.weibo.com/t/feed/5yiHuw\" rel=\"nofollow\">iPhone 6 Plus</a>";
@@ -36,14 +39,58 @@ public class HotMblogBean implements Parcelable {
 	private int mlevel = 0;
 
 	private HotVisibleBean visible = null;
-	private HotUserBean user = null;
+	private UserBean user = null;
 	private List<HotUrlStructBean> url_struct = null;
 
 	private HotPageInfoBean page_info = null;
 
 	private List<HotButtonsBean> buttons = null;
 
+	// ====================================================================//
+	// MessageBean
+    private String thumbnail_pic = "";
+
+    private String bmiddle_pic = "";
+
+    private String original_pic = "";
+
+    private String sourceString = "";
+    
 	
+	// =====================================================//
+
+	public String getThumbnail_pic() {
+		return thumbnail_pic;
+	}
+
+	public void setThumbnail_pic(String thumbnail_pic) {
+		this.thumbnail_pic = thumbnail_pic;
+	}
+
+	public String getBmiddle_pic() {
+		return bmiddle_pic;
+	}
+
+	public void setBmiddle_pic(String bmiddle_pic) {
+		this.bmiddle_pic = bmiddle_pic;
+	}
+
+	public String getOriginal_pic() {
+		return original_pic;
+	}
+
+	public void setOriginal_pic(String original_pic) {
+		this.original_pic = original_pic;
+	}
+
+	public String getSourceString() {
+		return sourceString;
+	}
+
+	public void setSourceString(String sourceString) {
+		this.sourceString = sourceString;
+	}
+
 	public List<String> getDarwin_tags() {
 		return darwin_tags;
 	}
@@ -51,7 +98,6 @@ public class HotMblogBean implements Parcelable {
 	public void setDarwin_tags(List<String> darwin_tags) {
 		this.darwin_tags = darwin_tags;
 	}
-
 
 	public HotPageInfoBean getPage_info() {
 		return page_info;
@@ -68,7 +114,6 @@ public class HotMblogBean implements Parcelable {
 	public void setPic_ids(List<String> pic_ids) {
 		this.pic_ids = pic_ids;
 	}
-
 
 	public String getMblogid() {
 		return mblogid;
@@ -150,11 +195,11 @@ public class HotMblogBean implements Parcelable {
 		this.visible = visible;
 	}
 
-	public HotUserBean getUser() {
+	public UserBean getUser() {
 		return user;
 	}
 
-	public void setUser(HotUserBean user) {
+	public void setUser(UserBean user) {
 		this.user = user;
 	}
 
@@ -182,11 +227,11 @@ public class HotMblogBean implements Parcelable {
 		this.created_at = created_at;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -278,7 +323,6 @@ public class HotMblogBean implements Parcelable {
 		this.in_reply_to_screen_name = in_reply_to_screen_name;
 	}
 
-
 	public String getGeo() {
 		return geo;
 	}
@@ -297,6 +341,36 @@ public class HotMblogBean implements Parcelable {
 	public void writeToParcel(Parcel arg0, int arg1) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public SpannableString getListViewSpannableString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getListviewItemShowTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setMills(long mills) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getMills() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public long getIdLong() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

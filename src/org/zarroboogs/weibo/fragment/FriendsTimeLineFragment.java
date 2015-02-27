@@ -9,8 +9,6 @@ import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
-import org.zarroboogs.weibo.activity.WriteWeiboWithAppSrcActivity;
-import org.zarroboogs.weibo.activity.WriteWeiboActivity;
 import org.zarroboogs.weibo.adapter.AbstractAppListAdapter;
 import org.zarroboogs.weibo.adapter.FriendsTimeLineListNavAdapter;
 import org.zarroboogs.weibo.adapter.StatusListAdapter;
@@ -52,10 +50,8 @@ import android.os.Looper;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.util.Log;
 import android.util.Pair;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
@@ -77,8 +73,7 @@ import java.util.concurrent.TimeUnit;
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean> implements
-        GlobalContext.MyProfileInfoChangeListener,
-        MainTimeLineActivity.ScrollableListFragment {
+        GlobalContext.MyProfileInfoChangeListener, MainTimeLineActivity.ScrollableListFragment {
 
     private AccountBean mAccountBean;
 
@@ -139,55 +134,12 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         return bean;
     }
 
-    // @Override
-    // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-    // savedInstanceState) {
-    // View view = inflater.inflate(R.layout.friends_time_line_listview_layout, container, false);
-    // buildLayout(inflater, view);
-    // return view;
-    // }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mToolbar = (Toolbar) getActivity().findViewById(R.id.mainTimeLineToolBar);
         mToolbar.setTitle(R.string.weibo_home_page);
         mToolbar.inflateMenu(R.menu.actionbar_menu_friendstimelinefragment);
-        // mToolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-        //
-        // @Override
-        // public boolean onMenuItemClick(MenuItem item) {
-        //
-        // switch (item.getItemId()) {
-        // case R.id.write_weibo:
-        // Class<?> clzz = null;
-        // if (SettingUtils.isDebug()) {
-        // clzz = WriteWeiboActivity.class;
-        // } else {
-        // clzz = WeiboMainActivity.class;
-        // }
-        // Intent intent = new Intent(getActivity(), clzz);
-        // intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
-        // intent.putExtra(Constants.TOKEN, mToken);
-        // intent.putExtra(Constants.ACCOUNT, mAccountBean);
-        // startActivity(intent);
-        // break;
-        // case R.id.refresh:
-        // if (allowRefresh()) {
-        // getPullToRefreshListView().setRefreshing();
-        // loadNewMsg();
-        // }
-        // break;
-        // case R.id.switch_theme:
-        // // make sure activity has saved current left menu position
-        // ((MainTimeLineActivity) getActivity()).saveNavigationPositionToDB();
-        // SettingUtils.switchToAnotherTheme();
-        // ((MainTimeLineActivity) getActivity()).reload();
-        // break;
-        // }
-        // return false;
-        // }
-        // });
     }
 
     @Override
@@ -509,40 +461,10 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         }
         mBaseAdapter = new FriendsTimeLineListNavAdapter(getActivity(), buildListNavData(list));
         final List<GroupBean> finalList = list;
-        // getActivity().getActionBar().setListNavigationCallbacks(mBaseAdapter, new
-        // ActionBar.OnNavigationListener() {
-        // @Override
-        // public boolean onNavigationItemSelected(int which, long itemId) {
-        //
-        // if (!Utility.isTaskStopped(mDBCacheTask)) {
-        // return true;
-        // }
-        //
-        // String groupId = getGroupIdFromIndex(which, finalList);
-        //
-        // if (!groupId.equals(currentGroupId)) {
-        //
-        // switchFriendsGroup(groupId);
-        // }
-        // return true;
-        // }
-        // });
+
         currentGroupId = FriendsTimeLineDBTask.getRecentGroupId(GlobalContext.getInstance().getCurrentAccountId());
 
         LogTool.D("RecentGroupID Friend-asyncUpdateRecentGroupId : " + currentGroupId);
-        
-        // if (Utility.isDevicePort()) {
-        // ((MainTimeLineActivity) getActivity()).setTitle("");
-        // getBaseToolbar().setLogo(R.drawable.ic_menu_home);
-        // } else {
-        // ((MainTimeLineActivity) getActivity()).setTitle("");
-        // getBaseToolbar().setLogo(R.drawable.beebo_launcher);
-        // }
-
-        // if (getActivity().getActionBar().getNavigationMode() == ActionBar.NAVIGATION_MODE_LIST &&
-        // isVisible()) {
-        // getActivity().getActionBar().setSelectedNavigationItem(getRecentNavIndex());
-        // }
 
     }
 
@@ -569,9 +491,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
         getPullToRefreshListView().setVisibility(View.VISIBLE);
         getAdapter().notifyDataSetChanged();
         setListViewPositionFromPositionsCache();
-        // if (getActivity().getActionBar().getNavigationMode() == ActionBar.NAVIGATION_MODE_LIST) {
-        // getActivity().getActionBar().setSelectedNavigationItem(getRecentNavIndex());
-        // }
+
         refreshLayout(getList());
         /**
          * when this account first open app,if he don't have any data in database,fetch data from
@@ -1035,11 +955,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
                     if (!Utility.isWifi(getActivity())) {
                         return;
                     }
-                    if (isListViewFling() || !isVisible()/*
-                                                          * || ((MainTimeLineActivity)
-                                                          * getActivity())
-                                                          * .getSlidingMenu().isMenuShowing()
-                                                          */) {
+                    if (isListViewFling() || !isVisible()) {
                         return;
                     }
 

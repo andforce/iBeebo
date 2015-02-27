@@ -35,7 +35,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,14 +47,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-/**
- * User: qii Date: 12-8-27 weiciyuan has two kinds of methods to send/receive network
- * request/response asynchronously, one is setRetainInstance(true) + AsyncTask, the other is
- * AsyncTaskLoader Because nested fragment(parent fragment has a viewpager, viewpager has many
- * children fragments, these children fragments are called nested fragment) can't use
- * setRetainInstance(true), at this moment you have to use AsyncTaskLoader to solve Android
- * configuration change(for example: change screen orientation, change system language)
- */
 public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> extends BaseStateFragment {
 
     protected PullToRefreshListView mPullToRefreshListView;

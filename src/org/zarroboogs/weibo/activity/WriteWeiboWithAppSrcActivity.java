@@ -327,7 +327,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 					}
 			            
 					for (HotMblogBean i : hotMblogBeans) {
-						Log.d("===========after_READ_JSON_DONE:", i.getText());
+						Log.d("===========after_READ_JSON_DONE:", i.getUser().getId());
 					}
 				}
 				
