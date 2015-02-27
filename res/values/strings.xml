@@ -567,5 +567,6 @@
     
    	<string name="delete_image">删除</string>
    	<string name="change_image">更换</string>
+   	<string name="left_drawer_hotweibo">热门微博</string>
     
 </resources>

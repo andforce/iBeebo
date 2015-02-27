@@ -124,5 +124,14 @@
         android:text="@string/nearby"
         android:visibility="gone"
         tools:ignore="RtlHardcoded" />
+    
+    <Button
+        android:id="@+id/btnHotWeibo"
+        style="@style/drawerMenuButton"
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:drawableLeft="@drawable/ic_search_grey600_24dp"
+        android:text="@string/left_drawer_hotweibo"
+        tools:ignore="RtlHardcoded" />
 
 </LinearLayout>

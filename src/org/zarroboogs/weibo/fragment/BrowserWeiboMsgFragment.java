@@ -1071,7 +1071,8 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         }
     };
 
-    protected LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>> repostMsgCallback = new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>>() {
+    protected LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>> repostMsgCallback = 
+    										new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>>() {
 
         @Override
         public Loader<AsyncTaskLoaderResult<RepostListBean>> onCreateLoader(int id, Bundle args) {

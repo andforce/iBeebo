@@ -340,6 +340,11 @@
         <activity 
             android:name="org.zarroboogs.weibo.widget.galleryview.ViewPagerActivity"
             ></activity>
+        <!-- 热门微博Activity -->
+        <activity 
+            android:name="org.zarroboogs.weibo.activity.HotWeiboActivity"
+            ></activity>
+        
         <service
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService" >

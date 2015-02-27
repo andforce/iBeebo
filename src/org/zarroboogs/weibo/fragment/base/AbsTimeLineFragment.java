@@ -11,8 +11,6 @@ import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.IRemoveItem;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.AbstractAppActivity;
-import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.StatusListAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;

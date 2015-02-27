@@ -6,6 +6,7 @@ import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AccountActivity;
+import org.zarroboogs.weibo.activity.HotWeiboActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.activity.MyInfoActivity;
 import org.zarroboogs.weibo.activity.NearbyTimeLineActivity;
@@ -661,6 +662,8 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.homeButton = (Button) view.findViewById(R.id.homeButton);
         layout.mentionButton = (Button) view.findViewById(R.id.mentionButton);
         layout.commentButton = (Button) view.findViewById(R.id.commentButton);
+        
+        layout.mHotWeibo = ViewUtility.findViewById(view, R.id.btnHotWeibo);
 
         boolean blackMagic = GlobalContext.getInstance().getAccountBean().isBlack_magic();
         if (!blackMagic) {
@@ -695,6 +698,8 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.leftDrawerSettingBtn.setOnClickListener(onClickListener);
         
         mToolbar = (Toolbar) getActivity().findViewById(R.id.mainTimeLineToolBar);
+        
+        layout.mHotWeibo.setOnClickListener(onClickListener);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -723,6 +728,9 @@ public class LeftMenuFragment extends BaseStateFragment {
 				drawButtonsBackground(DM_INDEX);
 			} else if (id == R.id.leftDrawerSettingBtn) {
 				showSettingPage();
+			}else if (id == R.id.btnHotWeibo) {
+				Intent intent = new Intent(getActivity(), HotWeiboActivity.class);
+				startActivity(intent);
 			}
             ((MainTimeLineActivity) getActivity()).closeLeftDrawer();
         }
@@ -830,38 +838,40 @@ public class LeftMenuFragment extends BaseStateFragment {
     }
 
 
-    private class LeftDrawerViewHolder {
+	private class LeftDrawerViewHolder {
 
-        ImageView avatar;
+		ImageView avatar;
 
-        TextView nickname;
+		TextView nickname;
 
-        LinearLayout home;
-        
-        Button homeButton;
+		LinearLayout home;
 
-        LinearLayout mention;
+		Button homeButton;
 
-        Button mentionButton;
-        
-        LinearLayout comment;
+		LinearLayout mention;
 
-        Button commentButton;
-        
-        TextView homeCount;
+		Button mentionButton;
 
-        TextView mentionCount;
+		LinearLayout comment;
 
-        TextView commentCount;
+		Button commentButton;
 
-        Button search;
+		TextView homeCount;
 
-        // Button location;
-        Button dm;
+		TextView mentionCount;
 
-        Button fav;
-        
-        ImageButton leftDrawerSettingBtn;
-    }
+		TextView commentCount;
+
+		Button search;
+
+		// Button location;
+		Button dm;
+
+		Button fav;
+
+		ImageButton leftDrawerSettingBtn;
+		
+		Button mHotWeibo;
+	}
 
 }
