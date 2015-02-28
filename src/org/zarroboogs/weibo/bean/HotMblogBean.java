@@ -3,6 +3,7 @@ package org.zarroboogs.weibo.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zarroboogs.weibo.activity.HotGeoBean;
 import org.zarroboogs.weibo.bean.MessageBean.PicUrls;
 import org.zarroboogs.weibo.bean.data.DataItem;
 
@@ -26,7 +27,7 @@ public class HotMblogBean extends DataItem implements Parcelable {
 	private String in_reply_to_user_id = "";
 	private String in_reply_to_screen_name = "";
 	private List<String> pic_ids = null;
-	private String geo = "";
+	private HotGeoBean geo = null;
 
 	private List<String> darwin_tags = null;
 	private String mblogid = "C5YtJ3LA8";
@@ -50,15 +51,14 @@ public class HotMblogBean extends DataItem implements Parcelable {
 
 	// ====================================================================//
 	// MessageBean
-    private String thumbnail_pic = "";
+	private String thumbnail_pic = "";
 
-    private String bmiddle_pic = "";
+	private String bmiddle_pic = "";
 
-    private String original_pic = "";
+	private String original_pic = "";
 
-    private String sourceString = "";
-    
-	
+	private String sourceString = "";
+
 	// =====================================================//
 
 	public String getThumbnail_pic() {
@@ -325,11 +325,11 @@ public class HotMblogBean extends DataItem implements Parcelable {
 		this.in_reply_to_screen_name = in_reply_to_screen_name;
 	}
 
-	public String getGeo() {
+	public HotGeoBean getGeo() {
 		return geo;
 	}
 
-	public void setGeo(String geo) {
+	public void setGeo(HotGeoBean geo) {
 		this.geo = geo;
 	}
 
@@ -360,7 +360,7 @@ public class HotMblogBean extends DataItem implements Parcelable {
 	@Override
 	public void setMills(long mills) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -375,52 +375,52 @@ public class HotMblogBean extends DataItem implements Parcelable {
 		return 0;
 	}
 
-	public boolean havePicture(){
+	public boolean havePicture() {
 		if (pic_ids != null && pic_ids.size() > 0) {
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean isMultiPics(){
+
+	public boolean isMultiPics() {
 		if (havePicture() && pic_ids.size() > 1) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
-	public int getPicCount(){
+
+	public int getPicCount() {
 		if (havePicture()) {
 			return pic_ids.size();
-		}else {
+		} else {
 			return 0;
 		}
 	}
-	
-    public ArrayList<String> getHighPicUrls() {
 
-        ArrayList<String> value = new ArrayList<String>();
+	public ArrayList<String> getHighPicUrls() {
 
-        if (value.size() == 0) {
-            String prefStr = "http://ww4.sinaimg.cn/large/";
-            for (String url : pic_ids) {
-                value.add(prefStr + url + ".jpg");
-            }
-        }
-        return value;
-    }
-    
-    public ArrayList<String> getThumbnailPicUrls() {
-        ArrayList<String> value = new ArrayList<String>();
+		ArrayList<String> value = new ArrayList<String>();
 
-        if (value.size() == 0) {
-            String prefStr = "http://ww4.sinaimg.cn/thumbnail/";
-            for (String url : pic_ids) {
-                value.add(prefStr + url + ".jpg");
-            }
-        }
-        return value;
-    }
+		if (value.size() == 0) {
+			String prefStr = "http://ww4.sinaimg.cn/large/";
+			for (String url : pic_ids) {
+				value.add(prefStr + url + ".jpg");
+			}
+		}
+		return value;
+	}
+
+	public ArrayList<String> getThumbnailPicUrls() {
+		ArrayList<String> value = new ArrayList<String>();
+
+		if (value.size() == 0) {
+			String prefStr = "http://ww4.sinaimg.cn/thumbnail/";
+			for (String url : pic_ids) {
+				value.add(prefStr + url + ".jpg");
+			}
+		}
+		return value;
+	}
 
 }

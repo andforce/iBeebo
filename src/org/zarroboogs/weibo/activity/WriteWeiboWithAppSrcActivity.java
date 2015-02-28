@@ -292,8 +292,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     String test = "";
 
     protected void fetchAppSrc() {
-    	if (false) {
-        	String json = readStringFromAssert();
+    	if (true) {
+        	String json = readStringFromAssert().replaceAll("\"geo\": \"\"", "\"geo\": {}");
         	org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
         	Gson gson = new Gson();
 //	    	HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
@@ -302,7 +302,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		}
 
     	
-		if (true) {
+		if (false) {
 	    	getAsyncHttpClient().get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", 2), new AsyncHttpResponseHandler() {
 				
 				@Override
@@ -370,7 +370,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 	private String readStringFromAssert() {
 		InputStream json = null;
 		try {
-			json = getAssets().open("test_bak.json");
+			json = getAssets().open("test_error_2.json");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -382,16 +382,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		String lineTxt = "";
 		try {
 			while ((lineTxt = bufferedReader.readLine()) != null) {
-//				Log.d("READ_JSON:", "" + lineTxt);
-//				lineTxt += lineTxt.trim();
 				sb.append(lineTxt);
 			}
-			Log.d("===========READ_JSON_DONE:", "" + sb.toString());
-//			lineTxt = "";
-//			while ((lineTxt = bufferedReader.readLine()) != null) {
-//				lineTxt += lineTxt.trim();
-//			}
-//			Log.d("===========READ_JSON_DONE:", "" + lineTxt);
 			read.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

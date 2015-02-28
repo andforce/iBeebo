@@ -13,6 +13,7 @@ import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.HotCardBean;
 import org.zarroboogs.weibo.bean.HotMblogBean;
 import org.zarroboogs.weibo.bean.HotWeiboBean;
+import org.zarroboogs.weibo.bean.HotWeiboErrorBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
@@ -36,6 +37,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -460,36 +462,45 @@ public class HotWeiboFragment extends BaseStateFragment {
     }
 
 
-    public void loadNewRepostData() {
-        	mAsyncHttoClient.get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", mPage), new AsyncHttpResponseHandler() {
+    public void loadNewRepostData() {					
+        	mAsyncHttoClient.get(WeiBoURLs.hotWeiboUrl("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 				// TODO Auto-generated method stub
 				mPage++;
-				String json = new String(responseBody).replace("", "");
+				String json = new String(responseBody).replaceAll("\"geo\":\"\"", "\"geo\": {}");
 				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
 				
 				Gson gson = new Gson();
-		    	HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
-		    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
-				List<HotCardBean> cardBeans = result.getCards();
-				Log.d("===========after_READ_JSON_DONE:", "-----------" + "Cards Size: " + cardBeans.size());
 				
-				List<HotMblogBean> hotMblogBeans = new ArrayList<HotMblogBean>();
-				for (HotCardBean i : cardBeans) {
-					HotMblogBean blog = i.getMblog();
-					if (blog != null) {
-						hotMblogBeans.add(blog);
+				HotWeiboErrorBean error = gson.fromJson(json, HotWeiboErrorBean.class);
+				if (error != null && TextUtils.isEmpty(error.getErrmsg())) {
+					HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
+			    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
+					List<HotCardBean> cardBeans = result.getCards();
+					Log.d("===========after_READ_JSON_DONE:", "-----------" + "Cards Size: " + cardBeans.size());
+					
+					List<HotMblogBean> hotMblogBeans = new ArrayList<HotMblogBean>();
+					for (HotCardBean i : cardBeans) {
+						HotMblogBean blog = i.getMblog();
+						if (blog != null) {
+							hotMblogBeans.add(blog);
+						}
 					}
+			            
+					for (HotMblogBean i : hotMblogBeans) {
+						Log.d("===========after_READ_JSON_DONE:", i.getUser().getId());
+					}
+					
+					addNewDataAndRememberPosition(hotMblogBeans);
+					
+				}else {
+					Log.d("===========after_READ_JSON_DONE:", "-----------"+ error.getErrmsg());
 				}
-		            
-				for (HotMblogBean i : hotMblogBeans) {
-					Log.d("===========after_READ_JSON_DONE:", i.getUser().getId());
-				}
-				
-//				adapter.addNewData(hotMblogBeans);
-				addNewDataAndRememberPosition(hotMblogBeans);
+		
+
+
 				pullToRefreshListView.onRefreshComplete();
 			}
 			
