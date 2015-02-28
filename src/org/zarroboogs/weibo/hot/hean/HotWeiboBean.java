@@ -1,14 +1,14 @@
-package org.zarroboogs.weibo.bean;
+package org.zarroboogs.weibo.hot.hean;
 
 import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class HotHuaTiBean implements Parcelable {
+public class HotWeiboBean implements Parcelable {
 
 	private HotCardlistInfoBean cardlistInfo = null;
-	private List<HotHuaTiCardBean> cards = null;
+	private List<HotCardBean> cards = null;
 
 	// ===================================//
 
@@ -20,13 +20,11 @@ public class HotHuaTiBean implements Parcelable {
 		this.cardlistInfo = cardlistInfo;
 	}
 
-
-
-	public List<HotHuaTiCardBean> getCards() {
+	public List<HotCardBean> getCards() {
 		return cards;
 	}
 
-	public void setCards(List<HotHuaTiCardBean> cards) {
+	public void setCards(List<HotCardBean> cards) {
 		this.cards = cards;
 	}
 

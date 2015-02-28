@@ -1,18 +1,22 @@
-package org.zarroboogs.weibo.bean;
+package org.zarroboogs.weibo.hot.hean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class HotSchemeBean implements Parcelable {
+public class HotPrivacyBean implements Parcelable {
 
-	private String scheme = "sinaweibo://gotohome";
-
-	public String getScheme() {
-		return scheme;
+//  "privacy": {
+//  "mobile": 0
+//},
+	private int mobile = 0;
+	
+	
+	public int getMobile() {
+		return mobile;
 	}
 
-	public void setScheme(String scheme) {
-		this.scheme = scheme;
+	public void setMobile(int mobile) {
+		this.mobile = mobile;
 	}
 
 	@Override
@@ -24,7 +28,7 @@ public class HotSchemeBean implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel arg0, int arg1) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

@@ -1,14 +1,16 @@
-package org.zarroboogs.weibo.bean;
+package org.zarroboogs.weibo.hot.hean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class HotButtonsBean implements Parcelable {
+public class HotCardlistMenuBean implements Parcelable {
 
-	private String type = "follow";
-	private String name = "关注";
-	private String pic = "http://u1.sinaimg.cn/upload/2013/07/02/timeline_card_small_button_icon_add.png";
-	private HotParamsBean params = null;
+	private String type = "gohome";
+	private String name = "返回首页";
+
+	private HotSchemeBean params = null;
+
+	// =====================================================//
 
 	public String getType() {
 		return type;
@@ -26,19 +28,11 @@ public class HotButtonsBean implements Parcelable {
 		this.name = name;
 	}
 
-	public String getPic() {
-		return pic;
-	}
-
-	public void setPic(String pic) {
-		this.pic = pic;
-	}
-
-	public HotParamsBean getParams() {
+	public HotSchemeBean getParams() {
 		return params;
 	}
 
-	public void setParams(HotParamsBean params) {
+	public void setParams(HotSchemeBean params) {
 		this.params = params;
 	}
 

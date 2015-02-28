@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listview_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/listview_item_background_selector_light"
+    android:clickable="false"
+    android:descendantFocusability="blocksDescendants" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_tacos"
+        android:paddingBottom="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp" >
+
+        <ImageView
+            android:id="@+id/huatiPic"
+            android:layout_width="@dimen/timeline_avatar_width"
+            android:layout_height="@dimen/timeline_avatar_height"
+            android:clickable="true" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/huatiPic"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="#话题#"
+            android:textColor="@color/timeline_item_text_color_light"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/descript"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/huatiPic"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="这是话题的描述"
+            android:textColor="@color/timeline_item_text_color_light"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/readNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/huatiPic"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="数量"
+            android:textColor="@color/timeline_item_text_color_light"
+            tools:ignore="RtlHardcoded" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

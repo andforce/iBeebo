@@ -3,8 +3,8 @@ package org.zarroboogs.weibo.support.gallery;
 
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.bean.HotMblogBean;
 import org.zarroboogs.weibo.bean.MessageBean;
+import org.zarroboogs.weibo.hot.hean.HotMblogBean;
 import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.AnimationUtility;
 

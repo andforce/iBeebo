@@ -1,4 +1,4 @@
-package org.zarroboogs.weibo.bean;
+package org.zarroboogs.weibo.hot.hean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

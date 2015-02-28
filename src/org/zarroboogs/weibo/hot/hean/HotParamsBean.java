@@ -1,18 +1,18 @@
-package org.zarroboogs.weibo.bean;
+package org.zarroboogs.weibo.hot.hean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class HotUrlStructBean implements Parcelable {
+public class HotParamsBean implements Parcelable {
 
-	private String ori_url = "";
+	private String uid = "5187664653";
 
-	public String getOri_url() {
-		return ori_url;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setOri_url(String ori_url) {
-		this.ori_url = ori_url;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 	@Override

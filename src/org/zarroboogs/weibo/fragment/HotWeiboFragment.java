@@ -10,16 +10,16 @@ import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.adapter.HotWeiboAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
-import org.zarroboogs.weibo.bean.HotCardBean;
-import org.zarroboogs.weibo.bean.HotHuaTiBean;
-import org.zarroboogs.weibo.bean.HotHuaTiCardBean;
-import org.zarroboogs.weibo.bean.HotHuaTiCardGroupBean;
-import org.zarroboogs.weibo.bean.HotMblogBean;
-import org.zarroboogs.weibo.bean.HotWeiboBean;
-import org.zarroboogs.weibo.bean.HotWeiboErrorBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
+import org.zarroboogs.weibo.hot.hean.HotCardBean;
+import org.zarroboogs.weibo.hot.hean.HotHuaTiBean;
+import org.zarroboogs.weibo.hot.hean.HotHuaTiCardBean;
+import org.zarroboogs.weibo.hot.hean.HotHuaTiCardGroupBean;
+import org.zarroboogs.weibo.hot.hean.HotMblogBean;
+import org.zarroboogs.weibo.hot.hean.HotWeiboBean;
+import org.zarroboogs.weibo.hot.hean.HotWeiboErrorBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.IWeiciyuanDrawable;
 import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
@@ -475,19 +475,8 @@ public class HotWeiboFragment extends BaseStateFragment {
 				String json = new String(responseBody).replaceAll("\"geo\":\"\"", "\"geo\": {}");
 //				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
 				
-				HotHuaTiBean hotHuaTiBean = new Gson().fromJson(json, new TypeToken<HotHuaTiBean>() {}.getType());
-				HotHuaTiCardBean cards = hotHuaTiBean.getCards().get(0);
 				
-				List<HotHuaTiCardGroupBean> groupBeans = cards.getCard_group();
-				
-				Log.d("READ_JSON_DONE", "Total: " + hotHuaTiBean.getCardlistInfo().getTotal());
-				
-				for (HotHuaTiCardGroupBean hotHuaTiCardGroupBean : groupBeans) {
-					Log.d("READ_JSON_DONE", "" + hotHuaTiCardGroupBean.getDesc1());
-				}
-				
-				
-			if (false) {
+			if (true) {
 				Gson gson = new Gson();
 				
 				HotWeiboErrorBean error = gson.fromJson(json, HotWeiboErrorBean.class);

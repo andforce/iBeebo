@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.bean.HotMblogBean;
-import org.zarroboogs.weibo.bean.MessageBean;
-import org.zarroboogs.weibo.bean.MessageListBean;
-import org.zarroboogs.weibo.setting.SettingUtils;
+import org.zarroboogs.weibo.hot.hean.HotMblogBean;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
 import org.zarroboogs.weibo.widget.TimeLineImageView;
