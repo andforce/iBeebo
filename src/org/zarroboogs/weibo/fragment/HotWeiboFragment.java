@@ -11,6 +11,9 @@ import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.adapter.HotWeiboAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.HotCardBean;
+import org.zarroboogs.weibo.bean.HotHuaTiBean;
+import org.zarroboogs.weibo.bean.HotHuaTiCardBean;
+import org.zarroboogs.weibo.bean.HotHuaTiCardGroupBean;
 import org.zarroboogs.weibo.bean.HotMblogBean;
 import org.zarroboogs.weibo.bean.HotWeiboBean;
 import org.zarroboogs.weibo.bean.HotWeiboErrorBean;
@@ -463,15 +466,28 @@ public class HotWeiboFragment extends BaseStateFragment {
 
 
     public void loadNewRepostData() {					
-        	mAsyncHttoClient.get(WeiBoURLs.hotWeiboUrl("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
+        	mAsyncHttoClient.get(WeiBoURLs.hotHuaTi("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 				// TODO Auto-generated method stub
 				mPage++;
 				String json = new String(responseBody).replaceAll("\"geo\":\"\"", "\"geo\": {}");
-				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
+//				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
 				
+				HotHuaTiBean hotHuaTiBean = new Gson().fromJson(json, new TypeToken<HotHuaTiBean>() {}.getType());
+				HotHuaTiCardBean cards = hotHuaTiBean.getCards().get(0);
+				
+				List<HotHuaTiCardGroupBean> groupBeans = cards.getCard_group();
+				
+				Log.d("READ_JSON_DONE", "Total: " + hotHuaTiBean.getCardlistInfo().getTotal());
+				
+				for (HotHuaTiCardGroupBean hotHuaTiCardGroupBean : groupBeans) {
+					Log.d("READ_JSON_DONE", "" + hotHuaTiCardGroupBean.getDesc1());
+				}
+				
+				
+			if (false) {
 				Gson gson = new Gson();
 				
 				HotWeiboErrorBean error = gson.fromJson(json, HotWeiboErrorBean.class);
@@ -498,6 +514,8 @@ public class HotWeiboFragment extends BaseStateFragment {
 				}else {
 					Log.d("===========after_READ_JSON_DONE:", "-----------"+ error.getErrmsg());
 				}
+			}	
+
 		
 
 

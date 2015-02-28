@@ -182,4 +182,13 @@ public class WeiBoURLs {
 				+ "page="+page+"";
 		return url;
     }
+    
+    public static String hotHuaTi(String gsid, int page){
+    	String url = "http://api.weibo.cn/2/cardlist?uicode=10000011&lcardid=uve_popular_topics&c=android&i=8764dac&s=b48eb5c9&ua=smartisan-SM701__weibo__5.1.1__android__android4.4.2&wm=14010_0013&fid=100803&uid=1878230075&v_f=2&v_p=18&from=1051195010&"
+    			+ "gsid=" + gsid
+    			+ "&imsi=460020364311738&lang=zh_CN&lfid=1001000002_1582&"
+    			+ "page="+ page
+    			+ "&skin=default&count=20&oldwm=14010_0013&containerid=100803&luicode=10000010";
+    	return url;
+    }
 }
