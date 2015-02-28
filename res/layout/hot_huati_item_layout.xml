@@ -12,10 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_tacos"
-        android:paddingBottom="6dp"
-        android:paddingLeft="6dp"
-        android:paddingRight="6dp"
-        android:paddingTop="6dp" >
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp" >
 
         <ImageView
             android:id="@+id/huatiPic"
@@ -32,11 +32,12 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="#话题#"
-            android:textColor="@color/timeline_item_text_color_light"
-            android:textStyle="bold" />
+            android:layout_marginLeft="5dp"
+            android:textColor="#FF333333" />
 
         <TextView
             android:id="@+id/descript"
+            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -44,12 +45,14 @@
             android:clickable="true"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textSize="12sp"
             android:text="这是话题的描述"
-            android:textColor="@color/timeline_item_text_color_light"
+            android:textColor="#FF919191"
             tools:ignore="RtlHardcoded" />
 
         <TextView
             android:id="@+id/readNumber"
+            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -57,8 +60,9 @@
             android:clickable="true"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textSize="10sp"
             android:text="数量"
-            android:textColor="@color/timeline_item_text_color_light"
+            android:textColor="#FFD5D5D5"
             tools:ignore="RtlHardcoded" />
 
     </RelativeLayout>

@@ -98,6 +98,16 @@ public class HotHuaTiAdapter extends BaseAdapter {
         return holder;
     }
 
+    
+    
+    public void addNewDataWithOutRemberPos(List<HotHuaTiCardGroupBean> newValue) {
+
+        if (newValue == null || newValue.size() == 0) {
+            return;
+        }
+
+        this.list.addAll( newValue);
+        }
     public void addNewData(List<HotHuaTiCardGroupBean> newValue) {
 
         if (newValue == null || newValue.size() == 0) {

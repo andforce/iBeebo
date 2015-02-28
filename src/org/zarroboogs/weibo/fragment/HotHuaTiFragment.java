@@ -101,7 +101,9 @@ public class HotHuaTiFragment extends BaseStateFragment {
         adapter.notifyDataSetChanged();
         listView.setHeaderDividersEnabled(false);
 
-        loadNewRepostData();
+		loadNewRepostData();
+		pullToRefreshListView.setRefreshing();
+		
         return swipeFrameLayout;
     }
 
@@ -227,7 +229,7 @@ public class HotHuaTiFragment extends BaseStateFragment {
 				// TODO Auto-generated method stub
 				mPage++;
 				String json = new String(responseBody).replaceAll("\"geo\":\"\"", "\"geo\": {}");
-//				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
+				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
 				
 				HotHuaTiBean hotHuaTiBean = new Gson().fromJson(json, new TypeToken<HotHuaTiBean>() {}.getType());
 				HotHuaTiCardBean cards = hotHuaTiBean.getCards().get(0);
@@ -258,7 +260,7 @@ public class HotHuaTiFragment extends BaseStateFragment {
 
         int initSize = getListView().getCount();
 
-        if (getActivity() != null && newValue.size() > 0) {
+        if (getActivity() != null) {
             adapter.addNewData(newValue);
             int index = getListView().getFirstVisiblePosition();
             adapter.notifyDataSetChanged();

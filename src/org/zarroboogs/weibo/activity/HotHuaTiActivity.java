@@ -16,7 +16,7 @@ public class HotHuaTiActivity extends TranslucentStatusBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
     	// TODO Auto-generated method stub
     	super.onCreate(savedInstanceState);
-    	 setContentView(R.layout.hotweibo_activity_layout);
+    	 setContentView(R.layout.hot_huati_activity_layout);
          mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
          
          buildContent();

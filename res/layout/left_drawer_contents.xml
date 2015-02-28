@@ -140,7 +140,7 @@
         android:layout_width="match_parent"
         android:layout_weight="0"
         android:drawableLeft="@drawable/ic_search_grey600_24dp"
-        android:text="热门话题"
+        android:text="@string/left_drawer_hothuati"
         tools:ignore="RtlHardcoded" />
 
 </LinearLayout>
