@@ -32,6 +32,8 @@ import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
 import org.zarroboogs.weibo.hot.hean.HotCardBean;
+import org.zarroboogs.weibo.hot.hean.HotHuaTiBean;
+import org.zarroboogs.weibo.hot.hean.HotHuaTiCardBean;
 import org.zarroboogs.weibo.hot.hean.HotMblogBean;
 import org.zarroboogs.weibo.hot.hean.HotWeiboBean;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
@@ -293,12 +295,11 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     protected void fetchAppSrc() {
     	if (true) {
-        	String json = readStringFromAssert().replaceAll("\"geo\": \"\"", "\"geo\": {}");
+        	String json = readStringFromAssert("test_huati_weibo.json").replaceAll("\"geo\": \"\"", "\"geo\": {}");
         	org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
         	Gson gson = new Gson();
-//	    	HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
-	    	HotWeiboBean result = gson.fromJson(json, HotWeiboBean.class);
-	    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
+
+        	HotHuaTiBean result = gson.fromJson(json, HotHuaTiBean.class);
 		}
 
     	
@@ -367,10 +368,10 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		});
     }
 
-	private String readStringFromAssert() {
+	private String readStringFromAssert(String filename) {
 		InputStream json = null;
 		try {
-			json = getAssets().open("test_error_2.json");
+			json = getAssets().open(filename);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
