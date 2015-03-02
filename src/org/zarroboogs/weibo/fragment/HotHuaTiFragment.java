@@ -102,7 +102,7 @@ public class HotHuaTiFragment extends BaseStateFragment {
         listView.setHeaderDividersEnabled(false);
 
 		loadNewRepostData();
-		pullToRefreshListView.setRefreshing();
+//		pullToRefreshListView.setRefreshing();
 		
         return swipeFrameLayout;
     }
@@ -221,7 +221,9 @@ public class HotHuaTiFragment extends BaseStateFragment {
     }
 
 
-    public void loadNewRepostData() {					
+    public void loadNewRepostData() {	
+    	pullToRefreshListView.setRefreshing();
+    	
         	mAsyncHttoClient.get(WeiBoURLs.hotHuaTi("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
 			
 			@Override
@@ -232,21 +234,17 @@ public class HotHuaTiFragment extends BaseStateFragment {
 				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
 				
 				HotHuaTi huati = new Gson().fromJson(json, new TypeToken<HotHuaTi>() {}.getType());
-				HotHuaTiCard card = huati.getCards().get(0);
-				List<HotHuaTiCardGroup> group = card.getCard_group();
+				List<HotHuaTiCard> cards = huati.getCards();
 				
-//				HotHuaTiBean hotHuaTiBean = new Gson().fromJson(json, new TypeToken<HotHuaTiBean>() {}.getType());
-//				HotHuaTiCardBean cards = hotHuaTiBean.getCards().get(0);
-//				
-//				List<HotHuaTiCardGroup> groupBeans = cards.getCard_group();
-//				
-//				Log.d("READ_JSON_DONE", "Total: " + hotHuaTiBean.getCardlistInfo().getTotal());
-//				
-//				for (HotHuaTiCardGroup HotHuaTiCardGroup : groupBeans) {
-//					Log.d("READ_JSON_DONE", "" + HotHuaTiCardGroup.getDesc1());
-//				}
+				List<HotHuaTiCardGroup> result = new ArrayList<HotHuaTiCardGroup>();
+				for (HotHuaTiCard c : cards) {
+					List<HotHuaTiCardGroup> group = c.getCard_group();
+					if (group != null) {
+						result.addAll(group);
+					}
+				}
 				
-				addNewDataAndRememberPosition(group);
+				addNewDataAndRememberPosition(result);
 				
 				pullToRefreshListView.onRefreshComplete();
 			}
@@ -262,6 +260,10 @@ public class HotHuaTiFragment extends BaseStateFragment {
 
     private void addNewDataAndRememberPosition(final List<HotHuaTiCardGroup> newValue) {
 
+    	Utility.printLongLog("HUATI_", "newValue Size: " + newValue.size());
+    	for (HotHuaTiCardGroup hotHuaTiCardGroup : newValue) {
+    		Utility.printLongLog("HUATI_", "HuaTi Text: " + hotHuaTiCardGroup.getDesc1());
+		}
         int initSize = getListView().getCount();
 
         if (getActivity() != null) {
