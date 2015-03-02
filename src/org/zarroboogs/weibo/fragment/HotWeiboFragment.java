@@ -466,14 +466,14 @@ public class HotWeiboFragment extends BaseStateFragment {
 
 
     public void loadNewRepostData() {					
-        	mAsyncHttoClient.get(WeiBoURLs.hotHuaTi("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
+        	mAsyncHttoClient.get(WeiBoURLs.hotWeiboUrl("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 				// TODO Auto-generated method stub
 				mPage++;
 				String json = new String(responseBody).replaceAll("\"geo\":\"\"", "\"geo\": {}");
-//				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
+				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
 				
 				
 			if (true) {
