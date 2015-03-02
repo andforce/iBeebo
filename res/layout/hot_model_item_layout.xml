@@ -23,78 +23,88 @@
             android:layout_height="100dp" >
 
             <ImageView
+                android:layout_margin="10dp"
                 android:id="@+id/modle000"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/smartisan_beebo_launcher" />
 
             <ImageView
                 android:id="@+id/modle001"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/smartisan_beebo_launcher" />
 
             <ImageView
                 android:id="@+id/modle002"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/smartisan_beebo_launcher" />
-
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/modelRowTwo"
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_below="@id/modelRowOne" >
+            android:layout_below="@id/modelRowOne"
+            android:layout_marginTop="5dp" >
 
             <ImageView
                 android:id="@+id/modle003"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_margin="10dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/smartisan_beebo_launcher" />
 
             <ImageView
                 android:id="@+id/modle004"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_margin="10dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/smartisan_beebo_launcher" />
 
             <ImageView
                 android:id="@+id/modle005"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_margin="10dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/smartisan_beebo_launcher" />
-
         </LinearLayout>
-        <Button
-        android:id="@+id/button1"
-        android:layout_below="@id/modelRowTwo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Button" />
-    </RelativeLayout>
 
-    
+        <Button
+            android:id="@+id/button1"
+            android:background="@drawable/button_background_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/modelRowTwo"
+            android:layout_centerHorizontal="true"
+            android:text="查看全部套图" />
+    </RelativeLayout>
 
 </RelativeLayout>

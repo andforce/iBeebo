@@ -6,15 +6,20 @@ import org.zarroboogs.weibo.fragment.HotModelFragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.widget.Toolbar;
 
 public class HotModelActivity extends TranslucentStatusBarActivity {
 
+	private Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	// TODO Auto-generated method stub
     	super.onCreate(savedInstanceState);
     	 setContentView(R.layout.hotweibo_activity_layout);
          
+    	 mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
+    	 mToolbar.setTitle("车模热图");
+    	 
          buildContent();
     }
 
