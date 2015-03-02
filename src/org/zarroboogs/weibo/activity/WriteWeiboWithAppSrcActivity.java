@@ -36,8 +36,6 @@ import org.zarroboogs.weibo.hot.bean.huatidetail.Cards;
 import org.zarroboogs.weibo.hot.bean.huatidetail.HotHuaTiDetailCard;
 import org.zarroboogs.weibo.hot.bean.huatidetail.Mblog;
 import org.zarroboogs.weibo.hot.hean.HotCardBean;
-import org.zarroboogs.weibo.hot.hean.HotHuaTiBean;
-import org.zarroboogs.weibo.hot.hean.HotHuaTiCardBean;
 import org.zarroboogs.weibo.hot.hean.HotMblogBean;
 import org.zarroboogs.weibo.hot.hean.HotWeiboBean;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;

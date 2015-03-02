@@ -9,9 +9,9 @@ import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.adapter.HotHuaTiAdapter;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
-import org.zarroboogs.weibo.hot.hean.HotHuaTiBean;
-import org.zarroboogs.weibo.hot.hean.HotHuaTiCardBean;
-import org.zarroboogs.weibo.hot.hean.HotHuaTiCardGroupBean;
+import org.zarroboogs.weibo.hot.bean.huati.HotHuaTi;
+import org.zarroboogs.weibo.hot.bean.huati.HotHuaTiCard;
+import org.zarroboogs.weibo.hot.bean.huati.HotHuaTiCardGroup;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -43,7 +43,7 @@ public class HotHuaTiFragment extends BaseStateFragment {
 
     private HotHuaTiAdapter adapter;
 
-    private List<HotHuaTiCardGroupBean> repostList = new ArrayList<HotHuaTiCardGroupBean>();
+    private List<HotHuaTiCardGroup> repostList = new ArrayList<HotHuaTiCardGroup>();
 
     private static final int OLD_REPOST_LOADER_ID = 4;
 
@@ -231,18 +231,22 @@ public class HotHuaTiFragment extends BaseStateFragment {
 				String json = new String(responseBody).replaceAll("\"geo\":\"\"", "\"geo\": {}");
 				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
 				
-				HotHuaTiBean hotHuaTiBean = new Gson().fromJson(json, new TypeToken<HotHuaTiBean>() {}.getType());
-				HotHuaTiCardBean cards = hotHuaTiBean.getCards().get(0);
+				HotHuaTi huati = new Gson().fromJson(json, new TypeToken<HotHuaTi>() {}.getType());
+				HotHuaTiCard card = huati.getCards().get(0);
+				List<HotHuaTiCardGroup> group = card.getCard_group();
 				
-				List<HotHuaTiCardGroupBean> groupBeans = cards.getCard_group();
+//				HotHuaTiBean hotHuaTiBean = new Gson().fromJson(json, new TypeToken<HotHuaTiBean>() {}.getType());
+//				HotHuaTiCardBean cards = hotHuaTiBean.getCards().get(0);
+//				
+//				List<HotHuaTiCardGroup> groupBeans = cards.getCard_group();
+//				
+//				Log.d("READ_JSON_DONE", "Total: " + hotHuaTiBean.getCardlistInfo().getTotal());
+//				
+//				for (HotHuaTiCardGroup HotHuaTiCardGroup : groupBeans) {
+//					Log.d("READ_JSON_DONE", "" + HotHuaTiCardGroup.getDesc1());
+//				}
 				
-				Log.d("READ_JSON_DONE", "Total: " + hotHuaTiBean.getCardlistInfo().getTotal());
-				
-				for (HotHuaTiCardGroupBean hotHuaTiCardGroupBean : groupBeans) {
-					Log.d("READ_JSON_DONE", "" + hotHuaTiCardGroupBean.getDesc1());
-				}
-				
-				addNewDataAndRememberPosition(groupBeans);
+				addNewDataAndRememberPosition(group);
 				
 				pullToRefreshListView.onRefreshComplete();
 			}
@@ -256,7 +260,7 @@ public class HotHuaTiFragment extends BaseStateFragment {
 		});
 	}
 
-    private void addNewDataAndRememberPosition(final List<HotHuaTiCardGroupBean> newValue) {
+    private void addNewDataAndRememberPosition(final List<HotHuaTiCardGroup> newValue) {
 
         int initSize = getListView().getCount();
 

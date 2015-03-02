@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.hot.hean.HotHuaTiCardGroupBean;
+import org.zarroboogs.weibo.hot.bean.huati.HotHuaTiCardGroup;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -26,7 +26,7 @@ public class HotHuaTiAdapter extends BaseAdapter {
 
 	private ImageLoader mImageLoader = ImageLoader.getInstance();
 	private DisplayImageOptions options;
-	private List<HotHuaTiCardGroupBean> list = new ArrayList<HotHuaTiCardGroupBean>();
+	private List<HotHuaTiCardGroup> list = new ArrayList<HotHuaTiCardGroup>();
 
 	public HotHuaTiAdapter(Context context) {
 		super();
@@ -68,7 +68,7 @@ public class HotHuaTiAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		HotHuaTiCardGroupBean blog = list.get(position);
+		HotHuaTiCardGroup blog = list.get(position);
 
 		holder.title.setText(blog.getTitle_sub());
 		holder.descript.setText(blog.getDesc1());
@@ -100,15 +100,7 @@ public class HotHuaTiAdapter extends BaseAdapter {
 
     
     
-    public void addNewDataWithOutRemberPos(List<HotHuaTiCardGroupBean> newValue) {
-
-        if (newValue == null || newValue.size() == 0) {
-            return;
-        }
-
-        this.list.addAll( newValue);
-        }
-    public void addNewData(List<HotHuaTiCardGroupBean> newValue) {
+    public void addNewData(List<HotHuaTiCardGroup> newValue) {
 
         if (newValue == null || newValue.size() == 0) {
             return;
@@ -118,11 +110,11 @@ public class HotHuaTiAdapter extends BaseAdapter {
         
         // remove duplicate null flag, [x,y,null,null,z....]
  
-        ListIterator<HotHuaTiCardGroupBean> listIterator = this.list.listIterator();
+        ListIterator<HotHuaTiCardGroup> listIterator = this.list.listIterator();
 
         boolean isLastItemNull = false;
         while (listIterator.hasNext()) {
-        	HotHuaTiCardGroupBean msg = listIterator.next();
+        	HotHuaTiCardGroup msg = listIterator.next();
             if (msg == null) {
                 if (isLastItemNull) {
                     listIterator.remove();

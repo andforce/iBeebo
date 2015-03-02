@@ -12,9 +12,6 @@ import org.zarroboogs.weibo.adapter.HotModelAdapter;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 import org.zarroboogs.weibo.hot.bean.model.HotModel;
 import org.zarroboogs.weibo.hot.bean.model.HotModelCards;
-import org.zarroboogs.weibo.hot.hean.HotHuaTiBean;
-import org.zarroboogs.weibo.hot.hean.HotHuaTiCardBean;
-import org.zarroboogs.weibo.hot.hean.HotHuaTiCardGroupBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
 import org.zarroboogs.weibo.support.utils.Utility;
@@ -46,7 +43,6 @@ public class HotModelFragment extends BaseStateFragment {
 
     private HotModelAdapter adapter;
 
-    private List<HotHuaTiCardGroupBean> repostList = new ArrayList<HotHuaTiCardGroupBean>();
 
     private static final int OLD_REPOST_LOADER_ID = 4;
 
@@ -74,7 +70,7 @@ public class HotModelFragment extends BaseStateFragment {
         pullToRefreshListView = (PullToRefreshListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);
 
         pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
-        pullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
+//        pullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
         pullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
 			@Override
@@ -189,31 +185,6 @@ public class HotModelFragment extends BaseStateFragment {
         }
     };
 
-    private AbsListView.OnScrollListener listViewOnScrollListener = new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            if (hasActionMode()) {
-                int position = getListView().getCheckedItemPosition();
-                if (getListView().getFirstVisiblePosition() > position || getListView().getLastVisiblePosition() < position) {
-                    clearActionMode();
-                }
-            }
-
-            if (getListView().getLastVisiblePosition() > 7
-                    && getListView().getFirstVisiblePosition() != getListView().getHeaderViewsCount()) {
-
-            	if (getListView().getLastVisiblePosition() > repostList.size() - 3) {
-                    loadOldRepostData();
-                }
-            }
-        }
-    };
 
     private class EmptyHeaderOnClickListener implements View.OnClickListener {
 
