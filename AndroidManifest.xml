@@ -345,6 +345,7 @@
         <!-- 热门微博Activity -->
         <activity android:name="org.zarroboogs.weibo.activity.HotWeiboActivity" />
         <activity android:name="org.zarroboogs.weibo.activity.HotHuaTiActivity" />
+        <activity android:name="org.zarroboogs.weibo.activity.HotModelActivity" />
 
         <service
             android:name="com.umeng.update.net.DownloadingService"

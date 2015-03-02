@@ -7,6 +7,7 @@ import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AccountActivity;
 import org.zarroboogs.weibo.activity.HotHuaTiActivity;
+import org.zarroboogs.weibo.activity.HotModelActivity;
 import org.zarroboogs.weibo.activity.HotWeiboActivity;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.activity.MyInfoActivity;
@@ -668,6 +669,10 @@ public class LeftMenuFragment extends BaseStateFragment {
 
         layout.mHotHuaTi = ViewUtility.findViewById(view, R.id.btnHotHuaTi);
         
+        layout.mHotModel = ViewUtility.findViewById(view, R.id.btnHotModel);
+        
+        
+        
         boolean blackMagic = GlobalContext.getInstance().getAccountBean().isBlack_magic();
         if (!blackMagic) {
             layout.dm.setVisibility(View.GONE);
@@ -704,6 +709,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         
         layout.mHotWeibo.setOnClickListener(onClickListener);
         layout.mHotHuaTi.setOnClickListener(onClickListener);
+        layout.mHotModel.setOnClickListener(onClickListener);
         
     }
 
@@ -739,7 +745,10 @@ public class LeftMenuFragment extends BaseStateFragment {
 			}else if (id == R.id.btnHotHuaTi) {
 				Intent intent = new Intent(getActivity(), HotHuaTiActivity.class);
 				startActivity(intent);
-			}
+			} else if (id == R.id.btnHotModel) {
+				Intent intent = new Intent(getActivity(), HotModelActivity.class);
+				startActivity(intent);
+			} 
             ((MainTimeLineActivity) getActivity()).closeLeftDrawer();
         }
     };
@@ -882,6 +891,8 @@ public class LeftMenuFragment extends BaseStateFragment {
 		Button mHotWeibo;
 		
 		Button mHotHuaTi;
+		
+		Button mHotModel;
 	}
 
 }

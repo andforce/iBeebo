@@ -191,4 +191,12 @@ public class WeiBoURLs {
     			+ "&skin=default&count=20&oldwm=14010_0013&containerid=100803&luicode=10000010";
     	return url;
     }
+    
+    public static String hotModel(String gsid, int page){
+    	String url = "http://mapi.weibo.com/2/cardlist?"
+    			+ "gsid=" + gsid
+    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=20&containerid=101903_-_girl_pic_lst&fid=101903_-_girl_pic_lst&lfid=101903&"
+    			+ "page=" + page;
+    	return url;
+    }
 }
