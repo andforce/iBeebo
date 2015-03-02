@@ -31,6 +31,10 @@ import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
+import org.zarroboogs.weibo.hot.bean.huatidetail.CardGroup;
+import org.zarroboogs.weibo.hot.bean.huatidetail.Cards;
+import org.zarroboogs.weibo.hot.bean.huatidetail.HotHuaTiDetailCard;
+import org.zarroboogs.weibo.hot.bean.huatidetail.Mblog;
 import org.zarroboogs.weibo.hot.hean.HotCardBean;
 import org.zarroboogs.weibo.hot.hean.HotHuaTiBean;
 import org.zarroboogs.weibo.hot.hean.HotHuaTiCardBean;
@@ -295,11 +299,29 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
     protected void fetchAppSrc() {
     	if (true) {
-        	String json = readStringFromAssert("test_huati_weibo.json").replaceAll("\"geo\": \"\"", "\"geo\": {}");
+//        	String json = readStringFromAssert("test_huati_weibo.json").replaceAll("\"geo\": \"\"", "\"geo\": {}");//
+        	//"card_group": [],
+        	
+    		String json = readStringFromAssert("test_huati_weibo.json").replaceAll("\"card_group\":\\[\\]", "\"card_group\":[{}]");//
+    		
         	org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
         	Gson gson = new Gson();
 
-        	HotHuaTiBean result = gson.fromJson(json, HotHuaTiBean.class);
+        	HotHuaTiDetailCard card = gson.fromJson(json, HotHuaTiDetailCard.class);
+        	
+        	ArrayList<Cards> cards = card.getCards();
+        	Log.d("READ_HUATI_DETAIL", "Size: " + cards.size());
+        	for (Cards cards2 : cards) {
+        		List<CardGroup> group = cards2.getCardGroup();
+        		if (group != null) {
+					for (CardGroup cardGroup : group) {
+						Mblog mblog = cardGroup.getMblog();
+						if (mblog != null) {
+							Log.d("READ_HUATI_DETAIL", "" + mblog.getText());
+						}
+					}
+				}
+			}
 		}
 
     	
