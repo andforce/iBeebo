@@ -21,14 +21,14 @@
             android:id="@+id/huatiPic"
             android:layout_width="@dimen/timeline_avatar_width"
             android:layout_height="@dimen/timeline_avatar_height"
-            android:clickable="true" />
+            android:clickable="false" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/huatiPic"
-            android:clickable="true"
+            android:clickable="false"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="#话题#"
@@ -36,28 +36,31 @@
             android:textColor="#FF333333" />
 
         <TextView
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/title"
             android:id="@+id/descript"
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/huatiPic"
-            android:clickable="true"
+            android:clickable="false"
             android:ellipsize="end"
-            android:singleLine="true"
             android:textSize="12sp"
             android:text="这是话题的描述"
             android:textColor="#FF919191"
             tools:ignore="RtlHardcoded" />
 
         <TextView
+            android:layout_below="@id/descript"
+            android:layout_marginTop="5dp"
             android:id="@+id/readNumber"
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@id/huatiPic"
-            android:clickable="true"
+            android:clickable="false"
             android:ellipsize="end"
             android:singleLine="true"
             android:textSize="10sp"
