@@ -7,6 +7,7 @@ import org.apache.http.Header;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.activity.SearchTopicByNameActivity;
 import org.zarroboogs.weibo.adapter.HotHuaTiAdapter;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 import org.zarroboogs.weibo.hot.bean.huati.HotHuaTi;
@@ -24,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ActionMode;
@@ -31,6 +33,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -104,6 +108,19 @@ public class HotHuaTiFragment extends BaseStateFragment {
 		loadNewRepostData();
 //		pullToRefreshListView.setRefreshing();
 		
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				HotHuaTiCardGroup g = (HotHuaTiCardGroup) (adapter).getItem(position - 1);
+                Intent intent = new Intent(getActivity(), SearchTopicByNameActivity.class);
+                String str = g.getTitle_sub();
+                intent.putExtra("q", str.substring(1, str.length() - 1));
+                startActivity(intent);
+			}
+		});
         return swipeFrameLayout;
     }
 
