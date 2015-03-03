@@ -322,44 +322,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 			}
 		}
 
-    	
-		if (false) {
-	    	getAsyncHttpClient().get(WeiBoURLs.hotWeiboUrl("4upDb8fe3jr9RGyZmP1OG7SC21d", 2), new AsyncHttpResponseHandler() {
-				
-				@Override
-				public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-					// TODO Auto-generated method stub
-					
-					String json = new String(responseBody).replace("", "");
-					org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
-					
-					Gson gson = new Gson();
-			    	HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
-			    	Log.d("===========after_READ_JSON_DONE:", "-----------"+ result.getCardlistInfo().getDesc());
-					List<HotCardBean> cardBeans = result.getCards();
-					Log.d("===========after_READ_JSON_DONE:", "-----------" + "Cards Size: " + cardBeans.size());
-					
-					List<HotMblogBean> hotMblogBeans = new ArrayList<HotMblogBean>();
-					for (HotCardBean i : cardBeans) {
-						HotMblogBean blog = i.getMblog();
-						if (blog != null) {
-							hotMblogBeans.add(blog);
-						}
-					}
-			            
-					for (HotMblogBean i : hotMblogBeans) {
-						Log.d("===========after_READ_JSON_DONE:", i.getUser().getId());
-					}
-				}
-				
-				@Override
-				public void onFailure(int statusCode, Header[] headers,
-						byte[] responseBody, Throwable error) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-		}
+
 
 		fetchWeiBa(new OnFetchAppSrcListener() {
 

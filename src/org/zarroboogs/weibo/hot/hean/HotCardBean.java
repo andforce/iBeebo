@@ -1,5 +1,7 @@
 package org.zarroboogs.weibo.hot.hean;
 
+import org.zarroboogs.weibo.bean.MessageBean;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,18 +13,18 @@ public class HotCardBean implements Parcelable {
 	private String scheme = "sinaweibo://detail/?mblogid=C5WXl7QsS";
 
 	private String weibo_need = "mblog";
-	private HotMblogBean mblog = null;
+	private MessageBean mblog = null;
 
 	private int show_type = 1;
 	private String openurl = "";
 
 	// ===========================================================================//
 
-	public HotMblogBean getMblog() {
+	public MessageBean getMblog() {
 		return mblog;
 	}
 
-	public void setMblog(HotMblogBean mblog) {
+	public void setMblog(MessageBean mblog) {
 		this.mblog = mblog;
 	}
 

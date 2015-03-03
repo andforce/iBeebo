@@ -59,7 +59,7 @@ public class HotWeiboFragment extends BaseStateFragment {
 
     private HotWeiboAdapter adapter;
 
-    private List<HotMblogBean> repostList = new ArrayList<HotMblogBean>();
+    private List<MessageBean> repostList = new ArrayList<MessageBean>();
 
     private static final int OLD_REPOST_LOADER_ID = 4;
 
@@ -483,15 +483,15 @@ public class HotWeiboFragment extends BaseStateFragment {
 					List<HotCardBean> cardBeans = result.getCards();
 					Log.d("===========after_READ_JSON_DONE:", "-----------" + "Cards Size: " + cardBeans.size());
 					
-					List<HotMblogBean> hotMblogBeans = new ArrayList<HotMblogBean>();
+					List<MessageBean> hotMblogBeans = new ArrayList<MessageBean>();
 					for (HotCardBean i : cardBeans) {
-						HotMblogBean blog = i.getMblog();
+						MessageBean blog = i.getMblog();
 						if (blog != null) {
 							hotMblogBeans.add(blog);
 						}
 					}
 			            
-					for (HotMblogBean i : hotMblogBeans) {
+					for (MessageBean i : hotMblogBeans) {
 						Log.d("===========after_READ_JSON_DONE:", i.getUser().getId());
 					}
 					
@@ -517,7 +517,7 @@ public class HotWeiboFragment extends BaseStateFragment {
 		});
 	}
 
-    private void addNewDataAndRememberPosition(final List<HotMblogBean> newValue) {
+    private void addNewDataAndRememberPosition(final List<MessageBean> newValue) {
 
         int initSize = getListView().getCount();
 

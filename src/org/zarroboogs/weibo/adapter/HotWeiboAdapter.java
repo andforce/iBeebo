@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.hot.hean.HotMblogBean;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
@@ -35,7 +36,7 @@ public class HotWeiboAdapter extends BaseAdapter {
 
 	private ImageLoader mImageLoader = ImageLoader.getInstance();
 	private DisplayImageOptions options;
-	private List<HotMblogBean> list = new ArrayList<HotMblogBean>();
+	private List<MessageBean> list = new ArrayList<MessageBean>();
 
 	public HotWeiboAdapter(Context context) {
 		super();
@@ -79,7 +80,7 @@ public class HotWeiboAdapter extends BaseAdapter {
 		// mImageLoader.displayImage("file://" +
 		// SendImgData.getInstance().getSendImgs().get(position),
 		// holder.mImageView , options);
-		HotMblogBean blog = list.get(position);
+		MessageBean blog = list.get(position);
 		
 		holder.username.setText(blog.getUser().getScreen_name());
 
@@ -102,7 +103,7 @@ public class HotWeiboAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private void loadContentPic(ViewHolder holder, HotMblogBean blog, Bitmap m,
+	private void loadContentPic(ViewHolder holder, MessageBean blog, Bitmap m,
 			final TimeLineImageView content_pic) {
 		mImageLoader.loadImage(blog.getBmiddle_pic(),options, new SimpleImageLoadingListener(){
 
@@ -208,7 +209,7 @@ public class HotWeiboAdapter extends BaseAdapter {
 //		notifyDataSetChanged();
 //	}
 	
-    public void addNewData(List<HotMblogBean> newValue) {
+    public void addNewData(List<MessageBean> newValue) {
 
         if (newValue == null || newValue.size() == 0) {
             return;
@@ -218,11 +219,11 @@ public class HotWeiboAdapter extends BaseAdapter {
         
         // remove duplicate null flag, [x,y,null,null,z....]
  
-        ListIterator<HotMblogBean> listIterator = this.list.listIterator();
+        ListIterator<MessageBean> listIterator = this.list.listIterator();
 
         boolean isLastItemNull = false;
         while (listIterator.hasNext()) {
-        	HotMblogBean msg = listIterator.next();
+        	MessageBean msg = listIterator.next();
             if (msg == null) {
                 if (isLastItemNull) {
                     listIterator.remove();
