@@ -6,8 +6,10 @@ import java.util.List;
 import org.apache.http.Header;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.file.FileLocationMethod;
+import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.adapter.HotWeiboAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
@@ -45,6 +47,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -118,6 +122,17 @@ public class HotWeiboFragment extends BaseStateFragment {
         listView.setHeaderDividersEnabled(false);
 
         loadNewRepostData();
+        listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				
+				Intent intent = BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), 
+						(MessageBean)adapter.getItem(position - 1), GlobalContext.getInstance().getSpecialToken());
+				startActivity(intent);
+			}
+		});
         return swipeFrameLayout;
     }
 

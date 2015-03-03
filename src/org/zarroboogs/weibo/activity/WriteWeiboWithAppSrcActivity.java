@@ -20,7 +20,6 @@ import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.SendBitmapWorkerTask;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
-import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.SendBitmapWorkerTask.OnCacheDoneListener;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.GlobalContext;
@@ -35,9 +34,7 @@ import org.zarroboogs.weibo.hot.bean.huatidetail.CardGroup;
 import org.zarroboogs.weibo.hot.bean.huatidetail.Cards;
 import org.zarroboogs.weibo.hot.bean.huatidetail.HotHuaTiDetailCard;
 import org.zarroboogs.weibo.hot.bean.huatidetail.Mblog;
-import org.zarroboogs.weibo.hot.hean.HotCardBean;
-import org.zarroboogs.weibo.hot.hean.HotMblogBean;
-import org.zarroboogs.weibo.hot.hean.HotWeiboBean;
+
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
@@ -48,9 +45,7 @@ import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
-import com.crashlytics.android.internal.s;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
