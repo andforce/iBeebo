@@ -38,7 +38,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
+public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
     private WeakHashMap<ViewHolder, Drawable> bg = new WeakHashMap<ViewHolder, Drawable>();
 
@@ -52,11 +52,11 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
     private TopTipsView topTipBar;
 
-    public StatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
+    public HotWeiboStatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
         this(fragment, bean, listView, showOriStatus, false);
     }
 
-    public StatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus, boolean pre) {
+    public HotWeiboStatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus, boolean pre) {
         super(fragment, bean, listView, showOriStatus, pre);
     }
 

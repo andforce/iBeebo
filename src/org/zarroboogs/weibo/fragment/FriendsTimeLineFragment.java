@@ -95,7 +95,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
 
     private HashMap<String, TimeLinePosition> positionCache = new HashMap<String, TimeLinePosition>();
 
-    private MessageListBean bean = new MessageListBean();
+    private MessageListBean mMessageListBean = new MessageListBean();
 
     private BaseAdapter mBaseAdapter;
 
@@ -131,7 +131,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
 
     @Override
     public MessageListBean getDataList() {
-        return bean;
+        return mMessageListBean;
     }
 
     @Override

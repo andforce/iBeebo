@@ -344,10 +344,11 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
     }
 
     private View initSimpleLayout(ViewGroup parent) {
-        View convertView;
-        convertView = inflater.inflate(R.layout.timeline_listview_item_simple_layout, parent, false);
-
-        return convertView;
+//        View convertView;
+//        convertView = inflater.inflate(R.layout.timeline_listview_item_simple_layout, parent, false);
+//
+//        return convertView;
+    	return initNormalLayout(parent);
     }
 
     private View initMylayout(ViewGroup parent) {

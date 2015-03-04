@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?listview_card_bg"
+        android:background="@drawable/bg_tacos"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:paddingTop="2dp" >
@@ -41,7 +41,7 @@
                 android:layout_height="0.66dp"
                 android:layout_below="@id/avatar"
                 android:layout_marginTop="8dp"
-                android:background="?listview_repost_divider"
+                android:background="@drawable/divider"
                 android:visibility="visible" />
 
             <LinearLayout
@@ -55,7 +55,7 @@
                     android:id="@+id/timeline_gps_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="?timeline_gps_icon"
+                    android:src="@drawable/timeline_gps_dark"
                     android:visibility="gone" />
 
                 <ImageView
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:src="?timeline_pic_icon"
+                    android:src="@drawable/timeline_pic_dark"
                     android:visibility="gone" />
 
                 <TextView
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:drawableLeft="?timeline_repost_flag"
+                    android:drawableLeft="@drawable/timeline_repost_dark"
                     android:drawablePadding="4dp"
                     android:fontFamily="monospace"
                     android:textColor="?android:textColorTertiary" />
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:drawableLeft="?timeline_comment_flag"
+                    android:drawableLeft="@drawable/timeline_comment_dark"
                     android:drawablePadding="4dp"
                     android:fontFamily="monospace"
                     android:textColor="?android:textColorTertiary" />
@@ -96,7 +96,7 @@
                 android:clickable="true"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="?listview_text_color"
+                android:textColor="@color/timeline_item_text_color_light"
                 android:textStyle="bold" />
 
             <org.zarroboogs.weibo.widget.TimeTextView
@@ -124,7 +124,7 @@
                 android:layout_marginTop="3dp"
                 android:clickable="true"
                 android:lineSpacingMultiplier="1.1"
-                android:textColor="?listview_text_color"
+                android:textColor="@color/timeline_item_text_color_light"
                 android:textSize="15sp" />
 
             <!-- android:layout_width="@dimen/timeline_pic_thumbnail_width" -->
@@ -179,7 +179,7 @@
                     android:clickable="false"
                     android:includeFontPadding="true"
                     android:lineSpacingMultiplier="1.1"
-                    android:textColor="?listview_text_color"
+                    android:textColor="@color/timeline_item_text_color_light"
                     android:textSize="15sp"
                     android:visibility="gone" />
 
