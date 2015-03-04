@@ -24,6 +24,7 @@ import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.WeiboDetailImageView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
+import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -43,6 +44,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 public class HotWeiboFragment extends AbsBaseTimeLineFragment<MessageListBean> {
 
@@ -94,6 +96,16 @@ public class HotWeiboFragment extends AbsBaseTimeLineFragment<MessageListBean> {
 				Intent intent = BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), 
 						(MessageBean)adapter.getItem(position - 1), GlobalContext.getInstance().getSpecialToken());
 				startActivity(intent);
+			}
+		});
+        
+        getPullToRefreshListView().setOnRefreshListener(new OnRefreshListener<ListView>() {
+
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				// TODO Auto-generated method stub
+				loadNewRepostData();
+				getPullToRefreshListView().setRefreshing();
 			}
 		});
 	}
@@ -233,7 +245,9 @@ public class HotWeiboFragment extends AbsBaseTimeLineFragment<MessageListBean> {
     }
 
 
-    public void loadNewRepostData() {					
+    public void loadNewRepostData() {		
+    	getPullToRefreshListView().setRefreshing();
+    	
         	mAsyncHttoClient.get(WeiBoURLs.hotWeiboUrl("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
 			
 			@Override
@@ -243,30 +257,26 @@ public class HotWeiboFragment extends AbsBaseTimeLineFragment<MessageListBean> {
 				String json = new String(responseBody).replaceAll("\"geo\":\"\"", "\"geo\": {}");
 				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
 				
-				
-			if (true) {
 				Gson gson = new Gson();
 				
 				HotWeiboErrorBean error = gson.fromJson(json, HotWeiboErrorBean.class);
 				if (error != null && TextUtils.isEmpty(error.getErrmsg())) {
 					HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
-					
 					mMessageListBean.addNewData(result.getMessageListBean());
-			    	
 					List<MessageBean> list = result.getMessageBeans();
 					addNewDataAndRememberPosition(list);
-					
 				}else {
 					Log.d("===========after_READ_JSON_DONE:", "-----------"+ error.getErrmsg());
 				}
-			}	
-
+				
+				getPullToRefreshListView().onRefreshComplete();
 			}
 			
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
 				// TODO Auto-generated method stub
+				getPullToRefreshListView().onRefreshComplete();
 			}
 		});
 	}
