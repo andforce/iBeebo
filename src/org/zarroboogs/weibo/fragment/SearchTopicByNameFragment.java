@@ -44,7 +44,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
     private UnFollowTopicTask unFollowTopicTask;
 
     @Override
-    public TopicResultListBean getList() {
+    public TopicResultListBean getDataList() {
         return bean;
     }
 
@@ -86,9 +86,9 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
             case ACTIVITY_DESTROY_AND_CREATE:
                 q = savedInstanceState.getString("q");
                 page = savedInstanceState.getInt("page");
-                getList().addNewData((TopicResultListBean) savedInstanceState.getParcelable(Constants.BEAN));
+                getDataList().addNewData((TopicResultListBean) savedInstanceState.getParcelable(Constants.BEAN));
                 getAdapter().notifyDataSetChanged();
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 break;
         }
     }
@@ -96,7 +96,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
     @Override
     protected void newMsgLoaderSuccessCallback(TopicResultListBean newValue, Bundle loaderArgs) {
         if (newValue != null && getActivity() != null && newValue.getSize() > 0) {
-            getList().addNewData(newValue);
+            getDataList().addNewData(newValue);
             getAdapter().notifyDataSetChanged();
             getListView().setSelectionAfterHeaderView();
             buildActionBatSubtitle();
@@ -106,7 +106,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
     @Override
     protected void oldMsgLoaderSuccessCallback(TopicResultListBean newValue) {
         if (newValue != null && newValue.getSize() > 0) {
-            getList().addOldData(newValue);
+            getDataList().addOldData(newValue);
             page++;
             buildActionBatSubtitle();
         }

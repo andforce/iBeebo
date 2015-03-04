@@ -24,7 +24,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     private SearchStatusListBean bean = new SearchStatusListBean();
 
     @Override
-    public SearchStatusListBean getList() {
+    public SearchStatusListBean getDataList() {
         return bean;
     }
 
@@ -91,7 +91,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     @Override
     protected void newMsgLoaderSuccessCallback(SearchStatusListBean newValue, Bundle loaderArgs) {
         if (newValue != null && getActivity() != null && newValue.getSize() > 0) {
-            getList().addNewData(newValue);
+            getDataList().addNewData(newValue);
             getAdapter().notifyDataSetChanged();
             getListView().setSelectionAfterHeaderView();
             getActivity().invalidateOptionsMenu();
@@ -103,7 +103,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     protected void oldMsgLoaderSuccessCallback(SearchStatusListBean newValue) {
 
         if (newValue != null && newValue.getSize() > 0) {
-            getList().addOldData(newValue);
+            getDataList().addOldData(newValue);
             getAdapter().notifyDataSetChanged();
             getActivity().invalidateOptionsMenu();
             page++;

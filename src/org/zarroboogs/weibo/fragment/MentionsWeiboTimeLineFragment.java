@@ -71,7 +71,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
     }
 
     @Override
-    public MessageListBean getList() {
+    public MessageListBean getDataList() {
         return bean;
     }
 
@@ -141,7 +141,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
 
     @Override
     protected void buildListAdapter() {
-        StatusListAdapter adapter = new StatusListAdapter(this, getList().getItemList(), getListView(), true, false);
+        StatusListAdapter adapter = new StatusListAdapter(this, getDataList().getItemList(), getListView(), true, false);
         adapter.setTopTipBar(newMsgTipBar);
         timeLineAdapter = adapter;
         getListView().setAdapter(timeLineAdapter);
@@ -199,15 +199,15 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
     }
 
     private void addNewDataAndRememberPosition(final MessageListBean newValue) {
-        int initSize = getList().getSize();
+        int initSize = getDataList().getSize();
         if (getActivity() != null && newValue.getSize() > 0) {
-            final boolean jumpToTop = getList().getSize() == 0;
+            final boolean jumpToTop = getDataList().getSize() == 0;
 
-            getList().addNewData(newValue);
+            getDataList().addNewData(newValue);
             if (!jumpToTop) {
                 int index = getListView().getFirstVisiblePosition();
                 getAdapter().notifyDataSetChanged();
-                int finalSize = getList().getSize();
+                int finalSize = getDataList().getSize();
                 final int positionAfterRefresh = index + finalSize - initSize + getListView().getHeaderViewsCount();
                 // use 1 px to show newMsgTipBar
                 Utility.setListViewSelectionFromTop(getListView(), positionAfterRefresh, 1, new Runnable() {
@@ -224,7 +224,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
                 getAdapter().notifyDataSetChanged();
                 getListView().setSelection(0);
             }
-            MentionWeiboTimeLineDBTask.asyncReplace(getList(), accountBean.getUid());
+            MentionWeiboTimeLineDBTask.asyncReplace(getDataList(), accountBean.getUid());
             saveTimeLinePositionToDB();
         }
     }
@@ -235,7 +235,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
             int size = newValue.getSize();
 
             if (getActivity() != null && newValue.getSize() > 0) {
-                getList().addMiddleData(position, newValue, towardsBottom);
+                getDataList().addMiddleData(position, newValue, towardsBottom);
 
                 if (towardsBottom) {
                     getAdapter().notifyDataSetChanged();
@@ -254,8 +254,8 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
     @Override
     protected void oldMsgLoaderSuccessCallback(MessageListBean newValue) {
         if (newValue != null && newValue.getSize() > 1) {
-            getList().addOldData(newValue);
-            MentionWeiboTimeLineDBTask.asyncReplace(getList(), accountBean.getUid());
+            getDataList().addOldData(newValue);
+            MentionWeiboTimeLineDBTask.asyncReplace(getDataList(), accountBean.getUid());
         } else {
             Toast.makeText(getActivity(), getString(R.string.older_message_empty), Toast.LENGTH_SHORT).show();
         }
@@ -297,9 +297,9 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
 
                 MessageListBean savedBean = (MessageListBean) savedInstanceState.getParcelable(Constants.BEAN);
                 if (savedBean != null && savedBean.getSize() > 0) {
-                    getList().replaceData(savedBean);
+                    getDataList().replaceData(savedBean);
                     timeLineAdapter.notifyDataSetChanged();
-                    refreshLayout(getList());
+                    refreshLayout(getDataList());
                 } else {
                     getLoaderManager().initLoader(DB_CACHE_LOADER_ID, null, dbCallback);
                 }
@@ -326,14 +326,14 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         }
         final MessageBean msg = (MessageBean) data.getParcelableExtra("msg");
         if (msg != null) {
-            for (int i = 0; i < getList().getSize(); i++) {
-                if (msg.equals(getList().getItem(i))) {
-                    MessageBean ori = getList().getItem(i);
+            for (int i = 0; i < getDataList().getSize(); i++) {
+                if (msg.equals(getDataList().getItem(i))) {
+                    MessageBean ori = getDataList().getItem(i);
                     if (ori.getComments_count() != msg.getComments_count()
                             || ori.getReposts_count() != msg.getReposts_count()) {
                         ori.setReposts_count(msg.getReposts_count());
                         ori.setComments_count(msg.getComments_count());
-                        MentionWeiboTimeLineDBTask.asyncReplace(getList(), accountBean.getUid());
+                        MentionWeiboTimeLineDBTask.asyncReplace(getDataList(), accountBean.getUid());
                         getAdapter().notifyDataSetChanged();
                     }
                     break;
@@ -374,7 +374,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
             getPullToRefreshListView().setVisibility(View.VISIBLE);
 
             if (result != null) {
-                getList().replaceData(result.msgList);
+                getDataList().replaceData(result.msgList);
                 timeLinePosition = result.position;
             }
 
@@ -410,8 +410,8 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         String accountId = accountBean.getUid();
         String token = accountBean.getAccess_token();
         String sinceId = null;
-        if (getList().getItemList().size() > 0) {
-            sinceId = getList().getItemList().get(0).getId();
+        if (getDataList().getItemList().size() > 0) {
+            sinceId = getDataList().getItemList().get(0).getId();
         }
         return new MentionsWeiboMsgLoader(getActivity(), accountId, token, sinceId, null);
     }
@@ -428,8 +428,8 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         String accountId = accountBean.getUid();
         String token = accountBean.getAccess_token();
         String maxId = null;
-        if (getList().getItemList().size() > 0) {
-            maxId = getList().getItemList().get(getList().getItemList().size() - 1).getId();
+        if (getDataList().getItemList().size() > 0) {
+            maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
         }
         return new MentionsWeiboMsgLoader(getActivity(), accountId, token, null, maxId);
     }
@@ -451,7 +451,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
     private void addUnreadMessage(MessageListBean data) {
         if (data != null && data.getSize() > 0) {
             MessageBean last = data.getItem(data.getSize() - 1);
-            boolean dup = getList().getItemList().contains(last);
+            boolean dup = getDataList().getItemList().contains(last);
             if (!dup) {
                 addNewDataAndRememberPosition(data);
             }
@@ -466,7 +466,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         protected void onPreExecute() {
             super.onPreExecute();
             msgIds = new ArrayList<String>();
-            List<MessageBean> msgList = getList().getItemList();
+            List<MessageBean> msgList = getDataList().getItemList();
             for (MessageBean msg : msgList) {
                 if (msg != null) {
                     msgIds.add(msg.getId());
@@ -492,14 +492,14 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
             }
 
             for (int i = 0; i < value.size(); i++) {
-                MessageBean msg = getList().getItem(i);
+                MessageBean msg = getDataList().getItem(i);
                 MessageReCmtCountBean count = value.get(i);
                 if (msg != null && msg.getId().equals(count.getId())) {
                     msg.setReposts_count(count.getReposts());
                     msg.setComments_count(count.getComments());
                 }
             }
-            MentionWeiboTimeLineDBTask.asyncReplace(getList(), accountBean.getUid());
+            MentionWeiboTimeLineDBTask.asyncReplace(getDataList(), accountBean.getUid());
             getAdapter().notifyDataSetChanged();
 
         }

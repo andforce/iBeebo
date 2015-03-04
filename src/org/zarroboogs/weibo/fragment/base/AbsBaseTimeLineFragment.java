@@ -181,7 +181,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
     }
 
-    public abstract T getList();
+    public abstract T getDataList();
 
     protected abstract void onTimeListViewItemClick(AdapterView<?> parent, View view, int position, long id);
 
@@ -279,12 +279,12 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
             int headerViewsCount = getListView().getHeaderViewsCount();
             if (isPositionBetweenHeaderViewAndFooterView(position)) {
                 int indexInDataSource = position - headerViewsCount;
-                DataItem msg = getList().getItem(indexInDataSource);
+                DataItem msg = getDataList().getItem(indexInDataSource);
                 if (!isNullFlag(msg)) {
                     onTimeListViewItemClick(parent, view, indexInDataSource, id);
                 } else {
-                    String beginId = getList().getItem(indexInDataSource + 1).getId();
-                    String endId = getList().getItem(indexInDataSource - 1).getId();
+                    String beginId = getDataList().getItem(indexInDataSource + 1).getId();
+                    String endId = getDataList().getItem(indexInDataSource - 1).getId();
                     ListViewMiddleMsgLoadingView loadingView = (ListViewMiddleMsgLoadingView) view;
                     if (!((ListViewMiddleMsgLoadingView) view).isLoading()
                             && savedCurrentLoadingMsgViewPositon == NO_SAVED_CURRENT_LOADING_MSG_VIEW_POSITION) {
@@ -304,7 +304,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
 
         boolean isPositionBetweenHeaderViewAndFooterView(int position) {
-            return position - getListView().getHeaderViewsCount() < getList().getSize()
+            return position - getListView().getHeaderViewsCount() < getDataList().getSize()
                     && position - getListView().getHeaderViewsCount() >= 0;
         }
 
@@ -324,7 +324,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
 
         boolean isLastItem(int position) {
-            return position - 1 >= getList().getSize();
+            return position - 1 >= getDataList().getSize();
         }
     };
 
@@ -397,7 +397,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
 
         if (allowLoadOldMsgBeforeReachListBottom() && getListView().getLastVisiblePosition() > 7
-                && getListView().getLastVisiblePosition() > getList().getSize() - 3
+                && getListView().getLastVisiblePosition() > getDataList().getSize() - 3
                 && getListView().getFirstVisiblePosition() != getListView().getHeaderViewsCount()) {
             loadOldMsg(null);
         }
@@ -536,7 +536,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
 
         if (newValue.getSize() == 0 || newValue.getSize() == 1) {
-            getList().getItemList().remove(position);
+            getDataList().getItemList().remove(position);
             getAdapter().notifyDataSetChanged();
             return;
         }
@@ -638,7 +638,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
             switch (loader.getId()) {
                 case NEW_MSG_LOADER_ID:
                     getPullToRefreshListView().onRefreshComplete();
-                    refreshLayout(getList());
+                    refreshLayout(getDataList());
                     if (Utility.isAllNotNull(exception)) {
                         newMsgTipBar.setError(exception.getError());
                         newMsgLoaderFailedCallback(exception);
@@ -665,7 +665,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
                     }
                     break;
                 case OLD_MSG_LOADER_ID:
-                    refreshLayout(getList());
+                    refreshLayout(getDataList());
 
                     if (exception != null) {
                         showErrorFooterView();

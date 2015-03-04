@@ -21,16 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-/**
- * User: Jiang Qi Date: 12-8-16
- */
 public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageListBean> {
 
-    protected UserBean userBean;
+    protected UserBean mUserBean;
 
-    protected String token;
+    protected String mToken;
 
-    private MessageListBean bean = new MessageListBean();
+    private MessageListBean mMessageListBean = new MessageListBean();
 
     public static StatusesByIdTimeLineFragment newInstance(UserBean userBean, String token) {
         StatusesByIdTimeLineFragment fragment = new StatusesByIdTimeLineFragment();
@@ -48,13 +45,13 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userBean = getArguments().getParcelable(Constants.USERBEAN);
-        token = getArguments().getString(Constants.TOKEN);
+        mUserBean = getArguments().getParcelable(Constants.USERBEAN);
+        mToken = getArguments().getString(Constants.TOKEN);
     }
 
     @Override
-    public MessageListBean getList() {
-        return bean;
+    public MessageListBean getDataList() {
+        return mMessageListBean;
     }
 
     @Override
@@ -64,10 +61,10 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
         }
         MessageBean msg = (MessageBean) data.getParcelableExtra("msg");
         if (msg != null) {
-            for (int i = 0; i < getList().getSize(); i++) {
-                if (msg.equals(getList().getItem(i))) {
-                    getList().getItem(i).setReposts_count(msg.getReposts_count());
-                    getList().getItem(i).setComments_count(msg.getComments_count());
+            for (int i = 0; i < getDataList().getSize(); i++) {
+                if (msg.equals(getDataList().getItem(i))) {
+                    getDataList().getItem(i).setReposts_count(msg.getReposts_count());
+                    getDataList().getItem(i).setComments_count(msg.getComments_count());
                     break;
                 }
             }
@@ -78,8 +75,8 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     @Override
     public void onResume() {
         super.onResume();
-        if (userBean != null && userBean.getId() != null
-                && userBean.getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
+        if (mUserBean != null && mUserBean.getId() != null
+                && mUserBean.getId().equals(GlobalContext.getInstance().getCurrentAccountId())) {
             GlobalContext.getInstance().registerForAccountChangeListener(myProfileInfoChangeListener);
         }
     }
@@ -93,7 +90,7 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     private GlobalContext.MyProfileInfoChangeListener myProfileInfoChangeListener = new GlobalContext.MyProfileInfoChangeListener() {
         @Override
         public void onChange(UserBean newUserBean) {
-            for (MessageBean msg : getList().getItemList()) {
+            for (MessageBean msg : getDataList().getItemList()) {
                 msg.setUser(newUserBean);
             }
             getAdapter().notifyDataSetChanged();
@@ -103,9 +100,9 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(Constants.BEAN, getList());
-        outState.putParcelable(Constants.USERBEAN, userBean);
-        outState.putString(Constants.TOKEN, token);
+        outState.putParcelable(Constants.BEAN, getDataList());
+        outState.putParcelable(Constants.USERBEAN, mUserBean);
+        outState.putString(Constants.TOKEN, mToken);
     }
 
     @Override
@@ -126,14 +123,14 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
                 break;
             case SCREEN_ROTATE:
                 // nothing
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 break;
             case ACTIVITY_DESTROY_AND_CREATE:
-                getList().replaceData((MessageListBean) savedInstanceState.getParcelable(Constants.BEAN));
-                userBean = (UserBean) savedInstanceState.getParcelable(Constants.USERBEAN);
-                token = savedInstanceState.getString(Constants.TOKEN);
+                getDataList().replaceData((MessageListBean) savedInstanceState.getParcelable(Constants.BEAN));
+                mUserBean = (UserBean) savedInstanceState.getParcelable(Constants.USERBEAN);
+                mToken = savedInstanceState.getString(Constants.TOKEN);
                 getAdapter().notifyDataSetChanged();
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 break;
         }
 
@@ -141,7 +138,7 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     }
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-        startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getList()
+        startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getDataList()
                 .getItem(position), GlobalContext
                 .getInstance().getSpecialToken()), 0);
     }
@@ -160,7 +157,7 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     @Override
     protected void newMsgLoaderSuccessCallback(MessageListBean newValue, Bundle loaderArgs) {
         if (getActivity() != null && newValue.getSize() > 0) {
-            getList().addNewData(newValue);
+            getDataList().addNewData(newValue);
             getAdapter().notifyDataSetChanged();
             getListView().setSelectionAfterHeaderView();
             getActivity().invalidateOptionsMenu();
@@ -172,38 +169,38 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     @Override
     protected void oldMsgLoaderSuccessCallback(MessageListBean newValue) {
         if (newValue != null && newValue.getSize() > 1) {
-            getList().addOldData(newValue);
+            getDataList().addOldData(newValue);
             getActivity().invalidateOptionsMenu();
         }
     }
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String uid = userBean.getId();
-        String screenName = userBean.getScreen_name();
+        String uid = mUserBean.getId();
+        String screenName = mUserBean.getScreen_name();
         String sinceId = null;
-        if (getList().getItemList().size() > 0) {
-            sinceId = getList().getItemList().get(0).getId();
+        if (getDataList().getItemList().size() > 0) {
+            sinceId = getDataList().getItemList().get(0).getId();
         }
-        return new StatusesByIdLoader(getActivity(), uid, screenName, token, sinceId, null);
+        return new StatusesByIdLoader(getActivity(), uid, screenName, mToken, sinceId, null);
     }
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateMiddleMsgLoader(int id, Bundle args,
             String middleBeginId, String middleEndId,
             String middleEndTag, int middlePosition) {
-        String uid = userBean.getId();
-        String screenName = userBean.getScreen_name();
-        return new StatusesByIdLoader(getActivity(), uid, screenName, token, middleBeginId, middleEndId);
+        String uid = mUserBean.getId();
+        String screenName = mUserBean.getScreen_name();
+        return new StatusesByIdLoader(getActivity(), uid, screenName, mToken, middleBeginId, middleEndId);
     }
 
     protected Loader<AsyncTaskLoaderResult<MessageListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String uid = userBean.getId();
-        String screenName = userBean.getScreen_name();
+        String uid = mUserBean.getId();
+        String screenName = mUserBean.getScreen_name();
         String maxId = null;
 
-        if (getList().getSize() > 0) {
-            maxId = getList().getItemList().get(getList().getSize() - 1).getId();
+        if (getDataList().getSize() > 0) {
+            maxId = getDataList().getItemList().get(getDataList().getSize() - 1).getId();
         }
 
-        return new StatusesByIdLoader(getActivity(), uid, screenName, token, null, maxId);
+        return new StatusesByIdLoader(getActivity(), uid, screenName, mToken, null, maxId);
     }
 }

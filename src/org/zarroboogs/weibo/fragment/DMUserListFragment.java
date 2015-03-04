@@ -50,7 +50,7 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
     }
 
     @Override
-    public DMUserListBean getList() {
+    public DMUserListBean getDataList() {
         return bean;
     }
 
@@ -74,12 +74,12 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
                 break;
             case SCREEN_ROTATE:
                 // nothing
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 break;
             case ACTIVITY_DESTROY_AND_CREATE:
                 bean.addNewData((DMUserListBean) savedInstanceState.getParcelable(Constants.BEAN));
                 getAdapter().notifyDataSetChanged();
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 break;
         }
         if ((((MainTimeLineActivity) getActivity()).getLeftMenuFragment()).getCurrentIndex() == LeftMenuFragment.DM_INDEX) {
@@ -179,7 +179,7 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
 
     @Override
     protected void buildListAdapter() {
-        timeLineAdapter = new DMUserListAdapter(this, getList().getItemList(), getListView());
+        timeLineAdapter = new DMUserListAdapter(this, getDataList().getItemList(), getListView());
         getListView().setAdapter(timeLineAdapter);
     }
 
@@ -200,13 +200,13 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
         protected void onPostExecute(DMUserListBean result) {
             super.onPostExecute(result);
             if (result != null) {
-                getList().addNewData(result);
+                getDataList().addNewData(result);
             }
             getPullToRefreshListView().setVisibility(View.VISIBLE);
             getAdapter().notifyDataSetChanged();
-            refreshLayout(getList());
+            refreshLayout(getDataList());
 
-            if (getList().getSize() == 0) {
+            if (getDataList().getSize() == 0) {
                 getPullToRefreshListView().setRefreshing();
                 loadNewMsg();
             }
@@ -216,10 +216,10 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
     @Override
     protected void newMsgLoaderSuccessCallback(DMUserListBean newValue, Bundle loaderArgs) {
         if (newValue != null && newValue.getSize() > 0 && getActivity() != null) {
-            getList().addNewData(newValue);
+            getDataList().addNewData(newValue);
             getAdapter().notifyDataSetChanged();
             getListView().setSelectionAfterHeaderView();
-            DMDBTask.asyncReplace(getList(), GlobalContext.getInstance().getCurrentAccountId());
+            DMDBTask.asyncReplace(getDataList(), GlobalContext.getInstance().getCurrentAccountId());
 
         }
 
@@ -228,7 +228,7 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
     @Override
     protected void oldMsgLoaderSuccessCallback(DMUserListBean newValue) {
         if (newValue != null && newValue.getSize() > 0 && getActivity() != null) {
-            getList().addOldData(newValue);
+            getDataList().addOldData(newValue);
             getAdapter().notifyDataSetChanged();
         }
     }
@@ -242,12 +242,12 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
     protected Loader<AsyncTaskLoaderResult<DMUserListBean>> onCreateOldMsgLoader(int id, Bundle args) {
         String token = GlobalContext.getInstance().getSpecialToken();
         String cursor = null;
-        if (getList().getSize() > 0 && Integer.valueOf(getList().getNext_cursor()) == 0) {
+        if (getDataList().getSize() > 0 && Integer.valueOf(getDataList().getNext_cursor()) == 0) {
             return null;
         }
 
-        if (getList().getSize() > 0) {
-            cursor = String.valueOf(getList().getNext_cursor());
+        if (getDataList().getSize() > 0) {
+            cursor = String.valueOf(getDataList().getNext_cursor());
         }
 
         return new DMUserLoader(getActivity(), token, cursor);

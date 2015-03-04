@@ -47,7 +47,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
     private AccountBean account;
 
     @Override
-    public FavListBean getList() {
+    public FavListBean getDataList() {
         return bean;
     }
 
@@ -136,14 +136,14 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
         }
         final MessageBean msg = (MessageBean) data.getParcelableExtra("msg");
         if (msg != null) {
-            for (int i = 0; i < getList().getSize(); i++) {
-                if (msg.equals(getList().getItem(i))) {
-                    MessageBean ori = getList().getItem(i);
+            for (int i = 0; i < getDataList().getSize(); i++) {
+                if (msg.equals(getDataList().getItem(i))) {
+                    MessageBean ori = getDataList().getItem(i);
                     if (ori.getComments_count() != msg.getComments_count()
                             || ori.getReposts_count() != msg.getReposts_count()) {
                         ori.setReposts_count(msg.getReposts_count());
                         ori.setComments_count(msg.getComments_count());
-                        FavouriteDBTask.asyncReplace(getList(), page, account.getUid());
+                        FavouriteDBTask.asyncReplace(getDataList(), page, account.getUid());
                         getAdapter().notifyDataSetChanged();
                     }
                     break;
@@ -161,7 +161,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
     }
 
     private void readDBCache() {
-        if (Utility.isTaskStopped(dbTask) && getList().getSize() == 0) {
+        if (Utility.isTaskStopped(dbTask) && getDataList().getSize() == 0) {
             dbTask = new DBCacheTask();
             dbTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -190,7 +190,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
         if (newValue != null && getActivity() != null && newValue.getSize() > 0) {
             addNewDataWithoutRememberPosition(newValue);
             buildActionBarSubtitle();
-            FavouriteDBTask.asyncReplace(getList(), page, account.getUid());
+            FavouriteDBTask.asyncReplace(getDataList(), page, account.getUid());
 
         }
 
@@ -200,16 +200,16 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
     protected void oldMsgLoaderSuccessCallback(FavListBean newValue) {
 
         if (newValue != null && newValue.getSize() > 0) {
-            getList().addOldData(newValue);
+            getDataList().addOldData(newValue);
             getAdapter().notifyDataSetChanged();
             buildActionBarSubtitle();
             page++;
-            FavouriteDBTask.asyncReplace(getList(), page, account.getUid());
+            FavouriteDBTask.asyncReplace(getDataList(), page, account.getUid());
         }
     }
 
     private void addNewDataWithoutRememberPosition(FavListBean newValue) {
-        getList().replaceData(newValue);
+        getDataList().replaceData(newValue);
         getAdapter().notifyDataSetChanged();
         getListView().setSelectionAfterHeaderView();
     }
@@ -291,9 +291,9 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
 
             }
 
-            refreshLayout(getList());
+            refreshLayout(getDataList());
 
-            if (getList().getSize() == 0) {
+            if (getDataList().getSize() == 0) {
                 getPullToRefreshListView().setRefreshing();
                 loadNewMsg();
             } else {
@@ -310,7 +310,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
         protected void onPreExecute() {
             super.onPreExecute();
             msgIds = new ArrayList<String>();
-            List<MessageBean> msgList = getList().getItemList();
+            List<MessageBean> msgList = getDataList().getItemList();
             for (MessageBean msg : msgList) {
                 if (msg != null) {
                     msgIds.add(msg.getId());
@@ -336,14 +336,14 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
             }
 
             for (int i = 0; i < value.size(); i++) {
-                MessageBean msg = getList().getItem(i);
+                MessageBean msg = getDataList().getItem(i);
                 MessageReCmtCountBean count = value.get(i);
                 if (msg != null && msg.getId().equals(count.getId())) {
                     msg.setReposts_count(count.getReposts());
                     msg.setComments_count(count.getComments());
                 }
             }
-            FavouriteDBTask.asyncReplace(getList(), page, account.getUid());
+            FavouriteDBTask.asyncReplace(getDataList(), page, account.getUid());
             getAdapter().notifyDataSetChanged();
 
         }

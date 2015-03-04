@@ -84,7 +84,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
     };
 
     @Override
-    public DMListBean getList() {
+    public DMListBean getDataList() {
         return bean;
     }
 
@@ -130,10 +130,10 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
                 break;
             case SCREEN_ROTATE:
                 // nothing
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 break;
             case ACTIVITY_DESTROY_AND_CREATE:
-                getList().addNewData((DMListBean) savedInstanceState.getParcelable(Constants.BEAN));
+                getDataList().addNewData((DMListBean) savedInstanceState.getParcelable(Constants.BEAN));
                 userBean = (UserBean) savedInstanceState.getParcelable(Constants.USERBEAN);
                 page = savedInstanceState.getInt("page");
                 getAdapter().notifyDataSetChanged();
@@ -283,7 +283,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     @Override
     protected void buildListAdapter() {
-        timeLineAdapter = new DMConversationAdapter(this, getList().getItemList(), getListView());
+        timeLineAdapter = new DMConversationAdapter(this, getDataList().getItemList(), getListView());
         getListView().setAdapter(timeLineAdapter);
     }
 
@@ -292,8 +292,8 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
         dmProgressBar.setVisibility(View.INVISIBLE);
 
         if (newValue != null && newValue.getSize() > 0 && getActivity() != null) {
-            getList().addNewData(newValue);
-            Collections.sort(getList().getItemList(), comparator);
+            getDataList().addNewData(newValue);
+            Collections.sort(getDataList().getItemList(), comparator);
             getAdapter().notifyDataSetChanged();
             getListView().setSelection(bean.getSize() - 1);
         }
@@ -303,8 +303,8 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
     @Override
     protected void oldMsgLoaderSuccessCallback(DMListBean newValue) {
         if (newValue != null && newValue.getSize() > 0) {
-            getList().addOldData(newValue);
-            Collections.sort(getList().getItemList(), comparator);
+            getDataList().addOldData(newValue);
+            Collections.sort(getDataList().getItemList(), comparator);
             getAdapter().notifyDataSetChanged();
             page++;
         }
