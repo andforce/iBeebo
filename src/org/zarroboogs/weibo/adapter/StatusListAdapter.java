@@ -12,19 +12,15 @@ import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
-import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.VelocityListView;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.LongSparseArray;
@@ -41,10 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-/**
- * User: qii Date: 12-8-19
- */
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
     private WeakHashMap<ViewHolder, Drawable> bg = new WeakHashMap<ViewHolder, Drawable>();
@@ -58,8 +50,6 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
     private LongSparseArray<Integer> oriMsgWidths = new LongSparseArray<Integer>();
 
     private TopTipsView topTipBar;
-
-    private Handler handler = new Handler();
 
     public StatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
         this(fragment, bean, listView, showOriStatus, false);
