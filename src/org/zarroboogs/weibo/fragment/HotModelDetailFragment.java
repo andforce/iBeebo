@@ -1,6 +1,6 @@
 package org.zarroboogs.weibo.fragment;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
@@ -9,258 +9,86 @@ import org.apache.http.Header;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.adapter.HotHuaTiAdapter;
 import org.zarroboogs.weibo.adapter.HotModelAdapter;
+import org.zarroboogs.weibo.adapter.HotModelDetailAdapter;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 import org.zarroboogs.weibo.hot.bean.model.HotModel;
-import org.zarroboogs.weibo.hot.bean.model.HotModelCards;
-import org.zarroboogs.weibo.setting.SettingUtils;
+import org.zarroboogs.weibo.hot.bean.model.detail.HotModelDetail;
+import org.zarroboogs.weibo.hot.bean.model.detail.HotModelDetailCard;
+import org.zarroboogs.weibo.hot.bean.model.detail.Pics;
 import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
-import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class HotModelDetailFragment extends BaseStateFragment {
 
-    private MsgDetailReadWorker picTask;
-    
-    private ListView listView;
+	private HotModelDetailAdapter adapter;
 
-    private HotModelAdapter adapter;
+	private int mPage = 1;
 
+	private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
 
-    private static final int OLD_REPOST_LOADER_ID = 4;
+	private String extparam = "";
 
-    private View footerView;
-
-    private ActionMode actionMode;
-
-    private boolean canLoadOldRepostData = true;
-
-    private int mPage = 1;
-    
-    private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
-
-    private PullToRefreshListView pullToRefreshListView;
-    @Override
-    public void onResume() {
-        super.onResume();
-        getListView().setFastScrollEnabled(SettingUtils.allowFastScroll());
-    }
-
-    private String extparam= "";
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	// TODO Auto-generated method stub
-    	super.onCreate(savedInstanceState);
-    	extparam = getArguments().getString("extparam");
-    	LogTool.D("extparam: " + extparam);
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RelativeLayout swipeFrameLayout = (RelativeLayout) inflater.inflate(R.layout.hotweibo_fragment_layout,container, false);
-        
-        pullToRefreshListView = (PullToRefreshListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);
-
-        pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
-//        pullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
-        pullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
-
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				// TODO Auto-generated method stub
-				loadNewRepostData();
-				refreshView.setRefreshing();
-			}
-        	
-		});
-        listView = pullToRefreshListView.getRefreshableView();
-
-
-        footerView = inflater.inflate(R.layout.listview_footer_layout, null);
-        listView.addFooterView(footerView);
-        dismissFooterView();
-
-//        repostTab.setOnClickListener(new RepostTabOnClickListener());
-
-        listView.setFooterDividersEnabled(false);
-        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        // listView.setOnItemLongClickListener(commentOnItemLongClickListener);
-
-//        initView(swipeFrameLayout, savedInstanceState);
-        adapter = new HotModelAdapter(this.getActivity());
-        listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        listView.setHeaderDividersEnabled(false);
-
-		loadNewRepostData();
-		pullToRefreshListView.setRefreshing();
-		
-        return swipeFrameLayout;
-    }
-
-    protected void showFooterView() {
-        View view = footerView.findViewById(R.id.loading_progressbar);
-        view.setVisibility(View.VISIBLE);
-        view.setScaleX(1.0f);
-        view.setScaleY(1.0f);
-        view.setAlpha(1.0f);
-        footerView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
-    }
-
-    protected void dismissFooterView() {
-        final View progressbar = footerView.findViewById(R.id.loading_progressbar);
-        progressbar.animate().scaleX(0).scaleY(0).alpha(0.5f).setDuration(300)
-                .setListener(new MyAnimationListener(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressbar.setVisibility(View.GONE);
-                    }
-                }));
-        footerView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
-    }
-
-    protected void showErrorFooterView() {
-        View view = footerView.findViewById(R.id.loading_progressbar);
-        view.setVisibility(View.GONE);
-        TextView tv = ((TextView) footerView.findViewById(R.id.laod_failed));
-        tv.setVisibility(View.VISIBLE);
-    }
-
-    public void clearActionMode() {
-        if (actionMode != null) {
-
-            actionMode.finish();
-            actionMode = null;
-        }
-        if (getListView() != null && getListView().getCheckedItemCount() > 0) {
-            getListView().clearChoices();
-            if (adapter != null) {
-                adapter.notifyDataSetChanged();
-            }
-        }
-    }
-
-    private ListView getListView() {
-        return listView;
-    }
-
-    public void setActionMode(ActionMode mActionMode) {
-        this.actionMode = mActionMode;
-    }
-
-    public boolean hasActionMode() {
-        return actionMode != null;
-    }
-
-    private boolean resetActionMode() {
-        if (actionMode != null) {
-            getListView().clearChoices();
-            actionMode.finish();
-            actionMode = null;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-
-
-
-
-    private PullToRefreshBase.OnLastItemVisibleListener onLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
-        @Override
-        public void onLastItemVisible() {
-//        	if (msg.getReposts_count() > 0 && repostList.size() > 0) {
-//                loadOldRepostData();
-//            }
-        }
-    };
-
-
-    private class EmptyHeaderOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-        	loadNewRepostData();
-        }
-    }
-
-
-    public void loadNewRepostData() {					
-        	mAsyncHttoClient.get(WeiBoURLs.hotModel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
-			
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				// TODO Auto-generated method stub
-				mPage++;
-				String json = new String(responseBody);
-				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
-
-				HotModel hotModel = new Gson().fromJson(json, HotModel.class);
-				
-				addNewDataAndRememberPosition(hotModel.getCards());
-				
-				pullToRefreshListView.onRefreshComplete();
-			}
-			
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				pullToRefreshListView.onRefreshComplete();
-			}
-		});
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		extparam = getArguments().getString("extparam");
+		LogTool.D("extparam: " + extparam);
 	}
 
-    private void addNewDataAndRememberPosition(final List<HotModelCards> newValue) {
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		RelativeLayout swipeFrameLayout = (RelativeLayout) inflater.inflate(
+				R.layout.hot_model_detail_fragment_layout, container, false);
 
-        int initSize = getListView().getCount();
+		GridView gridView = (GridView) swipeFrameLayout.findViewById(R.id.modelDetailGV);
+		adapter = new HotModelDetailAdapter(getActivity().getApplicationContext());
+		gridView.setAdapter(adapter);
+		loadNewRepostData();
+		return swipeFrameLayout;
+	}
 
-        if (getActivity() != null) {
-            adapter.addNewData(newValue);
-            int index = getListView().getFirstVisiblePosition();
-            adapter.notifyDataSetChanged();
-            int finalSize = getListView().getCount();
-            final int positionAfterRefresh = index + finalSize - initSize + getListView().getHeaderViewsCount();
-            // use 1 px to show newMsgTipBar
-            Utility.setListViewSelectionFromTop(getListView(), positionAfterRefresh, 1, new Runnable() {
 
-                @Override
-                public void run() {
+	public void loadNewRepostData() {
+		mAsyncHttoClient.get(
+				WeiBoURLs.hotModelDetail("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage, extparam),
+				new AsyncHttpResponseHandler() {
 
-                }
-            });
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							byte[] responseBody) {
+						// TODO Auto-generated method stub
+						String json = new String(responseBody);
+						Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET",json);
 
-        }
+						HotModelDetail hotModel = new Gson().fromJson(json,HotModelDetail.class);
+							HotModelDetailCard hCard = hotModel.getCards().get(0);
+							List<Pics> pics = hCard.getPics();
+							adapter.addNewData(pics);
+					}
 
-    }
-    
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							byte[] responseBody, Throwable error) {
+						// TODO Auto-generated method stub
+					}
+				});
+	}
 
-    public void loadOldRepostData() {
-        if (getLoaderManager().getLoader(OLD_REPOST_LOADER_ID) != null || !canLoadOldRepostData) {
-            return;
-        }
-        showFooterView();
-
-    }
 
 }

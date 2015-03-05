@@ -6,8 +6,8 @@ import org.json.*;
 public class Pics {
 	
     private String desc1;
-    private String picBig;
-    private String picSmall;
+    private String pic_big;
+    private String pic_small;
     private String scheme;
     
     
@@ -18,8 +18,8 @@ public class Pics {
     public Pics (JSONObject json) {
     
         this.desc1 = json.optString("desc1");
-        this.picBig = json.optString("pic_big");
-        this.picSmall = json.optString("pic_small");
+        this.pic_big = json.optString("pic_big");
+        this.pic_small = json.optString("pic_small");
         this.scheme = json.optString("scheme");
 
     }
@@ -32,23 +32,23 @@ public class Pics {
         this.desc1 = desc1;
     }
 
-    public String getPicBig() {
-        return this.picBig;
-    }
+    public String getPic_big() {
+		return pic_big;
+	}
 
-    public void setPicBig(String picBig) {
-        this.picBig = picBig;
-    }
+	public void setPic_big(String pic_big) {
+		this.pic_big = pic_big;
+	}
 
-    public String getPicSmall() {
-        return this.picSmall;
-    }
+	public String getPic_small() {
+		return pic_small;
+	}
 
-    public void setPicSmall(String picSmall) {
-        this.picSmall = picSmall;
-    }
+	public void setPic_small(String pic_small) {
+		this.pic_small = pic_small;
+	}
 
-    public String getScheme() {
+	public String getScheme() {
         return this.scheme;
     }
 

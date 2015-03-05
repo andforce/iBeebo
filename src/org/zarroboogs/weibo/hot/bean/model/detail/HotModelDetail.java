@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class HotModelDetail {
 	
     private CardlistInfo cardlistInfo;
-    private ArrayList<Cards> cards;
+    private ArrayList<HotModelDetailCard> cards;
     
     
 	public HotModelDetail () {
@@ -17,21 +17,21 @@ public class HotModelDetail {
     
         this.cardlistInfo = new CardlistInfo(json.optJSONObject("cardlistInfo"));
 
-        this.cards = new ArrayList<Cards>();
+        this.cards = new ArrayList<HotModelDetailCard>();
         JSONArray arrayCards = json.optJSONArray("cards");
         if (null != arrayCards) {
             int cardsLength = arrayCards.length();
             for (int i = 0; i < cardsLength; i++) {
                 JSONObject item = arrayCards.optJSONObject(i);
                 if (null != item) {
-                    this.cards.add(new Cards(item));
+                    this.cards.add(new HotModelDetailCard(item));
                 }
             }
         }
         else {
             JSONObject item = json.optJSONObject("cards");
             if (null != item) {
-                this.cards.add(new Cards(item));
+                this.cards.add(new HotModelDetailCard(item));
             }
         }
 
@@ -46,11 +46,11 @@ public class HotModelDetail {
         this.cardlistInfo = cardlistInfo;
     }
 
-    public ArrayList<Cards> getCards() {
+    public ArrayList<HotModelDetailCard> getCards() {
         return this.cards;
     }
 
-    public void setCards(ArrayList<Cards> cards) {
+    public void setCards(ArrayList<HotModelDetailCard> cards) {
         this.cards = cards;
     }
 

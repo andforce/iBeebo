@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.hot.bean.model.detail;
 import org.json.*;
 import java.util.ArrayList;
 
-public class Cards {
+public class HotModelDetailCard {
 	
     private ArrayList<Pics> pics;
     private String openurl;
@@ -12,11 +12,11 @@ public class Cards {
     private String itemid;
     
     
-	public Cards () {
+	public HotModelDetailCard () {
 		
 	}	
         
-    public Cards (JSONObject json) {
+    public HotModelDetailCard (JSONObject json) {
     
 
         this.pics = new ArrayList<Pics>();
