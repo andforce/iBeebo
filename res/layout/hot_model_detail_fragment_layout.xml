@@ -10,9 +10,11 @@
         android:id="@+id/modelDetailGV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:listSelector="@color/bule_overlay"
-        android:numColumns="3" >
+        android:listSelector="@drawable/button_background_selector"
+        android:numColumns="4" >
     </GridView>
 
 </RelativeLayout>
