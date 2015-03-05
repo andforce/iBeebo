@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-	<release version="v2.3.7" versioncode="26">
-	    <change>添加评论并转发和转发并评论</change>
-	    <change>添加部分页面Title</change>
+	<release version="v2.4.0" versioncode="27">
+	    <change>添加热门话题</change>
+	    <change>添加热门微博</change>
+	    <change>添加车模热图</change>
+	    <change>添加多图发送预览</change>
+	    <change>添加多图发送删除</change>
+	    <change>修改卡片背景</change>
+	    <change>其他一些小细节优化</change>
     </release>
-    
 </changelog>
