@@ -126,29 +126,32 @@
         tools:ignore="RtlHardcoded" />
 
     <Button
+        android:visibility="gone"
         android:id="@+id/btnHotWeibo"
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
         android:layout_weight="0"
-        android:drawableLeft="@drawable/ic_search_grey600_24dp"
+        android:drawableLeft="@drawable/hot_weibo_gray"
         android:text="@string/left_drawer_hotweibo"
         tools:ignore="RtlHardcoded" />
 
     <Button
+        android:visibility="gone"
         android:id="@+id/btnHotHuaTi"
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
         android:layout_weight="0"
-        android:drawableLeft="@drawable/ic_search_grey600_24dp"
+        android:drawableLeft="@drawable/hot_huati_gray"
         android:text="@string/left_drawer_hothuati"
         tools:ignore="RtlHardcoded" />
 
     <Button
+        android:visibility="gone"
         android:id="@+id/btnHotModel"
         style="@style/drawerMenuButton"
         android:layout_width="match_parent"
         android:layout_weight="0"
-        android:drawableLeft="@drawable/ic_search_grey600_24dp"
+        android:drawableLeft="@drawable/hot_model_gray"
         android:text="车模热图"
         tools:ignore="RtlHardcoded" />
 

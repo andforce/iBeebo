@@ -26,6 +26,8 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.BlurImageView;
 
+import com.crashlytics.android.internal.r;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -652,7 +654,7 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.mention = (LinearLayout) view.findViewById(R.id.btn_mention);
         layout.comment = (LinearLayout) view.findViewById(R.id.btn_comment);
         layout.search = (Button) view.findViewById(R.id.btn_search);
-        // layout.location = (Button) view.findViewById(R.id.btn_location);
+        // layot.location = (Button) view.findViewById(R.id.btn_location);
         layout.dm = (Button) view.findViewById(R.id.btn_dm);
         layout.fav = (Button) view.findViewById(R.id.btn_favourite);
         layout.homeCount = (TextView) view.findViewById(R.id.tv_home_count);
@@ -660,6 +662,9 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.commentCount = (TextView) view.findViewById(R.id.tv_comment_count);
         
         layout.leftDrawerSettingBtn = (ImageButton) view.findViewById(R.id.leftDrawerSettingBtn);
+        layout.hotWeibo = ViewUtility.findViewById(view, R.id.hotWeiboIb);
+        layout.hotHuati = ViewUtility.findViewById(view, R.id.hotHuatiIb);
+        layout.hotModel = ViewUtility.findViewById(view, R.id.hotModeIb);
         
         layout.homeButton = (Button) view.findViewById(R.id.homeButton);
         layout.mentionButton = (Button) view.findViewById(R.id.mentionButton);
@@ -704,6 +709,9 @@ public class LeftMenuFragment extends BaseStateFragment {
         layout.fav.setOnClickListener(onClickListener);
 
         layout.leftDrawerSettingBtn.setOnClickListener(onClickListener);
+        layout.hotWeibo.setOnClickListener(onClickListener);
+        layout.hotHuati.setOnClickListener(onClickListener);
+        layout.hotModel.setOnClickListener(onClickListener);
         
         mToolbar = (Toolbar) getActivity().findViewById(R.id.mainTimeLineToolBar);
         
@@ -748,7 +756,16 @@ public class LeftMenuFragment extends BaseStateFragment {
 			} else if (id == R.id.btnHotModel) {
 				Intent intent = new Intent(getActivity(), HotModelActivity.class);
 				startActivity(intent);
-			} 
+			} else if (id == R.id.hotWeiboIb) {
+				Intent intent = new Intent(getActivity(), HotWeiboActivity.class);
+				startActivity(intent);
+			}else if (id == R.id.hotHuatiIb) {
+				Intent intent = new Intent(getActivity(), HotHuaTiActivity.class);
+				startActivity(intent);
+			}else if (id== R.id.hotModeIb) {
+				Intent intent = new Intent(getActivity(), HotModelActivity.class);
+				startActivity(intent);
+			}
             ((MainTimeLineActivity) getActivity()).closeLeftDrawer();
         }
     };
@@ -887,6 +904,11 @@ public class LeftMenuFragment extends BaseStateFragment {
 		Button fav;
 
 		ImageButton leftDrawerSettingBtn;
+		
+		ImageButton hotWeibo;
+		ImageButton hotHuati;
+		ImageButton hotModel;
+		
 		
 		Button mHotWeibo;
 		
