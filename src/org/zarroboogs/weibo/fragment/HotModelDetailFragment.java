@@ -1,6 +1,7 @@
 package org.zarroboogs.weibo.fragment;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
@@ -16,19 +17,27 @@ import org.zarroboogs.weibo.hot.bean.model.HotModel;
 import org.zarroboogs.weibo.hot.bean.model.detail.HotModelDetail;
 import org.zarroboogs.weibo.hot.bean.model.detail.HotModelDetailCard;
 import org.zarroboogs.weibo.hot.bean.model.detail.Pics;
+import org.zarroboogs.weibo.support.asyncdrawable.IWeiciyuanDrawable;
 import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
+import org.zarroboogs.weibo.support.gallery.GalleryAnimationActivity;
+import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.Utility;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.umeng.update.net.i;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -56,9 +65,29 @@ public class HotModelDetailFragment extends BaseStateFragment {
 		RelativeLayout swipeFrameLayout = (RelativeLayout) inflater.inflate(
 				R.layout.hot_model_detail_fragment_layout, container, false);
 
-		GridView gridView = (GridView) swipeFrameLayout.findViewById(R.id.modelDetailGV);
+		final GridView gridView = (GridView) swipeFrameLayout.findViewById(R.id.modelDetailGV);
 		adapter = new HotModelDetailAdapter(getActivity().getApplicationContext());
 		gridView.setAdapter(adapter);
+		gridView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				ArrayList<String> pics  = adapter.getPicStrings();
+				
+				ArrayList<AnimationRect> animationRectArrayList = new ArrayList<AnimationRect>();
+                for (int i = 0; i < pics.size(); i++) {
+                	RelativeLayout rl = (RelativeLayout)gridView.getChildAt(i);
+                        AnimationRect rect = AnimationRect.buildFromImageView((ImageView)rl.getChildAt(0));
+                        animationRectArrayList.add(rect);
+                }
+                
+				Intent intent = GalleryAnimationActivity.newIntent(pics, animationRectArrayList,position);
+				startActivity(intent);
+				
+			}
+		});
 		loadNewRepostData();
 		return swipeFrameLayout;
 	}

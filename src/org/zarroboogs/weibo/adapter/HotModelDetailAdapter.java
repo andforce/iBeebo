@@ -26,6 +26,15 @@ public class HotModelDetailAdapter extends BaseAdapter {
 	private DisplayImageOptions options;
 	private List<Pics> mPics = new ArrayList<Pics>();
 	
+	
+	public ArrayList<String> getPicStrings(){
+		ArrayList<String> pics = new ArrayList<String>();
+		for (Pics p : mPics) {
+			pics.add(p.getPic_big());
+		}
+		return pics;
+		
+	}
 	public HotModelDetailAdapter(Context context) {
 		super();
 		// TODO Auto-generated constructor stub
