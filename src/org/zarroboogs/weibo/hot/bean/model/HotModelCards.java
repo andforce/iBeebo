@@ -1,6 +1,7 @@
 package org.zarroboogs.weibo.hot.bean.model;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class HotModelCards {
@@ -19,6 +20,13 @@ public class HotModelCards {
 		
 	}	
         
+	public String getExtparam(){
+		String str = "extparam=";
+		int extparamStart = getScheme().indexOf(str, str.length() + 5);
+		String ext = getScheme().substring(extparamStart + str.length(), extparamStart + str.length() + 5);
+		return ext;
+	}
+	
     public HotModelCards (JSONObject json) {
     
         this.itemid = json.optString("itemid");

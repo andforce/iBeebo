@@ -18,8 +18,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -81,6 +83,14 @@ public class HotModelAdapter extends BaseAdapter {
 		mImageLoader.displayImage(mPics.get(4).getPic_small(), holder.modelPic004);
 		mImageLoader.displayImage(mPics.get(5).getPic_small(), holder.modelPic005);
 		
+		holder.showModelDetail.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		return convertView;
 	}
 
@@ -92,6 +102,8 @@ public class HotModelAdapter extends BaseAdapter {
         ImageView modelPic003;
         ImageView modelPic004;
         ImageView modelPic005;
+        
+        Button showModelDetail;
         
     }
 
@@ -105,6 +117,7 @@ public class HotModelAdapter extends BaseAdapter {
         holder.modelPic004 = ViewUtility.findViewById(convertView, R.id.modle004);
         holder.modelPic005 = ViewUtility.findViewById(convertView, R.id.modle005);
         
+        holder.showModelDetail = ViewUtility.findViewById(convertView, R.id.showModelDetail);
         return holder;
     }
 
