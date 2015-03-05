@@ -9,12 +9,15 @@ import org.zarroboogs.weibo.hot.bean.model.HotModel;
 import org.zarroboogs.weibo.hot.bean.model.HotModelCardGroup;
 import org.zarroboogs.weibo.hot.bean.model.HotModelCards;
 import org.zarroboogs.weibo.hot.bean.model.Pics;
+import org.zarroboogs.weibo.support.gallery.GalleryAnimationActivity;
+import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +26,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotModelAdapter extends BaseAdapter {
+public class HotModelAdapter extends BaseAdapter{
 
 	private LayoutInflater mInflater;
 
 	private ImageLoader mImageLoader = ImageLoader.getInstance();
 	private DisplayImageOptions options;
 	private List<HotModelCards> list = new ArrayList<HotModelCards>();
-	
+
+
 	public static interface OnModelDetailonClickListener{
 		public void onModelDetailClick(HotModelCards cards);
 	}
@@ -42,6 +47,9 @@ public class HotModelAdapter extends BaseAdapter {
 	public void setOnModelDetailonClickListener(OnModelDetailonClickListener listener){
 		this.listener = listener;
 	}
+	
+	private Context mContext;
+	
 	public HotModelAdapter(Context context) {
 		super();
 		// TODO Auto-generated constructor stub
@@ -49,6 +57,8 @@ public class HotModelAdapter extends BaseAdapter {
 		options = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).considerExifParams(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
+		
+		this.mContext = context;
 	}
 
 	@Override
@@ -84,7 +94,7 @@ public class HotModelAdapter extends BaseAdapter {
 
 		HotModelCards blog = list.get(position);
 		HotModelCardGroup group = blog.getCard_group().get(0);
-		List<Pics> mPics = group.getPics();
+		final List<Pics> mPics = group.getPics();
 		mImageLoader.displayImage(mPics.get(0).getPic_small(), holder.modelPic000);
 		mImageLoader.displayImage(mPics.get(1).getPic_small(), holder.modelPic001);
 		mImageLoader.displayImage(mPics.get(2).getPic_small(), holder.modelPic002);
@@ -102,9 +112,94 @@ public class HotModelAdapter extends BaseAdapter {
 				}
 			}
 		});
+		
+		final ViewHolder tmpholder = holder;
+		holder.modelPic000.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				int pos = 0;
+				showPic(tmpholder, mPics, pos);
+			}
+		});
+		holder.modelPic001.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				int pos = 1;
+				showPic(tmpholder,mPics, pos);
+			}
+		});
+		holder.modelPic002.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				int pos = 2;
+				showPic(tmpholder,mPics, pos);
+			}
+		});
+		holder.modelPic003.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				int pos = 3;
+				showPic(tmpholder,mPics, pos);
+			}
+		});
+		holder.modelPic004.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				int pos = 4;
+				showPic(tmpholder,mPics, pos);
+			}
+		});
+		holder.modelPic005.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				int pos = 5;
+				showPic(tmpholder,mPics, pos);
+			}
+		});
 		return convertView;
 	}
 
+	private void showPic(ViewHolder holder ,final List<Pics> mPics, int pos) {
+		ArrayList<String> pics  = new ArrayList<String>();
+		for (Pics p : mPics) {
+			pics.add(p.getPic_big());
+		}
+		
+		ArrayList<AnimationRect> animationRectArrayList = new ArrayList<AnimationRect>();
+		AnimationRect rect00 = AnimationRect.buildFromImageView(holder.modelPic000);
+        animationRectArrayList.add(rect00);
+        
+		AnimationRect rect01 = AnimationRect.buildFromImageView(holder.modelPic001);
+        animationRectArrayList.add(rect01);
+        
+		AnimationRect rect02 = AnimationRect.buildFromImageView(holder.modelPic002);
+        animationRectArrayList.add(rect02);
+        
+		AnimationRect rect03 = AnimationRect.buildFromImageView(holder.modelPic003);
+        animationRectArrayList.add(rect03);
+        
+		AnimationRect rect04 = AnimationRect.buildFromImageView(holder.modelPic004);
+        animationRectArrayList.add(rect04);
+        
+		AnimationRect rect05 = AnimationRect.buildFromImageView(holder.modelPic005);
+        animationRectArrayList.add(rect05);
+        
+        
+		Intent intent = GalleryAnimationActivity.newIntent(pics, animationRectArrayList,pos);
+		mContext.startActivity(intent);
+	}
 
     public static class ViewHolder {
         ImageView modelPic000;
