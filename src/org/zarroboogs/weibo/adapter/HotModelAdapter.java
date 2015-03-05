@@ -32,7 +32,16 @@ public class HotModelAdapter extends BaseAdapter {
 	private ImageLoader mImageLoader = ImageLoader.getInstance();
 	private DisplayImageOptions options;
 	private List<HotModelCards> list = new ArrayList<HotModelCards>();
+	
+	public static interface OnModelDetailonClickListener{
+		public void onModelDetailClick(HotModelCards cards);
+	}
 
+	private OnModelDetailonClickListener listener;
+	
+	public void setOnModelDetailonClickListener(OnModelDetailonClickListener listener){
+		this.listener = listener;
+	}
 	public HotModelAdapter(Context context) {
 		super();
 		// TODO Auto-generated constructor stub
@@ -61,7 +70,7 @@ public class HotModelAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHolder holder = null;
 		if (convertView == null) {
@@ -88,7 +97,9 @@ public class HotModelAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
+				if (listener != null) {
+					listener.onModelDetailClick(list.get(position));
+				}
 			}
 		});
 		return convertView;

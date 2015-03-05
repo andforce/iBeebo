@@ -3,14 +3,14 @@ package org.zarroboogs.weibo.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import lib.org.zarroboogs.weibo.login.utils.LogTool;
+
 import org.apache.http.Header;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.HotModelActivity;
 import org.zarroboogs.weibo.adapter.HotHuaTiAdapter;
 import org.zarroboogs.weibo.adapter.HotModelAdapter;
-import org.zarroboogs.weibo.adapter.HotModelAdapter.OnModelDetailonClickListener;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 import org.zarroboogs.weibo.hot.bean.model.HotModel;
 import org.zarroboogs.weibo.hot.bean.model.HotModelCards;
@@ -37,7 +37,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotModelFragment extends BaseStateFragment implements OnModelDetailonClickListener {
+public class HotModelDetailFragment extends BaseStateFragment {
 
     private MsgDetailReadWorker picTask;
     
@@ -65,6 +65,14 @@ public class HotModelFragment extends BaseStateFragment implements OnModelDetail
         getListView().setFastScrollEnabled(SettingUtils.allowFastScroll());
     }
 
+    private String extparam= "";
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+    	// TODO Auto-generated method stub
+    	super.onCreate(savedInstanceState);
+    	extparam = getArguments().getString("extparam");
+    	LogTool.D("extparam: " + extparam);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout swipeFrameLayout = (RelativeLayout) inflater.inflate(R.layout.hotweibo_fragment_layout,container, false);
@@ -98,7 +106,6 @@ public class HotModelFragment extends BaseStateFragment implements OnModelDetail
 
 //        initView(swipeFrameLayout, savedInstanceState);
         adapter = new HotModelAdapter(this.getActivity());
-        adapter.setOnModelDetailonClickListener(this);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         listView.setHeaderDividersEnabled(false);
@@ -255,11 +262,5 @@ public class HotModelFragment extends BaseStateFragment implements OnModelDetail
         showFooterView();
 
     }
-
-	@Override
-	public void onModelDetailClick(HotModelCards cards) {
-		// TODO Auto-generated method stub
-		((HotModelActivity)getActivity()).switch2DetailFragemt(cards.getExtparam());
-	}
 
 }
