@@ -44,8 +44,14 @@ public class HotHuaTiViewPagerFragment extends BaseStateFragment implements Main
         viewPager = (ViewPager) view.findViewById(R.id.mentionViewpager);
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.mentionSlidingTab);
         
-        childrenFragments.append(0, new HotHuaTiFragment());
-        childrenFragments.append(1, new HotHuaTiFragment());
+        childrenFragments.append(0, new HotHuaTiOneHourFragment());
+        childrenFragments.append(1, new HotHuaTiFragmentFilm());
+        childrenFragments.append(2, new HotHuaTiFragmentDigit());
+        childrenFragments.append(3, new HotHuaTiFragmentHumor());
+        childrenFragments.append(4, new HotHuaTiFragmentIT());
+        childrenFragments.append(5, new HotHuaTiFragmentShot());
+        childrenFragments.append(6, new HotHuaTiFragmentOrig());
+        childrenFragments.append(7, new HotHuaTiFragmentPet());
         return view;
     }
 
@@ -57,8 +63,14 @@ public class HotHuaTiViewPagerFragment extends BaseStateFragment implements Main
         viewPager.setOnPageChangeListener(onPageChangeListener);
         
         List<String> titleList = new ArrayList<String>();
-        titleList.add("24小时热榜");
         titleList.add("1小时热榜");
+        titleList.add("电影热榜");
+        titleList.add("消费数码");
+        titleList.add("幽默搞笑");
+        titleList.add("IT互联网");
+        titleList.add("摄影热榜");
+        titleList.add("创意征集");
+        titleList.add("动物萌宠");
         HotHuaTiViewPagerAdapter adapter = new HotHuaTiViewPagerAdapter(this, viewPager, getChildFragmentManager(), childrenFragments, titleList);
         
         viewPager.setAdapter(adapter);

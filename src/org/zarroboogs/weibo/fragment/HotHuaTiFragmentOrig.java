@@ -39,7 +39,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotHuaTiFragment extends BaseStateFragment {
+public class HotHuaTiFragmentOrig extends BaseStateFragment {
 
     private MsgDetailReadWorker picTask;
     
@@ -241,7 +241,7 @@ public class HotHuaTiFragment extends BaseStateFragment {
     public void loadNewRepostData() {	
     	pullToRefreshListView.setRefreshing();
     	
-        	mAsyncHttoClient.get(WeiBoURLs.hotHuaTi("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
+        	mAsyncHttoClient.get(WeiBoURLs.hotHuatiOriginality("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

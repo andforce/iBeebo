@@ -3,6 +3,8 @@ package org.zarroboogs.utils;
 
 import org.zarroboogs.weibo.support.utils.Utility;
 
+import android.R.string;
+
 /**
  * User: qii Date: 12-7-28
  */
@@ -182,8 +184,69 @@ public class WeiBoURLs {
 				+ "page="+page+"";
 		return url;
     }
+
+    //消费数码
+    	public static String hotHuatiDigit(String gsid, int page) {
+			String url = "http://api.weibo.cn/2/cardlist?"
+					+ "gsid=" + gsid
+					+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=20&containerid=100803_ctg1_131_-_page_topics_ctg1__131&fid=100803_ctg1_131_-_page_topics_ctg1__131&lfid=100803_-_page_ctg1_list&"
+					+ "page=" + page;
+			return url;
+		}
+    //it互联网
+    	public static String hotHuatiIT(String gsid, int page) {
+    		String url = "http://api.weibo.cn/2/cardlist?"
+    		+ "gsid=" + gsid
+    		+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=20&containerid=100803_ctg1_138_-_page_topics_ctg1__138&fid=100803_ctg1_138_-_page_topics_ctg1__138&lfid=100803_-_page_ctg1_list&"
+    		+ "page=" + page;
+    		return url;
+    	}
+
+    //幽默搞笑
+    public static String hotHuatiHumor(String gsid, int page) {
+    	String url = "http://api.weibo.cn/2/cardlist?"
+    			+ "gsid=" + gsid
+    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=20&containerid=100803_ctg1_140_-_page_topics_ctg1__140&fid=100803_ctg1_140_-_page_topics_ctg1__140&lfid=100803_-_page_ctg1_list&"
+    			+ "page=" + page;
+    	return url;
+    }
     
-    public static String hotHuaTi(String gsid, int page){
+//    动物萌宠
+    public static String hotHuatiDog(String gsid, int page) {
+    	String url = "http://api.weibo.cn/2/cardlist?"
+    			+ "gsid=" + gsid
+    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=20&containerid=100803_ctg1_128_-_page_topics_ctg1__128&fid=100803_ctg1_128_-_page_topics_ctg1__128&lfid=100803_-_page_ctg1_list&"
+    			+ "page=" + page;
+    	return url;
+    }
+    
+//    创意征集
+    public static String hotHuatiOriginality(String gsid, int page) {
+    	String url = "http://api.weibo.cn/2/cardlist?"
+    			+ "gsid=" + gsid
+    			+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=20&containerid=100803_ctg1_9_-_page_topics_ctg1__9&fid=100803_ctg1_9_-_page_topics_ctg1__9&lfid=100803_-_page_ctg1_list&"
+    			+ "page=" + page;
+    	return url;
+    }
+    
+    	// 摄影
+    public static String hotHuaTiShot(String gsid, int page) {
+		String url = "http://api.weibo.cn/2/cardlist?"
+				+ "gsid=" + gsid
+				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=20&containerid=100803_ctg1_123_-_page_topics_ctg1__123&fid=100803_ctg1_123_-_page_topics_ctg1__123&lfid=100803_-_page_ctg1_list&"
+				+ "page=" + page;
+		return url;
+	}
+    // 电影
+    public static String hotHuaTiFilm(String gsid, int page) {
+		String url ="http://api.weibo.cn/2/cardlist?"
+				+ "gsid=" + gsid
+				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=20&containerid=100803_ctg1_100_-_page_topics_ctg1__100&fid=100803_ctg1_100_-_page_topics_ctg1__100&lfid=100803_-_page_ctg1_list&"
+				+ "page=" + page;
+		return url;
+	}
+    public static String hotHuaTiOneHouOur(String gsid, int page){
+    	
     	String url = "http://api.weibo.cn/2/cardlist?uicode=10000011&lcardid=uve_popular_topics&c=android&i=8764dac&s=b48eb5c9&ua=smartisan-SM701__weibo__5.1.1__android__android4.4.2&wm=14010_0013&fid=100803&uid=1878230075&v_f=2&v_p=18&from=1051195010&"
     			+ "gsid=" + gsid
     			+ "&imsi=460020364311738&lang=zh_CN&lfid=1001000002_1582&"
