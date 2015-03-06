@@ -1,14 +1,11 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.dialogfragment.RemoveWeiboMsgDialog;
-import org.zarroboogs.weibo.fragment.HotWeiboFragment;
+import org.zarroboogs.weibo.fragment.HotWeiboViewPagerFragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.PersistableBundle;
 import android.support.v7.widget.Toolbar;
 
 public class HotWeiboActivity extends TranslucentStatusBarActivity {
@@ -30,9 +27,9 @@ public class HotWeiboActivity extends TranslucentStatusBarActivity {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                if (getSupportFragmentManager().findFragmentByTag(HotWeiboFragment.class.getName()) == null) {
+                if (getSupportFragmentManager().findFragmentByTag(HotWeiboViewPagerFragment.class.getName()) == null) {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.hotWeiboContent, new HotWeiboFragment(),HotWeiboFragment.class.getName())
+                            .replace(R.id.hotWeiboContent, new HotWeiboViewPagerFragment(),HotWeiboViewPagerFragment.class.getName())
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
                 }
