@@ -1,7 +1,7 @@
 package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.fragment.HotHuaTiFragment;
+import org.zarroboogs.weibo.fragment.HotHuaTiViewPagerFragment;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,9 +26,9 @@ public class HotHuaTiActivity extends TranslucentStatusBarActivity {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                if (getSupportFragmentManager().findFragmentByTag(HotHuaTiFragment.class.getName()) == null) {
+                if (getSupportFragmentManager().findFragmentByTag(HotHuaTiViewPagerFragment.class.getName()) == null) {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.hotWeiboContent, new HotHuaTiFragment(),HotHuaTiFragment.class.getName())
+                            .replace(R.id.hotWeiboContent, new HotHuaTiViewPagerFragment(),HotHuaTiViewPagerFragment.class.getName())
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
                 }
