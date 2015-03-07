@@ -47,6 +47,7 @@ public class HotWeiboViewPagerFragment extends BaseStateFragment implements Main
         childrenFragments.append(0, new HotWeiboFragment());
         childrenFragments.append(1, new HotWeiboFragmentYestoday());
         childrenFragments.append(2, new HotWeiboFragmentQianTian());
+        childrenFragments.append(3, new HotWeiboFragmentZuiYou());
 //        childrenFragments.append(3, new HotWeiboFragmentWeek());
         
         return view;
@@ -63,6 +64,7 @@ public class HotWeiboViewPagerFragment extends BaseStateFragment implements Main
         titleList.add("当前");
         titleList.add("昨天");
         titleList.add("前天");
+        titleList.add("神最右");
 //        titleList.add("一周");
         HotHuaTiViewPagerAdapter adapter = new HotHuaTiViewPagerAdapter(this, viewPager, getChildFragmentManager(), childrenFragments, titleList);
         
