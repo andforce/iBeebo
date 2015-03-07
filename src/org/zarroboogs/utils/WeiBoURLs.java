@@ -368,7 +368,7 @@ public class WeiBoURLs {
     
     public static String hotModelDetail(String gsid, int page, String extparam) {
 		String url = "http://api.weibo.cn/2/cardlist?"
-				+ "gsid=4uHYb8fe39JWyZ1DDAPjP7SC21d"
+				+ "gsid=" + gsid
 				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051293010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.2__iphone__os8.1.2&uicode=10000011&luicode=10000011&count=20&"
 				+ "extparam=" + extparam
 				+ "&containerid=101903_-_girl_pic_dtl&fid=101903_-_girl_pic_dtl&lfid=101903_-_girl_pic_lst&sourcetype=page&"

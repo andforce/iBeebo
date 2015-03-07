@@ -94,7 +94,7 @@ public class HotModelDetailFragment extends BaseStateFragment {
 
 
 	public void loadNewRepostData() {
-		mAsyncHttoClient.get(
+		mAsyncHttoClient.get(			  
 				WeiBoURLs.hotModelDetail("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage, extparam),
 				new AsyncHttpResponseHandler() {
 
