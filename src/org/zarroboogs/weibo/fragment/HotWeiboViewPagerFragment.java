@@ -48,7 +48,14 @@ public class HotWeiboViewPagerFragment extends BaseStateFragment implements Main
         childrenFragments.append(1, new HotWeiboFragmentYestoday());
         childrenFragments.append(2, new HotWeiboFragmentQianTian());
         childrenFragments.append(3, new HotWeiboFragmentZuiYou());
-//        childrenFragments.append(3, new HotWeiboFragmentWeek());
+        childrenFragments.append(4, new HotWeiboFragmentVideo());
+        childrenFragments.append(5, new HotWeiboFragmentBaoLiao());
+        childrenFragments.append(6, new HotWeiboFragmentXiaoHua());
+        childrenFragments.append(7, new HotWeiboFragmentPet());
+        childrenFragments.append(8, new HotWeiboFragmentMeiNv());
+        childrenFragments.append(9, new HotWeiboFragmentKeji());
+        childrenFragments.append(10, new HotWeiboFragmentTravel());
+        childrenFragments.append(11, new HotWeiboFragmentMeiTu());
         
         return view;
     }
@@ -65,7 +72,15 @@ public class HotWeiboViewPagerFragment extends BaseStateFragment implements Main
         titleList.add("昨天");
         titleList.add("前天");
         titleList.add("神最右");
-//        titleList.add("一周");
+        titleList.add("视频");
+        titleList.add("爆料");
+        titleList.add("笑话");
+        titleList.add("萌宠");
+        titleList.add("美女");
+        titleList.add("科技");
+        titleList.add("旅行");
+        titleList.add("美图");
+
         HotHuaTiViewPagerAdapter adapter = new HotHuaTiViewPagerAdapter(this, viewPager, getChildFragmentManager(), childrenFragments, titleList);
         
         viewPager.setAdapter(adapter);
