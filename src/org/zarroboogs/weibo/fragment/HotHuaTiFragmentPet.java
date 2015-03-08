@@ -39,7 +39,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotHuaTiFragmentPet extends BaseStateFragment {
+public class HotHuaTiFragmentPet extends BaseHotFragment {
 
     private MsgDetailReadWorker picTask;
     
@@ -81,7 +81,7 @@ public class HotHuaTiFragmentPet extends BaseStateFragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				loadNewRepostData();
+				loadData(WeiBoURLs.hotHuatiDog("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
 				refreshView.setRefreshing();
 			}
         	
@@ -105,7 +105,7 @@ public class HotHuaTiFragmentPet extends BaseStateFragment {
         adapter.notifyDataSetChanged();
         listView.setHeaderDividersEnabled(false);
 
-		loadNewRepostData();
+		loadData(WeiBoURLs.hotHuatiDog("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
 //		pullToRefreshListView.setRefreshing();
 		
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -233,47 +233,11 @@ public class HotHuaTiFragmentPet extends BaseStateFragment {
 
         @Override
         public void onClick(View v) {
-        	loadNewRepostData();
+        	loadData(WeiBoURLs.hotHuatiDog("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
         }
     }
 
 
-    public void loadNewRepostData() {	
-    	pullToRefreshListView.setRefreshing();
-    	
-        	mAsyncHttoClient.get(WeiBoURLs.hotHuatiDog("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
-			
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				// TODO Auto-generated method stub
-				mPage++;
-				String json = new String(responseBody).replaceAll("\"geo\":\"\"", "\"geo\": {}");
-				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
-				
-				HotHuaTi huati = new Gson().fromJson(json, new TypeToken<HotHuaTi>() {}.getType());
-				List<HotHuaTiCard> cards = huati.getCards();
-				
-				List<HotHuaTiCardGroup> result = new ArrayList<HotHuaTiCardGroup>();
-				for (HotHuaTiCard c : cards) {
-					List<HotHuaTiCardGroup> group = c.getCard_group();
-					if (group != null) {
-						result.addAll(group);
-					}
-				}
-				
-				addNewDataAndRememberPosition(result);
-				
-				pullToRefreshListView.onRefreshComplete();
-			}
-			
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				pullToRefreshListView.onRefreshComplete();
-			}
-		});
-	}
 
     private void addNewDataAndRememberPosition(final List<HotHuaTiCardGroup> newValue) {
 
@@ -310,5 +274,40 @@ public class HotHuaTiFragmentPet extends BaseStateFragment {
         showFooterView();
 
     }
+
+	@Override
+	void onLoadDataSucess(String json) {
+		// TODO Auto-generated method stub
+		mPage++;
+		String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}");
+		org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
+		
+		HotHuaTi huati = new Gson().fromJson(jsonStr, new TypeToken<HotHuaTi>() {}.getType());
+		List<HotHuaTiCard> cards = huati.getCards();
+		
+		List<HotHuaTiCardGroup> result = new ArrayList<HotHuaTiCardGroup>();
+		for (HotHuaTiCard c : cards) {
+			List<HotHuaTiCardGroup> group = c.getCard_group();
+			if (group != null) {
+				result.addAll(group);
+			}
+		}
+		
+		addNewDataAndRememberPosition(result);
+		
+		pullToRefreshListView.onRefreshComplete();
+	}
+
+	@Override
+	void onLoadDataFailed(String errorStr) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void onLoadDataStart() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

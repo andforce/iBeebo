@@ -37,7 +37,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotModelFragment extends BaseStateFragment implements OnModelDetailonClickListener {
+public class HotModelFragment extends BaseHotFragment implements OnModelDetailonClickListener {
 
     private MsgDetailReadWorker picTask;
     
@@ -78,7 +78,7 @@ public class HotModelFragment extends BaseStateFragment implements OnModelDetail
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				loadNewRepostData();
+				loadData(WeiBoURLs.hotModel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
 				refreshView.setRefreshing();
 			}
         	
@@ -103,7 +103,7 @@ public class HotModelFragment extends BaseStateFragment implements OnModelDetail
         adapter.notifyDataSetChanged();
         listView.setHeaderDividersEnabled(false);
 
-		loadNewRepostData();
+		loadData(WeiBoURLs.hotModel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
 		pullToRefreshListView.setRefreshing();
 		
         return swipeFrameLayout;
@@ -193,36 +193,11 @@ public class HotModelFragment extends BaseStateFragment implements OnModelDetail
 
         @Override
         public void onClick(View v) {
-        	loadNewRepostData();
+        	loadData(WeiBoURLs.hotModel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
         }
     }
 
 
-    public void loadNewRepostData() {					
-        	mAsyncHttoClient.get(WeiBoURLs.hotModel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
-			
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				// TODO Auto-generated method stub
-				mPage++;
-				String json = new String(responseBody);
-				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
-
-				HotModel hotModel = new Gson().fromJson(json, HotModel.class);
-				
-				addNewDataAndRememberPosition(hotModel.getCards());
-				
-				pullToRefreshListView.onRefreshComplete();
-			}
-			
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				pullToRefreshListView.onRefreshComplete();
-			}
-		});
-	}
 
     private void addNewDataAndRememberPosition(final List<HotModelCards> newValue) {
 
@@ -260,6 +235,31 @@ public class HotModelFragment extends BaseStateFragment implements OnModelDetail
 	public void onModelDetailClick(HotModelCards cards) {
 		// TODO Auto-generated method stub
 		((HotModelActivity)getActivity()).switch2DetailFragemt(cards.getExtparam());
+	}
+
+	@Override
+	void onLoadDataSucess(String json) {
+		// TODO Auto-generated method stub
+		mPage++;
+		org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
+
+		HotModel hotModel = new Gson().fromJson(json, HotModel.class);
+		
+		addNewDataAndRememberPosition(hotModel.getCards());
+		
+		pullToRefreshListView.onRefreshComplete();
+	}
+
+	@Override
+	void onLoadDataFailed(String errorStr) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void onLoadDataStart() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
