@@ -27,6 +27,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotHuaTiOneHourFragment extends BaseLoadDataFragment {
+public class HotHuaTiOneHourFragment extends BaseHotHuaTiFragment {
 
     private MsgDetailReadWorker picTask;
     
@@ -81,7 +82,12 @@ public class HotHuaTiOneHourFragment extends BaseLoadDataFragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				loadData(WeiBoURLs.hotHuaTiOneHouOur("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
+				if (TextUtils.isEmpty(getGsid())) {
+					loadGsid();
+				}else {
+					loadData(WeiBoURLs.hotHuaTiOneHouOur(getGsid(), mPage));
+				}
+				
 				refreshView.setRefreshing();
 			}
         	
@@ -105,7 +111,12 @@ public class HotHuaTiOneHourFragment extends BaseLoadDataFragment {
         adapter.notifyDataSetChanged();
         listView.setHeaderDividersEnabled(false);
 
-		loadData(WeiBoURLs.hotHuaTiOneHouOur("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotHuaTiOneHouOur(getGsid(), mPage));
+		}
+		
 //		pullToRefreshListView.setRefreshing();
 		
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -229,15 +240,6 @@ public class HotHuaTiOneHourFragment extends BaseLoadDataFragment {
         }
     };
 
-    private class EmptyHeaderOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-        	loadData(WeiBoURLs.hotHuaTiOneHouOur("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
-        }
-    }
-
-
     private void addNewDataAndRememberPosition(final List<HotHuaTiCardGroup> newValue) {
 
     	Utility.printLongLog("HUATI_", "newValue Size: " + newValue.size());
@@ -305,6 +307,18 @@ public class HotHuaTiOneHourFragment extends BaseLoadDataFragment {
 
 	@Override
 	void onLoadDataStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void onGsidLoadSuccess(String gsid) {
+		// TODO Auto-generated method stub
+		loadData(WeiBoURLs.hotHuaTiOneHouOur(getGsid(), mPage));
+	}
+
+	@Override
+	void onGsidLoadFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -158,16 +158,6 @@ public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
         }
     };
 
-    private class EmptyHeaderOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-        	loadData(WeiBoURLs.hotWeiboQianTian("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
-        }
-    }
-
-
-
     private void addNewDataAndRememberPosition(final List<MessageBean> newValue) {
 
         int initSize = getListView().getCount();

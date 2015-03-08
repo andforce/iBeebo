@@ -27,6 +27,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotModelFragment extends BaseLoadDataFragment implements OnModelDetailonClickListener {
+public class HotModelFragment extends BaseHotHuaTiFragment implements OnModelDetailonClickListener {
 
     private MsgDetailReadWorker picTask;
     
@@ -78,7 +79,11 @@ public class HotModelFragment extends BaseLoadDataFragment implements OnModelDet
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				loadData(WeiBoURLs.hotModel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
+				if (TextUtils.isEmpty(getGsid())) {
+					loadGsid();
+				}else {
+					loadData(WeiBoURLs.hotModel(getGsid(), mPage));
+				}
 				refreshView.setRefreshing();
 			}
         	
@@ -103,7 +108,12 @@ public class HotModelFragment extends BaseLoadDataFragment implements OnModelDet
         adapter.notifyDataSetChanged();
         listView.setHeaderDividersEnabled(false);
 
-		loadData(WeiBoURLs.hotModel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotModel(getGsid(), mPage));
+		}
+		
 		pullToRefreshListView.setRefreshing();
 		
         return swipeFrameLayout;
@@ -189,16 +199,6 @@ public class HotModelFragment extends BaseLoadDataFragment implements OnModelDet
     };
 
 
-    private class EmptyHeaderOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-        	loadData(WeiBoURLs.hotModel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
-        }
-    }
-
-
-
     private void addNewDataAndRememberPosition(final List<HotModelCards> newValue) {
 
         int initSize = getListView().getCount();
@@ -258,6 +258,18 @@ public class HotModelFragment extends BaseLoadDataFragment implements OnModelDet
 
 	@Override
 	void onLoadDataStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void onGsidLoadSuccess(String gsid) {
+		// TODO Auto-generated method stub
+		loadData(WeiBoURLs.hotModel(getGsid(), mPage));
+	}
+
+	@Override
+	void onGsidLoadFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class HotModelDetailFragment extends BaseLoadDataFragment {
+public class HotModelDetailFragment extends BaseHotHuaTiFragment {
 
 	private HotModelDetailAdapter adapter;
 
@@ -72,7 +73,12 @@ public class HotModelDetailFragment extends BaseLoadDataFragment {
 				
 			}
 		});
-		loadData(WeiBoURLs.hotModelDetail("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage, extparam));
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotModelDetail(getGsid(), mPage, extparam));
+		}
+		
 		return swipeFrameLayout;
 	}
 
@@ -96,6 +102,18 @@ public class HotModelDetailFragment extends BaseLoadDataFragment {
 
 	@Override
 	void onLoadDataStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void onGsidLoadSuccess(String gsid) {
+		// TODO Auto-generated method stub
+		loadData(WeiBoURLs.hotModelDetail(getGsid(), mPage, extparam));
+	}
+
+	@Override
+	void onGsidLoadFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
 	}
