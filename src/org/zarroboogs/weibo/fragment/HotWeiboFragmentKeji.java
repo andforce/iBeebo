@@ -46,7 +46,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-public class HotWeiboFragmentKeji extends AbsBaseTimeLineFragment<MessageListBean> {
+public class HotWeiboFragmentKeji extends BaseHotWeiboFragment {
 
     private MsgDetailReadWorker picTask;
     
@@ -54,8 +54,6 @@ public class HotWeiboFragmentKeji extends AbsBaseTimeLineFragment<MessageListBea
 
     private List<MessageBean> repostList = new ArrayList<MessageBean>();
     
-    private MessageListBean mMessageListBean = new MessageListBean();
-
     private static final int OLD_REPOST_LOADER_ID = 4;
 
     private View footerView;
@@ -86,7 +84,7 @@ public class HotWeiboFragmentKeji extends AbsBaseTimeLineFragment<MessageListBea
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		loadNewRepostData();
+		loadData(WeiBoURLs.hotWeiboKeji("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
         getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -104,7 +102,7 @@ public class HotWeiboFragmentKeji extends AbsBaseTimeLineFragment<MessageListBea
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				loadNewRepostData();
+				loadData(WeiBoURLs.hotWeiboKeji("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
 				getPullToRefreshListView().setRefreshing();
 			}
 		});
@@ -240,46 +238,10 @@ public class HotWeiboFragmentKeji extends AbsBaseTimeLineFragment<MessageListBea
 
         @Override
         public void onClick(View v) {
-        	loadNewRepostData();
+        	loadData(WeiBoURLs.hotWeiboKeji("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
         }
     }
 
-
-    public void loadNewRepostData() {		
-    	getPullToRefreshListView().setRefreshing();
-    	
-        	mAsyncHttoClient.get(WeiBoURLs.hotWeiboKeji("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage), new AsyncHttpResponseHandler() {
-			
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				// TODO Auto-generated method stub
-				mPage++;
-				String json = new String(responseBody).replaceAll("\"geo\":\"\"", "\"geo\": {}");
-				org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
-				
-				Gson gson = new Gson();
-				
-				HotWeiboErrorBean error = gson.fromJson(json, HotWeiboErrorBean.class);
-				if (error != null && TextUtils.isEmpty(error.getErrmsg())) {
-					HotWeiboBean result = gson.fromJson(json, new TypeToken<HotWeiboBean>() {}.getType());
-					mMessageListBean.addNewData(result.getMessageListBean());
-					List<MessageBean> list = result.getMessageBeans();
-					addNewDataAndRememberPosition(list);
-				}else {
-					Log.d("===========after_READ_JSON_DONE:", "-----------"+ error.getErrmsg());
-				}
-				
-				getPullToRefreshListView().onRefreshComplete();
-			}
-			
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				getPullToRefreshListView().onRefreshComplete();
-			}
-		});
-	}
 
     private void addNewDataAndRememberPosition(final List<MessageBean> newValue) {
 
@@ -313,11 +275,6 @@ public class HotWeiboFragmentKeji extends AbsBaseTimeLineFragment<MessageListBea
 
     }
 
-	@Override
-	public MessageListBean getDataList() {
-		// TODO Auto-generated method stub
-		return mMessageListBean;
-	}
 
 	@Override
 	protected void onTimeListViewItemClick(AdapterView<?> parent, View view,
@@ -336,14 +293,35 @@ public class HotWeiboFragmentKeji extends AbsBaseTimeLineFragment<MessageListBea
 	}
 
 	@Override
-	protected void newMsgLoaderSuccessCallback(MessageListBean newValue,
-			Bundle loaderArgs) {
+	void onLoadDataSucess(String json) {
+		// TODO Auto-generated method stub
+		mPage++;
+		String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}");
+		org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
+		
+		Gson gson = new Gson();
+		
+		HotWeiboErrorBean error = gson.fromJson(jsonStr, HotWeiboErrorBean.class);
+		if (error != null && TextUtils.isEmpty(error.getErrmsg())) {
+			HotWeiboBean result = gson.fromJson(jsonStr, new TypeToken<HotWeiboBean>() {}.getType());
+			getDataList().addNewData(result.getMessageListBean());
+			List<MessageBean> list = result.getMessageBeans();
+			addNewDataAndRememberPosition(list);
+		}else {
+			Log.d("===========after_READ_JSON_DONE:", "-----------"+ error.getErrmsg());
+		}
+		
+		getPullToRefreshListView().onRefreshComplete();
+	}
+
+	@Override
+	void onLoadDataFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void oldMsgLoaderSuccessCallback(MessageListBean newValue) {
+	void onLoadDataStart() {
 		// TODO Auto-generated method stub
 		
 	}
