@@ -84,7 +84,12 @@ public class HotWeiboFragmentTravel extends BaseHotWeiboFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		loadData(WeiBoURLs.hotWeiboTravel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotWeiboTravel(getGsid(), mPage));
+		}
+		
         getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -102,7 +107,12 @@ public class HotWeiboFragmentTravel extends BaseHotWeiboFragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				loadData(WeiBoURLs.hotWeiboTravel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
+				if (TextUtils.isEmpty(getGsid())) {
+					loadGsid();
+				}else {
+					loadData(WeiBoURLs.hotWeiboTravel(getGsid(), mPage));
+				}
+				
 				getPullToRefreshListView().setRefreshing();
 			}
 		});
@@ -234,15 +244,6 @@ public class HotWeiboFragmentTravel extends BaseHotWeiboFragment {
         }
     };
 
-    private class EmptyHeaderOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-        	loadData(WeiBoURLs.hotWeiboTravel("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
-        }
-    }
-
-
     private void addNewDataAndRememberPosition(final List<MessageBean> newValue) {
 
         int initSize = getListView().getCount();
@@ -327,6 +328,18 @@ public class HotWeiboFragmentTravel extends BaseHotWeiboFragment {
 
 	@Override
 	void onLoadDataStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void onGsidLoadSuccess(String gsid) {
+		// TODO Auto-generated method stub
+		loadData(WeiBoURLs.hotWeiboTravel(getGsid(), mPage));
+	}
+
+	@Override
+	void onGsidLoadFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
 	}

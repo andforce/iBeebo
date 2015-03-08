@@ -3,33 +3,21 @@ package org.zarroboogs.weibo.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.Header;
 import org.zarroboogs.utils.WeiBoURLs;
-import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.adapter.HotWeiboStatusListAdapter;
-import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
-import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.hot.hean.HotWeiboBean;
 import org.zarroboogs.weibo.hot.hean.HotWeiboErrorBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
-import org.zarroboogs.weibo.support.asyncdrawable.IWeiciyuanDrawable;
-import org.zarroboogs.weibo.support.asyncdrawable.MsgDetailReadWorker;
-import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
-import org.zarroboogs.weibo.support.gallery.GalleryAnimationActivity;
-import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.Utility;
-import org.zarroboogs.weibo.widget.WeiboDetailImageView;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,14 +30,10 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
 
-    private MsgDetailReadWorker picTask;
-    
     private HotWeiboStatusListAdapter adapter;
 
     private List<MessageBean> repostList = new ArrayList<MessageBean>();
@@ -64,8 +48,6 @@ public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
 
     private int mPage = 1;
     
-    private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
-
     @Override
     public void onResume() {
         super.onResume();
@@ -84,7 +66,13 @@ public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		loadData(WeiBoURLs.hotWeiboQianTian("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
+		
+		if (TextUtils.isEmpty(getGsid())) {
+			loadGsid();
+		}else {
+			loadData(WeiBoURLs.hotWeiboQianTian(getGsid(), mPage));
+		}
+
         getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -102,69 +90,15 @@ public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				loadData(WeiBoURLs.hotWeiboQianTian("4u8Kc2373x4U9rFAXPfxc7SC21d", mPage));
+				if (TextUtils.isEmpty(getGsid())) {
+					loadGsid();
+				}else {
+					loadData(WeiBoURLs.hotWeiboQianTian(getGsid(), mPage));
+				}
 				getPullToRefreshListView().setRefreshing();
 			}
 		});
 	}
-    private void displayPictures(final MessageBean msg, final GridLayout layout, WeiboDetailImageView view,
-            boolean refreshPic) {
-
-        if (!msg.isMultiPics()) {
-            view.setVisibility(View.VISIBLE);
-            if (Utility.isTaskStopped(picTask) && refreshPic) {
-                picTask = new MsgDetailReadWorker(view, msg);
-                picTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-            } else {
-                picTask.setView(view);
-            }
-        } else {
-            layout.setVisibility(View.VISIBLE);
-
-            final int count = msg.getPicCount();
-            for (int i = 0; i < count; i++) {
-                final IWeiciyuanDrawable pic = (IWeiciyuanDrawable) layout.getChildAt(i);
-                pic.setVisibility(View.VISIBLE);
-
-                if (SettingUtils.getEnableBigPic()) {
-                    TimeLineBitmapDownloader.getInstance().displayMultiPicture(pic, msg.getHighPicUrls().get(i),
-                            FileLocationMethod.picture_large);
-                } else {
-                    TimeLineBitmapDownloader.getInstance().displayMultiPicture(pic, msg.getMiddlePicUrls().get(i),
-                            FileLocationMethod.picture_bmiddle);
-                }
-
-                final int finalI = i;
-                pic.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        ArrayList<AnimationRect> animationRectArrayList = new ArrayList<AnimationRect>();
-                        for (int i = 0; i < count; i++) {
-                            final IWeiciyuanDrawable pic = (IWeiciyuanDrawable) layout.getChildAt(i);
-                            ImageView imageView = (ImageView) pic;
-                            if (imageView.getVisibility() == View.VISIBLE) {
-                                AnimationRect rect = AnimationRect.buildFromImageView(imageView);
-                                animationRectArrayList.add(rect);
-                            }
-                        }
-                        Intent intent = GalleryAnimationActivity.newIntent(msg, animationRectArrayList, finalI);
-                        getActivity().startActivity(intent);
-                    }
-                });
-
-            }
-
-            if (count < 9) {
-                for (int i = count; i < 9; i++) {
-                    ImageView pic = (ImageView) layout.getChildAt(i);
-                    pic.setVisibility(View.GONE);
-                }
-            }
-        }
-
-    }
-
 
     public void clearActionMode() {
         if (actionMode != null) {
@@ -188,16 +122,6 @@ public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
         return actionMode != null;
     }
 
-    private boolean resetActionMode() {
-        if (actionMode != null) {
-            getListView().clearChoices();
-            actionMode.finish();
-            actionMode = null;
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private PullToRefreshBase.OnLastItemVisibleListener onLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
         @Override
@@ -328,6 +252,18 @@ public class HotWeiboFragmentQianTian extends BaseHotWeiboFragment {
 
 	@Override
 	void onLoadDataStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void onGsidLoadSuccess(String gsid) {
+		// TODO Auto-generated method stub
+		loadData(WeiBoURLs.hotWeiboQianTian(getGsid(), mPage));
+	}
+
+	@Override
+	void onGsidLoadFailed(String errorStr) {
 		// TODO Auto-generated method stub
 		
 	}
