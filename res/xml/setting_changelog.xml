@@ -78,4 +78,13 @@
 	    <change>修改卡片背景</change>
 	    <change>其他一些小细节优化</change>
     </release>
+    
+	<release version="v2.4.1" versioncode="28">
+	    <change>添加了很多热门微博分类</change>
+	    <change>添加了很多热门话题分类</change>
+	    <change>修复车模热图崩溃问题</change>
+	    <change>修修改了私信对话页面</change>
+	    <change>修正了好友分组列表刷新逻辑</change>
+	    <change>其他一些小细节优化</change>
+    </release>
 </changelog>
