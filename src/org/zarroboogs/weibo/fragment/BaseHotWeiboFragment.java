@@ -27,7 +27,7 @@ public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<Messa
 	abstract void onLoadDataFailed(String errorStr);
 	
 	abstract void onLoadDataStart();
-
+	
 	protected void loadData(String url) {
 		
 		onLoadDataStart();

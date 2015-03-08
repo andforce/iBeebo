@@ -43,9 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * User: Jiang Qi Date: 12-7-27
- */
 public final class GlobalContext extends Application {
     public static GlobalContext instance;
 

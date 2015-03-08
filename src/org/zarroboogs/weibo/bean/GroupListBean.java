@@ -9,9 +9,6 @@ import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: qii Date: 12-10-17
- */
 public class GroupListBean implements Parcelable {
 
     private List<GroupBean> lists = new ArrayList<GroupBean>();

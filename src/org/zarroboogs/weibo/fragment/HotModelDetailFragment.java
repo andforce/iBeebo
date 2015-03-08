@@ -28,7 +28,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class HotModelDetailFragment extends BaseHotFragment {
+public class HotModelDetailFragment extends BaseLoadDataFragment {
 
 	private HotModelDetailAdapter adapter;
 

@@ -11,6 +11,8 @@ import android.R.string;
 public class WeiBoURLs {
 	
 	
+	public static final String GSID = "http://appsrc.sinaapp.com/gsid.txt";
+	
 	  public static final String KEY_FLURRY = "3MVKXSRZ4PNHT4KG8HJF";
 	  public static final String SINA_REDIRECT_URL = "http://oauth.weico.cc";
 	  public static final String SINA_SCOPE = "email,direct_messages_read,direct_messages_write,friendships_groups_read,friendships_groups_write,statuses_to_me_read,invitation_write";

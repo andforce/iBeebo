@@ -39,7 +39,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotHuaTiFragmentShot extends BaseHotFragment {
+public class HotHuaTiFragmentShot extends BaseLoadDataFragment {
 
     private MsgDetailReadWorker picTask;
     

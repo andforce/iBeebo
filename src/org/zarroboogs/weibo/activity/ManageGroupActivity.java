@@ -38,9 +38,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: qii Date: 13-2-14
- */
 public class ManageGroupActivity extends AbstractAppActivity {
 
     @Override

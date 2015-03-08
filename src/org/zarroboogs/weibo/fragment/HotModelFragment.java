@@ -37,7 +37,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HotModelFragment extends BaseHotFragment implements OnModelDetailonClickListener {
+public class HotModelFragment extends BaseLoadDataFragment implements OnModelDetailonClickListener {
 
     private MsgDetailReadWorker picTask;
     
