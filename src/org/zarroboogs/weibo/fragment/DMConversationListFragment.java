@@ -23,10 +23,8 @@ import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.Loader;
@@ -42,16 +40,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.Comparator;
 
-/**
- * User: qii Date: 12-11-15
- */
 public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBean> {
 
     private UserBean userBean;

@@ -20,7 +20,7 @@ public class DMActivity extends AbstractAppActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.setting_activity_layout);
+        setContentView(R.layout.dm_activity_layout);
         mToolBar = (Toolbar) findViewById(R.id.settingToolBar);
 
         // getActionBar().setDisplayShowHomeEnabled(false);
