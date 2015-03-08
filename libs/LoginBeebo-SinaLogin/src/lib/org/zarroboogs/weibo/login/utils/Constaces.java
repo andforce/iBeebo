@@ -11,7 +11,7 @@ public class Constaces {
     public static final String rsakv = "rsakv";
     public static final String exectime = "exectime";
 
-    public static final boolean isMobile = false;
+    public static final boolean isMobile = true;
 
     public static final String SSOLOGIN_JS = "ssologin.js(v1.4.18)";
     public static final String LOGIN_FIRST_URL = "http://login.sina.com.cn/sso/login.php?client=" + SSOLOGIN_JS;
