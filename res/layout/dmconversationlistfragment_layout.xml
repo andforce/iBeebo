@@ -2,23 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="fill_parent"
-    android:background="#FFEDEDED"
     android:layout_height="fill_parent"
+    android:background="#FFEDEDED"
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
-        <org.zarroboogs.weibo.widget.SmileyPicker
-        android:layout_alignParentBottom="true"
+    <org.zarroboogs.weibo.widget.SmileyPicker
         android:id="@+id/smiley_picker"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:visibility="gone" />
-        
+
     <LinearLayout
-        android:layout_above="@id/smiley_picker"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/smiley_picker"
         android:layout_weight="1.0"
         android:orientation="vertical" >
 
@@ -78,9 +78,10 @@
 
             <ImageButton
                 android:id="@+id/emoticon"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:src="?emoticon" />
+                android:background="@drawable/bottom_selector"
+                android:src="@drawable/emoticon_dark" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/content"
@@ -99,7 +100,5 @@
                 android:src="?send" />
         </LinearLayout>
     </LinearLayout>
-
-
 
 </RelativeLayout>
