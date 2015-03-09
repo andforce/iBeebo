@@ -1,13 +1,8 @@
 
 package org.zarroboogs.utils;
 
-import org.zarroboogs.weibo.support.utils.Utility;
+import android.R.id;
 
-import android.R.string;
-
-/**
- * User: qii Date: 12-7-28
- */
 public class WeiBoURLs {
 	
 	
@@ -375,6 +370,21 @@ public class WeiBoURLs {
 				+ "extparam=" + extparam
 				+ "&containerid=101903_-_girl_pic_dtl&fid=101903_-_girl_pic_dtl&lfid=101903_-_girl_pic_lst&sourcetype=page&"
 				+ "page=" + page;
+		return url;
+	}
+    
+    public static String galleryUrl(String gsid, String coundID,int page, int count ) {
+		String url = "http://api.weibo.cn/2/cardlist?"
+				+ "gsid=" + gsid
+				+ "&wm=3333_2001&i=d5d6f09&b=1&from=1051393010&c=iphone&v_p=18&skin=default&v_f=1&s=a57eef07&lang=zh_CN&ua=iPhone6,1__weibo__5.1.3__iphone__os8.1.2&mid=3818285881989188&_status_id=3818285881989188&containerid=107803_"
+				+ "" + coundID
+				+ "&luicode=10000001&fid=107803_"
+				+ "" + coundID
+				+ "&featurecode=10000001&uicode=10000198&rid=1_0_2667326337649401610&fromlog=100011878230075&"
+				+ "count=" + coundID
+				+ "&"
+				+ "page=" + page
+				+ "&lfid=100011878230075";
 		return url;
 	}
 }
