@@ -11,7 +11,7 @@ public final class Constants {
 
     public static final String TOKEN = "token";
 
-    public static final boolean isBeeboPlus = true;
+    public static final boolean isBeeboPlus = false;
     public static class Extra {
         public static final String KEY = "LIST_COURSES";
         public static final String COURSE_KEY = "LIST_COURSES";
