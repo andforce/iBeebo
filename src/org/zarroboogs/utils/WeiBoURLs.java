@@ -24,8 +24,10 @@ public class WeiBoURLs {
     //
     public static final String URL_OAUTH2_ACCESS_AUTHORIZE = "https://open.weibo.cn/oauth2/authorize";
     public static final String APP_KEY = "211160679";
-    public static final String APP_SECRET = "63b64d531b98c2dbff2443816f274dd3";//Utility.rot47("57cag6gg226g35b`7a_cg`5`ch4gde65");
-    public static final String DIRECT_URL = SINA_REDIRECT_URL;//Utility.rot47("9EEADi^^2A:]H6:3@]4@>^@2FE9a^5672F=E]9E>=");
+    public static final String APP_SECRET = "63b64d531b98c2dbff2443816f274dd3";
+    public static final String DIRECT_URL = SINA_REDIRECT_URL;
+    public static final String PACKAGE_NAME = "com.eico.weico";
+    public static final String KEY_HASH = "1e6e33db08f9192306c4afa0a61ad56c";
 
     // main timeline
     public static final String FRIENDS_TIMELINE = URL_SINA_WEIBO + "statuses/friends_timeline.json";
