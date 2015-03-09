@@ -14,6 +14,13 @@ public class WeiBoURLs {
 	  public static String passwordUrl = "http://m.weibo.cn/setting/forgotpwd?vt=4&wm=ig_0001_index";
 	  public static String regUrl = "http://weibo.cn/dpool/ttt/h5/reg.php";
 	  
+	// netease key
+	// localHashMap.put("client_id", "4122644977");
+	// localHashMap.put("client_secret", "90bb794d3b1439dbd57cf76f5ff69022");
+	// localHashMap.put("redirect_uri", "http://study.163.com");
+	// localHashMap.put("grant_type", "authorization_code");
+	// com.netease.edu.study
+	// bo5800bd5990e85643c4711e65669dee
 	  
     // base url
     private static final String URL_SINA_WEIBO = "https://api.weibo.com/2/";
