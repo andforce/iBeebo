@@ -18,22 +18,17 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -334,5 +329,26 @@ public class OAuthActivity extends AbstractAppActivity {
 
     public static enum DBResult {
         add_successfuly, update_successfully
+    }
+    
+    public static final String APP_KEY = "4122644977";
+    public static final String DIRECT_URL = "http://study.163.com";
+    public static final String SINA_SCOPE = "statuses_to_me_read";
+    public static final String PACKAGE_NAME = "com.netease.edu.study";
+    public static final String KEY_HASH = "18da2bf10352443a00a5e046d9fca6bd";
+    public static final String APP_SECRET = "90bb794d3b1439dbd57cf76f5ff69022";
+    public static final String a = String.format("https://open.weibo.cn/2/oauth2/authorize?display=mobile&response_type=code&redirect_uri=%s&client_id=%s", new Object[] { "http://study.163.com", "4122644977" });
+
+    public String netEase(String client_id, String client_secret, String redirect_uri , String code){
+    	// NEED Post
+    	//https://api.weibo.com/oauth2/access_token?client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=authorization_code&redirect_uri=YOUR_REGISTERED_REDIRECT_URI&code=CODE
+    	String url = "https://api.weibo.com/oauth2/access_token?"
+    			+ "client_id=" + client_id
+    			+ "&client_secret=" + client_secret
+    			+ "&grant_type=authorization_code"
+    			+ "&redirect_uri=" + redirect_uri
+    			+ "&code=" + code;
+    	return url;
+    	
     }
 }
