@@ -291,7 +291,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     String test = "";
 
     protected void fetchAppSrc() {
-    	if (true) {
+    	if (false) {
 //        	String json = readStringFromAssert("test_huati_weibo.json").replaceAll("\"geo\": \"\"", "\"geo\": {}");//
         	//"card_group": [],
         	
