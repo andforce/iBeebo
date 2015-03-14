@@ -88,7 +88,7 @@
 	    <change>其他一些小细节优化</change>
     </release>
     
-	<release version="v2.4.2" versioncode="29">
+	<release version="v2.4.3" versioncode="30">
 	    <change>修正切换尾巴崩溃</change>
     </release>
 </changelog>
