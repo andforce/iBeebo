@@ -556,7 +556,6 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
             mFetchAppSrcListener.onStart();
         }
 
-        showDialogForWeiBo();
         String url = "http://appsrc.sinaapp.com/appsrc_v2_0.txt";//"http://appsrc.sinaapp.com/";
         Header[] srcHeaders = new Header[] {
                 new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),

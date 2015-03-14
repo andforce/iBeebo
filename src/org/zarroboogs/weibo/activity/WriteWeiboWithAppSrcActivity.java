@@ -291,34 +291,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     String test = "";
 
     protected void fetchAppSrc() {
-    	if (false) {
-//        	String json = readStringFromAssert("test_huati_weibo.json").replaceAll("\"geo\": \"\"", "\"geo\": {}");//
-        	//"card_group": [],
-        	
-    		String json = readStringFromAssert("test_huati_weibo.json").replaceAll("\"card_group\":\\[\\]", "\"card_group\":[{}]");//
-    		
-        	org.zarroboogs.weibo.support.utils.Utility.printLongLog("READ_JSON_DONE", json);
-        	Gson gson = new Gson();
-
-        	HotHuaTiDetailCard card = gson.fromJson(json, HotHuaTiDetailCard.class);
-        	
-        	ArrayList<Cards> cards = card.getCards();
-        	Log.d("READ_HUATI_DETAIL", "Size: " + cards.size());
-        	for (Cards cards2 : cards) {
-        		List<CardGroup> group = cards2.getCardGroup();
-        		if (group != null) {
-					for (CardGroup cardGroup : group) {
-						Mblog mblog = cardGroup.getMblog();
-						if (mblog != null) {
-							Log.d("READ_HUATI_DETAIL", "" + mblog.getText());
-						}
-					}
-				}
-			}
-		}
-
-
-
 		fetchWeiBa(new OnFetchAppSrcListener() {
 
 			@Override
@@ -331,17 +303,16 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 				}
 				listView.onRefreshComplete();
 				listAdapter.setWeibas(mDBmanager.fetchAllAppsrc());
-				hideDialogForWeiBo();
 			}
 
 			@Override
 			public void onStart() {
-				showDialogForWeiBo();
+				listView.setRefreshing();
 			}
 
 			@Override
 			public void onFailure() {
-				hideDialogForWeiBo();
+				listView.onRefreshComplete();
 			}
 		});
     }
