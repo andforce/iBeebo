@@ -1,8 +1,6 @@
 
 package org.zarroboogs.weibo.activity;
 
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.targets.ViewTarget;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -294,10 +292,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        if (SettingUtils.isClickToTopTipFirstShow()) {
-            ViewTarget target = new ViewTarget(getClickToTopView());
-            ShowcaseView.insertShowcaseView(target, this, R.string.tip, R.string.click_to_top_tip);
-        }
     }
 
     @Override
