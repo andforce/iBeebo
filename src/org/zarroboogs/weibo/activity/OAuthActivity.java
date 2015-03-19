@@ -217,7 +217,7 @@ public class OAuthActivity extends AbstractAppActivity {
         @Override
         protected void onCancelled(DBResult dbResult) {
             super.onCancelled(dbResult);
-            if (progressFragment != null) {
+            if (progressFragment != null && progressFragment.isVisible()) {
                 progressFragment.dismissAllowingStateLoss();
             }
 
