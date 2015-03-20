@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.activity;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.WeiBoURLs;
+import org.zarroboogs.utils.WeiboOAuthConstances;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -86,16 +87,16 @@ public class OAuthActivity extends AbstractAppActivity {
     private String getWeiboOAuthUrl() {
 
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("client_id", WeiBoURLs.APP_KEY);
-        parameters.put("redirect_uri", WeiBoURLs.SINA_REDIRECT_URL);
+        parameters.put("client_id", WeiboOAuthConstances.APP_KEY);
+        parameters.put("redirect_uri", WeiboOAuthConstances.SINA_REDIRECT_URL);
         parameters.put("response_type", "code");
-        parameters.put("scope", WeiBoURLs.SINA_SCOPE);
+        parameters.put("scope", WeiboOAuthConstances.SINA_SCOPE);
         parameters.put("version", "0030105000");
-        parameters.put("packagename", WeiBoURLs.PACKAGE_NAME);
-        parameters.put("key_hash", WeiBoURLs.KEY_HASH);
+        parameters.put("packagename", WeiboOAuthConstances.PACKAGE_NAME);
+        parameters.put("key_hash", WeiboOAuthConstances.KEY_HASH);
         
         
-        return WeiBoURLs.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters);
+        return WeiboOAuthConstances.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters);
     }
 
     private class WeiboWebViewClient extends WebViewClient {
@@ -109,7 +110,7 @@ public class OAuthActivity extends AbstractAppActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
         	mprogressbar.setVisibility(View.VISIBLE);
-            if (url.startsWith(WeiBoURLs.DIRECT_URL)) {
+            if (url.startsWith(WeiboOAuthConstances.DIRECT_URL)) {
 
                 handleRedirectUrl(view, url);
                 view.stopLoading();
