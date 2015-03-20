@@ -1,5 +1,7 @@
 package com.evgenii.jsevaluator;
 
+import android.webkit.JavascriptInterface;
+
 import com.evgenii.jsevaluator.interfaces.CallJavaResultInterface;
 
 /**
@@ -13,6 +15,7 @@ public class JavaScriptInterface {
 		mCallJavaResultInterface = callJavaResult;
 	}
 
+	@JavascriptInterface
 	public void returnResultToJava(String value, int callIndex) {
 		mCallJavaResultInterface.jsCallFinished(value, callIndex);
 	}
