@@ -1,91 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:id="@+id/root_layout"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/writeWeiboToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="48dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/write_weibo" />
 
     <RelativeLayout
-            android:id="@+id/container"
-            android:layout_width="fill_parent"
-            android:layout_height="0.0dip"
-            android:layout_weight="1.0">
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0" >
 
         <FrameLayout
-                android:layout_above="@+id/ll_bottom_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ll_bottom_menu" >
 
             <ImageView
-                    android:id="@+id/status_image_preview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="0.2"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone"/>
+                android:id="@+id/status_image_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.2"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
 
             <org.zarroboogs.weibo.widget.KeyboardControlEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/say_something"
-                    android:id="@+id/status_new_content"
-                    android:scrollbars="vertical"
-                    android:fadeScrollbars="true"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:gravity="left|top"/>
-
+                android:id="@+id/status_new_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadeScrollbars="true"
+                android:gravity="left|top"
+                android:hint="@string/say_something"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical" />
         </FrameLayout>
 
-
         <LinearLayout
-                android:id="@+id/ll_bottom_menu"
-                android:layout_alignParentBottom="true"
-                android:background="?attr/split_line_between_content_and_bottom_button_panel"
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="?android:actionBarSize">
+            android:id="@+id/ll_bottom_menu"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:background="?attr/split_line_between_content_and_bottom_button_panel"
+            android:orientation="horizontal" >
 
             <ImageButton
-                    style="?android:actionButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:src="?statusnewactivity_camera"
-                    android:id="@+id/menu_add_pic"
-                    android:layout_height="match_parent"/>
+                android:id="@+id/menu_add_pic"
+                style="?android:actionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="?statusnewactivity_camera" />
 
             <ImageButton
-                    style="?android:actionButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:src="?at"
-                    android:id="@+id/menu_at"
-                    android:layout_height="match_parent"/>
+                android:id="@+id/menu_at"
+                style="?android:actionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="?at" />
 
             <ImageButton
-                    style="?android:actionButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:src="?emoticon"
-                    android:id="@+id/menu_emoticon"
-                    android:layout_height="match_parent"/>
+                android:id="@+id/menu_emoticon"
+                style="?android:actionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="?emoticon" />
 
             <Space
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
             <Button
-                    style="?android:actionButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:drawableRight="?statusnewactivity_send"
-                    android:text="@string/send"
-                    android:id="@+id/menu_send"
-                    android:textColor="?android:actionMenuTextColor"
-                    android:textAppearance="?android:attr/actionMenuTextAppearance"
-                    android:layout_height="match_parent"/>
+                android:id="@+id/menu_send"
+                style="?android:actionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableRight="?statusnewactivity_send"
+                android:text="@string/send"
+                android:textAppearance="?android:attr/actionMenuTextAppearance"
+                android:textColor="?android:actionMenuTextColor" />
         </LinearLayout>
     </RelativeLayout>
 
     <org.zarroboogs.weibo.widget.SmileyPicker
-            android:id="@+id/smiley_picker"
-            android:visibility="gone"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+        android:id="@+id/smiley_picker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </LinearLayout>
