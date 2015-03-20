@@ -3,7 +3,6 @@ package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.utils.WeiboOAuthConstances;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -43,6 +42,9 @@ public class OAuthActivity extends AbstractAppActivity {
     private WebView webView;
 
     private ProgressBar mprogressbar;
+    
+    private boolean isHack = false;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,14 +89,24 @@ public class OAuthActivity extends AbstractAppActivity {
     private String getWeiboOAuthUrl() {
 
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("client_id", WeiboOAuthConstances.APP_KEY);
-        parameters.put("redirect_uri", WeiboOAuthConstances.SINA_REDIRECT_URL);
-        parameters.put("response_type", "code");
-        parameters.put("scope", WeiboOAuthConstances.SINA_SCOPE);
-        parameters.put("version", "0030105000");
-        parameters.put("packagename", WeiboOAuthConstances.PACKAGE_NAME);
-        parameters.put("key_hash", WeiboOAuthConstances.KEY_HASH);
         
+        if (isHack) {
+            parameters.put("client_id", WeiboOAuthConstances.APP_KEY);
+            parameters.put("redirect_uri", WeiboOAuthConstances.SINA_REDIRECT_URL);
+            parameters.put("response_type", "code");
+            parameters.put("scope", WeiboOAuthConstances.SINA_SCOPE);
+            parameters.put("version", "0030105000");
+            parameters.put("packagename", WeiboOAuthConstances.PACKAGE_NAME);
+            parameters.put("key_hash", WeiboOAuthConstances.KEY_HASH);
+		}else {
+            parameters.put("client_id", WeiboOAuthConstances.HACK_APP_KEY);
+            parameters.put("redirect_uri", WeiboOAuthConstances.HACK_SINA_REDIRECT_URL);
+            parameters.put("response_type", "code");
+            parameters.put("scope", WeiboOAuthConstances.HACK_SINA_SCOPE);
+            parameters.put("version", "0030105000");
+            parameters.put("packagename", WeiboOAuthConstances.HACK_PACKAGE_NAME);
+            parameters.put("key_hash", WeiboOAuthConstances.HACK_KEY_HASH);
+		}
         
         return WeiboOAuthConstances.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters);
     }
