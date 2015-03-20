@@ -5,8 +5,6 @@ public class WeiBoURLs {
 	
 	public static final String GSID = "http://appsrc.sinaapp.com/gsid.txt";
 
-	public static final String KEY_FLURRY = "3MVKXSRZ4PNHT4KG8HJF";
-
 	public static String passwordUrl = "http://m.weibo.cn/setting/forgotpwd?vt=4&wm=ig_0001_index";
 	public static String regUrl = "http://weibo.cn/dpool/ttt/h5/reg.php";
 
