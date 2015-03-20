@@ -80,48 +80,59 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private Button mScrollTopBtn;
+    
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	public void onCreate(Bundle savedInstanceState) {
 
-        if (!Constants.isBeeboPlus) {
-            UmengUpdateAgent.update(this);
+		super.onCreate(savedInstanceState);
+
+		if (!Constants.isBeeboPlus) {
+			UmengUpdateAgent.update(this);
 		}
-        if (savedInstanceState != null) {
-            mAccountBean = savedInstanceState.getParcelable(Constants.ACCOUNT);
-        } else {
-            Intent intent = getIntent();
-            mAccountBean = intent.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
-        }
-
-        if (mAccountBean == null) {
-            mAccountBean = GlobalContext.getInstance().getAccountBean();
-        }
-
-        GlobalContext.getInstance().setGroup(null);
-        GlobalContext.getInstance().setAccountBean(mAccountBean);
-        SettingUtils.setDefaultAccountId(mAccountBean.getUid());
-
-        setContentView(R.layout.layout_main_time_line_activity);
-        
-        buildInterface(savedInstanceState);
-
-        mScrollTopBtn = (Button) findViewById(R.id.scrollToTopBtn);
-        mScrollTopBtn.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Toast.makeText(getApplicationContext(), "TOP", Toast.LENGTH_LONG).show();
-                scrollCurrentListViewToTop();
-            }
-        });
-
-        if (AppNewMsgAlarm.DEBUG) {
-			AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, getApplicationContext(), true);
+		if (savedInstanceState != null) {
+			mAccountBean = savedInstanceState.getParcelable(Constants.ACCOUNT);
+		} else {
+			Intent intent = getIntent();
+			mAccountBean = intent
+					.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
 		}
-        
-    }
+
+		if (mAccountBean == null) {
+			mAccountBean = GlobalContext.getInstance().getAccountBean();
+		}
+
+		if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getPwd())) {
+			GlobalContext.getInstance().setGroup(null);
+			GlobalContext.getInstance().setAccountBean(mAccountBean);
+			SettingUtils.setDefaultAccountId(mAccountBean.getUid());
+
+			setContentView(R.layout.layout_main_time_line_activity);
+
+			buildInterface(savedInstanceState);
+
+			mScrollTopBtn = (Button) findViewById(R.id.scrollToTopBtn);
+			mScrollTopBtn.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// Toast.makeText(getApplicationContext(), "TOP",
+					// Toast.LENGTH_LONG).show();
+					scrollCurrentListViewToTop();
+				}
+			});
+
+			if (AppNewMsgAlarm.DEBUG) {
+				AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG,
+						getApplicationContext(), true);
+			}
+		}else {
+			Intent start = new Intent(this, AccountActivity.class);
+			startActivity(start);
+			finish();
+		}
+
+	}
 
     public void closeLeftDrawer() {
         mDrawerLayout.closeDrawer(Gravity.START);

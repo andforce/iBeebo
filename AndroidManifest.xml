@@ -67,14 +67,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyA_Ozn9WNG58ImFlmOFOItHvn1JShWvIpE" />
 
-        <activity android:name="org.zarroboogs.weibo.activity.AccountActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+        <activity android:name="org.zarroboogs.weibo.activity.AccountActivity" />
         <!-- login activity -->
 
         <activity android:name="org.zarroboogs.weibo.activity.OAuthActivity" />
@@ -83,7 +76,12 @@
         <!-- main activity -->
         <activity
             android:name="org.zarroboogs.weibo.activity.MainTimeLineActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- send activity -->
         <activity

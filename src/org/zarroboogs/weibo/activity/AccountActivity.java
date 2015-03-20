@@ -89,8 +89,6 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         } else if (ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN.equals(action)) {
             // empty
         } else {
-            // finish current Activity
-            jumpToMainTimeLineActivity();
         }
 
         super.onCreate(savedInstanceState);
@@ -159,21 +157,6 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
     private void showChangeLogDialog() {
         ChangeLogDialog changeLogDialog = new ChangeLogDialog(this);
         changeLogDialog.show();
-    }
-
-    private void jumpToMainTimeLineActivity() {
-
-        String id = SettingUtils.getDefaultAccountId();
-
-        if (!TextUtils.isEmpty(id)) {
-            AccountBean bean = AccountDBTask.getAccount(id);
-            if (bean != null) {
-                Intent start = MainTimeLineActivity.newIntent(bean);
-                startActivity(start);
-                finish();
-            }
-        }
-
     }
 
     private void showAddAccountDialog() {
