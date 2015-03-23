@@ -7,6 +7,7 @@ import com.umeng.update.UmengUpdateAgent;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.auth.BeeboAuthUtils;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.CommentListBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
@@ -87,6 +88,9 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
 		super.onCreate(savedInstanceState);
 
+		BeeboAuthUtils beeboAuthUtils = new BeeboAuthUtils();
+		Log.d("BeeboAuthUtils", "" + beeboAuthUtils.getAppKey());
+		
 		if (!Constants.isBeeboPlus) {
 			UmengUpdateAgent.update(this);
 		}
