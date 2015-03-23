@@ -3,8 +3,8 @@ package org.zarroboogs.weibo.activity;
 
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
-import org.zarroboogs.utils.Constants;
-import org.zarroboogs.utils.WeiBoURLs;
+import org.zarroboogs.utils.WeiboOAuthConstances;
+import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -15,56 +15,62 @@ import org.zarroboogs.weibo.support.utils.Utility;
 
 import com.umeng.analytics.MobclickAgent;
 
-import android.app.ActionBar;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.util.Log;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-7-28
- */
+@SuppressLint("SetJavaScriptEnabled")
 public class OAuthActivity extends AbstractAppActivity {
 
     private WebView webView;
 
-    private MenuItem refreshItem;
-
+    private ProgressBar mprogressbar;
+    
+    private boolean isAuthPro = false;
+    
+    
+    
+    public static Intent oauthIntent(Activity activity,boolean isHack) {
+		Intent intent = new Intent(activity, OAuthActivity.class);
+		intent.putExtra("isHack", isHack);
+		return intent;
+	}
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.oauthactivity_layout);
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setTitle(getString(R.string.login));
+        this.isAuthPro = getIntent().getBooleanExtra("isHack", false);
+        
+        
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WeiboWebViewClient());
 
+        mprogressbar = (ProgressBar) findViewById(R.id.oauthProgress);
+        
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setSaveFormData(false);
-        settings.setSavePassword(false);
+        settings.setSaveFormData(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
@@ -72,6 +78,7 @@ public class OAuthActivity extends AbstractAppActivity {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
 
+        refresh();
     }
 
     @Override
@@ -80,59 +87,43 @@ public class OAuthActivity extends AbstractAppActivity {
         webView.clearCache(true);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_menu_oauthactivity, menu);
-        refreshItem = menu.findItem(R.id.menu_refresh);
-        refresh();
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = AccountActivity.newIntent();
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
-            case R.id.menu_refresh:
-                refresh();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     public void refresh() {
-        webView.clearView();
-        webView.loadUrl("about:blank");
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
+//        webView.clearView();
+//        webView.loadUrl("about:blank");
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
+//
+//        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.refresh);
+//        iv.startAnimation(rotation);
 
-        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.refresh);
-        iv.startAnimation(rotation);
-
-        refreshItem.setActionView(iv);
         webView.loadUrl(getWeiboOAuthUrl());
-    }
-
-    private void completeRefresh() {
-        if (refreshItem.getActionView() != null) {
-            refreshItem.getActionView().clearAnimation();
-            refreshItem.setActionView(null);
-        }
     }
 
     private String getWeiboOAuthUrl() {
 
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("client_id", WeiBoURLs.APP_KEY);
-        parameters.put("response_type", Constants.TOKEN);
-        parameters.put("redirect_uri", WeiBoURLs.DIRECT_URL);
-        parameters.put("display", "mobile");
-        return WeiBoURLs.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters)
-                + "&scope=friendships_groups_read,friendships_groups_write";
+        
+        if (isAuthPro) {
+            parameters.put("client_id", WeiboOAuthConstances.HACK_APP_KEY);
+            parameters.put("redirect_uri", WeiboOAuthConstances.HACK_DIRECT_URL);
+            parameters.put("response_type", "code");
+            parameters.put("scope", WeiboOAuthConstances.HACK_SINA_SCOPE);
+            parameters.put("version", "0030105000");
+            parameters.put("packagename", WeiboOAuthConstances.HACK_PACKAGE_NAME);
+            parameters.put("key_hash", WeiboOAuthConstances.HACK_KEY_HASH);
+		}else {
+			parameters.put("client_id", WeiboOAuthConstances.APP_KEY);
+            parameters.put("redirect_uri", WeiboOAuthConstances.DIRECT_URL);
+            parameters.put("response_type", "code");
+            parameters.put("scope", WeiboOAuthConstances.SINA_SCOPE);
+            parameters.put("version", "0030105000");
+            parameters.put("packagename", WeiboOAuthConstances.PACKAGE_NAME);
+            parameters.put("key_hash", WeiboOAuthConstances.KEY_HASH);
+
+		}
+        
+        return WeiboOAuthConstances.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters);
     }
 
     private class WeiboWebViewClient extends WebViewClient {
@@ -145,13 +136,24 @@ public class OAuthActivity extends AbstractAppActivity {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        	mprogressbar.setVisibility(View.VISIBLE);
 
-            if (url.startsWith(WeiBoURLs.DIRECT_URL)) {
+        	if (isAuthPro) {
+                if (url.startsWith(WeiboOAuthConstances.HACK_DIRECT_URL)) {
 
-                handleRedirectUrl(view, url);
-                view.stopLoading();
-                return;
-            }
+                    handleRedirectUrl(view, url);
+                    view.stopLoading();
+                    return;
+                }
+			}else {
+	            if (url.startsWith(WeiboOAuthConstances.DIRECT_URL)) {
+
+	                handleRedirectUrl(view, url);
+	                view.stopLoading();
+	                return;
+	            }
+			}
+
             super.onPageStarted(view, url, favicon);
 
         }
@@ -159,6 +161,7 @@ public class OAuthActivity extends AbstractAppActivity {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
+            mprogressbar.setVisibility(View.GONE);
             new SinaWeiboErrorDialog().show(getSupportFragmentManager(), "");
         }
 
@@ -166,8 +169,8 @@ public class OAuthActivity extends AbstractAppActivity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             if (!url.equals("about:blank")) {
-                completeRefresh();
             }
+            mprogressbar.setVisibility(View.GONE);
         }
     }
 
@@ -185,7 +188,7 @@ public class OAuthActivity extends AbstractAppActivity {
             String access_token = values.getString("access_token");
             String expires_time = values.getString("expires_in");
             setResult(RESULT_OK, intent);
-            new OAuthTask(this).execute(access_token, expires_time);
+            new OAuthTask(this, isAuthPro).execute(access_token, expires_time);
         } else {
             Toast.makeText(OAuthActivity.this, getString(R.string.you_cancel_login), Toast.LENGTH_SHORT).show();
             finish();
@@ -211,8 +214,9 @@ public class OAuthActivity extends AbstractAppActivity {
         private ProgressFragment progressFragment = ProgressFragment.newInstance();
 
         private WeakReference<OAuthActivity> oAuthActivityWeakReference;
-
-        private OAuthTask(OAuthActivity activity) {
+        private boolean isAuthPro;
+        private OAuthTask(OAuthActivity activity, boolean isAuthPro) {
+        	this.isAuthPro = isAuthPro;
             oAuthActivityWeakReference = new WeakReference<OAuthActivity>(activity);
         }
 
@@ -222,7 +226,7 @@ public class OAuthActivity extends AbstractAppActivity {
 
             OAuthActivity activity = oAuthActivityWeakReference.get();
             if (activity != null) {
-                progressFragment.show(activity.getSupportFragmentManager(), "");
+//                progressFragment.show(activity.getSupportFragmentManager(), "");
             }
 
         }
@@ -234,13 +238,19 @@ public class OAuthActivity extends AbstractAppActivity {
             long expiresInSeconds = Long.valueOf(params[1]);
 
             try {
-                UserBean user = new OAuthDao(token).getOAuthUserInfo();
-                AccountBean account = new AccountBean();
-                account.setAccess_token(token);
-                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
-                account.setInfo(user);
-                AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
-                return AccountDBTask.addOrUpdateAccount(account, false);
+            	if (isAuthPro) {
+                    AccountBean account = GlobalContext.getInstance().getAccountBean();
+                    return AccountDBTask.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
+				}else {
+	                UserBean user = new OAuthDao(token).getOAuthUserInfo();
+	                AccountBean account = new AccountBean();
+	                account.setAccess_token(token);
+	                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
+	                account.setInfo(user);
+	                AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
+	                return AccountDBTask.addOrUpdateAccount(account, false);
+				}
+
             } catch (WeiboException e) {
                 AppLoggerUtils.e(e.getError());
                 this.e = e;
@@ -253,7 +263,7 @@ public class OAuthActivity extends AbstractAppActivity {
         @Override
         protected void onCancelled(DBResult dbResult) {
             super.onCancelled(dbResult);
-            if (progressFragment != null) {
+            if (progressFragment != null && progressFragment.isVisible()) {
                 progressFragment.dismissAllowingStateLoss();
             }
 

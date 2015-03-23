@@ -26,7 +26,7 @@ public class ImgFileListAdapter extends BaseAdapter {
     String filename = "filename";
     String imgpath = "imgpath";
     List<HashMap<String, String>> listdata;
-    Util util;
+    SelectImgUtil util;
     private int index = -1;
     List<View> holderlist;
     private ImageLoader mImageLoader = ImageLoader.getInstance();
@@ -35,7 +35,7 @@ public class ImgFileListAdapter extends BaseAdapter {
     public ImgFileListAdapter(Context context, List<HashMap<String, String>> listdata) {
         this.context = context;
         this.listdata = listdata;
-        util = new Util(context);
+        util = new SelectImgUtil(context);
         holderlist = new ArrayList<View>();
         options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565).build();

@@ -58,11 +58,11 @@ public class CommentFloatingMenuDialog extends DialogFragment {
                     case 0:
                         startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                                 bean.getStatus(), GlobalContext.getInstance()
-                                        .getSpecialToken()));
+                                        .getAccessToken()));
                         break;
                     case 1:
                         intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                         intent.putExtra("msg", bean);
                         getActivity().startActivity(intent);
                         break;

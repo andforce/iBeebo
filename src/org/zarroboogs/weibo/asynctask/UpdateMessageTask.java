@@ -18,9 +18,6 @@ import org.zarroboogs.weibo.dao.ShowStatusDao;
 import org.zarroboogs.weibo.fragment.BrowserWeiboMsgFragment;
 import org.zarroboogs.weibo.support.utils.Utility;
 
-/**
- * User: qii Date: 13-1-25
- */
 public class UpdateMessageTask extends MyAsyncTask<Void, Void, MessageBean> {
     private MessageBean msg;
     private TextView content;
@@ -51,7 +48,7 @@ public class UpdateMessageTask extends MyAsyncTask<Void, Void, MessageBean> {
     @Override
     protected MessageBean doInBackground(Void... params) {
         try {
-            return new ShowStatusDao(GlobalContext.getInstance().getSpecialToken(), msg.getId()).getMsg();
+            return new ShowStatusDao(GlobalContext.getInstance().getAccessToken(), msg.getId()).getMsg();
         } catch (WeiboException e) {
             this.e = e;
             cancel(true);

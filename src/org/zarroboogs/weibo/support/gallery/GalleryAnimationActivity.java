@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.support.gallery;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.bean.MessageBean;
+import org.zarroboogs.weibo.hot.hean.HotMblogBean;
 import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.AnimationUtility;
 
@@ -23,7 +24,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +37,6 @@ import java.util.HashMap;
 public class GalleryAnimationActivity extends FragmentActivity {
 
 	public static final String TAG = "GalleryAnimationActivity_";
-    private static final int STATUS_BAR_HEIGHT_DP_UNIT = 25;
 
     private ArrayList<AnimationRect> rectList;
 
@@ -60,6 +59,24 @@ public class GalleryAnimationActivity extends FragmentActivity {
         intent.putExtra("position", initPosition);
         return intent;
     }
+    
+    public static Intent newIntent(HotMblogBean msg, ArrayList<AnimationRect> rectList, int initPosition) {
+        Intent intent = new Intent(GlobalContext.getInstance(), GalleryAnimationActivity.class);
+        intent.putExtra("msg", msg);
+        intent.putExtra("rect", rectList);
+        intent.putExtra("position", initPosition);
+        return intent;
+    }
+    
+    
+    public static Intent newIntent(ArrayList<String> lPics, ArrayList<AnimationRect> rectList, int initPosition) {
+        Intent intent = new Intent(GlobalContext.getInstance(), GalleryAnimationActivity.class);
+        intent.putStringArrayListExtra("pics", lPics);
+        intent.putExtra("position", initPosition);
+        intent.putExtra("rect", rectList);
+        intent.putExtra("hot_model", true);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +86,20 @@ public class GalleryAnimationActivity extends FragmentActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
         setContentView(R.layout.galleryactivity_animation_layout);
 
+        boolean isModel = getIntent().getBooleanExtra("hot_model", false);
+        
+        if (isModel) {
+
+            ArrayList<String> tmp = getIntent().getStringArrayListExtra("pics");
+            urls.addAll(tmp);
+		}else {
+	        MessageBean msg = getIntent().getParcelableExtra("msg");
+	        ArrayList<String> tmp = msg.getThumbnailPicUrls();
+	        for (int i = 0; i < tmp.size(); i++) {
+	            urls.add(tmp.get(i).replace("thumbnail", "large"));
+	        }
+		}
         rectList = getIntent().getParcelableArrayListExtra("rect");
-        MessageBean msg = getIntent().getParcelableExtra("msg");
-        ArrayList<String> tmp = msg.getThumbnailPicUrls();
-        for (int i = 0; i < tmp.size(); i++) {
-            urls.add(tmp.get(i).replace("thumbnail", "large"));
-        }
 
         boolean disableHardwareLayerType = false;
 

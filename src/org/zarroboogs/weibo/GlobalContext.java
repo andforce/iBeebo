@@ -43,9 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * User: Jiang Qi Date: 12-7-27
- */
 public final class GlobalContext extends Application {
     public static GlobalContext instance;
 
@@ -152,6 +149,17 @@ public final class GlobalContext extends Application {
         });
     }
 
+    public void updateAccountBean(){
+    	String id = SettingUtils.getDefaultAccountId();
+        if (!TextUtils.isEmpty(id)) {
+            accountBean = AccountDBTask.getAccount(id);
+        } else {
+            List<AccountBean> accountList = AccountDBTask.getAccountList();
+            if (accountList != null && accountList.size() > 0) {
+                accountBean = accountList.get(0);
+            }
+        }
+    }
     public AccountBean getAccountBean() {
         if (accountBean == null) {
             String id = SettingUtils.getDefaultAccountId();
@@ -201,9 +209,17 @@ public final class GlobalContext extends Application {
         return appBitmapCache;
     }
 
-    public String getSpecialToken() {
+    public String getAccessToken() {
         if (getAccountBean() != null) {
             return getAccountBean().getAccess_token();
+        } else {
+            return "";
+        }
+    }
+    
+    public String getAccessTokenHack() {
+        if (getAccountBean() != null) {
+            return getAccountBean().getAccess_token_hack();
         } else {
             return "";
         }

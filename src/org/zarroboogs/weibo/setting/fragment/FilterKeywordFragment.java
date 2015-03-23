@@ -40,14 +40,13 @@ public class FilterKeywordFragment extends AbstractFilterFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_add_common:
-                Set<String> words = CommonAppDefinedFilterList.getDefinedFilterKeywordAndUserList();
-                words.removeAll(list);
-                addFilter(words);
-                return true;
-
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_add_common) {
+			Set<String> words = CommonAppDefinedFilterList.getDefinedFilterKeywordAndUserList();
+			words.removeAll(list);
+			addFilter(words);
+			return true;
+		}
 
         return super.onOptionsItemSelected(item);
     }

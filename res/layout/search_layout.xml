@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:background="@color/md_actionbar_bg_color"
         android:layout_below="@id/viewPagerToolBar" />
 
     <android.support.v4.view.ViewPager

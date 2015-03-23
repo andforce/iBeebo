@@ -61,6 +61,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.AndroidRuntimeException;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.HapticFeedbackConstants;
@@ -1103,5 +1104,25 @@ public class Utility {
         c.translate(-view.getScrollX(), -view.getScrollY());
         view.draw(c);
         return b;
+    }
+    
+    public static void printLongLog(String tagString, String log){
+    	if (TextUtils.isEmpty(log)) {
+			Log.d(tagString, log);
+		}else {
+			if (log.length() > 3000) {
+				int len = log.length();
+				int devideNumber = len / 3000;
+				
+				int j = 0;
+				for (int i = 0; i < devideNumber; i++) {
+					Log.d(tagString, log.substring(j, j + 3000));
+					j += 3000;
+				}
+				Log.d(tagString, log.substring(j, log.length()));
+			}else {
+				Log.d(tagString, log);
+			}
+		}
     }
 }

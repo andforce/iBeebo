@@ -199,26 +199,21 @@ public class BrowserWebFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_close:
-                getActivity().finish();
-                break;
-            case R.id.menu_refresh:
-                getWebView().reload();
-                break;
-            case R.id.menu_open_with_other_app:
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
-                getActivity().startActivity(intent);
-                break;
-            case R.id.menu_copy:
-                ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", buildShareCopyContent()));
-                Toast.makeText(getActivity(), getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.menu_share:
-                Utility.setShareIntent(getActivity(), mShareActionProvider, buildShareCopyContent());
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_close) {
+			getActivity().finish();
+		} else if (itemId == R.id.menu_refresh) {
+			getWebView().reload();
+		} else if (itemId == R.id.menu_open_with_other_app) {
+			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
+			getActivity().startActivity(intent);
+		} else if (itemId == R.id.menu_copy) {
+			ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+			cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", buildShareCopyContent()));
+			Toast.makeText(getActivity(), getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+		} else if (itemId == R.id.menu_share) {
+			Utility.setShareIntent(getActivity(), mShareActionProvider, buildShareCopyContent());
+		}
         return super.onOptionsItemSelected(item);
     }
 
@@ -381,7 +376,7 @@ public class BrowserWebFragment extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                return new Mid2IdDao(GlobalContext.getInstance().getSpecialToken(), mid).getId();
+                return new Mid2IdDao(GlobalContext.getInstance().getAccessToken(), mid).getId();
             } catch (WeiboException e) {
                 return "0";
             }
@@ -408,7 +403,7 @@ public class BrowserWebFragment extends Fragment {
             if (Long.valueOf(id) > 0L) {
                 webFragment.startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                         id, GlobalContext.getInstance()
-                                .getSpecialToken()));
+                                .getAccessToken()));
                 activity.finish();
             } else {
                 Toast.makeText(GlobalContext.getInstance(), R.string.cant_not_convert_to_weibo_id, Toast.LENGTH_SHORT)

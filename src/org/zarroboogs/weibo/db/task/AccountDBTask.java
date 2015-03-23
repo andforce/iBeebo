@@ -4,7 +4,6 @@ package org.zarroboogs.weibo.db.task;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -21,9 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-/**
- * User: qii Date: 13-1-7
- */
 public class AccountDBTask {
 
     private AccountDBTask() {
@@ -41,6 +37,20 @@ public class AccountDBTask {
         return databaseHelper.getReadableDatabase();
     }
 
+    public static OAuthActivity.DBResult updateAccountHackToken(AccountBean account, String toaken_hack, long token_hack_exp) {
+
+        ContentValues cv = new ContentValues();
+        cv.put(AccountTable.ACCESS_TOKEN_HACK, toaken_hack);
+        // toaken_time 
+        cv.put(AccountTable.ACCESS_TOKEN_HACK_EXPIRES_TIME, token_hack_exp);
+        
+        String[] args = {
+                account.getUid()
+        };
+        getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", args);
+        return OAuthActivity.DBResult.update_successfully;
+    }
+    
     public static OAuthActivity.DBResult addOrUpdateAccount(AccountBean account, boolean blackMagic) {
 
         ContentValues cv = new ContentValues();
@@ -52,6 +62,11 @@ public class AccountDBTask {
         cv.put(AccountTable.USER_NAME, account.getUname());
         // pwd
         cv.put(AccountTable.USER_PWD, account.getPwd());
+        // token_hack
+        cv.put(AccountTable.ACCESS_TOKEN_HACK, account.getAccess_token_hack());
+        // toaken_time 
+        cv.put(AccountTable.ACCESS_TOKEN_HACK_EXPIRES_TIME, account.getExpires_time_hack());
+        
 
         String json = new Gson().toJson(account.getInfo());
         cv.put(AccountTable.INFOJSON, json);
@@ -123,6 +138,10 @@ public class AccountDBTask {
             // cookie
             int cookie = c.getColumnIndex(AccountTable.COOKIE);
             account.setCookie(c.getString(cookie));
+            
+            // access_token_hack
+            int access_token_hack_index = c.getColumnIndex(AccountTable.ACCESS_TOKEN_HACK);
+            account.setAccess_token_hack(c.getString(access_token_hack_index));
 
             int colid = c.getColumnIndex(AccountTable.OAUTH_TOKEN);
             account.setAccess_token(c.getString(colid));
@@ -188,7 +207,10 @@ public class AccountDBTask {
             // pwd
             colid = c.getColumnIndex(AccountTable.USER_PWD);
             account.setPwd(c.getString(colid));
-            Log.d("AccoubtDB", "" + c.getString(colid));
+            
+            // hack token
+            colid = c.getColumnIndex(AccountTable.ACCESS_TOKEN_HACK);
+            account.setAccess_token_hack(c.getString(colid));
 
             colid = c.getColumnIndex(AccountTable.OAUTH_TOKEN_EXPIRES_TIME);
             account.setExpires_time(Long.valueOf(c.getString(colid)));

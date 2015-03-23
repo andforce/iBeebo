@@ -72,8 +72,30 @@ public class MyURLSpan extends ClickableSpan implements ParcelableSpan {
                     openUrl = openUrl.substring(0, openUrl.lastIndexOf("/"));
                 }
                 
-                WebBrowserSelector.openLink(context, Uri.parse(openUrl));
+                final String urlString = openUrl;
+                // Compile Beebo, open this line
+                WebBrowserSelector.openLink(context, Uri.parse(urlString));
                 
+                // Compile Beebo+, open under line
+//                org.zarroboogs.vup.VideoUrlParser videoUrlParser = new org.zarroboogs.vup.VideoUrlParser(widget.getContext());
+//                videoUrlParser.parseVideoUrl(openUrl, new org.zarroboogs.vup.VideoUrlParser.OnParsedListener() {
+//					
+//					@Override
+//					public void onParseSuccess(String url, String name) {
+//						// TODO Auto-generated method stub
+//						Intent intent = new Intent(context, io.vov.vitamio.demo.VideoViewBuffer.class);
+//						intent.putExtra(io.vov.vitamio.demo.VideoViewBuffer.VIDEO_NAME, name);
+//						intent.putExtra(io.vov.vitamio.demo.VideoViewBuffer.VIDEOURL, url);
+//						context.startActivity(intent);
+//					}
+//					
+//					@Override
+//					public void onParseFailed() {
+//						// TODO Auto-generated method stub
+//		                WebBrowserSelector.openLink(context, Uri.parse(urlString));
+//					}
+//				});
+                // end Beebo+
             }
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);

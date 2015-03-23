@@ -79,7 +79,7 @@ public class UserDialog extends DialogFragment {
             switch (which) {
                 case 0:
                     Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-                    intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                    intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                     intent.putExtra("content", "@" + user.getScreen_name());
                     intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
                     startActivity(intent);
@@ -103,7 +103,7 @@ public class UserDialog extends DialogFragment {
             switch (which) {
                 case 0:
                     Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-                    intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                    intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                     intent.putExtra("content", "@" + user.getScreen_name());
                     intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
                     startActivity(intent);
@@ -136,7 +136,7 @@ public class UserDialog extends DialogFragment {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getSpecialToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(user.getId())) {
                 dao.setUid(user.getId());
             } else {
@@ -178,7 +178,7 @@ public class UserDialog extends DialogFragment {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getSpecialToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(user.getId())) {
                 dao.setUid(user.getId());
             } else {

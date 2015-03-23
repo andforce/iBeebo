@@ -26,14 +26,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-/**
- * User: qii Date: 12-9-25
- */
 public abstract class AbstractWriteActivity<T> extends AbstractAppActivity implements View.OnClickListener,
         ClearContentDialog.IClear, SaveDraftDialog.IDraft {
 
@@ -50,6 +46,10 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
     protected String token;
 
     private Toolbar abstractWriteToolbar;
+    
+    public RelativeLayout mCommentRoot;
+    public RelativeLayout mRepostRoot;
+    
 
     protected EditText getEditTextView() {
         return et;
@@ -86,6 +86,9 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
         super.onCreate(savedInstanceState);
         setContentView(R.layout.abstractwriteactivity_layout);
 
+        mCommentRoot = (RelativeLayout) findViewById(R.id.commentRoot);
+        mRepostRoot = (RelativeLayout) findViewById(R.id.repostRoot);
+        
         abstractWriteToolbar = (Toolbar) findViewById(R.id.abstractWriteToolbar);
         // ActionBar actionBar = getActionBar();
         // actionBar.setDisplayHomeAsUpEnabled(false);
@@ -185,34 +188,27 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.menu_emoticon:
-                new Handler().post(new Runnable() {
+        int id = v.getId();
+		if (id == R.id.menu_emoticon) {
+			new Handler().post(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        if (smiley.isShown()) {
-                            hideSmileyPicker(true);
-                        } else {
-                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(AbstractWriteActivity.this));
-                        }
-                    }
-                });
-
-                break;
-
-            case R.id.menu_send:
-                send();
-                break;
-            case R.id.menu_topic:
-                insertTopic();
-                break;
-            case R.id.menu_at:
-                Intent intent = new Intent(AbstractWriteActivity.this, AtUserActivity.class);
-                intent.putExtra(Constants.TOKEN, token);
-                startActivityForResult(intent, AT_USER);
-                break;
-        }
+			    @Override
+			    public void run() {
+			        if (smiley.isShown()) {
+			            hideSmileyPicker(true);
+			        } else {
+			            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(AbstractWriteActivity.this));
+			        }
+			    }
+			});
+		} else if (id == R.id.menu_send) {
+			send();
+		} else if (id == R.id.menu_topic) {
+			insertTopic();
+		} else if (id == R.id.menu_at) {
+			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			startActivityForResult(intent, AT_USER);
+		}
     }
 
     protected void insertTopic() {

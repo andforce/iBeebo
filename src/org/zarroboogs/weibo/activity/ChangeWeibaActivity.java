@@ -1,18 +1,19 @@
 
 package org.zarroboogs.weibo.activity;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.zarroboogs.weibo.ChangeWeibaAdapter;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.bean.WeibaGson;
-import org.zarroboogs.weibo.bean.WeibaTree;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
@@ -92,8 +93,8 @@ public class ChangeWeibaActivity extends SharedPreferenceActivity implements OnI
 
     private void fetchWeiBa() {
         showDialogForWeiBo();
-        String url = "http://appsrc.sinaapp.com/";
-
+//        String url = "http://appsrc.sinaapp.com/";
+        String url = "http://appsrc.sinaapp.com/appsrc_v2_0.txt";//"http://appsrc.sinaapp.com/";
         // Header[] loginHeaders = {
         // new BasicHeader("Cache-Control", "max-age=0"),
         // new BasicHeader("Accept",
@@ -108,17 +109,26 @@ public class ChangeWeibaActivity extends SharedPreferenceActivity implements OnI
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String resp = new String(responseBody);
-                String jsonString = resp.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
+                String jsonString = resp;//.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
                 Gson gson = new Gson();
-                WeibaGson weibaGson = gson.fromJson(jsonString, WeibaGson.class);
-                List<WeibaTree> weibaTrees = weibaGson.getData();
-                for (WeibaTree weibaTree : weibaTrees) {
-                    List<WeiboWeiba> weibas = weibaTree.getData();
-                    listdata.addAll(weibas);
-                    for (WeiboWeiba weiba : weibas) {
-                        Log.d("FETCH_WEIBA", "Name:" + weiba.getText() + "  Code:" + weiba.getCode());
-                    }
-                }
+                
+                Type listType = new TypeToken<List<WeiboWeiba>>(){}.getType();
+                List<WeiboWeiba> mAppsrc = (List<WeiboWeiba>) gson.fromJson(jsonString, listType);
+                
+                
+//                List<WeiboWeiba> mAppsrc = Arrays.asList(gson.fromJson(jsonString,WeiboWeiba.class));
+                
+                listdata.addAll(mAppsrc);
+                
+//                WeibaGson weibaGson = gson.fromJson(jsonString, WeibaGson.class);
+//                List<WeibaTree> weibaTrees = weibaGson.getData();
+//                for (WeibaTree weibaTree : weibaTrees) {
+//                    List<WeiboWeiba> weibas = weibaTree.getData();
+//                    listdata.addAll(weibas);
+//                    for (WeiboWeiba weiba : weibas) {
+//                        Log.d("FETCH_WEIBA", "Name:" + weiba.getText() + "  Code:" + weiba.getCode());
+//                    }
+//                }
                 listAdapter.setWeibas(listdata);
                 hideDialogForWeiBo();
 

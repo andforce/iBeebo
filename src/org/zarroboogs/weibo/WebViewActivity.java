@@ -76,6 +76,8 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setBuiltInZoomControls(true);
+        webSettings.setSaveFormData(true);
+        webSettings.setSavePassword(true);
         webSettings.setSupportZoom(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 

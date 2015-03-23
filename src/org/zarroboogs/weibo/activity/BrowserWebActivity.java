@@ -103,7 +103,7 @@ public class BrowserWebActivity extends AbstractAppActivity {
         protected Integer doInBackground(Void... params) {
             int result = 0;
             try {
-                result = new ShareShortUrlCountDao(GlobalContext.getInstance().getSpecialToken(), url).getCount();
+                result = new ShareShortUrlCountDao(GlobalContext.getInstance().getAccessToken(), url).getCount();
             } catch (WeiboException e) {
 
             }

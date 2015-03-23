@@ -5,14 +5,11 @@ import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.file.FileManager;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.WriteWeiboActivity;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.setting.activity.SettingActivity;
-import org.zarroboogs.weibo.widget.ChangeLogDialog;
+import org.zarroboogs.weibo.widget.SettingChangeLogDialog;
 
-import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +19,6 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Environment;
@@ -32,12 +28,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -84,7 +74,7 @@ public class AboutFragment extends PreferenceFragment {
         findPreference(SettingActivity.VERSION).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                ChangeLogDialog changeLogDialog = new ChangeLogDialog(getActivity());
+                SettingChangeLogDialog changeLogDialog = new SettingChangeLogDialog(getActivity());
                 changeLogDialog.show();
                 return true;
             }

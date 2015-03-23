@@ -19,9 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-7-30
- */
 public class DatabaseManager {
 
     private static DatabaseManager singleton = null;

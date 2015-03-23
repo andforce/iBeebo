@@ -2,16 +2,18 @@
 package org.zarroboogs.weibo.activity;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import lib.org.zarroboogs.weibo.login.httpclient.RealLibrary;
-import lib.org.zarroboogs.weibo.login.httpclient.SinaPreLogin;
+import lib.org.zarroboogs.weibo.login.httpclient.SinaLoginHelper;
 import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper;
 import lib.org.zarroboogs.weibo.login.httpclient.UploadHelper.OnUpFilesListener;
 import lib.org.zarroboogs.weibo.login.httpclient.WaterMark;
@@ -33,8 +35,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
-import org.zarroboogs.weibo.bean.WeibaGson;
-import org.zarroboogs.weibo.bean.WeibaTree;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
@@ -49,7 +49,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -62,12 +61,13 @@ import android.widget.Toast;
 import com.evgenii.jsevaluator.JsEvaluator;
 import com.evgenii.jsevaluator.interfaces.JsCallback;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.ResponseHandlerInterface;
 
 public class BaseLoginActivity extends SharedPreferenceActivity {
     private static final String TAG = "Beebo_Login: ";
-    private SinaPreLogin mSinaPreLogin;
+    private SinaLoginHelper mSinaLoginHelper;
     private PreLoginResult mPreLoginResult;
 
     private JsEvaluator mJsEvaluator;
@@ -91,7 +91,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         super.onCreate(savedInstanceState);
         mJsEvaluator = new JsEvaluator(getApplicationContext());
 
-        mSinaPreLogin = new SinaPreLogin();
+        mSinaLoginHelper = new SinaLoginHelper();
 
         mRequestResultParser = new RequestResultParser();
 
@@ -155,10 +155,10 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 @Override
                 public void onUpLoadFailed() {
                     // TODO Auto-generated method stub
-                    doPreLogin(mUserName, mPassword);
+                    startAutoPreLogin(mUserName, mPassword);
                     LogTool.D(TAG + " UploadPic:  [onUpLoadFailed] doPreLogin");
                 }
-            });
+            }, getCookieIfHave());
         }
     }
 
@@ -177,6 +177,12 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
+	            case Constaces.MSG_ENCODE_PWD_ERROR:{
+	            	if (mLoginHandler != null) {
+		            	((AsyncHttpResponseHandler)mLoginHandler).onFailure(0, null, null, null);
+					}
+	            	break;
+	            }
                 case Constaces.MSG_ENCODE_PWD: {
                     encodePassword(mPassword, mPreLoginResult);
                     break;
@@ -193,7 +199,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                         showDoorDialog();
                     } else {
                         LogTool.D(TAG + "   不不需要验证码");
-                        doAfterPreLogin(mPreLoginResult, null);
+                        doAutoAfterPreLogin(mPreLoginResult, null);
                     }
 
                     break;
@@ -219,8 +225,8 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     protected void sendWeibo(String pid) {
     	String cookie = getCookieIfHave();
 		LogTool.D(TAG + "sendWeibo Cookie:     " + cookie);
-        HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity("ZwpYj", SystemClock.uptimeMillis() + "", cookie, pid);
-        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders("ZwpYj", cookie),
+        HttpEntity sendEntity = mSinaLoginHelper.sendWeiboEntity("ZwpYj", SystemClock.uptimeMillis() + "", cookie, pid);
+        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaLoginHelper.sendWeiboHeaders("ZwpYj", cookie),
                 sendEntity,
                 "application/x-www-form-urlencoded", new AsyncHttpResponseHandler() {
 
@@ -245,10 +251,10 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
     protected void sendWeiboWidthPids(String weiboCode, String text, String pids) {
     	String cookie = getCookieIfHave();
 		LogTool.D(TAG + "sendWeiboWidthPids Cookie:     " + cookie);
-        HttpEntity sendEntity = mSinaPreLogin.sendWeiboEntity(weiboCode, text, cookie, pids);
-        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaPreLogin.sendWeiboHeaders(weiboCode, cookie),
+        HttpEntity sendEntity = mSinaLoginHelper.sendWeiboEntity(weiboCode, text, cookie, pids);
+        getAsyncHttpClient().post(getApplicationContext(), Constaces.ADDBLOGURL, mSinaLoginHelper.sendWeiboHeaders(weiboCode, cookie),
                 sendEntity,
-                "application/x-www-form-urlencoded", this.mSendWeiboHandler);
+                "application/x-www-form-urlencoded", this.mAutoSendWeiboListener);
     }
 
 	private String getCookieIfHave() {
@@ -259,13 +265,13 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 		return "";
 	}
 
-    private ResponseHandlerInterface mSendWeiboHandler;
+    private ResponseHandlerInterface mAutoSendWeiboListener;
 
-    public void setOnSendWeiboListener(ResponseHandlerInterface rhi) {
-        this.mSendWeiboHandler = rhi;
+    public void setAutoSendWeiboListener(ResponseHandlerInterface rhi) {
+        this.mAutoSendWeiboListener = rhi;
     }
 
-    public void repostWeibo(String app_src, String content, String cookie, String mid) {
+    public void repostWeibo(String app_src, String content, String cookie, String mid, boolean isComment) {
     	cookie = getCookieIfHave();
 		
         List<Header> headerList = new ArrayList<Header>();
@@ -303,7 +309,12 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         nvs.add(new BasicNameValuePair("wsrc", "app_publish"));
         nvs.add(new BasicNameValuePair("ext", "login=>1;url=>"));
         nvs.add(new BasicNameValuePair("html_type", "2"));
-        nvs.add(new BasicNameValuePair("is_comment", "1"));
+        if (isComment) {
+        	nvs.add(new BasicNameValuePair("is_comment", "1"));
+		}else {
+			nvs.add(new BasicNameValuePair("is_comment", "0"));
+		}
+        
         nvs.add(new BasicNameValuePair("_t", "0"));
 
         UrlEncodedFormEntity repostEntity = null;
@@ -315,13 +326,13 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         }
 
         getAsyncHttpClient().post(getApplicationContext(), Constaces.REPOST_WEIBO, repostHeaders, repostEntity,
-                "application/x-www-form-urlencoded", mRepostHandler);
+                "application/x-www-form-urlencoded", mAutoRepostHandler);
     }
 
-    private ResponseHandlerInterface mRepostHandler;
+    private ResponseHandlerInterface mAutoRepostHandler;
 
-    public void setOnRepostWeiboListener(ResponseHandlerInterface rhi) {
-        this.mRepostHandler = rhi;
+    public void setAutoRepostWeiboListener(ResponseHandlerInterface rhi) {
+        this.mAutoRepostHandler = rhi;
     }
 
     private void doLogin() {
@@ -330,7 +341,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 
     private ResponseHandlerInterface mLoginHandler;;
 
-    public void setOnLoginListener(ResponseHandlerInterface rhi) {
+    public void setAutoLogInLoginListener(ResponseHandlerInterface rhi) {
         this.mLoginHandler = rhi;
     }
 
@@ -356,7 +367,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
             @Override
             public void onClick(View v) {
                 showDialogForWeiBo();
-                doAfterPreLogin(mPreLoginResult, doorEdittext.getText().toString().trim());
+                doAutoAfterPreLogin(mPreLoginResult, doorEdittext.getText().toString().trim());
                 hideDoorDialog();
             }
         });
@@ -380,6 +391,9 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         try {
             encodedString = new String(Base64.encodeBase64(URLEncoder.encode(account, "UTF-8").getBytes()));
             String userName = encodedString.replace('+', '-').replace('/', '_');
+            
+            Log.d("rsaUserName=", "" + userName);
+            
             return userName;
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
@@ -400,15 +414,19 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 + "); rsaPassWord; ";
         String jsMethod = "getRsaPassWord(" + pwd + ", " + servertime + ", " + nonce + ", " + pubkey + ")";
 
+        mHandler.sendEmptyMessageDelayed(Constaces.MSG_ENCODE_PWD_ERROR, 5 * 1000);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mJsEvaluator.evaluate("file:///android_asset/ssologin.html", jsMethod, new JsCallback() {
 
                 @Override
                 public void onResult(String value) {
                     // TODO Auto-generated method stub
+                	mHandler.removeMessages(Constaces.MSG_ENCODE_PWD_ERROR);
+                	
                     Log.d("mJsEvaluator", "[" + value + "]");
                     Message msg = new Message();
                     rsaPwd = value.replace("\"", "");
+                    Log.d("rsaPwd=", "" + rsaPwd);
                     msg.what = Constaces.MSG_ENCODE_PWD_DONW;
                     mHandler.sendMessage(msg);
                 }
@@ -418,7 +436,8 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
 
                 @Override
                 public void onResult(String value) {
-
+                	mHandler.removeMessages(Constaces.MSG_ENCODE_PWD_ERROR);
+                	
                     // TODO Auto-generated method stub
                     Message msg = new Message();
                     rsaPwd = value;
@@ -435,20 +454,20 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
      * @param uname
      * @param upwd
      */
-    public void doPreLogin(String uname, String upwd) {
+    public void startAutoPreLogin(String uname, String upwd) {
         this.mUserName = uname;
         this.mPassword = upwd;
 
         long time = new Date().getTime();
-        String encodeName = mSinaPreLogin.encodeAccount(mUserName);
-        String url = mSinaPreLogin.buildPreLoginUrl(encodeName, Constaces.SSOLOGIN_JS, time + "");
-        getAsyncHttpClient().get(getApplicationContext(), url, mSinaPreLogin.preloginHeaders(), null,
+        String encodeName = mSinaLoginHelper.encodeAccount(mUserName);
+        String url = mSinaLoginHelper.buildPreLoginUrl(encodeName, Constaces.SSOLOGIN_JS, time + "");
+        getAsyncHttpClient().get(getApplicationContext(), url, mSinaLoginHelper.preloginHeaders(), null,
                 new AsyncHttpResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         LogTool.D(TAG + " PreLogin:  [Success] " + new String(responseBody));
-                        mPreLoginResult = mSinaPreLogin.buildPreLoginResult(new String(responseBody));
+                        mPreLoginResult = mSinaLoginHelper.buildPreLoginResult(new String(responseBody));
                         mHandler.sendEmptyMessage(Constaces.MSG_ENCODE_PWD);
                     }
 
@@ -459,9 +478,9 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 });
     }
 
-    private void doAfterPreLogin(PreLoginResult preLoginResult, String door) {
-        HttpEntity httpEntity = mSinaPreLogin.afterPreLoginEntity(encodeAccount(mUserName), rsaPwd, door, preLoginResult);
-        getAsyncHttpClient().post(getApplicationContext(), Constaces.LOGIN_FIRST_URL, mSinaPreLogin.afterPreLoginHeaders(),
+    private void doAutoAfterPreLogin(PreLoginResult preLoginResult, String door) {
+        HttpEntity httpEntity = mSinaLoginHelper.afterPreLoginEntity(encodeAccount(mUserName), rsaPwd, door, preLoginResult);
+        getAsyncHttpClient().post(getApplicationContext(), Constaces.LOGIN_FIRST_URL, mSinaLoginHelper.afterPreLoginHeaders(),
                 httpEntity, "application/x-www-form-urlencoded", new AsyncHttpResponseHandler() {
 
                     @Override
@@ -496,25 +515,26 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                                 showDoorDialog();
                             } else {
                                 hideDialogForWeiBo();
+                                startWebLogin();
                                 if (mRequestResultParser.getErrorReason().equals("抱歉！登录失败，请稍候再试")) {
-                					startLogIn();
+                					
                 				}
                                 LogTool.D(TAG + " 网络正常返回，登陆失败，原因是：" + mRequestResultParser.getErrorReason());
                             }
-                            Toast.makeText(getApplicationContext(), mRequestResultParser.getErrorReason(), Toast.LENGTH_LONG)
-                                    .show();
+                            Toast.makeText(getApplicationContext(), mRequestResultParser.getErrorReason(), Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                         LogTool.D(TAG + " AfterPreLogin:  [onFailure] " + error.getLocalizedMessage());
+                        startWebLogin();
 
                     }
                 });
     };
 
-    public void startLogIn() {
+    public void startWebLogin() {
         Intent intent = new Intent();
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
         intent.setClass(BaseLoginActivity.this, WebViewActivity.class);
@@ -536,8 +556,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
             mFetchAppSrcListener.onStart();
         }
 
-        showDialogForWeiBo();
-        String url = "http://appsrc.sinaapp.com/";
+        String url = "http://appsrc.sinaapp.com/appsrc_v2_0.txt";//"http://appsrc.sinaapp.com/";
         Header[] srcHeaders = new Header[] {
                 new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
                 new BasicHeader("Accept-Encoding", "gzip,deflate,sdch"),
@@ -553,18 +572,16 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String resp = new String(responseBody);
-                String jsonString = resp.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
+                String jsonString = resp;//.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
                 Gson gson = new Gson();
-                WeibaGson weibaGson = gson.fromJson(jsonString, WeibaGson.class);
-                List<WeibaTree> weibaTrees = weibaGson.getData();
-
-                List<WeiboWeiba> weibas = new ArrayList<WeiboWeiba>();
-                for (WeibaTree weibaTree : weibaTrees) {
-                    weibas.addAll(weibaTree.getData());
-                }
+                
+                Type listType = new TypeToken<List<WeiboWeiba>>(){}.getType();
+                List<WeiboWeiba> mAppsrc = (List<WeiboWeiba>) gson.fromJson(jsonString, listType);
+                
+//                List<WeiboWeiba> mAppsrc = Arrays.asList(gson.fromJson(jsonString,WeiboWeiba.class));
 
                 if (mFetchAppSrcListener != null) {
-                    mFetchAppSrcListener.onSuccess(weibas);
+                    mFetchAppSrcListener.onSuccess(mAppsrc);
                 }
                 hideDialogForWeiBo();
             }

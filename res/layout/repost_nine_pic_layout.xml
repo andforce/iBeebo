@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+
+    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+
+    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+
+    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+
+    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+
+    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+
+    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+
+    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+
+    <org.zarroboogs.weibo.widget.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
+
+</merge>

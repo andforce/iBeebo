@@ -16,9 +16,6 @@ import org.zarroboogs.weibo.bean.UserBean;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-8-22
- */
 public class FriendshipsDao {
 
     public UserBean followIt() throws WeiboException {

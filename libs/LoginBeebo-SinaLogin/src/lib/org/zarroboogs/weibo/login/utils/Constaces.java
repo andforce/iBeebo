@@ -11,7 +11,7 @@ public class Constaces {
     public static final String rsakv = "rsakv";
     public static final String exectime = "exectime";
 
-    public static final boolean isMobile = false;
+    public static final boolean isMobile = true;
 
     public static final String SSOLOGIN_JS = "ssologin.js(v1.4.18)";
     public static final String LOGIN_FIRST_URL = "http://login.sina.com.cn/sso/login.php?client=" + SSOLOGIN_JS;
@@ -27,4 +27,7 @@ public class Constaces {
     public static final int MSG_AFTER_LOGIN_DONE = 0x0004;
     public static final int MSG_LONGIN_SUCCESS = 0x0005;
     public static final int MSG_SHOW_DOOR = 0x0006;
+    
+    public static final int MSG_ENCODE_PWD_ERROR = 0x0007;
+    public static final boolean isBeeboPlus = true;
 }

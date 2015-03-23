@@ -7,14 +7,11 @@ import org.zarroboogs.util.net.HttpUtility;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.util.net.HttpUtility.HttpMethod;
 import org.zarroboogs.utils.WeiBoURLs;
+import org.zarroboogs.utils.WeiboOAuthConstances;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-11-29 sina weibo dont allow third apps use this api, the result is always
- * error
- */
 public class RefreshOAuthDao {
 
     public String refreshToken() throws WeiboException {
@@ -46,9 +43,9 @@ public class RefreshOAuthDao {
     }
 
     private String code;
-    private String redirect_uri = WeiBoURLs.DIRECT_URL;
-    private String client_id = WeiBoURLs.APP_KEY;
-    private String client_secret = WeiBoURLs.APP_SECRET;
+    private String redirect_uri = WeiboOAuthConstances.DIRECT_URL;
+    private String client_id = WeiboOAuthConstances.APP_KEY;
+    private String client_secret = WeiboOAuthConstances.APP_SECRET;
     private String grant_type = "authorization_code";
 
 }

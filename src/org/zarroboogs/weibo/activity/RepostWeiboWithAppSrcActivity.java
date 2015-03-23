@@ -12,7 +12,7 @@ import lib.org.zarroboogs.weibo.login.javabean.DoorImageAsyncTask.OnDoorOpenList
 import lib.org.zarroboogs.weibo.login.utils.LogTool;
 
 import org.apache.http.Header;
-import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginCallBack;
+import org.zarroboogs.util.net.LoginWeiboAsyncTask.LoginWeiboCallack;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.Utility;
 import org.zarroboogs.utils.WeiBaNetUtils;
@@ -26,8 +26,8 @@ import org.zarroboogs.weibo.bean.WeiboWeiba;
 import org.zarroboogs.weibo.db.AppsrcDatabaseManager;
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
+import org.zarroboogs.weibo.service.SendCommentService;
 import org.zarroboogs.weibo.support.utils.SmileyPickerUtility;
-import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.widget.SmileyPicker;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshBase;
 import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
@@ -63,6 +63,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -71,7 +73,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginCallBack,
+public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginWeiboCallack,
         OnClickListener, OnGlobalLayoutListener, OnItemClickListener {
 
     public static final int AT_USER = 0x1000;
@@ -108,6 +110,8 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     private AppsrcDatabaseManager mDBmanager = null;
     private PullToRefreshListView listView;
     private ChangeWeibaAdapter listAdapter;
+    
+    private CheckBox mComments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +119,8 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         setContentView(R.layout.repost_weibo_with_appsrc_activity_layout);
 
+        mComments = (CheckBox) findViewById(R.id.repostCommentsCheck);
+        
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
         mToolbar = (Toolbar) findViewById(R.id.writeWeiboToolBar);
 
@@ -135,6 +141,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         appSrcBtn.setText(getWeiba().getText());
 
         mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
+        mSelectPhoto.setVisibility(View.GONE);
         mRootView = (RelativeLayout) findViewById(R.id.container);
         mEditText = (MaterialEditText) findViewById(R.id.weiboContentET);
         smileButton = (ImageButton) findViewById(R.id.smileImgButton);
@@ -193,7 +200,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
 
-        setOnRepostWeiboListener(new AsyncHttpResponseHandler() {
+        setAutoRepostWeiboListener(new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -203,14 +210,18 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
                 RequestResultBean sendResultBean = getRequestResultParser().parse(responseBody, RequestResultBean.class);
                 LogTool.D(TAG + "onSuccess " + sendResultBean.getMsg());
                 if (sendResultBean.getMsg().equals("未登录")) {
-                    doPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
+                    startAutoPreLogin(mAccountBean.getUname(), mAccountBean.getPwd());
                     hideDialogForWeiBo();
-                }
+                }else if (sendResultBean.getMsg().equals("抱歉！登录失败，请稍候再试")) {
+					startWebLogin();
+				}
 
                 if (sendResultBean.getCode().equals("100000")) {
                     hideDialogForWeiBo();
                     mEditText.setText("");
                     Toast.makeText(getApplicationContext(), "转发成功", Toast.LENGTH_SHORT).show();
+                    
+                    RepostWeiboWithAppSrcActivity.this.finish();
                 }
             }
 
@@ -221,7 +232,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
             }
         });
 
-        setOnLoginListener(new AsyncHttpResponseHandler() {
+        setAutoLogInLoginListener(new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -231,6 +242,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            	startWebLogin();
             }
         });
     }
@@ -415,7 +427,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         super.onBackPressed();
     }
 
-    public void startLogIn() {
+    public void startWebLogin() {
         hideDialogForWeiBo();
         Intent intent = new Intent();
         intent.setClass(RepostWeiboWithAppSrcActivity.this, WebViewActivity.class);
@@ -424,9 +436,9 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     }
 
     @Override
-    public void reSizeWeiboPictures(boolean isSuccess) {
+    public void onLonginWeiboCallback(boolean isSuccess) {
         if (!isSuccess) {
-            startLogIn();
+            startWebLogin();
         } else {
             final SendImgData sendImgData = SendImgData.getInstance();
 
@@ -437,7 +449,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
             if (TextUtils.isEmpty(text)) {
                 text = "转发微博";
             }
-            repostWeibo(getWeiba().getCode(), text, "", msg.getId());
+            repostWeibo(getWeiba().getCode(), text, "", msg.getId(), mComments.isChecked());
 
         }
     }
@@ -457,73 +469,49 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
-        switch (v.getId()) {
-            case R.id.menu_topic: {
-                insertTopic();
-                break;
-            }
-            case R.id.menu_at: {
-                Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, AtUserActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccountBean().getAccess_token());
-                startActivityForResult(intent, AT_USER);
-                break;
-            }
-
-            case R.id.editTextLayout: {
-                mEditText.performClick();
-                break;
-            }
-            case R.id.scrollView1: {
-                mEditText.performClick();
-                break;
-            }
-            case R.id.appSrcBtn: {
-                if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-                    mDrawerLayout.openDrawer(Gravity.START);
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-                }
-
-                break;
-            }
-            case R.id.sendWeiBoBtn: {
-            	if (isMoreThan140()) {
-            		Toast.makeText(getApplicationContext(), "字数超出限制", Toast.LENGTH_SHORT).show();
-            		return;
-				}
-                if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-                    showDialogForWeiBo();
-                    repostWeibo();
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-                }
-
-                break;
-            }
-            case R.id.smileImgButton: {
-                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-
-                mHandler.postDelayed(new Runnable() {
-                    public void run() {
-                        if (mSmileyPicker.isShown()) {
-                            hideSmileyPicker(true);
-                        } else {
-                            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(RepostWeiboWithAppSrcActivity.this));
-                        }
-                    }
-                }, 100);
-
-                break;
-            }
-            case R.id.imageButton1: {
-                Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
-                startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
-                break;
-            }
-            default:
-                break;
-        }
+        int id = v.getId();
+		if (id == R.id.menu_topic) {
+			insertTopic();
+		} else if (id == R.id.menu_at) {
+			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccountBean().getAccess_token());
+			startActivityForResult(intent, AT_USER);
+		} else if (id == R.id.editTextLayout) {
+			mEditText.performClick();
+		} else if (id == R.id.scrollView1) {
+			mEditText.performClick();
+		} else if (id == R.id.appSrcBtn) {
+			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+			    mDrawerLayout.openDrawer(Gravity.START);
+			} else {
+			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+			}
+		} else if (id == R.id.sendWeiBoBtn) {
+			if (isMoreThan140()) {
+				Toast.makeText(getApplicationContext(), "字数超出限制", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+			    showDialogForWeiBo();
+			    repostWeibo();
+			} else {
+			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+			}
+		} else if (id == R.id.smileImgButton) {
+			imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+			mHandler.postDelayed(new Runnable() {
+			    public void run() {
+			        if (mSmileyPicker.isShown()) {
+			            hideSmileyPicker(true);
+			        } else {
+			            showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(RepostWeiboWithAppSrcActivity.this));
+			        }
+			    }
+			}, 100);
+		} else if (id == R.id.imageButton1) {
+			Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
+			startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
+		} else {
+		}
 
     }
 
@@ -575,7 +563,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
             text = "转发微博";
         }
 
-        repostWeibo(getWeiba().getCode(), text, "", msg.getId());
+        repostWeibo(getWeiba().getCode(), text, "", msg.getId(), mComments.isChecked());
     }
 
     Handler mHandler = new Handler() {

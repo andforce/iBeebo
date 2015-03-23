@@ -2,8 +2,8 @@
 <resources>
 
 
-    <string name="pull_to_refresh_pull_label">下拉可以刷新&#8230;</string>
-    <string name="pull_to_refresh_release_label">松开即刻刷新&#8230;</string>
+    <string name="pull_to_refresh_pull_label">下拉刷新</string>
+    <string name="pull_to_refresh_release_label">松开刷新</string>
     <string name="pull_to_refresh_refreshing_label">加载中&#8230;</string>
 
     <!-- Just use standard Pull Down String when pulling up. These can be set for languages which require it -->

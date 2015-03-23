@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.BlackMagicLoginTask;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
@@ -49,38 +50,43 @@ public class BlackMagicActivity extends AbstractAppActivity {
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {
 
-                switch (arg0.getItemId()) {
-                    case R.id.menu_login:
-                        if (username.getText().toString().length() == 0) {
-                            username.setError(getString(R.string.email_cant_be_empty));
-                            return true;
-                        }
+                int itemId = arg0.getItemId();
+				if (itemId == R.id.menu_login) {
+					if (username.getText().toString().length() == 0) {
+					    username.setError(getString(R.string.email_cant_be_empty));
+					    return true;
+					}
+					if (password.getText().toString().length() == 0) {
+					    password.setError(getString(R.string.password_cant_be_empty));
+					    return true;
+					}
+					if (Utility.isTaskStopped(loginTask)) {
 
-                        if (password.getText().toString().length() == 0) {
-                            password.setError(getString(R.string.password_cant_be_empty));
-                            return true;
-                        }
-                        if (Utility.isTaskStopped(loginTask)) {
-
-                            String[] array = getResources().getStringArray(R.array.tail_value);
-                            String value = array[0];
-                            appkey = value.substring(0, value.indexOf(","));
-                            appSecret = value.substring(value.indexOf(",") + 1);
-                            Log.d("APPKEY", "key:" + appkey + "  secret:" + appSecret);
-                            loginTask = new BlackMagicLoginTask(BlackMagicActivity.this, username.getText().toString(),
-                                    password.getText().toString(), appkey, appSecret);
-                            loginTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                        }
-                        return true;
-                    default:
-                        return false;
-                }
+					    String[] array = getResources().getStringArray(R.array.tail_value);
+					    String value = array[0];
+					    
+					    
+					    appkey = "2027761570";//value.substring(0, value.indexOf(","));
+					    appSecret = "5042214816d14b2d9e8ae8255f96180d";//value.substring(value.indexOf(",") + 1);
+					    
+					    
+					    
+					    Log.d("APPKEY", "key:" + appkey + "  secret:" + appSecret);
+					    loginTask = new BlackMagicLoginTask(BlackMagicActivity.this, username.getText().toString(),
+					            password.getText().toString(), appkey, appSecret);
+					    loginTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+					}
+					return true;
+				} else {
+					return false;
+				}
             }
         });
 
         username = (MaterialEditText) findViewById(R.id.username);
         password = (MaterialEditText) findViewById(R.id.password);
 
+        username.setText("123" + GlobalContext.getInstance().getAccountBean().getUname());
         // SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.tail,
         // android.R.layout.simple_spinner_dropdown_item);
 

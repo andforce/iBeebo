@@ -23,7 +23,7 @@ public class ImgsAdapter extends BaseAdapter {
 
     Context context;
     List<String> data;
-    Util util;
+    SelectImgUtil util;
     OnItemClickClass onItemClickClass;
     private int index = -1;
 
@@ -35,7 +35,7 @@ public class ImgsAdapter extends BaseAdapter {
         this.context = context;
         this.data = data;
         this.onItemClickClass = onItemClickClass;
-        util = new Util(context);
+        util = new SelectImgUtil(context);
         holderlist = new ArrayList<View>();
         options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565).build();

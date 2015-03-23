@@ -100,7 +100,7 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         }
 
         @Override
-        public ShareListBean getList() {
+        public ShareListBean getDataList() {
             return bean;
         }
 
@@ -123,7 +123,7 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
                     refreshLayout(bean);
                     break;
                 case ACTIVITY_DESTROY_AND_CREATE:
-                    getList().addNewData((ShareListBean) savedInstanceState.getParcelable(Constants.BEAN));
+                    getDataList().addNewData((ShareListBean) savedInstanceState.getParcelable(Constants.BEAN));
                     timeLineAdapter.notifyDataSetChanged();
                     refreshLayout(bean);
                     break;
@@ -133,15 +133,15 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
 
         @Override
         protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-            startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getList()
+            startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getDataList()
                     .getItemList().get(position),
-                    GlobalContext.getInstance().getSpecialToken()), 0);
+                    GlobalContext.getInstance().getAccessToken()), 0);
         }
 
         @Override
         protected void newMsgLoaderSuccessCallback(ShareListBean newValue, Bundle loaderArgs) {
             if (newValue != null && getActivity() != null && newValue.getSize() > 0) {
-                getList().addNewData(newValue);
+                getDataList().addNewData(newValue);
                 getAdapter().notifyDataSetChanged();
                 getListView().setSelectionAfterHeaderView();
             }
@@ -150,7 +150,7 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         @Override
         protected void oldMsgLoaderSuccessCallback(ShareListBean newValue) {
             if (newValue != null && newValue.getSize() > 0) {
-                getList().addOldData(newValue);
+                getDataList().addOldData(newValue);
                 getAdapter().notifyDataSetChanged();
             }
         }
@@ -172,19 +172,19 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         }
 
         protected Loader<AsyncTaskLoaderResult<ShareListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getSpecialToken();
+            String token = GlobalContext.getInstance().getAccessToken();
             String sinceId = null;
-            if (getList().getItemList().size() > 0) {
-                sinceId = getList().getItemList().get(0).getId();
+            if (getDataList().getItemList().size() > 0) {
+                sinceId = getDataList().getItemList().get(0).getId();
             }
             return new BrowserShareMsgLoader(getActivity(), token, url, null);
         }
 
         protected Loader<AsyncTaskLoaderResult<ShareListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getSpecialToken();
+            String token = GlobalContext.getInstance().getAccessToken();
             String maxId = null;
-            if (getList().getItemList().size() > 0) {
-                maxId = getList().getItemList().get(getList().getItemList().size() - 1).getId();
+            if (getDataList().getItemList().size() > 0) {
+                maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
             }
             return new BrowserShareMsgLoader(getActivity(), token, url, maxId);
         }

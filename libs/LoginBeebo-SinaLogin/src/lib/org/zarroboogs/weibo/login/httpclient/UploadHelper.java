@@ -13,6 +13,7 @@ import lib.org.zarroboogs.weibo.login.utils.PatternUtils;
 import org.apache.http.Header;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.message.BasicHeader;
+import org.zarroboogs.utils.http.HeaderList;
 
 import android.content.Context;
 import android.os.Handler;
@@ -26,6 +27,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class UploadHelper {
+	
+	private String mCookie = "";
     private Context mContext;
     private AsyncHttpClient mAsyncHttpClient;
 
@@ -52,11 +55,12 @@ public class UploadHelper {
         public void onUpLoadFailed();
     }
 
-    public void uploadFiles(String waterMark, List<String> files, OnUpFilesListener listener) {
+    public void uploadFiles(String waterMark, List<String> files, OnUpFilesListener listener, String cookie) {
         this.mNeedToUpload = files;
         this.mOnUpFilesListener = listener;
         mHasUploadFlag = 0;
         this.mWaterMark = waterMark;
+        this.mCookie = cookie;
         mHandler.sendEmptyMessage(MSG_UPLOAD);
     }
 
@@ -64,7 +68,7 @@ public class UploadHelper {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_UPLOAD: {
-                    uploadFile(mWaterMark, mNeedToUpload.get(mHasUploadFlag));
+                    uploadFile(mWaterMark, mNeedToUpload.get(mHasUploadFlag), mCookie);
                     break;
                 }
                 case MSG_UPLOAD_DONE: {
@@ -85,28 +89,27 @@ public class UploadHelper {
         };
     };
 
-    private void uploadFile(String waterMark, String file) {
+    private void uploadFile(String waterMark, String file,String cookie) {
         // "/sdcard/tencent/zebrasdk/Photoplus.jpg"
 
-        Header[] getHeader = {
-                new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
-                new BasicHeader("Accept-Encoding", "gzip,deflate"),
-                new BasicHeader("Accept-Language", "en-US,en;q=0.8"),
-                new BasicHeader("Cache-Control", "max-age=0"),
-                new BasicHeader("Connection", "keep-alive"),
-                new BasicHeader("Content-Type", "application/octet-stream"),
-                new BasicHeader("Host", "picupload.service.weibo.com"),
-                new BasicHeader("Origin", "http://weibo.com"),
-                new BasicHeader("User-Agent", Constaces.User_Agent),
-                new BasicHeader("Referer", "http://tjs.sjs.sinajs.cn/open/widget/static/swf/MultiFilesUpload.swf?"
-                        + "version=1411256448572"),
-                // new BasicHeader("Content-Type",
-                // "multipart/form-data; boundary=----WebKitFormBoundary7oINSxHhxVRAcxGL"),
-        };
+		HeaderList headerList = new HeaderList();
 
+		headerList.add(new BasicHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"));
+		headerList.add(new BasicHeader("Accept-Encoding", "gzip,deflate"));
+		headerList.add(new BasicHeader("Accept-Language", "en-US,en;q=0.8"));
+		headerList.add(new BasicHeader("Cache-Control", "max-age=0"));
+		headerList.add(new BasicHeader("Connection", "keep-alive"));
+		headerList.add(new BasicHeader("Content-Type","application/octet-stream"));
+		headerList.add(new BasicHeader("Host", "picupload.service.weibo.com"));
+		headerList.add(new BasicHeader("Origin", "http://weibo.com"));
+		headerList.add(new BasicHeader("User-Agent", Constaces.User_Agent));
+		headerList.add(new BasicHeader("Referer","http://tjs.sjs.sinajs.cn/open/widget/static/swf/MultiFilesUpload.swf?version=1411256448572"));
+		headerList.add(new BasicHeader("Cookie",cookie));
+		
         final String contentType = RequestParams.APPLICATION_OCTET_STREAM;
+        
+        
         File uploadFile = new File(file);
-
         FileEntity reqEntity = new FileEntity(uploadFile, "binary/octet-stream");
 
         String markUrl = "http://picupload.service.weibo.com/interface/pic_upload.php?" + "app=miniblog&data=1" + waterMark
@@ -114,7 +117,7 @@ public class UploadHelper {
         String unMark = "http://picupload.service.weibo.com/interface/pic_upload.php?app="
                 + "miniblog&data=1&mime=image/png&ct=0.2805887470021844";
 
-        mAsyncHttpClient.post(mContext.getApplicationContext(), markUrl, getHeader, reqEntity, contentType,
+        mAsyncHttpClient.post(mContext.getApplicationContext(), markUrl, headerList.build(), reqEntity, contentType,
                 new AsyncHttpResponseHandler() {
 
                     @Override

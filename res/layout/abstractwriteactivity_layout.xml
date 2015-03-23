@@ -61,14 +61,14 @@
             android:layout_weight="1" />
 
         <Button
-            android:textColor="#FF000000"
             android:id="@+id/menu_send"
-            android:background="@drawable/bottom_selector"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@drawable/bottom_selector"
             android:drawableRight="?statusnewactivity_send"
             android:text="@string/send"
-             android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#FF000000" />
     </LinearLayout>
 
     <RelativeLayout
@@ -87,14 +87,73 @@
             android:id="@+id/status_new_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="180dp"
             android:fadeScrollbars="true"
             android:gravity="left|top"
             android:hint="@string/say_something"
+            android:minHeight="180dp"
             android:padding="10dp"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             app:hideUnderline="true" />
+
+        
+		<RelativeLayout
+		    android:visibility="gone"
+            android:id="@+id/commentRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true" >
+
+            <CheckBox
+                android:id="@+id/commentCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text=""
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/commentCheckBox"
+                android:layout_alignTop="@id/commentCheckBox"
+                android:layout_toLeftOf="@id/commentCheckBox"
+                android:gravity="right"
+                android:padding="5dp"
+                android:text="同时评论" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/repostRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true" >
+
+            <CheckBox
+                android:id="@+id/repostCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text=""
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/repostCheckBox"
+                android:layout_alignTop="@id/repostCheckBox"
+                android:layout_toLeftOf="@id/repostCheckBox"
+                android:gravity="right"
+                android:padding="5dp"
+                android:text="同时转发" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

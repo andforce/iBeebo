@@ -50,7 +50,7 @@
         <item name="android:textSize">@dimen/drawerTextSize</item>
         <item name="android:textColor">@color/draw_text_color</item>
         <item name="android:gravity">left|center</item>
-        <item name="android:background">@drawable/listview_item_background_selector_light</item>
+        <item name="android:background">@drawable/button_background_selector</item>
         <item name="android:paddingLeft">8.0dip</item>
         <item name="android:paddingRight">8.0dip</item>
         <item name="android:layout_width">0dp</item>
@@ -105,6 +105,7 @@
     </style>
 
     <style name="profileStatValue">
+        <item name="android:gravity">center</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColorSecondary</item>
@@ -114,6 +115,7 @@
     </style>
 
     <style name="profileStatName">
+        <item name="android:gravity">center</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:layout_width">wrap_content</item>

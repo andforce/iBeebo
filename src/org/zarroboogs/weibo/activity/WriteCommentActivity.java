@@ -20,9 +20,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,9 +41,9 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
     private CommentDraftBean commentDraftBean;
 
-    private MenuItem enableCommentOri;
+    private CheckBox enableCommentOri;
 
-    private MenuItem enableRepost;
+    private CheckBox enableRepost;
 
     private boolean savedEnableCommentOri;
 
@@ -51,9 +52,6 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // getActionBar().setTitle(R.string.comments);
-        // getActionBar().setSubtitle(getCurrentAccountBean().getUsernick());
 
         if (savedInstanceState == null) {
 
@@ -72,51 +70,22 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
             }
         }
 
-        getToolbar().inflateMenu(R.menu.actionbar_menu_commentnewactivity);
         getToolbar().setTitle(R.string.comments);
 
-        enableCommentOri = getToolbar().getMenu().findItem(R.id.menu_enable_ori_comment);
-        enableRepost = getToolbar().getMenu().findItem(R.id.menu_enable_repost);
+        enableCommentOri = (CheckBox) findViewById(R.id.commentCheckBox);
+        enableRepost = (CheckBox) findViewById(R.id.repostCheckBox);
 
         enableCommentOri.setChecked(savedEnableCommentOri);
         enableRepost.setChecked(savedEnableRepost);
 
         if (msg != null && msg.getRetweeted_status() != null) {
-            enableCommentOri.setVisible(true);
-        }
-        String contentStr = getEditTextView().getText().toString();
-        if (!TextUtils.isEmpty(contentStr)) {
-            getToolbar().getMenu().findItem(R.id.menu_clear).setVisible(true);
-        } else {
-            getToolbar().getMenu().findItem(R.id.menu_clear).setVisible(false);
+//            enableCommentOri.setVisible(true);
         }
 
+        mCommentRoot.setVisibility(View.GONE);
+        mRepostRoot.setVisibility(View.VISIBLE);
     }
 
-    // @Override
-    // public boolean onCreateOptionsMenu(Menu menu) {
-    // getMenuInflater().inflate(R.menu.actionbar_menu_commentnewactivity, menu);
-    // enableCommentOri = menu.findItem(R.id.menu_enable_ori_comment);
-    // enableRepost = menu.findItem(R.id.menu_enable_repost);
-    //
-    // enableCommentOri.setChecked(savedEnableCommentOri);
-    // enableRepost.setChecked(savedEnableRepost);
-    // return true;
-    // }
-
-    // @Override
-    // public boolean onPrepareOptionsMenu(Menu menu) {
-    // if (msg != null && msg.getRetweeted_status() != null) {
-    // enableCommentOri.setVisible(true);
-    // }
-    // String contentStr = getEditTextView().getText().toString();
-    // if (!TextUtils.isEmpty(contentStr)) {
-    // menu.findItem(R.id.menu_clear).setVisible(true);
-    // } else {
-    // menu.findItem(R.id.menu_clear).setVisible(false);
-    // }
-    // return super.onPrepareOptionsMenu(menu);
-    // }
 
     @Override
     protected void onResume() {
@@ -180,7 +149,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
         token = getIntent().getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
         }
 
         msg = (MessageBean) getIntent().getParcelableExtra("msg");
@@ -191,7 +160,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
         token = getIntent().getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
         }
 
         commentDraftBean = (CommentDraftBean) getIntent().getParcelableExtra("draft");
@@ -282,38 +251,31 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm.isActive()) {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-                finish();
-                break;
-
-            case R.id.menu_enable_ori_comment:
-                if (enableCommentOri.isChecked()) {
-                    enableCommentOri.setChecked(false);
-                } else {
-                    enableCommentOri.setChecked(true);
-                }
-                break;
-            case R.id.menu_enable_repost:
-                if (enableRepost.isChecked()) {
-                    enableRepost.setChecked(false);
-                } else {
-                    enableRepost.setChecked(true);
-                }
-                break;
-            case R.id.menu_at:
-                Intent intent = new Intent(WriteCommentActivity.this, AtUserActivity.class);
-                intent.putExtra(Constants.TOKEN, token);
-                startActivityForResult(intent, AT_USER);
-                break;
-            case R.id.menu_clear:
-                clearContentMenu();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (imm.isActive()) {
+			    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+			finish();
+		} else if (itemId == R.id.menu_enable_ori_comment) {
+			if (enableCommentOri.isChecked()) {
+			    enableCommentOri.setChecked(false);
+			} else {
+			    enableCommentOri.setChecked(true);
+			}
+		} else if (itemId == R.id.menu_enable_repost) {
+			if (enableRepost.isChecked()) {
+			    enableRepost.setChecked(false);
+			} else {
+			    enableRepost.setChecked(true);
+			}
+		} else if (itemId == R.id.menu_at) {
+			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			startActivityForResult(intent, AT_USER);
+		} else if (itemId == R.id.menu_clear) {
+			clearContentMenu();
+		}
         return true;
     }
 
@@ -366,7 +328,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
         intent.putExtra("oriMsg", msg);
         intent.putExtra("content", content);
         intent.putExtra("is_comment", is_comment);
-        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
         intent.putExtra("accountId", GlobalContext.getInstance().getCurrentAccountId());
         startService(intent);
         finish();

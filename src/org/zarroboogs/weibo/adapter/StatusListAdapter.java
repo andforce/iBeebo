@@ -1,25 +1,26 @@
 
 package org.zarroboogs.weibo.adapter;
 
+import org.zarroboogs.util.net.HttpUtility;
+import org.zarroboogs.util.net.HttpUtility.HttpMethod;
+import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.Constants;
+import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
 import org.zarroboogs.weibo.activity.WriteCommentActivity;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
-import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 import org.zarroboogs.weibo.widget.VelocityListView;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.os.Handler;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.LongSparseArray;
@@ -29,14 +30,14 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.WeakHashMap;
 
-/**
- * User: qii Date: 12-8-19
- */
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
 
     private WeakHashMap<ViewHolder, Drawable> bg = new WeakHashMap<ViewHolder, Drawable>();
@@ -50,8 +51,6 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
     private LongSparseArray<Integer> oriMsgWidths = new LongSparseArray<Integer>();
 
     private TopTipsView topTipBar;
-
-    private Handler handler = new Handler();
 
     public StatusListAdapter(Fragment fragment, List<MessageBean> bean, ListView listView, boolean showOriStatus) {
         this(fragment, bean, listView, showOriStatus, false);
@@ -135,7 +134,7 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                 intent.putExtra("msg", msg);
                 getActivity().startActivity(intent);
             }
@@ -145,11 +144,45 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WriteCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                 intent.putExtra("msg", msg);
                 getActivity().startActivity(intent);
             }
         });
+        holder.giveHeart.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new AsyncTask<Void, Void, Boolean>() {
+
+					@Override
+					protected Boolean doInBackground(Void... params) {
+						// TODO Auto-generated method stub
+				        Map<String, String> map = new HashMap<String, String>();
+				        map.put("access_token", GlobalContext.getInstance().getAccessToken());
+				        map.put("id", msg.getId());
+				        map.put("attitude", "heart");
+						try {
+							String likeresult = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, WeiBoURLs.GIVE_HEART, map);
+							return true;
+						} catch (WeiboException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							return false;
+						}
+					}
+					protected void onPostExecute(Boolean result) {
+						if (result) {
+							Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
+						}else {
+							Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+						}
+						
+					};
+				}.execute();
+			}
+		});
 
         UserBean user = msg.getUser();
         if (user != null) {
@@ -402,4 +435,29 @@ public class StatusListAdapter extends AbstractAppListAdapter<MessageBean> {
         }
     }
 
+    public void addNewData(List<MessageBean> newValue) {
+
+        if (newValue == null || newValue.size() == 0) {
+            return;
+        }
+
+        this.bean.addAll(0, newValue);
+        
+        // remove duplicate null flag, [x,y,null,null,z....]
+ 
+        ListIterator<MessageBean> listIterator = this.bean.listIterator();
+
+        boolean isLastItemNull = false;
+        while (listIterator.hasNext()) {
+        	MessageBean msg = listIterator.next();
+            if (msg == null) {
+                if (isLastItemNull) {
+                    listIterator.remove();
+                }
+                isLastItemNull = true;
+            } else {
+                isLastItemNull = false;
+            }
+        }
+    }
 }

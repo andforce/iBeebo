@@ -1,14 +1,13 @@
 
 package org.zarroboogs.weibo.activity;
 
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.targets.ViewTarget;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
+import org.zarroboogs.weibo.auth.BeeboAuthUtils;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.CommentListBean;
 import org.zarroboogs.weibo.bean.MessageListBean;
@@ -82,45 +81,62 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private Button mScrollTopBtn;
+    
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	public void onCreate(Bundle savedInstanceState) {
 
-        UmengUpdateAgent.update(this);
+		super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            mAccountBean = savedInstanceState.getParcelable(Constants.ACCOUNT);
-        } else {
-            Intent intent = getIntent();
-            mAccountBean = intent.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
-        }
-
-        if (mAccountBean == null) {
-            mAccountBean = GlobalContext.getInstance().getAccountBean();
-        }
-
-        GlobalContext.getInstance().setGroup(null);
-        GlobalContext.getInstance().setAccountBean(mAccountBean);
-        SettingUtils.setDefaultAccountId(mAccountBean.getUid());
-
-        buildInterface(savedInstanceState);
-
-        mScrollTopBtn = (Button) findViewById(R.id.scrollToTopBtn);
-        mScrollTopBtn.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Toast.makeText(getApplicationContext(), "TOP", Toast.LENGTH_LONG).show();
-                scrollCurrentListViewToTop();
-            }
-        });
-
-        if (AppNewMsgAlarm.DEBUG) {
-			AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG, getApplicationContext(), true);
+		BeeboAuthUtils beeboAuthUtils = new BeeboAuthUtils();
+		Log.d("BeeboAuthUtils", "" + beeboAuthUtils.getAppKey());
+		
+		if (!Constants.isBeeboPlus) {
+			UmengUpdateAgent.update(this);
 		}
-        
-    }
+		if (savedInstanceState != null) {
+			mAccountBean = savedInstanceState.getParcelable(Constants.ACCOUNT);
+		} else {
+			Intent intent = getIntent();
+			mAccountBean = intent
+					.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
+		}
+
+		if (mAccountBean == null) {
+			mAccountBean = GlobalContext.getInstance().getAccountBean();
+		}
+
+		if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getPwd())) {
+			GlobalContext.getInstance().setGroup(null);
+			GlobalContext.getInstance().setAccountBean(mAccountBean);
+			SettingUtils.setDefaultAccountId(mAccountBean.getUid());
+
+			setContentView(R.layout.layout_main_time_line_activity);
+
+			buildInterface(savedInstanceState);
+
+			mScrollTopBtn = (Button) findViewById(R.id.scrollToTopBtn);
+			mScrollTopBtn.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// Toast.makeText(getApplicationContext(), "TOP",
+					// Toast.LENGTH_LONG).show();
+					scrollCurrentListViewToTop();
+				}
+			});
+
+			if (AppNewMsgAlarm.DEBUG) {
+				AppNewMsgAlarm.startAlarm(AppNewMsgAlarm.DEBUG,
+						getApplicationContext(), true);
+			}
+		}else {
+			Intent start = new Intent(this, AccountActivity.class);
+			startActivity(start);
+			finish();
+		}
+
+	}
 
     public void closeLeftDrawer() {
         mDrawerLayout.closeDrawer(Gravity.START);
@@ -131,7 +147,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
     private void buildInterface(Bundle savedInstanceState) {
-        setContentView(R.layout.layout_main_time_line_activity);
+        
         mToolbar = (Toolbar) findViewById(R.id.mainTimeLineToolBar);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
@@ -291,10 +307,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        if (SettingUtils.isClickToTopTipFirstShow()) {
-            ViewTarget target = new ViewTarget(getClickToTopView());
-            ShowcaseView.insertShowcaseView(target, this, R.string.tip, R.string.click_to_top_tip);
-        }
     }
 
     @Override
@@ -524,7 +536,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                 UserInfoFragment.class.getName()));
         if (fragment == null) {
             fragment = UserInfoFragment.newInstance(mToolbar, GlobalContext.getInstance().getAccountBean().getInfo(), GlobalContext
-                    .getInstance().getSpecialToken());
+                    .getInstance().getAccessTokenHack());
         }
         return fragment;
     }

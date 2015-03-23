@@ -178,7 +178,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
     protected void listViewItemClick(AdapterView parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
         intent.putExtra("user", bean.getUsers().get(position));
         startActivity(intent);
     }
@@ -251,12 +251,11 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.loading_progressbar:
-                pullToRefreshListView.setRefreshing();
-                loadNewMsg();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.loading_progressbar) {
+			pullToRefreshListView.setRefreshing();
+			loadNewMsg();
+		}
         return super.onOptionsItemSelected(item);
     }
 

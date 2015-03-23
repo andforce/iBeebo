@@ -34,7 +34,6 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -234,57 +233,54 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = MainTimeLineActivity.newIntent();
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
-            case R.id.menu_repost:
-                intent = new Intent(this, RepostWeiboWithAppSrcActivity.class);
-                Log.d("RpostWeiBo_activity_start", "AccountBean == null ? : " + (mAccountBean == null));
-                intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
-                intent.putExtra(Constants.TOKEN, getToken());
-                intent.putExtra("id", getMsg().getId());
-                intent.putExtra("msg", getMsg());
-                startActivity(intent);
-                return true;
-            case R.id.menu_comment:
-
-                intent = new Intent(this, WriteCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, getToken());
-                intent.putExtra("id", getMsg().getId());
-                intent.putExtra("msg", getMsg());
-                startActivity(intent);
-
-                return true;
-
-            case R.id.menu_share:
-
-                buildShareActionMenu();
-                return true;
-            case R.id.menu_copy:
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", getMsg().getText()));
-                Toast.makeText(this, getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.menu_fav:
-                if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-                    favTask = new FavAsyncTask(getToken(), msg.getId());
-                    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                return true;
-            case R.id.menu_unfav:
-                if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-                    unFavTask = new UnFavAsyncTask(getToken(), msg.getId());
-                    unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                return true;
-            case R.id.menu_delete:
-                RemoveWeiboMsgDialog dialog = new RemoveWeiboMsgDialog(msg.getId());
-                dialog.show(getFragmentManager(), "");
-                return true;
-        }
+        Intent intent;
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			intent = MainTimeLineActivity.newIntent();
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return true;
+		} else if (itemId == R.id.menu_repost) {
+			intent = new Intent(this, RepostWeiboWithAppSrcActivity.class);
+			Log.d("RpostWeiBo_activity_start", "AccountBean == null ? : " + (mAccountBean == null));
+			intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
+			intent.putExtra(Constants.TOKEN, getToken());
+			intent.putExtra("id", getMsg().getId());
+			intent.putExtra("msg", getMsg());
+			startActivity(intent);
+			return true;
+		} else if (itemId == R.id.menu_comment) {
+			intent = new Intent(this, WriteCommentActivity.class);
+			intent.putExtra(Constants.TOKEN, getToken());
+			intent.putExtra("id", getMsg().getId());
+			intent.putExtra("msg", getMsg());
+			startActivity(intent);
+			return true;
+		} else if (itemId == R.id.menu_share) {
+			buildShareActionMenu();
+			return true;
+		} else if (itemId == R.id.menu_copy) {
+			ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+			cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", getMsg().getText()));
+			Toast.makeText(this, getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+			return true;
+		} else if (itemId == R.id.menu_fav) {
+			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
+			    favTask = new FavAsyncTask(getToken(), msg.getId());
+			    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+			return true;
+		} else if (itemId == R.id.menu_unfav) {
+			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
+			    unFavTask = new UnFavAsyncTask(getToken(), msg.getId());
+			    unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+			return true;
+		} else if (itemId == R.id.menu_delete) {
+			RemoveWeiboMsgDialog dialog = new RemoveWeiboMsgDialog(msg.getId());
+			dialog.show(getFragmentManager(), "");
+			return true;
+		}
         return false;
     }
 
@@ -372,7 +368,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
         @Override
         protected MessageBean loadData() throws WeiboException {
-            return new ShowStatusDao(GlobalContext.getInstance().getSpecialToken(), msgId).getMsg();
+            return new ShowStatusDao(GlobalContext.getInstance().getAccessToken(), msgId).getMsg();
 
         }
     }

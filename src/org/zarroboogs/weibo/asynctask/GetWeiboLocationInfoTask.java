@@ -60,7 +60,7 @@ public class GetWeiboLocationInfoTask extends MyAsyncTask<Void, String, Bitmap> 
             }
         }
 
-        MapDao dao = new MapDao(GlobalContext.getInstance().getSpecialToken(), geoBean.getLat(), geoBean.getLon());
+        MapDao dao = new MapDao(GlobalContext.getInstance().getAccessToken(), geoBean.getLat(), geoBean.getLon());
 
         try {
             return dao.getMap();

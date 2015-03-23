@@ -45,7 +45,7 @@
 
         <FrameLayout
             android:id="@+id/menu_frame_right"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:background="@color/gray"

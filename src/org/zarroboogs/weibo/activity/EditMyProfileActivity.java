@@ -86,16 +86,16 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
             public boolean onMenuItemClick(MenuItem item) {
                 // TODO Auto-generated method stub
                 Intent intent;
-                switch (item.getItemId()) {
-                    case android.R.id.home:
-                        intent = MainTimeLineActivity.newIntent();
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        return true;
-                    case R.id.menu_save:
-                        save();
-                        return true;
-                }
+                int itemId = item.getItemId();
+				if (itemId == android.R.id.home) {
+					intent = MainTimeLineActivity.newIntent();
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
+					return true;
+				} else if (itemId == R.id.menu_save) {
+					save();
+					return true;
+				}
                 return false;
             }
         });
@@ -318,7 +318,7 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
 
         @Override
         protected UserBean doInBackground(Void... params) {
-            EditMyProfileDao dao = new EditMyProfileDao(GlobalContext.getInstance().getSpecialToken(), screenName);
+            EditMyProfileDao dao = new EditMyProfileDao(GlobalContext.getInstance().getAccessToken(), screenName);
             dao.setUrl(url);
             dao.setDescription(description);
             dao.setAvatar(picPath);
@@ -403,7 +403,7 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
         protected UserBean doInBackground(Object... params) {
             UserBean user = null;
             try {
-                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getSpecialToken());
+                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessToken());
                 dao.setUid(GlobalContext.getInstance().getAccountBean().getUid());
                 user = dao.getUserInfo();
             } catch (WeiboException e) {

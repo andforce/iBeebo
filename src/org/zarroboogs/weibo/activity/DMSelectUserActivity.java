@@ -153,7 +153,7 @@ public class DMSelectUserActivity extends AbstractAppActivity {
                             }
                         });
 
-                        SearchDao dao = new SearchDao(GlobalContext.getInstance().getSpecialToken(), constraint.toString());
+                        SearchDao dao = new SearchDao(GlobalContext.getInstance().getAccessToken(), constraint.toString());
 
                         try {
                             data = dao.getUserList().getUsers();
@@ -257,7 +257,7 @@ public class DMSelectUserActivity extends AbstractAppActivity {
 
         @Override
         protected Loader<AsyncTaskLoaderResult<UserListBean>> onCreateNewUserLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getSpecialToken();
+            String token = GlobalContext.getInstance().getAccessToken();
             String cursor = String.valueOf(0);
             return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);
         }
@@ -269,7 +269,7 @@ public class DMSelectUserActivity extends AbstractAppActivity {
                 return null;
             }
 
-            String token = GlobalContext.getInstance().getSpecialToken();
+            String token = GlobalContext.getInstance().getAccessToken();
             String cursor = String.valueOf(bean.getNext_cursor());
 
             return new FriendUserLoader(getActivity(), token, getCurrentUser().getId(), cursor);

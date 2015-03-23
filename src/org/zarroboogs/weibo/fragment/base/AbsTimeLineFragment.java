@@ -11,8 +11,6 @@ import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.IRemoveItem;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.AbstractAppActivity;
-import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.StatusListAdapter;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
@@ -39,9 +37,9 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
     }
 
     protected void clearAndReplaceValue(DataListItem<MessageBean, ?> value) {
-        getList().getItemList().clear();
-        getList().getItemList().addAll(value.getItemList());
-        getList().setTotal_number(value.getTotal_number());
+        getDataList().getItemList().clear();
+        getDataList().getItemList().addAll(value.getItemList());
+        getDataList().setTotal_number(value.getTotal_number());
     }
 
     @Override
@@ -55,10 +53,10 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-            if (position - getListView().getHeaderViewsCount() < getList().getSize()
+            if (position - getListView().getHeaderViewsCount() < getDataList().getSize()
                     && position - getListView().getHeaderViewsCount() >= 0
                     && timeLineAdapter.getItem(position - getListView().getHeaderViewsCount()) != null) {
-                MessageBean msg = getList().getItemList().get(position - getListView().getHeaderViewsCount());
+                MessageBean msg = getDataList().getItemList().get(position - getListView().getHeaderViewsCount());
                 StatusSingleChoiceModeListener choiceModeListener = new StatusSingleChoiceModeListener(GlobalContext
                         .getInstance().getAccountBean(),
                         getListView(), (StatusListAdapter) timeLineAdapter, AbsTimeLineFragment.this, msg);
@@ -96,7 +94,7 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
 
     @Override
     protected void buildListAdapter() {
-        timeLineAdapter = new StatusListAdapter(this, getList().getItemList(), getListView(), true);
+        timeLineAdapter = new StatusListAdapter(this, getDataList().getItemList(), getListView(), true);
         getListView().setAdapter(timeLineAdapter);
     }
 
@@ -104,7 +102,7 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
     public void removeItem(int position) {
         clearActionMode();
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-            removeTask = new RemoveTask(GlobalContext.getInstance().getSpecialToken(), getList().getItemList().get(position)
+            removeTask = new RemoveTask(GlobalContext.getInstance().getAccessToken(), getDataList().getItemList().get(position)
                     .getId(), position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }

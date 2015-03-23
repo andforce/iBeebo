@@ -16,9 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * User: qii Date: 12-7-29
- */
 
 public class MessageBean extends DataItem implements Parcelable {
 

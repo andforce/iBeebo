@@ -94,7 +94,7 @@ public class BrowserCommentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                 intent.putExtra("user", msg.getUser());
                 startActivity(intent);
             }
@@ -156,29 +156,22 @@ public class BrowserCommentFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()) {
-
-            case R.id.menu_comment:
-                intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra("msg", msg);
-                getActivity().startActivity(intent);
-
-                break;
-
-            case R.id.menu_share:
-
-                buildShareActionMenu();
-                return true;
-            case R.id.menu_copy:
-                ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", content.getText().toString()));
-                Toast.makeText(getActivity(), getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
-                break;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_comment) {
+			intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			intent.putExtra("msg", msg);
+			getActivity().startActivity(intent);
+		} else if (itemId == R.id.menu_share) {
+			buildShareActionMenu();
+			return true;
+		} else if (itemId == R.id.menu_copy) {
+			ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+			cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", content.getText().toString()));
+			Toast.makeText(getActivity(), getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
         return true;
     }
 

@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?attr/colorPrimary"
+        app:title="@string/write_weibo"
+        android:minHeight="48dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -193,18 +195,21 @@
                             app:hideUnderline="true" >
                         </com.rengwuxian.materialedittext.MaterialEditText>
 
-                        <include
-                            android:id="@+id/sendImgTL_ref"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                        <GridView
+                            android:id="@+id/ninePicGridView"
                             android:layout_alignParentBottom="true"
                             android:layout_below="@id/weiboContentET"
                             android:layout_centerHorizontal="true"
-                            android:layout_gravity="bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:listSelector="@drawable/button_background_selector"
+                            android:layout_marginTop="5dp"
                             android:layout_marginBottom="20dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            layout="@layout/send_pic_layout" />
+                            android:layout_marginLeft="40dp"
+                            android:layout_marginRight="40dp"
+                            android:layout_gravity="bottom"
+                            android:numColumns="3" />
+                        
                     </RelativeLayout>
                 </ScrollView>
             </RelativeLayout>

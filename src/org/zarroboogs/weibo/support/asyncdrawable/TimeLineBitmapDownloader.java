@@ -11,6 +11,7 @@ import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
+import org.zarroboogs.weibo.hot.hean.HotMblogBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.ThemeUtility;
 
@@ -168,6 +169,23 @@ public class TimeLineBitmapDownloader {
 
     }
 
+
+    public void downContentPic(IWeiciyuanDrawable view, HotMblogBean msg, AbsBaseTimeLineFragment fragment) {
+        String picUrl;
+
+        boolean isFling = ((AbsBaseTimeLineFragment) fragment).isListViewFling();
+
+        if (SettingUtils.getEnableBigPic()) {
+            picUrl = msg.getOriginal_pic();
+            display(view, picUrl, FileLocationMethod.picture_large, isFling, false);
+
+        } else {
+            picUrl = msg.getThumbnail_pic();
+            display(view, picUrl, FileLocationMethod.picture_thumbnail, isFling, false);
+
+        }
+    }
+    
     public void downContentPic(IWeiciyuanDrawable view, MessageBean msg, AbsBaseTimeLineFragment fragment) {
         String picUrl;
 

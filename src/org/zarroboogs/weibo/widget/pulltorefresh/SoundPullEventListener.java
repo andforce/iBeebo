@@ -31,6 +31,7 @@ public class SoundPullEventListener<V extends View> implements PullToRefreshBase
     private final HashMap<PullToRefreshBase.State, Integer> mSoundMap;
 
     private MediaPlayer mCurrentMediaPlayer;
+    private SoundPlayer.Player mSoundPlayer;
 
     /**
      * Constructor
@@ -39,6 +40,7 @@ public class SoundPullEventListener<V extends View> implements PullToRefreshBase
     public SoundPullEventListener(Context context) {
         mContext = context;
         mSoundMap = new HashMap<State, Integer>();
+        mSoundPlayer = SoundPlayer.getPlayer(mContext);
     }
 
     @Override
@@ -78,15 +80,17 @@ public class SoundPullEventListener<V extends View> implements PullToRefreshBase
 
     private void playSound(int resId) {
         // Stop current player, if there's one playing
-        if (null != mCurrentMediaPlayer) {
-            mCurrentMediaPlayer.stop();
-            mCurrentMediaPlayer.release();
-        }
-
-        mCurrentMediaPlayer = MediaPlayer.create(mContext, resId);
-        if (null != mCurrentMediaPlayer) {
-            mCurrentMediaPlayer.start();
-        }
+    	mSoundPlayer.play(resId);
+    	
+//        if (null != mCurrentMediaPlayer) {
+//            mCurrentMediaPlayer.stop();
+//            mCurrentMediaPlayer.release();
+//        }
+//
+//        mCurrentMediaPlayer = MediaPlayer.create(mContext, resId);
+//        if (null != mCurrentMediaPlayer) {
+//            mCurrentMediaPlayer.start();
+//        }
     }
 
 }

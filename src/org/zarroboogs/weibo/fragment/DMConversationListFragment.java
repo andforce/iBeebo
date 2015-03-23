@@ -23,10 +23,8 @@ import org.zarroboogs.weibo.widget.pulltorefresh.PullToRefreshListView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.Loader;
@@ -42,16 +40,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.Comparator;
 
-/**
- * User: qii Date: 12-11-15
- */
 public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBean> {
 
     private UserBean userBean;
@@ -84,7 +78,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
     };
 
     @Override
-    public DMListBean getList() {
+    public DMListBean getDataList() {
         return bean;
     }
 
@@ -130,10 +124,10 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
                 break;
             case SCREEN_ROTATE:
                 // nothing
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 break;
             case ACTIVITY_DESTROY_AND_CREATE:
-                getList().addNewData((DMListBean) savedInstanceState.getParcelable(Constants.BEAN));
+                getDataList().addNewData((DMListBean) savedInstanceState.getParcelable(Constants.BEAN));
                 userBean = (UserBean) savedInstanceState.getParcelable(Constants.USERBEAN);
                 page = savedInstanceState.getInt("page");
                 getAdapter().notifyDataSetChanged();
@@ -227,11 +221,9 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_clear:
-
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_clear) {
+		}
         return super.onOptionsItemSelected(item);
     }
 
@@ -285,7 +277,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     @Override
     protected void buildListAdapter() {
-        timeLineAdapter = new DMConversationAdapter(this, getList().getItemList(), getListView());
+        timeLineAdapter = new DMConversationAdapter(this, getDataList().getItemList(), getListView());
         getListView().setAdapter(timeLineAdapter);
     }
 
@@ -294,8 +286,8 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
         dmProgressBar.setVisibility(View.INVISIBLE);
 
         if (newValue != null && newValue.getSize() > 0 && getActivity() != null) {
-            getList().addNewData(newValue);
-            Collections.sort(getList().getItemList(), comparator);
+            getDataList().addNewData(newValue);
+            Collections.sort(getDataList().getItemList(), comparator);
             getAdapter().notifyDataSetChanged();
             getListView().setSelection(bean.getSize() - 1);
         }
@@ -305,8 +297,8 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
     @Override
     protected void oldMsgLoaderSuccessCallback(DMListBean newValue) {
         if (newValue != null && newValue.getSize() > 0) {
-            getList().addOldData(newValue);
-            Collections.sort(getList().getItemList(), comparator);
+            getDataList().addOldData(newValue);
+            Collections.sort(getDataList().getItemList(), comparator);
             getAdapter().notifyDataSetChanged();
             page++;
         }
@@ -339,7 +331,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            SendDMDao dao = new SendDMDao(GlobalContext.getInstance().getSpecialToken(), userBean.getId(), et.getText()
+            SendDMDao dao = new SendDMDao(GlobalContext.getInstance().getAccessTokenHack(), userBean.getId(), et.getText()
                     .toString());
             try {
                 return dao.send();
@@ -405,14 +397,14 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     @Override
     protected Loader<AsyncTaskLoaderResult<DMListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         page = 1;
         return new DMConversationLoader(getActivity(), token, userBean.getId(), String.valueOf(page));
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<DMListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         return new DMConversationLoader(getActivity(), token, userBean.getId(), String.valueOf(page + 1));
     }
 

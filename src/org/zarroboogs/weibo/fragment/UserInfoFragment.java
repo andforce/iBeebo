@@ -50,12 +50,10 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -158,7 +156,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     }
 
     @Override
-    public MessageListBean getList() {
+    public MessageListBean getDataList() {
         return bean;
     }
 
@@ -175,10 +173,10 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         }
         MessageBean msg = (MessageBean) data.getParcelableExtra("msg");
         if (msg != null) {
-            for (int i = 0; i < getList().getSize(); i++) {
-                if (msg.equals(getList().getItem(i))) {
-                    getList().getItem(i).setReposts_count(msg.getReposts_count());
-                    getList().getItem(i).setComments_count(msg.getComments_count());
+            for (int i = 0; i < getDataList().getSize(); i++) {
+                if (msg.equals(getDataList().getItem(i))) {
+                    getDataList().getItem(i).setReposts_count(msg.getReposts_count());
+                    getDataList().getItem(i).setComments_count(msg.getComments_count());
                     break;
                 }
             }
@@ -189,7 +187,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        view.setBackgroundDrawable(null);
+//        view.setBackgroundDrawable(null);
         header = inflater.inflate(R.layout.newuserinfofragment_header_layout, getListView(), false);
         getListView().addHeaderView(header);
 
@@ -237,7 +235,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         weiboCountLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getSpecialToken(), userBean);
+                Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getAccessTokenHack(), userBean);
                 startActivity(intent);
             }
         });
@@ -245,7 +243,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         friendsCountLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = FriendListActivity.newIntent(GlobalContext.getInstance().getSpecialToken(), userBean);
+                Intent intent = FriendListActivity.newIntent(GlobalContext.getInstance().getAccessTokenHack(), userBean);
                 startActivity(intent);
             }
         });
@@ -253,7 +251,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         fansCountLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = FanListActivity.newIntent(GlobalContext.getInstance().getSpecialToken(), userBean);
+                Intent intent = FanListActivity.newIntent(GlobalContext.getInstance().getAccessTokenHack(), userBean);
                 startActivity(intent);
             }
         });
@@ -282,6 +280,8 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getPullToRefreshListView().setMode(PullToRefreshBase.Mode.DISABLED);
+        getPullToRefreshListView().setPullToRefreshOverScrollEnabled(false);
+        
         getPullToRefreshListView().setOnLastItemVisibleListener(null);
         getPullToRefreshListView().getRefreshableView().setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         viewPager.setOnTouchListener(new View.OnTouchListener() {
@@ -501,7 +501,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
             userBean = newUserBean;
             displayBasicInfo();
             displayCoverPicture();
-            for (MessageBean msg : getList().getItemList()) {
+            for (MessageBean msg : getDataList().getItemList()) {
                 msg.setUser(newUserBean);
             }
             getAdapter().notifyDataSetChanged();
@@ -517,7 +517,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(Constants.BEAN, getList());
+        outState.putParcelable(Constants.BEAN, getDataList());
         outState.putParcelable(Constants.USERBEAN, userBean);
         outState.putString(Constants.TOKEN, token);
     }
@@ -531,7 +531,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
                 break;
             case SCREEN_ROTATE:
                 // nothing
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 displayBasicInfo();
                 displayCoverPicture();
                 if (bean.getSize() > 0) {
@@ -540,11 +540,11 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
                 }
                 break;
             case ACTIVITY_DESTROY_AND_CREATE:
-                getList().replaceData((MessageListBean) savedInstanceState.getParcelable(Constants.BEAN));
+                getDataList().replaceData((MessageListBean) savedInstanceState.getParcelable(Constants.BEAN));
                 userBean = (UserBean) savedInstanceState.getParcelable(Constants.USERBEAN);
                 token = savedInstanceState.getString(Constants.TOKEN);
                 getAdapter().notifyDataSetChanged();
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 displayBasicInfo();
                 displayCoverPicture();
                 break;
@@ -613,9 +613,9 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
 
-        startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getList()
+        startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getDataList()
                 .getItem(position), GlobalContext
-                .getInstance().getSpecialToken()), 0);
+                .getInstance().getAccessTokenHack()), 0);
 
     }
 
@@ -647,13 +647,13 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         stopRefreshMenuAnimationIfPossible();
         getListView().removeFooterView(progressFooter);
         if (getActivity() != null && newValue.getSize() > 0) {
-            getList().addNewData(newValue);
+            getDataList().addNewData(newValue);
             getAdapter().notifyDataSetChanged();
             getListView().setSelectionAfterHeaderView();
             getActivity().invalidateOptionsMenu();
             moreFooter.setVisibility(View.VISIBLE);
             if (isMyself()) {
-                MyStatusDBTask.asyncReplace(getList(), userBean.getId());
+                MyStatusDBTask.asyncReplace(getDataList(), userBean.getId());
             }
         }
 
@@ -672,7 +672,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     }
 
     private void readDBCache() {
-        if (Utility.isTaskStopped(dbTask) && getList().getSize() == 0) {
+        if (Utility.isTaskStopped(dbTask) && getDataList().getSize() == 0) {
             dbTask = new DBCacheTask();
             dbTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -690,7 +690,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
     @Override
     protected void loadOldMsg(View view) {
-        Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getSpecialToken(), userBean);
+        Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getAccessTokenHack(), userBean);
         startActivity(intent);
     }
 
@@ -698,8 +698,8 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         String uid = userBean.getId();
         String screenName = userBean.getScreen_name();
         String sinceId = null;
-        if (getList().getItemList().size() > 0) {
-            sinceId = getList().getItemList().get(0).getId();
+        if (getDataList().getItemList().size() > 0) {
+            sinceId = getDataList().getItemList().get(0).getId();
         }
         return new StatusesByIdLoader(getActivity(), uid, screenName, token, sinceId, null, LIMITED_READ_MESSAGE_COUNT);
     }
@@ -849,7 +849,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
         @Override
         protected ArrayList<String> doInBackground(Void... params) {
-            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getSpecialToken(), userBean.getId());
+            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getAccessTokenHack(), userBean.getId());
             try {
                 return dao.getGSONMsgList();
             } catch (WeiboException e) {
@@ -909,7 +909,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         @Override
         protected UserBean doInBackground(Object... params) {
             if (!isCancelled()) {
-                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getSpecialToken());
+                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessTokenHack());
                 boolean haveId = !TextUtils.isEmpty(userBean.getId());
                 boolean haveName = !TextUtils.isEmpty(userBean.getScreen_name());
                 if (haveId) {
@@ -1010,7 +1010,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
             if (result != null && getActivity() != null) {
                 getListView().removeFooterView(progressFooter);
-                getList().addNewData(result.msgList);
+                getDataList().addNewData(result.msgList);
                 getAdapter().notifyDataSetChanged();
                 position = result.position;
                 setListViewPositionFromPositionsCache();
@@ -1019,9 +1019,9 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
             }
 
-            refreshLayout(getList());
+            refreshLayout(getDataList());
 
-            if (getList().getSize() == 0) {
+            if (getDataList().getSize() == 0) {
                 loadNewMsg();
             }
         }

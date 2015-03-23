@@ -62,7 +62,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
     public String getToken() {
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessTokenHack();
         }
         return token;
     }
@@ -98,7 +98,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         mUserInfoToolbar = (Toolbar) findViewById(R.id.userInfoToolBar);
         
         initLayout();
-        token = getIntent().getStringExtra(Constants.TOKEN);
+        token =  GlobalContext.getInstance().getAccessTokenHack();
         bean = getIntent().getParcelableExtra("user");
         if (bean == null) {
             String id = getIntent().getStringExtra("id");
@@ -246,60 +246,52 @@ public class UserInfoActivity extends AbstractAppActivity {
         			@Override
         			public boolean onMenuItemClick(MenuItem item) {
         		        Intent intent;
-        		        switch (item.getItemId()) {
-        		            case android.R.id.home:
-        		                intent = MainTimeLineActivity.newIntent();
-        		                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        		                startActivity(intent);
-        		                return true;
-        		            case R.id.menu_edit:
-        		                intent = new Intent(UserInfoActivity.this, EditMyProfileActivity.class);
-        		                intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
-        		                startActivity(intent);
-        		                return true;
-        		            case R.id.menu_at:
-        		                intent = new Intent(UserInfoActivity.this, WriteWeiboWithAppSrcActivity.class);
-        		                intent.putExtra(Constants.TOKEN, getToken());
-        		                intent.putExtra("content", "@" + bean.getScreen_name());
-        		                intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());
-        		                startActivity(intent);
-        		                break;
-        		            case R.id.menu_modify_remark:
-        		                UpdateRemarkDialog dialog = new UpdateRemarkDialog();
-        		                dialog.show(getFragmentManager(), "");
-        		                break;
-        		            case R.id.menu_follow:
-        		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-        		                    followOrUnfollowTask = new FollowTask();
-        		                    followOrUnfollowTask.execute();
-        		                }
-        		                break;
-        		            case R.id.menu_unfollow:
-        		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-        		                    followOrUnfollowTask = new UnFollowTask();
-        		                    followOrUnfollowTask.execute();
-        		                }
-        		                break;
-        		            case R.id.menu_remove_fan:
-        		                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-        		                    followOrUnfollowTask = new RemoveFanTask();
-        		                    followOrUnfollowTask.execute();
-        		                }
-        		                break;
-        		            case R.id.menu_add_to_app_filter:
-        		                if (!TextUtils.isEmpty(bean.getScreen_name())) {
-        		                    FilterDBTask.addFilterKeyword(FilterDBTask.TYPE_USER, bean.getScreen_name());
-        		                    Toast.makeText(UserInfoActivity.this, getString(R.string.filter_successfully), Toast.LENGTH_SHORT).show();
-        		                }
-        		                break;
-        		            case R.id.menu_manage_group:
-        		                manageGroup();
-        		                break;
-        		            case R.id.menu_refresh_my_profile:
-        		                userInfoFragment.refreshMyProFile();
-        		                return true;
-        		                
-        		        }
+        		        int itemId = item.getItemId();
+						if (itemId == android.R.id.home) {
+							intent = MainTimeLineActivity.newIntent();
+							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+							startActivity(intent);
+							return true;
+						} else if (itemId == R.id.menu_edit) {
+							intent = new Intent(UserInfoActivity.this, EditMyProfileActivity.class);
+							intent.putExtra(Constants.USERBEAN, GlobalContext.getInstance().getAccountBean().getInfo());
+							startActivity(intent);
+							return true;
+						} else if (itemId == R.id.menu_at) {
+							intent = new Intent(UserInfoActivity.this, WriteWeiboWithAppSrcActivity.class);
+							intent.putExtra(Constants.TOKEN, getToken());
+							intent.putExtra("content", "@" + bean.getScreen_name());
+							intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());
+							startActivity(intent);
+						} else if (itemId == R.id.menu_modify_remark) {
+							UpdateRemarkDialog dialog = new UpdateRemarkDialog();
+							dialog.show(getFragmentManager(), "");
+						} else if (itemId == R.id.menu_follow) {
+							if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+							    followOrUnfollowTask = new FollowTask();
+							    followOrUnfollowTask.execute();
+							}
+						} else if (itemId == R.id.menu_unfollow) {
+							if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+							    followOrUnfollowTask = new UnFollowTask();
+							    followOrUnfollowTask.execute();
+							}
+						} else if (itemId == R.id.menu_remove_fan) {
+							if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+							    followOrUnfollowTask = new RemoveFanTask();
+							    followOrUnfollowTask.execute();
+							}
+						} else if (itemId == R.id.menu_add_to_app_filter) {
+							if (!TextUtils.isEmpty(bean.getScreen_name())) {
+							    FilterDBTask.addFilterKeyword(FilterDBTask.TYPE_USER, bean.getScreen_name());
+							    Toast.makeText(UserInfoActivity.this, getString(R.string.filter_successfully), Toast.LENGTH_SHORT).show();
+							}
+						} else if (itemId == R.id.menu_manage_group) {
+							manageGroup();
+						} else if (itemId == R.id.menu_refresh_my_profile) {
+							userInfoFragment.refreshMyProFile();
+							return true;
+						}
         		        return false;
         		    }
         		});
@@ -384,7 +376,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(getToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -428,7 +420,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(getToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -563,7 +555,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
         @Override
         protected UserBean loadData() throws WeiboException {
-            ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getSpecialToken());
+            ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessTokenHack());
             boolean haveId = !TextUtils.isEmpty(bean.getId());
             boolean haveName = !TextUtils.isEmpty(bean.getScreen_name());
             boolean haveDomain = !TextUtils.isEmpty(bean.getDomain());

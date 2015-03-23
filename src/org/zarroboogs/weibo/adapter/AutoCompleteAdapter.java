@@ -157,7 +157,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<AtUserBean> implements Fil
                 return filterResults;
             }
 
-            AtUserDao dao = new AtUserDao(GlobalContext.getInstance().getSpecialToken(), q);
+            AtUserDao dao = new AtUserDao(GlobalContext.getInstance().getAccessToken(), q);
             // SearchDao dao = new
             // SearchDao(GlobalContext.getInstance().getSpecialToken(), q);
             activity.runOnUiThread(new Runnable() {

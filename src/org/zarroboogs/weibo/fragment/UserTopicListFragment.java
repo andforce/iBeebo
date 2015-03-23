@@ -124,14 +124,12 @@ public class UserTopicListFragment extends ListFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_add_topic:
-                FollowTopicDialog dialog = new FollowTopicDialog();
-                dialog.setTargetFragment(this, 1);
-                dialog.show(getFragmentManager(), "");
-                break;
-
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_add_topic) {
+			FollowTopicDialog dialog = new FollowTopicDialog();
+			dialog.setTargetFragment(this, 1);
+			dialog.show(getFragmentManager(), "");
+		}
         return super.onOptionsItemSelected(item);
     }
 
@@ -140,7 +138,7 @@ public class UserTopicListFragment extends ListFragment {
 
         @Override
         protected List<String> doInBackground(Void... params) {
-            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getSpecialToken(), userBean.getId());
+            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getAccessToken(), userBean.getId());
             try {
                 return dao.getGSONMsgList();
             } catch (WeiboException e) {
@@ -183,7 +181,7 @@ public class UserTopicListFragment extends ListFragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return new TopicDao(GlobalContext.getInstance().getSpecialToken()).follow(keyWord);
+                return new TopicDao(GlobalContext.getInstance().getAccessToken()).follow(keyWord);
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);

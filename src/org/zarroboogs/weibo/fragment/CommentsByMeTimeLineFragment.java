@@ -51,7 +51,7 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     private TimeLinePosition timeLinePosition;
 
     @Override
-    public CommentListBean getList() {
+    public CommentListBean getDataList() {
         return bean;
     }
 
@@ -66,8 +66,8 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     }
 
     protected void clearAndReplaceValue(CommentListBean value) {
-        getList().getItemList().clear();
-        getList().getItemList().addAll(value.getItemList());
+        getDataList().getItemList().clear();
+        getDataList().getItemList().addAll(value.getItemList());
     }
 
     @Override
@@ -126,7 +126,7 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
                 if (savedBean != null && savedBean.getSize() > 0) {
                     clearAndReplaceValue(savedBean);
                     timeLineAdapter.notifyDataSetChanged();
-                    refreshLayout(getList());
+                    refreshLayout(getDataList());
                     setListViewPositionFromPositionsCache();
                 } else {
                     getLoaderManager().initLoader(DB_CACHE_LOADER_ID, null, dbCallback);
@@ -145,7 +145,7 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     private AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position - 1 < getList().getSize() && position - 1 >= 0) {
+            if (position - 1 < getDataList().getSize() && position - 1 >= 0) {
                 if (actionMode != null) {
                     actionMode.finish();
                     actionMode = null;
@@ -153,7 +153,7 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
                     timeLineAdapter.notifyDataSetChanged();
                     actionMode = getActivity().startActionMode(
                             new CommentSingleChoiceModeListener(getListView(), timeLineAdapter,
-                                    CommentsByMeTimeLineFragment.this, getList().getItemList().get(
+                                    CommentsByMeTimeLineFragment.this, getDataList().getItemList().get(
                                             position - 1)));
                     return true;
                 } else {
@@ -161,7 +161,7 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
                     timeLineAdapter.notifyDataSetChanged();
                     actionMode = getActivity().startActionMode(
                             new CommentSingleChoiceModeListener(getListView(), timeLineAdapter,
-                                    CommentsByMeTimeLineFragment.this, getList().getItemList().get(
+                                    CommentsByMeTimeLineFragment.this, getDataList().getItemList().get(
                                             position - 1)));
                     return true;
                 }
@@ -183,9 +183,9 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     public void removeItem(int position) {
         clearActionMode();
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-        	Log.d("commentsByME: removeItem", "toaken:" + GlobalContext.getInstance().getSpecialToken() + "  ID: "+ getList().getItemList().get(position)
+        	Log.d("commentsByME: removeItem", "toaken:" + GlobalContext.getInstance().getAccessToken() + "  ID: "+ getDataList().getItemList().get(position)
                     .getId() + "   pos:"  +position);
-            removeTask = new RemoveTask(GlobalContext.getInstance().getSpecialToken(), getList().getItemList().get(position)
+            removeTask = new RemoveTask(GlobalContext.getInstance().getAccessToken(), getDataList().getItemList().get(position)
                     .getId(), position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -256,31 +256,31 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
 
     @Override
     protected void buildListAdapter() {
-        timeLineAdapter = new CommentListAdapter(this, getList().getItemList(), getListView(), true, false);
+        timeLineAdapter = new CommentListAdapter(this, getDataList().getItemList(), getListView(), true, false);
         mPullToRefreshListView.setAdapter(timeLineAdapter);
     }
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
-        CommentFloatingMenuDialog menu = new CommentFloatingMenuDialog(getList().getItem(position));
+        CommentFloatingMenuDialog menu = new CommentFloatingMenuDialog(getDataList().getItem(position));
         menu.show(getFragmentManager(), "");
     }
 
     @Override
     protected void newMsgLoaderSuccessCallback(CommentListBean newValue, Bundle loaderArgs) {
         if (newValue != null && newValue.getItemList() != null && newValue.getItemList().size() > 0) {
-            getList().addNewData(newValue);
+            getDataList().addNewData(newValue);
             getAdapter().notifyDataSetChanged();
             getListView().setSelectionAfterHeaderView();
-            CommentByMeTimeLineDBTask.asyncReplace(getList(), accountBean.getUid());
+            CommentByMeTimeLineDBTask.asyncReplace(getDataList(), accountBean.getUid());
         }
     }
 
     @Override
     protected void oldMsgLoaderSuccessCallback(CommentListBean newValue) {
         if (newValue != null && newValue.getItemList().size() > 1) {
-            getList().addOldData(newValue);
+            getDataList().addOldData(newValue);
             getAdapter().notifyDataSetChanged();
-            CommentByMeTimeLineDBTask.asyncReplace(getList(), accountBean.getUid());
+            CommentByMeTimeLineDBTask.asyncReplace(getDataList(), accountBean.getUid());
         }
     }
 
@@ -291,7 +291,7 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
             int size = newValue.getSize();
 
             if (getActivity() != null && newValue.getSize() > 0) {
-                getList().addMiddleData(position, newValue, towardsBottom);
+                getDataList().addMiddleData(position, newValue, towardsBottom);
 
                 if (towardsBottom) {
                     getAdapter().notifyDataSetChanged();
@@ -325,12 +325,12 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
             getAdapter().notifyDataSetChanged();
             setListViewPositionFromPositionsCache();
 
-            refreshLayout(getList());
+            refreshLayout(getDataList());
             /**
              * when this account first open app,if he don't have any data in database,fetch data
              * from server automally
              */
-            if (getList().getSize() == 0) {
+            if (getDataList().getSize() == 0) {
                 getPullToRefreshListView().setRefreshing();
                 loadNewMsg();
             }
@@ -349,8 +349,8 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
         String accountId = accountBean.getUid();
         String token = accountBean.getAccess_token();
         String sinceId = null;
-        if (getList().getItemList().size() > 0) {
-            sinceId = getList().getItemList().get(0).getId();
+        if (getDataList().getItemList().size() > 0) {
+            sinceId = getDataList().getItemList().get(0).getId();
         }
         return new CommentsByMeMsgLoader(getActivity(), accountId, token, sinceId, null);
     }
@@ -367,8 +367,8 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
         String accountId = accountBean.getUid();
         String token = accountBean.getAccess_token();
         String maxId = null;
-        if (getList().getItemList().size() > 0) {
-            maxId = getList().getItemList().get(getList().getItemList().size() - 1).getId();
+        if (getDataList().getItemList().size() > 0) {
+            maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
         }
         return new CommentsByMeMsgLoader(getActivity(), accountId, token, null, maxId);
     }

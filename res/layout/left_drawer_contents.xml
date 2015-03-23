@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/btn_home"
@@ -59,13 +59,13 @@
 
     <LinearLayout
         android:id="@+id/btn_comment"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:addStatesFromChildren="true"
         android:background="@drawable/btn_drawer_menu"
         android:clickable="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <Button
             android:id="@+id/commentButton"
@@ -123,6 +123,36 @@
         android:drawableLeft="@drawable/ic_menu_location"
         android:text="@string/nearby"
         android:visibility="gone"
+        tools:ignore="RtlHardcoded" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnHotWeibo"
+        style="@style/drawerMenuButton"
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:drawableLeft="@drawable/hot_weibo_gray"
+        android:text="@string/left_drawer_hotweibo"
+        tools:ignore="RtlHardcoded" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnHotHuaTi"
+        style="@style/drawerMenuButton"
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:drawableLeft="@drawable/hot_huati_gray"
+        android:text="@string/left_drawer_hothuati"
+        tools:ignore="RtlHardcoded" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnHotModel"
+        style="@style/drawerMenuButton"
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:drawableLeft="@drawable/hot_model_gray"
+        android:text="车模热图"
         tools:ignore="RtlHardcoded" />
 
 </LinearLayout>

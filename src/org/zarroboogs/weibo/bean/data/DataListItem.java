@@ -3,9 +3,6 @@ package org.zarroboogs.weibo.bean.data;
 
 import java.util.List;
 
-/**
- * User: qii Date: 12-8-27
- */
 public abstract class DataListItem<T extends DataItem, K> {
 
     protected int total_number = 0;

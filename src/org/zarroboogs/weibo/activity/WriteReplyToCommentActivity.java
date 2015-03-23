@@ -19,13 +19,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-/**
- * User: qii Date: 12-8-28
- */
 public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBean> {
 
     public static final String ACTION_DRAFT = "org.zarroboogs.weibo.DRAFT";
@@ -38,27 +37,10 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
 
     private ReplyDraftBean replyDraftBean;
 
-    private MenuItem enableRepost;
+    private CheckBox enableRepost;
 
     private boolean savedEnableRepost;
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(Constants.BEAN, bean);
-        outState.putParcelable("replyDraftBean", replyDraftBean);
-        outState.putBoolean("repost", enableRepost.isChecked());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null) {
-            savedEnableRepost = savedInstanceState.getBoolean("repost", false);
-            bean = (CommentBean) savedInstanceState.getParcelable(Constants.BEAN);
-            replyDraftBean = (ReplyDraftBean) savedInstanceState.getParcelable("replyDraftBean");
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,13 +65,36 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
             }
         }
 
-        getToolbar().inflateMenu(R.menu.actionbar_menu_commentnewactivity);
-
-        getToolbar().getMenu().findItem(R.id.menu_enable_ori_comment).setVisible(false);
-        getToolbar().getMenu().findItem(R.id.menu_enable_repost).setVisible(true);
-        enableRepost = getToolbar().getMenu().findItem(R.id.menu_enable_repost);
+//        getToolbar().inflateMenu(R.menu.actionbar_menu_commentnewactivity);
+//
+//        getToolbar().getMenu().findItem(R.id.menu_enable_ori_comment).setVisible(false);
+//        getToolbar().getMenu().findItem(R.id.menu_enable_repost).setVisible(true);
+        enableRepost = (CheckBox) findViewById(R.id.repostCheckBox);//getToolbar().getMenu().findItem(R.id.menu_enable_repost);
         enableRepost.setChecked(savedEnableRepost);
+        
+        mRepostRoot.setVisibility(View.VISIBLE);
+        mCommentRoot.setVisibility(View.GONE);
+        
+        getToolbar().setTitle(R.string.reply);
 
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Constants.BEAN, bean);
+        outState.putParcelable("replyDraftBean", replyDraftBean);
+        outState.putBoolean("repost", enableRepost.isChecked());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            savedEnableRepost = savedInstanceState.getBoolean("repost", false);
+            bean = (CommentBean) savedInstanceState.getParcelable(Constants.BEAN);
+            replyDraftBean = (ReplyDraftBean) savedInstanceState.getParcelable("replyDraftBean");
+        }
     }
 
     // @Override
@@ -165,7 +170,7 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
 
         token = intent.getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
         }
 
         bean = (CommentBean) intent.getParcelableExtra("msg");
@@ -175,7 +180,7 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
     private void handleDraftOperation(Intent intent) {
         token = intent.getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
         }
 
         replyDraftBean = (ReplyDraftBean) intent.getParcelableExtra("draft");
@@ -224,30 +229,26 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm.isActive()) {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-                finish();
-                break;
-            case R.id.menu_enable_repost:
-                if (enableRepost.isChecked()) {
-                    enableRepost.setChecked(false);
-                } else {
-                    enableRepost.setChecked(true);
-                }
-                break;
-            case R.id.menu_at:
-                Intent intent = new Intent(WriteReplyToCommentActivity.this, AtUserActivity.class);
-                intent.putExtra(Constants.TOKEN, token);
-                startActivityForResult(intent, AT_USER);
-                break;
-            case R.id.menu_clear:
-                clearContentMenu();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (imm.isActive()) {
+			    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+			finish();
+		} else if (itemId == R.id.menu_enable_repost) {
+			if (enableRepost.isChecked()) {
+			    enableRepost.setChecked(false);
+			} else {
+			    enableRepost.setChecked(true);
+			}
+		} else if (itemId == R.id.menu_at) {
+			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			intent.putExtra(Constants.TOKEN, token);
+			startActivityForResult(intent, AT_USER);
+		} else if (itemId == R.id.menu_clear) {
+			clearContentMenu();
+		}
         return true;
     }
 

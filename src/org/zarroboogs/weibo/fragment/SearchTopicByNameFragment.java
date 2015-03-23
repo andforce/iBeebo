@@ -44,7 +44,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
     private UnFollowTopicTask unFollowTopicTask;
 
     @Override
-    public TopicResultListBean getList() {
+    public TopicResultListBean getDataList() {
         return bean;
     }
 
@@ -86,9 +86,9 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
             case ACTIVITY_DESTROY_AND_CREATE:
                 q = savedInstanceState.getString("q");
                 page = savedInstanceState.getInt("page");
-                getList().addNewData((TopicResultListBean) savedInstanceState.getParcelable(Constants.BEAN));
+                getDataList().addNewData((TopicResultListBean) savedInstanceState.getParcelable(Constants.BEAN));
                 getAdapter().notifyDataSetChanged();
-                refreshLayout(getList());
+                refreshLayout(getDataList());
                 break;
         }
     }
@@ -96,7 +96,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
     @Override
     protected void newMsgLoaderSuccessCallback(TopicResultListBean newValue, Bundle loaderArgs) {
         if (newValue != null && getActivity() != null && newValue.getSize() > 0) {
-            getList().addNewData(newValue);
+            getDataList().addNewData(newValue);
             getAdapter().notifyDataSetChanged();
             getListView().setSelectionAfterHeaderView();
             buildActionBatSubtitle();
@@ -106,7 +106,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
     @Override
     protected void oldMsgLoaderSuccessCallback(TopicResultListBean newValue) {
         if (newValue != null && newValue.getSize() > 0) {
-            getList().addOldData(newValue);
+            getDataList().addOldData(newValue);
             page++;
             buildActionBatSubtitle();
         }
@@ -120,32 +120,27 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_write:
-                Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
-                intent.putExtra("content", "#" + q + "#");
-                startActivity(intent);
-                break;
-
-            case R.id.menu_refresh:
-                mPullToRefreshListView.setRefreshing();
-                loadNewMsg();
-                break;
-            case R.id.menu_follow_topic:
-                if (Utility.isTaskStopped(followTopicTask)) {
-                    followTopicTask = new FollowTopicTask();
-                    followTopicTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                break;
-            case R.id.menu_unfollow_topic:
-                if (Utility.isTaskStopped(unFollowTopicTask)) {
-                    unFollowTopicTask = new UnFollowTopicTask();
-                    unFollowTopicTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_write) {
+			Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessTokenHack());
+			intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+			intent.putExtra("content", "#" + q + "#");
+			startActivity(intent);
+		} else if (itemId == R.id.menu_refresh) {
+			mPullToRefreshListView.setRefreshing();
+			loadNewMsg();
+		} else if (itemId == R.id.menu_follow_topic) {
+			if (Utility.isTaskStopped(followTopicTask)) {
+			    followTopicTask = new FollowTopicTask();
+			    followTopicTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+		} else if (itemId == R.id.menu_unfollow_topic) {
+			if (Utility.isTaskStopped(unFollowTopicTask)) {
+			    unFollowTopicTask = new UnFollowTopicTask();
+			    unFollowTopicTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+		}
         return super.onOptionsItemSelected(item);
     }
 
@@ -153,7 +148,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
         startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), bean.getItemList()
                 .get(position), GlobalContext
-                .getInstance().getSpecialToken()));
+                .getInstance().getAccessTokenHack()));
     }
 
     private void buildActionBatSubtitle() {
@@ -169,7 +164,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return new TopicDao(GlobalContext.getInstance().getSpecialToken()).follow(q);
+                return new TopicDao(GlobalContext.getInstance().getAccessTokenHack()).follow(q);
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);
@@ -206,7 +201,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return new TopicDao(GlobalContext.getInstance().getSpecialToken()).destroy(q);
+                return new TopicDao(GlobalContext.getInstance().getAccessTokenHack()).destroy(q);
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);
@@ -239,7 +234,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
     @Override
     protected Loader<AsyncTaskLoaderResult<TopicResultListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String word = this.q;
         page = 1;
         return new SearchTopicByNameLoader(getActivity(), token, word, String.valueOf(page));
@@ -247,7 +242,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
     @Override
     protected Loader<AsyncTaskLoaderResult<TopicResultListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String word = this.q;
         return new SearchTopicByNameLoader(getActivity(), token, word, String.valueOf(page + 1));
     }

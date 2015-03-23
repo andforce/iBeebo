@@ -3,6 +3,8 @@ package org.zarroboogs.utils;
 
 public final class Constants {
 
+	public static final boolean isHack = true;
+	
     public static final String ACCOUNT = "account";
 
     public static final String USERBEAN = "userBean";
@@ -11,6 +13,7 @@ public final class Constants {
 
     public static final String TOKEN = "token";
 
+    public static final boolean isBeeboPlus = false;
     public static class Extra {
         public static final String KEY = "LIST_COURSES";
         public static final String COURSE_KEY = "LIST_COURSES";

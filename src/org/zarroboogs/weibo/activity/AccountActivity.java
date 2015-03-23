@@ -5,6 +5,8 @@ import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
+import org.zarroboogs.weibo.db.AccountDatabaseManager;
+import org.zarroboogs.weibo.db.table.AccountTable;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
@@ -16,6 +18,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.app.AlertDialog.Builder;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,10 +34,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -82,8 +89,6 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         } else if (ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN.equals(action)) {
             // empty
         } else {
-            // finish current Activity
-            jumpToMainTimeLineActivity();
         }
 
         super.onCreate(savedInstanceState);
@@ -96,14 +101,11 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {
-                switch (arg0.getItemId()) {
-                    case R.id.menu_add_account: {
-                        showAddAccountDialog();
-                        break;
-                    }
-                    default:
-                        break;
-                }
+                int itemId = arg0.getItemId();
+				if (itemId == R.id.menu_add_account) {
+					showAddAccountDialog(false);
+				} else {
+				}
                 return false;
             }
         });
@@ -123,7 +125,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
         if (ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN.equals(action)) {
 
-            showAddAccountDialog();
+            showAddAccountDialog(false);
 
             AccountBean accountBean = getIntent().getParcelableExtra(REFRESH_ACTION_EXTRA);
 
@@ -157,30 +159,16 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         changeLogDialog.show();
     }
 
-    private void jumpToMainTimeLineActivity() {
-
-        String id = SettingUtils.getDefaultAccountId();
-
-        if (!TextUtils.isEmpty(id)) {
-            AccountBean bean = AccountDBTask.getAccount(id);
-            if (bean != null) {
-                Log.d("getUUUUU", "" + bean.getUname() + bean.getPwd());
-                Intent start = MainTimeLineActivity.newIntent(bean);
-                startActivity(start);
-                finish();
-            }
-        }
-
-    }
-
-    private void showAddAccountDialog() {
+    private void showAddAccountDialog(boolean isHack) {
 
         if (true) {
 
-            Intent intent = new Intent(AccountActivity.this, BlackMagicActivity.class);
+            Intent intent = OAuthActivity.oauthIntent(this, isHack);
             startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
             return;
         }
+        
+        
         final ArrayList<Class> activityList = new ArrayList<Class>();
         ArrayList<String> itemValueList = new ArrayList<String>();
 
@@ -273,17 +261,59 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         }
     }
 
+    
+    private AlertDialog mDoorAlertDialog;
     private class AccountListItemClickListener implements AdapterView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            AccountBean selectAccountBean = accountList.get(i);
+            final AccountBean selectAccountBean = accountList.get(i);
             String cookie = selectAccountBean.getCookie();
-            Log.d("AccountActivity_onItemClick", "" + selectAccountBean.getPwd());
+            
+            if (TextUtils.isEmpty(selectAccountBean.getAccess_token_hack())) {
+				showAddAccountDialog(true);
+				return;
+			}
+            
+            if (TextUtils.isEmpty(selectAccountBean.getPwd())) {
+                Builder builder = new Builder(AccountActivity.this);
+                mDoorAlertDialog = builder.create();
+
+                mDoorAlertDialog.show();
+                mDoorAlertDialog.getWindow().clearFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                mDoorAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+                mDoorAlertDialog.getWindow().setContentView(R.layout.name_pwd_dialog_layout);
+                
+                final EditText username = (EditText) mDoorAlertDialog.findViewById(R.id.tellMeUser);
+                final EditText pwd = (EditText) mDoorAlertDialog.findViewById(R.id.tellMePwd);
+                Button button = (Button) mDoorAlertDialog.findViewById(R.id.upBtn);
+                
+                button.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
+						manager.updateAccount(AccountTable.ACCOUNT_TABLE, selectAccountBean.getUid(),
+								AccountTable.USER_NAME, username.getText().toString().trim());
+						manager.updateAccount(AccountTable.ACCOUNT_TABLE, selectAccountBean.getUid(),
+								AccountTable.USER_PWD, pwd.getText().toString().trim());
+						GlobalContext.getInstance().updateAccountBean();
+						refresh();
+						mDoorAlertDialog.hide();
+					}
+				});
+//            	Intent intent = new Intent(AccountActivity.this, BlackMagicActivity.class);
+//                startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
+                
+            	return;
+			}
 
             if (!Utility.isTokenValid(selectAccountBean)) {
 
-                showAddAccountDialog();
+                showAddAccountDialog(false);
 
                 return;
             }
@@ -321,12 +351,12 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.menu_remove_account:
-                    remove();
-                    mode.finish();
-                    return true;
-            }
+            int itemId = item.getItemId();
+			if (itemId == R.id.menu_remove_account) {
+				remove();
+				mode.finish();
+				return true;
+			}
             return false;
         }
 

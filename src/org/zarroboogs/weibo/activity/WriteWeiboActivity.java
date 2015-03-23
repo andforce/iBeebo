@@ -457,34 +457,31 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_view:
-                        if (Utility.isGooglePlaySafe(WriteWeiboActivity.this)) {
-                            Intent intent = new Intent(WriteWeiboActivity.this, AppMapActivity.class);
-                            intent.putExtra("lat", geoBean.getLat());
-                            intent.putExtra("lon", geoBean.getLon());
-                            intent.putExtra("locationStr", location);
-                            startActivity(intent);
-                        } else {
-                            StringBuilder geoUriString = new StringBuilder().append("geo:" + geoBean.getLat() + ","
-                                    + geoBean.getLon());
-                            if (!TextUtils.isEmpty(location)) {
-                                geoUriString.append("?q=").append(location);
-                            }
-                            Uri geoUri = Uri.parse(geoUriString.toString());
-                            Intent mapCall = new Intent(Intent.ACTION_VIEW, geoUri);
-                            if (Utility.isIntentSafe(WriteWeiboActivity.this, mapCall)) {
-                                startActivity(mapCall);
-                            }
+                int itemId = item.getItemId();
+				if (itemId == R.id.menu_view) {
+					if (Utility.isGooglePlaySafe(WriteWeiboActivity.this)) {
+					    Intent intent = new Intent(WriteWeiboActivity.this, AppMapActivity.class);
+					    intent.putExtra("lat", geoBean.getLat());
+					    intent.putExtra("lon", geoBean.getLon());
+					    intent.putExtra("locationStr", location);
+					    startActivity(intent);
+					} else {
+					    StringBuilder geoUriString = new StringBuilder().append("geo:" + geoBean.getLat() + ","
+					            + geoBean.getLon());
+					    if (!TextUtils.isEmpty(location)) {
+					        geoUriString.append("?q=").append(location);
+					    }
+					    Uri geoUri = Uri.parse(geoUriString.toString());
+					    Intent mapCall = new Intent(Intent.ACTION_VIEW, geoUri);
+					    if (Utility.isIntentSafe(WriteWeiboActivity.this, mapCall)) {
+					        startActivity(mapCall);
+					    }
 
-                        }
-                        break;
-                    case R.id.menu_delete:
-                        haveGPS.setVisibility(View.GONE);
-                        geoBean = null;
-                        break;
-
-                }
+					}
+				} else if (itemId == R.id.menu_delete) {
+					haveGPS.setVisibility(View.GONE);
+					geoBean = null;
+				}
 
                 return true;
             }
@@ -617,46 +614,36 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                saveToDraft();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm.isActive()) {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-                intent = MainTimeLineActivity.newIntent(getAccount());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                break;
-
-            case R.id.menu_topic:
-                String ori = content.getText().toString();
-                String topicTag = "##";
-                content.setText(ori + topicTag);
-                content.setSelection(content.getText().toString().length() - 1);
-                break;
-            case R.id.menu_at:
-                intent = new Intent(WriteWeiboActivity.this, AtUserActivity.class);
-                intent.putExtra(Constants.TOKEN, token);
-                startActivityForResult(intent, AT_USER);
-                break;
-            case R.id.menu_txt_to_pic:
-                convertStringToBitmap();
-                break;
-            case R.id.menu_clear:
-                clearContentMenu();
-                break;
-            case R.id.menu_add_gps:
-                addLocation();
-                break;
-            case R.id.menu_add_now_playing:
-                MusicInfoBean musicInfo = GlobalContext.getInstance().getMusicInfo();
-                if (!musicInfo.isEmpty()) {
-                    content.append(musicInfo.toString());
-                }
-                break;
-
-        }
+        int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			saveToDraft();
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (imm.isActive()) {
+			    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+			intent = MainTimeLineActivity.newIntent(getAccount());
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+		} else if (itemId == R.id.menu_topic) {
+			String ori = content.getText().toString();
+			String topicTag = "##";
+			content.setText(ori + topicTag);
+			content.setSelection(content.getText().toString().length() - 1);
+		} else if (itemId == R.id.menu_at) {
+			Intent intent2 = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			startActivityForResult(intent2, AT_USER);
+		} else if (itemId == R.id.menu_txt_to_pic) {
+			convertStringToBitmap();
+		} else if (itemId == R.id.menu_clear) {
+			clearContentMenu();
+		} else if (itemId == R.id.menu_add_gps) {
+			addLocation();
+		} else if (itemId == R.id.menu_add_now_playing) {
+			MusicInfoBean musicInfo = GlobalContext.getInstance().getMusicInfo();
+			if (!musicInfo.isEmpty()) {
+			    content.append(musicInfo.toString());
+			}
+		}
         return true;
     }
 
@@ -758,37 +745,27 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.menu_add_gps:
-                    addLocation();
-                    break;
-                case R.id.menu_add_pic:
-                    if (TextUtils.isEmpty(picPath)) {
-                        addPic();
-                    } else {
-                        showPic();
-                    }
-                    break;
-
-                case R.id.menu_emoticon:
-                    if (smiley.isShown()) {
-                        hideSmileyPicker(true);
-                    } else {
-                        showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(WriteWeiboActivity.this));
-                    }
-                    break;
-
-                case R.id.menu_send:
-                    send();
-
-                    break;
-                case R.id.menu_at:
-                    Intent intent = new Intent(WriteWeiboActivity.this, AtUserActivity.class);
-                    intent.putExtra(Constants.TOKEN, token);
-                    startActivityForResult(intent, AT_USER);
-                    break;
-
-            }
+            int id = v.getId();
+			if (id == R.id.menu_add_gps) {
+				addLocation();
+			} else if (id == R.id.menu_add_pic) {
+				if (TextUtils.isEmpty(picPath)) {
+				    addPic();
+				} else {
+				    showPic();
+				}
+			} else if (id == R.id.menu_emoticon) {
+				if (smiley.isShown()) {
+				    hideSmileyPicker(true);
+				} else {
+				    showSmileyPicker(SmileyPickerUtility.isKeyBoardShow(WriteWeiboActivity.this));
+				}
+			} else if (id == R.id.menu_send) {
+				send();
+			} else if (id == R.id.menu_at) {
+				Intent intent = AtUserActivity.atUserIntent(WriteWeiboActivity.this, GlobalContext.getInstance().getAccessTokenHack());
+				startActivityForResult(intent, AT_USER);
+			}
         }
     }
 

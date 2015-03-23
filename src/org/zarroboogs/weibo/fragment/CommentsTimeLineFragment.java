@@ -208,7 +208,7 @@ public class CommentsTimeLineFragment extends BaseStateFragment implements MainT
         if (fragment == null) {
             fragment = new CommentsToMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
                     .getInstance().getAccountBean().getInfo(),
-                    GlobalContext.getInstance().getSpecialToken());
+                    GlobalContext.getInstance().getAccessToken());
         }
 
         return fragment;
@@ -220,7 +220,7 @@ public class CommentsTimeLineFragment extends BaseStateFragment implements MainT
         if (fragment == null) {
             fragment = new CommentsByMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
                     .getInstance().getAccountBean().getInfo(),
-                    GlobalContext.getInstance().getSpecialToken());
+                    GlobalContext.getInstance().getAccessToken());
         }
 
         return fragment;

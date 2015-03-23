@@ -81,41 +81,37 @@ public class MyFanSingleChoiceModeListener implements ActionMode.Callback {
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.menu_at:
-                Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
-                intent.putExtra("content", "@" + bean.getScreen_name());
-                intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
-                getActivity().startActivity(intent);
-                listView.clearChoices();
-                mode.finish();
-                break;
-            case R.id.menu_follow:
-                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-                    followOrUnfollowTask = new FollowTask();
-                    followOrUnfollowTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                listView.clearChoices();
-                mode.finish();
-                break;
-            case R.id.menu_unfollow:
-                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-                    followOrUnfollowTask = new UnFollowTask();
-                    followOrUnfollowTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                listView.clearChoices();
-                mode.finish();
-                break;
-            case R.id.menu_remove_fan:
-                if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-                    followOrUnfollowTask = new RemoveFanTask();
-                    followOrUnfollowTask.execute();
-                }
-                listView.clearChoices();
-                mode.finish();
-                break;
-        }
+        int itemId = item.getItemId();
+		if (itemId == R.id.menu_at) {
+			Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			intent.putExtra("content", "@" + bean.getScreen_name());
+			intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
+			getActivity().startActivity(intent);
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_follow) {
+			if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+			    followOrUnfollowTask = new FollowTask();
+			    followOrUnfollowTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_unfollow) {
+			if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+			    followOrUnfollowTask = new UnFollowTask();
+			    followOrUnfollowTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+			}
+			listView.clearChoices();
+			mode.finish();
+		} else if (itemId == R.id.menu_remove_fan) {
+			if (followOrUnfollowTask == null || followOrUnfollowTask.getStatus() == MyAsyncTask.Status.FINISHED) {
+			    followOrUnfollowTask = new RemoveFanTask();
+			    followOrUnfollowTask.execute();
+			}
+			listView.clearChoices();
+			mode.finish();
+		}
 
         return true;
     }
@@ -131,7 +127,7 @@ public class MyFanSingleChoiceModeListener implements ActionMode.Callback {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getSpecialToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -174,7 +170,7 @@ public class MyFanSingleChoiceModeListener implements ActionMode.Callback {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getSpecialToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -219,7 +215,7 @@ public class MyFanSingleChoiceModeListener implements ActionMode.Callback {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FanDao dao = new FanDao(GlobalContext.getInstance().getSpecialToken(), bean.getId());
+            FanDao dao = new FanDao(GlobalContext.getInstance().getAccessToken(), bean.getId());
 
             try {
                 return dao.removeFan();
