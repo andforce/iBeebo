@@ -5,10 +5,22 @@ public class BeeboAuthUtils {
 	static {
 		System.loadLibrary("BeeboAuthUtils");
 	}
-	public native String getAppKey();
 
-	public native String getAppSecret();
+	public static native String getAppKey();
 
-	public native String getRedirectUrl();
+	public static native String getAppSecret();
 
+	public static native String getRedirectUrl();
+	
+	
+	public static native String getHackAppKey();
+
+	public static native String getHackAppSecret();
+
+	public static native String getHackRedirectUrl();
+	
+	public static native String getHackPackageName();
+
+	public static native String getHackKeyHash();
+	
 }
