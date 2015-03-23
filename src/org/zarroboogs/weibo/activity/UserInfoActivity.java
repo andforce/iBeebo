@@ -62,7 +62,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
     public String getToken() {
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getAccessToken();
+            token = GlobalContext.getInstance().getAccessTokenHack();
         }
         return token;
     }
@@ -98,7 +98,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         mUserInfoToolbar = (Toolbar) findViewById(R.id.userInfoToolBar);
         
         initLayout();
-        token = getIntent().getStringExtra(Constants.TOKEN);
+        token =  GlobalContext.getInstance().getAccessTokenHack();
         bean = getIntent().getParcelableExtra("user");
         if (bean == null) {
             String id = getIntent().getStringExtra("id");
@@ -376,7 +376,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(getToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -420,7 +420,7 @@ public class UserInfoActivity extends AbstractAppActivity {
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(getToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -555,7 +555,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
         @Override
         protected UserBean loadData() throws WeiboException {
-            ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessToken());
+            ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessTokenHack());
             boolean haveId = !TextUtils.isEmpty(bean.getId());
             boolean haveName = !TextUtils.isEmpty(bean.getScreen_name());
             boolean haveDomain = !TextUtils.isEmpty(bean.getDomain());
