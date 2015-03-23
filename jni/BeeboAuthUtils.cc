@@ -22,7 +22,7 @@ JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getAppKe
  */
 JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getAppSecret(
 		JNIEnv * env, jclass clss) {
-	jstring str = env->NewStringUTF("160b420662fce58e0065fadd7c114e09");
+	jstring str = env->NewStringUTF("cff0cb6f08361500eac0082a522ea613");
 	return str;
 }
 

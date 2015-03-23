@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -43,7 +44,7 @@ public class OAuthActivity extends AbstractAppActivity {
 
     private ProgressBar mprogressbar;
     
-    private boolean isHack = false;
+    private boolean isAuthPro = false;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,22 +91,23 @@ public class OAuthActivity extends AbstractAppActivity {
 
         Map<String, String> parameters = new HashMap<String, String>();
         
-        if (isHack) {
-            parameters.put("client_id", WeiboOAuthConstances.APP_KEY);
-            parameters.put("redirect_uri", WeiboOAuthConstances.SINA_REDIRECT_URL);
-            parameters.put("response_type", "code");
-            parameters.put("scope", WeiboOAuthConstances.SINA_SCOPE);
-            parameters.put("version", "0030105000");
-            parameters.put("packagename", WeiboOAuthConstances.PACKAGE_NAME);
-            parameters.put("key_hash", WeiboOAuthConstances.KEY_HASH);
-		}else {
+        if (isAuthPro) {
             parameters.put("client_id", WeiboOAuthConstances.HACK_APP_KEY);
-            parameters.put("redirect_uri", WeiboOAuthConstances.HACK_SINA_REDIRECT_URL);
+            parameters.put("redirect_uri", WeiboOAuthConstances.HACK_DIRECT_URL);
             parameters.put("response_type", "code");
             parameters.put("scope", WeiboOAuthConstances.HACK_SINA_SCOPE);
             parameters.put("version", "0030105000");
             parameters.put("packagename", WeiboOAuthConstances.HACK_PACKAGE_NAME);
             parameters.put("key_hash", WeiboOAuthConstances.HACK_KEY_HASH);
+		}else {
+			parameters.put("client_id", WeiboOAuthConstances.APP_KEY);
+            parameters.put("redirect_uri", WeiboOAuthConstances.DIRECT_URL);
+            parameters.put("response_type", "code");
+            parameters.put("scope", WeiboOAuthConstances.SINA_SCOPE);
+            parameters.put("version", "0030105000");
+            parameters.put("packagename", WeiboOAuthConstances.PACKAGE_NAME);
+            parameters.put("key_hash", WeiboOAuthConstances.KEY_HASH);
+
 		}
         
         return WeiboOAuthConstances.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters);
@@ -122,6 +124,7 @@ public class OAuthActivity extends AbstractAppActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
         	mprogressbar.setVisibility(View.VISIBLE);
+        	Log.d("onPageStarted", "" + url);
             if (url.startsWith(WeiboOAuthConstances.DIRECT_URL)) {
 
                 handleRedirectUrl(view, url);
@@ -342,26 +345,5 @@ public class OAuthActivity extends AbstractAppActivity {
 
     public static enum DBResult {
         add_successfuly, update_successfully
-    }
-    
-    public static final String APP_KEY = "4122644977";
-    public static final String DIRECT_URL = "http://study.163.com";
-    public static final String SINA_SCOPE = "statuses_to_me_read";
-    public static final String PACKAGE_NAME = "com.netease.edu.study";
-    public static final String KEY_HASH = "18da2bf10352443a00a5e046d9fca6bd";
-    public static final String APP_SECRET = "90bb794d3b1439dbd57cf76f5ff69022";
-    public static final String a = String.format("https://open.weibo.cn/2/oauth2/authorize?display=mobile&response_type=code&redirect_uri=%s&client_id=%s", new Object[] { "http://study.163.com", "4122644977" });
-
-    public String netEase(String client_id, String client_secret, String redirect_uri , String code){
-    	// NEED Post
-    	//https://api.weibo.com/oauth2/access_token?client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=authorization_code&redirect_uri=YOUR_REGISTERED_REDIRECT_URI&code=CODE
-    	String url = "https://api.weibo.com/oauth2/access_token?"
-    			+ "client_id=" + client_id
-    			+ "&client_secret=" + client_secret
-    			+ "&grant_type=authorization_code"
-    			+ "&redirect_uri=" + redirect_uri
-    			+ "&code=" + code;
-    	return url;
-    	
     }
 }
