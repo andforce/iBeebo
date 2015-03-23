@@ -149,7 +149,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
         token = getIntent().getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
         }
 
         msg = (MessageBean) getIntent().getParcelableExtra("msg");
@@ -160,7 +160,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
         token = getIntent().getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
         }
 
         commentDraftBean = (CommentDraftBean) getIntent().getParcelableExtra("draft");
@@ -329,7 +329,7 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
         intent.putExtra("oriMsg", msg);
         intent.putExtra("content", content);
         intent.putExtra("is_comment", is_comment);
-        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
         intent.putExtra("accountId", GlobalContext.getInstance().getCurrentAccountId());
         startService(intent);
         finish();

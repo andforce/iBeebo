@@ -234,13 +234,13 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
     }
 
     protected Loader<AsyncTaskLoaderResult<DMUserListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String cursor = String.valueOf(0);
         return new DMUserLoader(getActivity(), token, cursor);
     }
 
     protected Loader<AsyncTaskLoaderResult<DMUserListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String cursor = null;
         if (getDataList().getSize() > 0 && Integer.valueOf(getDataList().getNext_cursor()) == 0) {
             return null;

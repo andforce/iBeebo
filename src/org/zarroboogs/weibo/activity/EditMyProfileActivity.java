@@ -318,7 +318,7 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
 
         @Override
         protected UserBean doInBackground(Void... params) {
-            EditMyProfileDao dao = new EditMyProfileDao(GlobalContext.getInstance().getSpecialToken(), screenName);
+            EditMyProfileDao dao = new EditMyProfileDao(GlobalContext.getInstance().getAccessToken(), screenName);
             dao.setUrl(url);
             dao.setDescription(description);
             dao.setAvatar(picPath);
@@ -403,7 +403,7 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
         protected UserBean doInBackground(Object... params) {
             UserBean user = null;
             try {
-                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getSpecialToken());
+                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessToken());
                 dao.setUid(GlobalContext.getInstance().getAccountBean().getUid());
                 user = dao.getUserInfo();
             } catch (WeiboException e) {

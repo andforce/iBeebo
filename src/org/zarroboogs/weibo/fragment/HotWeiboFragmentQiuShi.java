@@ -97,7 +97,7 @@ public class HotWeiboFragmentQiuShi extends BaseHotWeiboFragment {
 					int position, long id) {
 				
 				Intent intent = BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), 
-						(MessageBean)adapter.getItem(position - 1), GlobalContext.getInstance().getSpecialToken());
+						(MessageBean)adapter.getItem(position - 1), GlobalContext.getInstance().getAccessToken());
 				startActivity(intent);
 			}
 		});

@@ -170,7 +170,7 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
 
         token = intent.getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
         }
 
         bean = (CommentBean) intent.getParcelableExtra("msg");
@@ -180,7 +180,7 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
     private void handleDraftOperation(Intent intent) {
         token = intent.getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
         }
 
         replyDraftBean = (ReplyDraftBean) intent.getParcelableExtra("draft");

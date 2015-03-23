@@ -16,9 +16,6 @@ import org.zarroboogs.weibo.setting.SettingUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-11-14
- */
 public class DMDao {
 
     private String access_token;

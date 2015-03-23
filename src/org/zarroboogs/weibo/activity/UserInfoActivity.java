@@ -62,7 +62,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
     public String getToken() {
         if (TextUtils.isEmpty(token)) {
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
         }
         return token;
     }
@@ -555,7 +555,7 @@ public class UserInfoActivity extends AbstractAppActivity {
 
         @Override
         protected UserBean loadData() throws WeiboException {
-            ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getSpecialToken());
+            ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessToken());
             boolean haveId = !TextUtils.isEmpty(bean.getId());
             boolean haveName = !TextUtils.isEmpty(bean.getScreen_name());
             boolean haveDomain = !TextUtils.isEmpty(bean.getDomain());

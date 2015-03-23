@@ -10,9 +10,6 @@ import org.zarroboogs.weibo.dao.DMDao;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * User: qii Date: 13-5-15
- */
 public class DMUserLoader extends AbstractAsyncNetRequestTaskLoader<DMUserListBean> {
 
     private static Lock lock = new ReentrantLock();

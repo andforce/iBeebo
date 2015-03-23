@@ -235,7 +235,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         weiboCountLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getSpecialToken(), userBean);
+                Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getAccessToken(), userBean);
                 startActivity(intent);
             }
         });
@@ -243,7 +243,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         friendsCountLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = FriendListActivity.newIntent(GlobalContext.getInstance().getSpecialToken(), userBean);
+                Intent intent = FriendListActivity.newIntent(GlobalContext.getInstance().getAccessToken(), userBean);
                 startActivity(intent);
             }
         });
@@ -251,7 +251,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         fansCountLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = FanListActivity.newIntent(GlobalContext.getInstance().getSpecialToken(), userBean);
+                Intent intent = FanListActivity.newIntent(GlobalContext.getInstance().getAccessToken(), userBean);
                 startActivity(intent);
             }
         });
@@ -615,7 +615,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
         startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getDataList()
                 .getItem(position), GlobalContext
-                .getInstance().getSpecialToken()), 0);
+                .getInstance().getAccessToken()), 0);
 
     }
 
@@ -690,7 +690,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
     @Override
     protected void loadOldMsg(View view) {
-        Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getSpecialToken(), userBean);
+        Intent intent = UserTimeLineActivity.newIntent(GlobalContext.getInstance().getAccessToken(), userBean);
         startActivity(intent);
     }
 
@@ -849,7 +849,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
         @Override
         protected ArrayList<String> doInBackground(Void... params) {
-            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getSpecialToken(), userBean.getId());
+            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getAccessToken(), userBean.getId());
             try {
                 return dao.getGSONMsgList();
             } catch (WeiboException e) {
@@ -909,7 +909,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         @Override
         protected UserBean doInBackground(Object... params) {
             if (!isCancelled()) {
-                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getSpecialToken());
+                ShowUserDao dao = new ShowUserDao(GlobalContext.getInstance().getAccessToken());
                 boolean haveId = !TextUtils.isEmpty(userBean.getId());
                 boolean haveName = !TextUtils.isEmpty(userBean.getScreen_name());
                 if (haveId) {

@@ -313,7 +313,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         startActivityForResult(
                 BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                         bean.getItemList().get(position), GlobalContext
-                                .getInstance().getSpecialToken()),
+                                .getInstance().getAccessToken()),
                 MainTimeLineActivity.REQUEST_CODE_UPDATE_MENTIONS_WEIBO_TIMELINE_COMMENT_REPOST_COUNT);
 
     }
@@ -477,7 +477,7 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
         @Override
         protected List<MessageReCmtCountBean> doInBackground(Void... params) {
             try {
-                return new TimeLineReCmtCountDao(GlobalContext.getInstance().getSpecialToken(), msgIds).get();
+                return new TimeLineReCmtCountDao(GlobalContext.getInstance().getAccessToken(), msgIds).get();
             } catch (WeiboException e) {
                 cancel(true);
             }

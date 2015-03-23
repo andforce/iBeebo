@@ -95,7 +95,7 @@ public class HotWeiboFragmentPet extends BaseHotWeiboFragment {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				Intent intent = BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), (MessageBean) adapter.getItem(position - 1),
-						GlobalContext.getInstance().getSpecialToken());
+						GlobalContext.getInstance().getAccessToken());
 				startActivity(intent);
 			}
 		});

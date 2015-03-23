@@ -228,7 +228,7 @@ public class AtMeTimeLineFragment extends BaseStateFragment implements MainTimeL
                         MentionsCommentTimeLineFragment.class.getName()));
         if (fragment == null) {
             fragment = new MentionsCommentTimeLineFragment(GlobalContext.getInstance().getAccountBean(),
-                    GlobalContext.getInstance().getAccountBean().getInfo(), GlobalContext.getInstance().getSpecialToken());
+                    GlobalContext.getInstance().getAccountBean().getInfo(), GlobalContext.getInstance().getAccessToken());
         }
 
         return fragment;
@@ -241,7 +241,7 @@ public class AtMeTimeLineFragment extends BaseStateFragment implements MainTimeL
         if (fragment == null) {
             fragment = new MentionsWeiboTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
                     .getInstance().getAccountBean().getInfo(),
-                    GlobalContext.getInstance().getSpecialToken());
+                    GlobalContext.getInstance().getAccessToken());
         }
 
         return fragment;
@@ -253,7 +253,7 @@ public class AtMeTimeLineFragment extends BaseStateFragment implements MainTimeL
         if (fragment == null) {
             fragment = new CommentsToMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
                     .getInstance().getAccountBean().getInfo(),
-                    GlobalContext.getInstance().getSpecialToken());
+                    GlobalContext.getInstance().getAccessToken());
         }
 
         return fragment;
@@ -265,7 +265,7 @@ public class AtMeTimeLineFragment extends BaseStateFragment implements MainTimeL
         if (fragment == null) {
             fragment = new CommentsByMeTimeLineFragment(GlobalContext.getInstance().getAccountBean(), GlobalContext
                     .getInstance().getAccountBean().getInfo(),
-                    GlobalContext.getInstance().getSpecialToken());
+                    GlobalContext.getInstance().getAccessToken());
         }
         return fragment;
     }

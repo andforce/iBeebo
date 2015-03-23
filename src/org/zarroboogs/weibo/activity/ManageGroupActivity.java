@@ -147,17 +147,17 @@ public class ManageGroupActivity extends AbstractAppActivity {
         }
 
         public void addGroup(String groupName) {
-            new CreateGroupTask(GlobalContext.getInstance().getSpecialToken(), groupName)
+            new CreateGroupTask(GlobalContext.getInstance().getAccessToken(), groupName)
                     .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
 
         public void modifyGroupName(String idstr, String groupName) {
-            new ModifyGroupNameTask(GlobalContext.getInstance().getSpecialToken(), idstr, groupName)
+            new ModifyGroupNameTask(GlobalContext.getInstance().getAccessToken(), idstr, groupName)
                     .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
 
         public void removeGroup(List<String> groupNames) {
-            new RemoveGroupTask(GlobalContext.getInstance().getSpecialToken(), groupNames)
+            new RemoveGroupTask(GlobalContext.getInstance().getAccessToken(), groupNames)
                     .executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
 

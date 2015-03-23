@@ -170,7 +170,7 @@ public class ManageGroupDialog extends DialogFragment {
 
         @Override
         protected List<String> doInBackground(Void... params) {
-            GroupListDao dao = new GroupListDao(GlobalContext.getInstance().getSpecialToken(), uid);
+            GroupListDao dao = new GroupListDao(GlobalContext.getInstance().getAccessToken(), uid);
             try {
                 return dao.getInfo();
             } catch (WeiboException e) {
@@ -215,7 +215,7 @@ public class ManageGroupDialog extends DialogFragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            ModifyGroupMemberDao dao = new ModifyGroupMemberDao(GlobalContext.getInstance().getSpecialToken(), uid);
+            ModifyGroupMemberDao dao = new ModifyGroupMemberDao(GlobalContext.getInstance().getAccessToken(), uid);
             for (String id : add) {
                 try {
                     dao.add(id);

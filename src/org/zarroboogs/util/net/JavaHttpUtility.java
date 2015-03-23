@@ -44,9 +44,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-/**
- * User: qii Date: 12-12-19
- */
 public class JavaHttpUtility {
 
     private static final int CONNECT_TIMEOUT = 10 * 1000;

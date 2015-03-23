@@ -331,7 +331,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            SendDMDao dao = new SendDMDao(GlobalContext.getInstance().getSpecialToken(), userBean.getId(), et.getText()
+            SendDMDao dao = new SendDMDao(GlobalContext.getInstance().getAccessTokenHack(), userBean.getId(), et.getText()
                     .toString());
             try {
                 return dao.send();
@@ -397,14 +397,14 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     @Override
     protected Loader<AsyncTaskLoaderResult<DMListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         page = 1;
         return new DMConversationLoader(getActivity(), token, userBean.getId(), String.valueOf(page));
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<DMListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         return new DMConversationLoader(getActivity(), token, userBean.getId(), String.valueOf(page + 1));
     }
 

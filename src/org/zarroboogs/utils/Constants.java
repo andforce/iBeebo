@@ -3,6 +3,8 @@ package org.zarroboogs.utils;
 
 public final class Constants {
 
+	public static final boolean isHack = true;
+	
     public static final String ACCOUNT = "account";
 
     public static final String USERBEAN = "userBean";

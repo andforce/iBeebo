@@ -368,7 +368,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
         @Override
         protected MessageBean loadData() throws WeiboException {
-            return new ShowStatusDao(GlobalContext.getInstance().getSpecialToken(), msgId).getMsg();
+            return new ShowStatusDao(GlobalContext.getInstance().getAccessToken(), msgId).getMsg();
 
         }
     }

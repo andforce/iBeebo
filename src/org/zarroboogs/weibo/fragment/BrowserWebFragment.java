@@ -376,7 +376,7 @@ public class BrowserWebFragment extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                return new Mid2IdDao(GlobalContext.getInstance().getSpecialToken(), mid).getId();
+                return new Mid2IdDao(GlobalContext.getInstance().getAccessToken(), mid).getId();
             } catch (WeiboException e) {
                 return "0";
             }
@@ -403,7 +403,7 @@ public class BrowserWebFragment extends Fragment {
             if (Long.valueOf(id) > 0L) {
                 webFragment.startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                         id, GlobalContext.getInstance()
-                                .getSpecialToken()));
+                                .getAccessToken()));
                 activity.finish();
             } else {
                 Toast.makeText(GlobalContext.getInstance(), R.string.cant_not_convert_to_weibo_id, Toast.LENGTH_SHORT)

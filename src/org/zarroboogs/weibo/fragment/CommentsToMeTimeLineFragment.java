@@ -251,10 +251,10 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     public void removeItem(int position) {
         clearActionMode();
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-            removeTask = new RemoveTask(GlobalContext.getInstance().getSpecialToken(), getDataList().getItemList().get(position)
+            removeTask = new RemoveTask(GlobalContext.getInstance().getAccessToken(), getDataList().getItemList().get(position)
                     .getId(), position);
             
-            Log.d("commentsToooME: removeItem", "toaken:" + GlobalContext.getInstance().getSpecialToken() + "  ID: "+ getDataList().getItemList().get(position)
+            Log.d("commentsToooME: removeItem", "toaken:" + GlobalContext.getInstance().getAccessToken() + "  ID: "+ getDataList().getItemList().get(position)
                     .getId() + "   pos:"  +position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }

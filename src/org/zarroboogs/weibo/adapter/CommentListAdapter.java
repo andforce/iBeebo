@@ -151,7 +151,7 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
                 Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                 intent.putExtra("msg", comment);
                 getActivity().startActivity(intent);
 			}
@@ -199,7 +199,7 @@ public class CommentListAdapter extends AbstractAppListAdapter<CommentBean> {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                             intent.putExtra("msg", comment);
                             getActivity().startActivity(intent);
                         }

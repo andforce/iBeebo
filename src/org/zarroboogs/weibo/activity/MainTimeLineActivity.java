@@ -536,7 +536,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                 UserInfoFragment.class.getName()));
         if (fragment == null) {
             fragment = UserInfoFragment.newInstance(mToolbar, GlobalContext.getInstance().getAccountBean().getInfo(), GlobalContext
-                    .getInstance().getSpecialToken());
+                    .getInstance().getAccessToken());
         }
         return fragment;
     }

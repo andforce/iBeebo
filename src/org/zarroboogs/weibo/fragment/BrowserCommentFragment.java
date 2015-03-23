@@ -94,7 +94,7 @@ public class BrowserCommentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                 intent.putExtra("user", msg.getUser());
                 startActivity(intent);
             }
@@ -159,7 +159,7 @@ public class BrowserCommentFragment extends Fragment {
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_comment) {
 			intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
 			intent.putExtra("msg", msg);
 			getActivity().startActivity(intent);
 		} else if (itemId == R.id.menu_share) {

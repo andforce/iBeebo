@@ -103,7 +103,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
             public boolean onMenuItemClick(MenuItem arg0) {
                 int itemId = arg0.getItemId();
 				if (itemId == R.id.menu_add_account) {
-					showAddAccountDialog();
+					showAddAccountDialog(false);
 				} else {
 				}
                 return false;
@@ -125,7 +125,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
         if (ACTION_OPEN_FROM_APP_INNER_REFRESH_TOKEN.equals(action)) {
 
-            showAddAccountDialog();
+            showAddAccountDialog(false);
 
             AccountBean accountBean = getIntent().getParcelableExtra(REFRESH_ACTION_EXTRA);
 
@@ -159,14 +159,16 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         changeLogDialog.show();
     }
 
-    private void showAddAccountDialog() {
+    private void showAddAccountDialog(boolean isHack) {
 
         if (true) {
 
-            Intent intent = new Intent(AccountActivity.this, OAuthActivity.class);
+            Intent intent = OAuthActivity.oauthIntent(this, isHack);
             startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
             return;
         }
+        
+        
         final ArrayList<Class> activityList = new ArrayList<Class>();
         ArrayList<String> itemValueList = new ArrayList<String>();
 
@@ -267,7 +269,11 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             final AccountBean selectAccountBean = accountList.get(i);
             String cookie = selectAccountBean.getCookie();
-            Log.d("AccountActivity_onItemClick", "" + selectAccountBean.getPwd());
+            
+            if (TextUtils.isEmpty(selectAccountBean.getAccess_token_hack())) {
+				showAddAccountDialog(true);
+				return;
+			}
             
             if (TextUtils.isEmpty(selectAccountBean.getPwd())) {
                 Builder builder = new Builder(AccountActivity.this);
@@ -307,7 +313,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
             if (!Utility.isTokenValid(selectAccountBean)) {
 
-                showAddAccountDialog();
+                showAddAccountDialog(false);
 
                 return;
             }

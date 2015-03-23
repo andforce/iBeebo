@@ -133,7 +133,7 @@ public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
 
         token = intent.getStringExtra(Constants.TOKEN);
         if (TextUtils.isEmpty(token))
-            token = GlobalContext.getInstance().getSpecialToken();
+            token = GlobalContext.getInstance().getAccessToken();
 
         msg = (MessageBean) intent.getParcelableExtra("msg");
 
@@ -328,7 +328,7 @@ public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
             intent.putExtra("oriMsg", msg);
             intent.putExtra("content", getEditTextView().getText().toString());
             intent.putExtra("is_comment", is_comment);
-            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+            intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
             intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
             startService(intent);
             finish();

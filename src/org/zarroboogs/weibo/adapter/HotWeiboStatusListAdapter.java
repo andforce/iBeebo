@@ -134,7 +134,7 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                 intent.putExtra("msg", msg);
                 getActivity().startActivity(intent);
             }
@@ -144,7 +144,7 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WriteCommentActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                 intent.putExtra("msg", msg);
                 getActivity().startActivity(intent);
             }
@@ -160,7 +160,7 @@ public class HotWeiboStatusListAdapter extends AbstractAppListAdapter<MessageBea
 					protected Boolean doInBackground(Void... params) {
 						// TODO Auto-generated method stub
 				        Map<String, String> map = new HashMap<String, String>();
-				        map.put("access_token", GlobalContext.getInstance().getSpecialToken());
+				        map.put("access_token", GlobalContext.getInstance().getAccessToken());
 				        map.put("id", msg.getId());
 				        map.put("attitude", "heart");
 						try {

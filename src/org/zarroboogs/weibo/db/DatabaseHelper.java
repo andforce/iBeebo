@@ -25,16 +25,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * User: qii Date: 12-7-30
- */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static DatabaseHelper singleton = null;
 
     private static final String DATABASE_NAME = "weibo.db";
 
-    private static final int DATABASE_VERSION = 37;
+    private static final int DATABASE_VERSION = 38;
 
     static final String CREATE_ACCOUNT_TABLE_SQL = "create table " + AccountTable.ACCOUNT_TABLE + "(" +
             AccountTable.UID + " integer primary key autoincrement,"
@@ -43,6 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             AccountTable.COOKIE + " text," +
             AccountTable.OAUTH_TOKEN + " text," +
             AccountTable.OAUTH_TOKEN_EXPIRES_TIME + " text," +
+            AccountTable.ACCESS_TOKEN_HACK + " text," +
+            AccountTable.ACCESS_TOKEN_HACK_EXPIRES_TIME + " text," +
             AccountTable.OAUTH_TOKEN_SECRET + " text," +
             AccountTable.BLACK_MAGIC + " boolean," +
             AccountTable.NAVIGATION_POSITION + " integer,"
@@ -245,6 +244,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             deleteAllTable(db);
             onCreate(db);
         }
+        
+        if (oldVersion <= 37) {
+        	deleteAllTable(db);
+            onCreate(db);
+		}
 
     }
 

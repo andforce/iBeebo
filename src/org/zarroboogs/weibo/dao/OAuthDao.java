@@ -16,9 +16,6 @@ import org.zarroboogs.weibo.bean.UserBean;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: Jiang Qi Date: 12-7-30
- */
 public class OAuthDao {
 
     private String access_token;

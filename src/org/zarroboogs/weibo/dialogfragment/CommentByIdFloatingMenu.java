@@ -57,14 +57,14 @@ public class CommentByIdFloatingMenu extends DialogFragment {
                 switch (which) {
                     case 0:
                         intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                         intent.putExtra("msg", bean);
                         getActivity().startActivity(intent);
                         break;
                     case 1:
                         intent = new Intent(getActivity(), BrowserCommentActivity.class);
                         intent.putExtra("comment", bean);
-                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                        intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                         getActivity().startActivity(intent);
                         break;
                 }

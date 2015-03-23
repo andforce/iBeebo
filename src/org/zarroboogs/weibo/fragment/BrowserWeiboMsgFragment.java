@@ -402,7 +402,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                 intent.putExtra("user", msg.getUser());
                 startActivity(intent);
             }
@@ -634,7 +634,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             return;
         }
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-            removeTask = new RemoveTask(GlobalContext.getInstance().getSpecialToken(), commentList.getItemList()
+            removeTask = new RemoveTask(GlobalContext.getInstance().getAccessToken(), commentList.getItemList()
                     .get(position).getId(), position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -681,7 +681,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             if (isNotLink && !isDeleted) {
                 startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                         msg.getRetweeted_status(), GlobalContext
-                                .getInstance().getSpecialToken()));
+                                .getInstance().getAccessToken()));
             } else if (isNotLink && isDeleted) {
                 Toast.makeText(getActivity(), getString(R.string.cant_open_deleted_weibo), Toast.LENGTH_SHORT).show();
             }
@@ -783,7 +783,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
                     && position >= listView.getHeaderViewsCount()) {
                 startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                         repostList.getItemList().get(position - listView.getHeaderViewsCount()), GlobalContext.getInstance()
-                                .getSpecialToken()));
+                                .getAccessToken()));
             } else {
                 loadOldRepostData();
             }
@@ -994,7 +994,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
         @Override
         public Loader<AsyncTaskLoaderResult<CommentListBean>> onCreateLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getSpecialToken();
+            String token = GlobalContext.getInstance().getAccessToken();
 
             switch (id) {
                 case NEW_COMMENT_LOADER_ID:
@@ -1076,7 +1076,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
         @Override
         public Loader<AsyncTaskLoaderResult<RepostListBean>> onCreateLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getSpecialToken();
+            String token = GlobalContext.getInstance().getAccessToken();
 
             switch (id) {
                 case NEW_REPOST_LOADER_ID:

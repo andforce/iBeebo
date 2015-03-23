@@ -325,7 +325,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
                 if (Utility.isTaskStopped(mDBCacheTask) && getDataList().getSize() == 0) {
                     mDBCacheTask = new DBCacheTask(this, mAccountBean.getUid());
                     mDBCacheTask.executeOnIO();
-                    GroupInfoTask groupInfoTask = new GroupInfoTask(GlobalContext.getInstance().getSpecialToken(),
+                    GroupInfoTask groupInfoTask = new GroupInfoTask(GlobalContext.getInstance().getAccessToken(),
                             GlobalContext.getInstance()
                                     .getCurrentAccountId());
                     groupInfoTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
@@ -356,7 +356,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
                 if (Utility.isTaskStopped(mDBCacheTask) && getDataList().getSize() == 0) {
                     mDBCacheTask = new DBCacheTask(this, mAccountBean.getUid());
                     mDBCacheTask.executeOnIO();
-                    GroupInfoTask groupInfoTask = new GroupInfoTask(GlobalContext.getInstance().getSpecialToken(),
+                    GroupInfoTask groupInfoTask = new GroupInfoTask(GlobalContext.getInstance().getAccessToken(),
                             GlobalContext.getInstance()
                                     .getCurrentAccountId());
                     groupInfoTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
@@ -598,7 +598,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
     protected void onTimeListViewItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent mIntent = BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                 getDataList().getItem(position), GlobalContext
-                        .getInstance().getSpecialToken());
+                        .getInstance().getAccessToken());
         mIntent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
         startActivityForResult(mIntent, MainTimeLineActivity.REQUEST_CODE_UPDATE_FRIENDS_TIMELINE_COMMENT_REPOST_COUNT);
 
@@ -998,7 +998,7 @@ public class FriendsTimeLineFragment extends AbsTimeLineFragment<MessageListBean
             }
 
             try {
-                return new TimeLineReCmtCountDao(GlobalContext.getInstance().getSpecialToken(), msgIds).get();
+                return new TimeLineReCmtCountDao(GlobalContext.getInstance().getAccessToken(), msgIds).get();
             } catch (WeiboException e) {
                 cancel(true);
             }

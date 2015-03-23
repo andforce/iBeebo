@@ -8,9 +8,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-/**
- * User: Jiang Qi Date: 12-7-30
- */
 public class AccountBean implements Parcelable {
 
     private String access_token;
@@ -20,6 +17,8 @@ public class AccountBean implements Parcelable {
     // uname // email tel
     private String uname;
     private String pwd;
+    private String access_token_hack;
+    private long expires_time_hack;
     // cookie
     private String cookie;
     private UserBean info;
@@ -31,8 +30,24 @@ public class AccountBean implements Parcelable {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
+    
+    public long getExpires_time_hack() {
+		return expires_time_hack;
+	}
 
-    public String getUname() {
+	public void setExpires_time_hack(long expires_time_hack) {
+		this.expires_time_hack = expires_time_hack;
+	}
+
+	public String getAccess_token_hack() {
+		return access_token_hack;
+	}
+
+	public void setAccess_token_hack(String access_token_hack) {
+		this.access_token_hack = access_token_hack;
+	}
+
+	public String getUname() {
         return uname;
     }
 
@@ -123,6 +138,8 @@ public class AccountBean implements Parcelable {
         dest.writeString(uname);
         dest.writeString(pwd);
         dest.writeString(cookie);
+        dest.writeString(access_token_hack);
+        dest.writeLong(expires_time_hack);
         // end
         dest.writeBooleanArray(new boolean[] {
                 this.black_magic
@@ -141,7 +158,8 @@ public class AccountBean implements Parcelable {
             accountBean.uname = in.readString();
             accountBean.pwd = in.readString();
             accountBean.cookie = in.readString();
-
+            accountBean.access_token_hack = in.readString();
+            accountBean.expires_time_hack = in.readLong();
             //
             boolean[] booleans = new boolean[1];
             in.readBooleanArray(booleans);

@@ -125,13 +125,13 @@ public class CommentSingleChoiceModeListener implements ActionMode.Callback {
 		if (itemId == R.id.menu_view) {
 			intent = new Intent(getActivity(), BrowserCommentActivity.class);
 			intent.putExtra("comment", bean);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
 			getActivity().startActivity(intent);
 			listView.clearChoices();
 			mode.finish();
 		} else if (itemId == R.id.menu_comment) {
 			intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
 			intent.putExtra("msg", bean);
 			getActivity().startActivity(intent);
 			listView.clearChoices();

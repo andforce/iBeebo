@@ -270,7 +270,7 @@ public class NearbyTimeLineActivity extends AbstractAppActivity {
         protected NearbyStatusListBean doInBackground(Void... params) {
 
             try {
-                return new NearbyTimeLineDao(GlobalContext.getInstance().getSpecialToken(), lat, lon).get();
+                return new NearbyTimeLineDao(GlobalContext.getInstance().getAccessToken(), lat, lon).get();
             } catch (WeiboException e) {
                 e.printStackTrace();
             }

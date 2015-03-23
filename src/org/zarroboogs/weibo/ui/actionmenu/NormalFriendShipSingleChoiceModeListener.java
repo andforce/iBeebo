@@ -88,7 +88,7 @@ public class NormalFriendShipSingleChoiceModeListener implements ActionMode.Call
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_at) {
 			Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
 			intent.putExtra("content", "@" + bean.getScreen_name());
 			intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
 			getActivity().startActivity(intent);
@@ -133,7 +133,7 @@ public class NormalFriendShipSingleChoiceModeListener implements ActionMode.Call
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getSpecialToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {
@@ -176,7 +176,7 @@ public class NormalFriendShipSingleChoiceModeListener implements ActionMode.Call
         @Override
         protected UserBean doInBackground(Void... params) {
 
-            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getSpecialToken());
+            FriendshipsDao dao = new FriendshipsDao(GlobalContext.getInstance().getAccessToken());
             if (!TextUtils.isEmpty(bean.getId())) {
                 dao.setUid(bean.getId());
             } else {

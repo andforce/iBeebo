@@ -209,9 +209,17 @@ public final class GlobalContext extends Application {
         return appBitmapCache;
     }
 
-    public String getSpecialToken() {
+    public String getAccessToken() {
         if (getAccountBean() != null) {
             return getAccountBean().getAccess_token();
+        } else {
+            return "";
+        }
+    }
+    
+    public String getAccessTokenHack() {
+        if (getAccountBean() != null) {
+            return getAccountBean().getAccess_token_hack();
         } else {
             return "";
         }

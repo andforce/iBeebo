@@ -118,7 +118,7 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
                 }
                 Intent intent = new Intent(getActivity(), clzz);
                 intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, GlobalContext.getInstance().getAccountBean());
-                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+                intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
                 intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
                 startActivity(intent);
             }

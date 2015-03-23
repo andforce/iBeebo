@@ -1,9 +1,6 @@
 
 package org.zarroboogs.weibo.db.table;
 
-/**
- * User: Jiang Qi Date: 12-7-30
- */
 public class AccountTable {
 
     public static final String ACCOUNT_TABLE = "account_table";
@@ -13,6 +10,11 @@ public class AccountTable {
     public static final String USER_NAME = "uname";
 
     public static final String USER_PWD = "pwd";
+    
+    // andforce add
+    public static final String ACCESS_TOKEN_HACK = "access_token_hack";
+    
+    public static final String ACCESS_TOKEN_HACK_EXPIRES_TIME = "expires_time_hack";
 
     public static final String COOKIE = "cookie";
 

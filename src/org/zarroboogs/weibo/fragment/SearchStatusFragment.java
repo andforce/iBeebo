@@ -70,12 +70,12 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
         startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                 bean.getItem(position), GlobalContext.getInstance()
-                        .getSpecialToken()));
+                        .getAccessToken()));
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<SearchStatusListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessToken();
         String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
         page = 1;
         return new SearchStatusLoader(getActivity(), token, word, String.valueOf(page));
@@ -83,7 +83,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
 
     @Override
     protected Loader<AsyncTaskLoaderResult<SearchStatusListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessToken();
         String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
         return new SearchStatusLoader(getActivity(), token, word, String.valueOf(page + 1));
     }

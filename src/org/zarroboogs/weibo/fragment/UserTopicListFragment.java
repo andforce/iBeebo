@@ -138,7 +138,7 @@ public class UserTopicListFragment extends ListFragment {
 
         @Override
         protected List<String> doInBackground(Void... params) {
-            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getSpecialToken(), userBean.getId());
+            UserTopicListDao dao = new UserTopicListDao(GlobalContext.getInstance().getAccessToken(), userBean.getId());
             try {
                 return dao.getGSONMsgList();
             } catch (WeiboException e) {
@@ -181,7 +181,7 @@ public class UserTopicListFragment extends ListFragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return new TopicDao(GlobalContext.getInstance().getSpecialToken()).follow(keyWord);
+                return new TopicDao(GlobalContext.getInstance().getAccessToken()).follow(keyWord);
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);

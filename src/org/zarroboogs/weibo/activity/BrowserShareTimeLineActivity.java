@@ -135,7 +135,7 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
             startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getDataList()
                     .getItemList().get(position),
-                    GlobalContext.getInstance().getSpecialToken()), 0);
+                    GlobalContext.getInstance().getAccessToken()), 0);
         }
 
         @Override
@@ -172,7 +172,7 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         }
 
         protected Loader<AsyncTaskLoaderResult<ShareListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getSpecialToken();
+            String token = GlobalContext.getInstance().getAccessToken();
             String sinceId = null;
             if (getDataList().getItemList().size() > 0) {
                 sinceId = getDataList().getItemList().get(0).getId();
@@ -181,7 +181,7 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         }
 
         protected Loader<AsyncTaskLoaderResult<ShareListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-            String token = GlobalContext.getInstance().getSpecialToken();
+            String token = GlobalContext.getInstance().getAccessToken();
             String maxId = null;
             if (getDataList().getItemList().size() > 0) {
                 maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();

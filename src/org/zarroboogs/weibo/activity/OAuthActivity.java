@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.activity;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.WeiboOAuthConstances;
+import org.zarroboogs.weibo.GlobalContext;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
@@ -15,6 +16,7 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -46,10 +48,21 @@ public class OAuthActivity extends AbstractAppActivity {
     
     private boolean isAuthPro = false;
     
+    
+    
+    public static Intent oauthIntent(Activity activity,boolean isHack) {
+		Intent intent = new Intent(activity, OAuthActivity.class);
+		intent.putExtra("isHack", isHack);
+		return intent;
+	}
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.oauthactivity_layout);
+        this.isAuthPro = getIntent().getBooleanExtra("isHack", false);
+        
+        
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WeiboWebViewClient());
 
@@ -124,13 +137,23 @@ public class OAuthActivity extends AbstractAppActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
         	mprogressbar.setVisibility(View.VISIBLE);
-        	Log.d("onPageStarted", "" + url);
-            if (url.startsWith(WeiboOAuthConstances.DIRECT_URL)) {
 
-                handleRedirectUrl(view, url);
-                view.stopLoading();
-                return;
-            }
+        	if (isAuthPro) {
+                if (url.startsWith(WeiboOAuthConstances.HACK_DIRECT_URL)) {
+
+                    handleRedirectUrl(view, url);
+                    view.stopLoading();
+                    return;
+                }
+			}else {
+	            if (url.startsWith(WeiboOAuthConstances.DIRECT_URL)) {
+
+	                handleRedirectUrl(view, url);
+	                view.stopLoading();
+	                return;
+	            }
+			}
+
             super.onPageStarted(view, url, favicon);
 
         }
@@ -165,7 +188,7 @@ public class OAuthActivity extends AbstractAppActivity {
             String access_token = values.getString("access_token");
             String expires_time = values.getString("expires_in");
             setResult(RESULT_OK, intent);
-            new OAuthTask(this).execute(access_token, expires_time);
+            new OAuthTask(this, isAuthPro).execute(access_token, expires_time);
         } else {
             Toast.makeText(OAuthActivity.this, getString(R.string.you_cancel_login), Toast.LENGTH_SHORT).show();
             finish();
@@ -191,8 +214,9 @@ public class OAuthActivity extends AbstractAppActivity {
         private ProgressFragment progressFragment = ProgressFragment.newInstance();
 
         private WeakReference<OAuthActivity> oAuthActivityWeakReference;
-
-        private OAuthTask(OAuthActivity activity) {
+        private boolean isAuthPro;
+        private OAuthTask(OAuthActivity activity, boolean isAuthPro) {
+        	this.isAuthPro = isAuthPro;
             oAuthActivityWeakReference = new WeakReference<OAuthActivity>(activity);
         }
 
@@ -214,13 +238,19 @@ public class OAuthActivity extends AbstractAppActivity {
             long expiresInSeconds = Long.valueOf(params[1]);
 
             try {
-                UserBean user = new OAuthDao(token).getOAuthUserInfo();
-                AccountBean account = new AccountBean();
-                account.setAccess_token(token);
-                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
-                account.setInfo(user);
-                AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
-                return AccountDBTask.addOrUpdateAccount(account, false);
+            	if (isAuthPro) {
+                    AccountBean account = GlobalContext.getInstance().getAccountBean();
+                    return AccountDBTask.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
+				}else {
+	                UserBean user = new OAuthDao(token).getOAuthUserInfo();
+	                AccountBean account = new AccountBean();
+	                account.setAccess_token(token);
+	                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
+	                account.setInfo(user);
+	                AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
+	                return AccountDBTask.addOrUpdateAccount(account, false);
+				}
+
             } catch (WeiboException e) {
                 AppLoggerUtils.e(e.getError());
                 this.e = e;

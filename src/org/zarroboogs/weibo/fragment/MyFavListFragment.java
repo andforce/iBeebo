@@ -123,7 +123,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
         startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                 bean.getItem(position), GlobalContext
-                        .getInstance().getSpecialToken()),
+                        .getInstance().getAccessToken()),
                 MainTimeLineActivity.REQUEST_CODE_UPDATE_MY_FAV_TIMELINE_COMMENT_REPOST_COUNT);
 
     }
@@ -216,14 +216,14 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
 
     @Override
     protected Loader<AsyncTaskLoaderResult<FavListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessToken();
         page = 1;
         return new MyFavMsgLoader(getActivity(), token, String.valueOf(page));
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<FavListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getSpecialToken();
+        String token = GlobalContext.getInstance().getAccessToken();
         return new MyFavMsgLoader(getActivity(), token, String.valueOf(page + 1));
     }
 
@@ -321,7 +321,7 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
         @Override
         protected List<MessageReCmtCountBean> doInBackground(Void... params) {
             try {
-                return new TimeLineReCmtCountDao(GlobalContext.getInstance().getSpecialToken(), msgIds).get();
+                return new TimeLineReCmtCountDao(GlobalContext.getInstance().getAccessToken(), msgIds).get();
             } catch (WeiboException e) {
                 cancel(true);
             }

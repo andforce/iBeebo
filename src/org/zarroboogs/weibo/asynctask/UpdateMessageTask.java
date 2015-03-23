@@ -48,7 +48,7 @@ public class UpdateMessageTask extends MyAsyncTask<Void, Void, MessageBean> {
     @Override
     protected MessageBean doInBackground(Void... params) {
         try {
-            return new ShowStatusDao(GlobalContext.getInstance().getSpecialToken(), msg.getId()).getMsg();
+            return new ShowStatusDao(GlobalContext.getInstance().getAccessToken(), msg.getId()).getMsg();
         } catch (WeiboException e) {
             this.e = e;
             cancel(true);

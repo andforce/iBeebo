@@ -183,9 +183,9 @@ public class CommentsByMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
     public void removeItem(int position) {
         clearActionMode();
         if (removeTask == null || removeTask.getStatus() == MyAsyncTask.Status.FINISHED) {
-        	Log.d("commentsByME: removeItem", "toaken:" + GlobalContext.getInstance().getSpecialToken() + "  ID: "+ getDataList().getItemList().get(position)
+        	Log.d("commentsByME: removeItem", "toaken:" + GlobalContext.getInstance().getAccessToken() + "  ID: "+ getDataList().getItemList().get(position)
                     .getId() + "   pos:"  +position);
-            removeTask = new RemoveTask(GlobalContext.getInstance().getSpecialToken(), getDataList().getItemList().get(position)
+            removeTask = new RemoveTask(GlobalContext.getInstance().getAccessToken(), getDataList().getItemList().get(position)
                     .getId(), position);
             removeTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
         }

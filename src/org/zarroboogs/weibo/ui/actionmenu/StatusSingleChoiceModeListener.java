@@ -135,7 +135,7 @@ public class StatusSingleChoiceModeListener implements ActionMode.Callback {
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_repost) {
 			intent = new Intent(getActivity(), RepostWeiboWithAppSrcActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
 			intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
 			intent.putExtra("id", String.valueOf(ids[0]));
 			intent.putExtra("msg", bean);
@@ -144,7 +144,7 @@ public class StatusSingleChoiceModeListener implements ActionMode.Callback {
 			mode.finish();
 		} else if (itemId == R.id.menu_comment) {
 			intent = new Intent(getActivity(), WriteCommentActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getSpecialToken());
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
 			intent.putExtra("id", String.valueOf(ids[0]));
 			intent.putExtra("msg", bean);
 			getActivity().startActivity(intent);
@@ -152,14 +152,14 @@ public class StatusSingleChoiceModeListener implements ActionMode.Callback {
 			mode.finish();
 		} else if (itemId == R.id.menu_fav) {
 			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-			    favTask = new FavAsyncTask(GlobalContext.getInstance().getSpecialToken(), bean.getId());
+			    favTask = new FavAsyncTask(GlobalContext.getInstance().getAccessToken(), bean.getId());
 			    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
 			}
 			listView.clearChoices();
 			mode.finish();
 		} else if (itemId == R.id.menu_unfav) {
 			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-			    unFavTask = new UnFavAsyncTask(GlobalContext.getInstance().getSpecialToken(), bean.getId());
+			    unFavTask = new UnFavAsyncTask(GlobalContext.getInstance().getAccessToken(), bean.getId());
 			    unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
 			}
 			listView.clearChoices();

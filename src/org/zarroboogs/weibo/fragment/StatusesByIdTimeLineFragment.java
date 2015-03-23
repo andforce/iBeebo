@@ -140,7 +140,7 @@ public class StatusesByIdTimeLineFragment extends AbsTimeLineFragment<MessageLis
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
         startActivityForResult(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), getDataList()
                 .getItem(position), GlobalContext
-                .getInstance().getSpecialToken()), 0);
+                .getInstance().getAccessToken()), 0);
     }
 
     @Override
