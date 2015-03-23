@@ -12,6 +12,7 @@ import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.dao.OAuthDao;
 import org.zarroboogs.weibo.db.task.AccountDBTask;
 import org.zarroboogs.weibo.support.utils.Utility;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -25,8 +26,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
@@ -48,7 +51,7 @@ public class OAuthActivity extends AbstractAppActivity {
     
     private boolean isAuthPro = false;
     
-    
+    private Toolbar mToolbar;
     
     public static Intent oauthIntent(Activity activity,boolean isHack) {
 		Intent intent = new Intent(activity, OAuthActivity.class);
@@ -62,6 +65,25 @@ public class OAuthActivity extends AbstractAppActivity {
         setContentView(R.layout.oauthactivity_layout);
         this.isAuthPro = getIntent().getBooleanExtra("isHack", false);
         
+        mToolbar = ViewUtility.findViewById(this, R.id.oauthToolbar);
+        
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        mToolbar.setNavigationOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+        
+        if (isAuthPro) {
+			getSupportActionBar().setTitle("进阶授权");
+		}else {
+			getSupportActionBar().setTitle("普通授权");
+		}
         
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WeiboWebViewClient());

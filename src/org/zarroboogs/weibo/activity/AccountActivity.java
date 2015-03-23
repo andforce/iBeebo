@@ -95,22 +95,19 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
         setContentView(R.layout.accountactivity_layout);
         mToolBar = (Toolbar) findViewById(R.id.accountToolBar);
+        setSupportActionBar(mToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolBar.setNavigationOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+        
 
-        mToolBar.inflateMenu(R.menu.actionbar_menu_accountactivity);
-        mToolBar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
-            @Override
-            public boolean onMenuItemClick(MenuItem arg0) {
-                int itemId = arg0.getItemId();
-				if (itemId == R.id.menu_add_account) {
-					showAddAccountDialog(false);
-				} else {
-				}
-                return false;
-            }
-        });
-
-        // getActionBar().setTitle(getString(R.string.app_name));
         listAdapter = new AccountAdapter();
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AccountListItemClickListener());
@@ -136,6 +133,22 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	// TODO Auto-generated method stub
+    	getMenuInflater().inflate(R.menu.actionbar_menu_accountactivity, menu);
+    	return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	// TODO Auto-generated method stub
+    	int itemId = item.getItemId();
+		if (itemId == R.id.menu_add_account) {
+			showAddAccountDialog(false);
+		} else {
+		}
+    	return super.onOptionsItemSelected(item);
+    }
     public static Intent newIntent() {
         Intent intent = new Intent(GlobalContext.getInstance(), AccountActivity.class);
         intent.setAction(ACTION_OPEN_FROM_APP_INNER);
