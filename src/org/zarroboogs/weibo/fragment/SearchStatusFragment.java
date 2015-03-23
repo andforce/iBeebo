@@ -14,9 +14,6 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.AdapterView;
 
-/**
- * User: qii Date: 12-11-10
- */
 public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBean> {
 
     private int page = 1;
@@ -70,12 +67,12 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
         startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(),
                 bean.getItem(position), GlobalContext.getInstance()
-                        .getAccessToken()));
+                        .getAccessTokenHack()));
     }
 
     @Override
     protected Loader<AsyncTaskLoaderResult<SearchStatusListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
         page = 1;
         return new SearchStatusLoader(getActivity(), token, word, String.valueOf(page));
@@ -83,7 +80,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
 
     @Override
     protected Loader<AsyncTaskLoaderResult<SearchStatusListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String word = ((SearchMainParentFragment) getParentFragment()).getSearchWord();
         return new SearchStatusLoader(getActivity(), token, word, String.valueOf(page + 1));
     }

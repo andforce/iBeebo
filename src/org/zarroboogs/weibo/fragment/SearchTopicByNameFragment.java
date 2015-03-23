@@ -123,7 +123,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
         int itemId = item.getItemId();
 		if (itemId == R.id.menu_write) {
 			Intent intent = new Intent(getActivity(), WriteWeiboActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessToken());
+			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccessTokenHack());
 			intent.putExtra(Constants.ACCOUNT, GlobalContext.getInstance().getAccountBean());
 			intent.putExtra("content", "#" + q + "#");
 			startActivity(intent);
@@ -148,7 +148,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
         startActivity(BrowserWeiboMsgActivity.newIntent(GlobalContext.getInstance().getAccountBean(), bean.getItemList()
                 .get(position), GlobalContext
-                .getInstance().getAccessToken()));
+                .getInstance().getAccessTokenHack()));
     }
 
     private void buildActionBatSubtitle() {
@@ -164,7 +164,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return new TopicDao(GlobalContext.getInstance().getAccessToken()).follow(q);
+                return new TopicDao(GlobalContext.getInstance().getAccessTokenHack()).follow(q);
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);
@@ -201,7 +201,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return new TopicDao(GlobalContext.getInstance().getAccessToken()).destroy(q);
+                return new TopicDao(GlobalContext.getInstance().getAccessTokenHack()).destroy(q);
             } catch (WeiboException e) {
                 this.e = e;
                 cancel(true);
@@ -234,7 +234,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
     @Override
     protected Loader<AsyncTaskLoaderResult<TopicResultListBean>> onCreateNewMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String word = this.q;
         page = 1;
         return new SearchTopicByNameLoader(getActivity(), token, word, String.valueOf(page));
@@ -242,7 +242,7 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
 
     @Override
     protected Loader<AsyncTaskLoaderResult<TopicResultListBean>> onCreateOldMsgLoader(int id, Bundle args) {
-        String token = GlobalContext.getInstance().getAccessToken();
+        String token = GlobalContext.getInstance().getAccessTokenHack();
         String word = this.q;
         return new SearchTopicByNameLoader(getActivity(), token, word, String.valueOf(page + 1));
     }

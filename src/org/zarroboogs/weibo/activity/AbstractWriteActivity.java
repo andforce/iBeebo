@@ -26,14 +26,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-/**
- * User: qii Date: 12-9-25
- */
 public abstract class AbstractWriteActivity<T> extends AbstractAppActivity implements View.OnClickListener,
         ClearContentDialog.IClear, SaveDraftDialog.IDraft {
 
@@ -210,8 +206,7 @@ public abstract class AbstractWriteActivity<T> extends AbstractAppActivity imple
 		} else if (id == R.id.menu_topic) {
 			insertTopic();
 		} else if (id == R.id.menu_at) {
-			Intent intent = new Intent(AbstractWriteActivity.this, AtUserActivity.class);
-			intent.putExtra(Constants.TOKEN, token);
+			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
 			startActivityForResult(intent, AT_USER);
 		}
     }

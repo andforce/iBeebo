@@ -630,9 +630,8 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
 			content.setText(ori + topicTag);
 			content.setSelection(content.getText().toString().length() - 1);
 		} else if (itemId == R.id.menu_at) {
-			intent = new Intent(WriteWeiboActivity.this, AtUserActivity.class);
-			intent.putExtra(Constants.TOKEN, token);
-			startActivityForResult(intent, AT_USER);
+			Intent intent2 = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
+			startActivityForResult(intent2, AT_USER);
 		} else if (itemId == R.id.menu_txt_to_pic) {
 			convertStringToBitmap();
 		} else if (itemId == R.id.menu_clear) {
@@ -764,8 +763,7 @@ public class WriteWeiboActivity extends AbstractAppActivity implements DialogInt
 			} else if (id == R.id.menu_send) {
 				send();
 			} else if (id == R.id.menu_at) {
-				Intent intent = new Intent(WriteWeiboActivity.this, AtUserActivity.class);
-				intent.putExtra(Constants.TOKEN, token);
+				Intent intent = AtUserActivity.atUserIntent(WriteWeiboActivity.this, GlobalContext.getInstance().getAccessTokenHack());
 				startActivityForResult(intent, AT_USER);
 			}
         }

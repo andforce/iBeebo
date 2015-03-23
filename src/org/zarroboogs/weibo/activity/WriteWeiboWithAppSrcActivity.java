@@ -34,7 +34,6 @@ import org.zarroboogs.weibo.hot.bean.huatidetail.CardGroup;
 import org.zarroboogs.weibo.hot.bean.huatidetail.Cards;
 import org.zarroboogs.weibo.hot.bean.huatidetail.HotHuaTiDetailCard;
 import org.zarroboogs.weibo.hot.bean.huatidetail.Mblog;
-
 import org.zarroboogs.weibo.selectphoto.ImgFileListActivity;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
@@ -570,8 +569,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 		if (id == R.id.menu_topic) {
 			insertTopic();
 		} else if (id == R.id.menu_at) {
-			Intent intent = new Intent(WriteWeiboWithAppSrcActivity.this, AtUserActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccountBean().getAccess_token());
+			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
 			startActivityForResult(intent, AT_USER);
 		} else if (id == R.id.editTextLayout) {
 			mEditText.performClick();

@@ -473,8 +473,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 		if (id == R.id.menu_topic) {
 			insertTopic();
 		} else if (id == R.id.menu_at) {
-			Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, AtUserActivity.class);
-			intent.putExtra(Constants.TOKEN, GlobalContext.getInstance().getAccountBean().getAccess_token());
+			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccountBean().getAccess_token());
 			startActivityForResult(intent, AT_USER);
 		} else if (id == R.id.editTextLayout) {
 			mEditText.performClick();

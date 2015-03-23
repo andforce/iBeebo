@@ -10,9 +10,6 @@ import org.zarroboogs.weibo.dao.SearchTopicDao;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * User: qii Date: 13-5-12
- */
 public class SearchTopicByNameLoader extends AbstractAsyncNetRequestTaskLoader<TopicResultListBean> {
 
     private static Lock lock = new ReentrantLock();

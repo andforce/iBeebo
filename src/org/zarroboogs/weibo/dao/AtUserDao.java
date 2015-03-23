@@ -16,11 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * User: qii Date: 12-10-7
- */
 public class AtUserDao {
 
+    private String access_token;
+    private String q;
+    private String count = "10";
+    private String type = "0";
+    private String range = "2";
+    
     public List<AtUserBean> getUserInfo() throws WeiboException {
         String url = WeiBoURLs.AT_USER;
         Map<String, String> map = new HashMap<String, String>();
@@ -52,9 +55,4 @@ public class AtUserDao {
         this.q = q;
     }
 
-    private String access_token;
-    private String q;
-    private String count = "10";
-    private String type = "0";
-    private String range = "2";
 }

@@ -243,7 +243,7 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
 			    enableRepost.setChecked(true);
 			}
 		} else if (itemId == R.id.menu_at) {
-			Intent intent = new Intent(WriteReplyToCommentActivity.this, AtUserActivity.class);
+			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
 			intent.putExtra(Constants.TOKEN, token);
 			startActivityForResult(intent, AT_USER);
 		} else if (itemId == R.id.menu_clear) {

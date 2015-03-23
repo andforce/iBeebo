@@ -267,8 +267,7 @@ public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
 			    menuEnableOriComment.setChecked(true);
 			}
 		} else if (itemId == R.id.menu_at) {
-			Intent intent = new Intent(WriteRepostActivity.this, AtUserActivity.class);
-			intent.putExtra(Constants.TOKEN, token);
+			Intent intent = AtUserActivity.atUserIntent(this, GlobalContext.getInstance().getAccessTokenHack());
 			startActivityForResult(intent, AT_USER);
 		} else if (itemId == R.id.menu_clear) {
 			clearContentMenu();
