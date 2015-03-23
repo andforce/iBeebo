@@ -9,6 +9,7 @@
         android:id="@+id/settingToolBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:minHeight="48dp"
         android:background="?attr/colorPrimary"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
