@@ -11,7 +11,7 @@
  */
 JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getAppKey(
 		JNIEnv * env, jclass clss) {
-	jstring str = env->NewStringUTF("3101880425");
+	jstring str = env->NewStringUTF("换成你自己的");
 	return str;
 }
 
@@ -22,7 +22,7 @@ JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getAppKe
  */
 JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getAppSecret(
 		JNIEnv * env, jclass clss) {
-	jstring str = env->NewStringUTF("cff0cb6f08361500eac0082a522ea613");
+	jstring str = env->NewStringUTF("换成你自己的");
 	return str;
 }
 
@@ -33,7 +33,7 @@ JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getAppSe
  */
 JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getRedirectUrl(
 		JNIEnv * env, jclass clss) {
-	jstring str = env->NewStringUTF("http://weibo.com/andforce");
+	jstring str = env->NewStringUTF("换成你自己的");
 	return str;
 }
 
@@ -46,7 +46,7 @@ JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getRedir
  */
 JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getHackAppKey(
 		JNIEnv * env, jclass clss) {
-	jstring str = env->NewStringUTF("211160679");
+	jstring str = env->NewStringUTF("换成你自己的");
 	return str;
 }
 
@@ -57,7 +57,7 @@ JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getHackA
  */
 JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getHackAppSecret(
 		JNIEnv * env, jclass clss) {
-	jstring str = env->NewStringUTF("63b64d531b98c2dbff2443816f274dd3");
+	jstring str = env->NewStringUTF("换成你自己的");
 	return str;
 }
 
@@ -68,7 +68,7 @@ JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getHackA
  */
 JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getHackRedirectUrl(
 		JNIEnv * env, jclass clss) {
-	jstring str = env->NewStringUTF("http://oauth.weico.cc");
+	jstring str = env->NewStringUTF("换成你自己的");
 	return str;
 }
 
@@ -79,7 +79,7 @@ JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getHackR
  */
 JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getHackPackageName(
 		JNIEnv * env, jclass clss) {
-	jstring str = env->NewStringUTF("com.eico.weico");
+	jstring str = env->NewStringUTF("换成你自己的");
 	return str;
 }
 
@@ -90,6 +90,6 @@ JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getHackP
  */
 JNIEXPORT jstring JNICALL Java_org_zarroboogs_weibo_auth_BeeboAuthUtils_getHackKeyHash(
 		JNIEnv * env, jclass clss) {
-	jstring str = env->NewStringUTF("1e6e33db08f9192306c4afa0a61ad56c");
+	jstring str = env->NewStringUTF("换成你自己的");
 	return str;
 }
