@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/reply_comment_menu"
+        android:icon="?repost"
+        android:title="@string/reply_to_comment"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/view_weibo_menu"
+        android:icon="?comment"
+        android:title="@string/view_weibo_str"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_copy"
+        android:icon="?share"
+        android:title="@string/copy_to_clipboard"
+        app:showAsAction="never"/>
+
+</menu>

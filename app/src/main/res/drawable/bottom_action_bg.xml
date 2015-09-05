@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:Android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- <item android:drawable="@drawable/pop_background"/> -->
+    <item android:drawable="@drawable/card_bg"/>
+
+</layer-list>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release
+        version="v3.1.5" versioncode="40">
+        <change>修正搜索点击头像崩溃</change>
+        <change>修正发微博出现表情输入框被挡住问题</change>
+        <change>修正64位机器点击授权崩溃</change>
+        <change>修正无法关闭音效</change>
+        <change>修正点击热门话题崩溃</change>
+    </release>
+</changelog>

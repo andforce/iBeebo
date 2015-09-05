@@ -1,0 +1,196 @@
+<resources>
+
+    <string-array name="water_mark_pos_array">
+        <item>底部居右</item>
+        <item>底部居中</item>
+        <item>图片中间</item>
+    </string-array>
+    <string-array name="water_mark_pos_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
+    <!-- 通知 -->
+    <string-array name="frequency">
+        <item>半分钟</item>
+        <item>两分钟</item>
+        <item>五分时</item>
+    </string-array>
+    <string-array name="frequency_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
+    
+    
+    <string-array name="list_avatar_mode">
+        <item>普通</item>
+        <item>高清</item>
+        <item>自动</item>
+    </string-array>
+    <string-array name="list_avatar_mode_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="list_pic_mode">
+        <item>小图</item>
+        <item>高清</item>
+        <item>自动</item>
+    </string-array>
+    <string-array name="list_pic_mode_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="upload_pic_quality" formatted="false">
+        <item>高清不压缩</item>
+        <item>压缩到50%</item>
+        <item>压缩到25%</item>
+        <item>自动</item>
+    </string-array>
+    <string-array name="upload_pic_quality_hack_bug" formatted="false">
+        <item>高清不压缩</item>
+        <item>压缩到50%%</item>
+        <item>压缩到25%%</item>
+        <item>自动</item>
+    </string-array>
+    <string-array name="upload_pic_quality_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="theme">
+        <item>白色</item>
+        <item>暗色</item>
+    </string-array>
+    <string-array name="theme_value">
+        <item>1</item>
+        <item>2</item>
+        <!-- <item>3</item> -->
+        <!-- <item>4</item> -->
+    </string-array>
+    <string-array name="font">
+        <item>小</item>
+        <!-- <item>较小</item> -->
+        <item>中等</item>
+        <item>大</item>
+        <!-- <item>很大</item> -->
+    </string-array>
+    <string-array name="font_value">
+
+        <!-- <item>12</item> -->
+        <item>13</item>
+        <item>15</item>
+        <item>17</item>
+        <!-- <item>18</item> -->
+        <!-- <item>20</item> -->
+    </string-array>
+    <string-array name="comment_repost_list_avatar_mode">
+        <item>打开</item>
+        <item>关闭</item>
+        <item>自动</item>
+    </string-array>
+    <string-array name="comment_repost_list_avatar_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="msg_count_title">
+        <item>25条</item>
+        <item>50条</item>
+        <item>自动</item>
+    </string-array>
+    <string-array name="msg_count_title_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="read_style_mode">
+        <item>正向阅读</item>
+        <item>逆向阅读</item>
+    </string-array>
+    <string-array name="read_style_mode_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="hot_weibo_multi_select_title">
+<!--         <item>当前</item> -->
+<!--         <item>昨天</item> -->
+        <item>前天</item>
+        <item>神最右</item>
+        <item>视频</item>
+        <item>爆料</item>
+        <item>笑话</item>
+        <item>萌宠</item>
+        <item>美女</item>
+        <item>科技</item>
+        <item>旅行</item>
+        <item>美图</item>
+    </string-array>
+    <string-array name="hot_weibo_multi_select_value">
+<!--         <item>0</item> -->
+<!--         <item>1</item> -->
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+    <string-array name="hot_weibo_multi_select_value_def">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+    
+    
+    
+    <string-array name="hot_huati_multi_select_title">
+<!--         <item>1小时热榜</item> -->
+<!--         <item>幽默搞笑</item> -->
+        <item>电影热榜</item>
+        <item>消费数码</item>
+        <item>IT互联网</item>
+        <item>摄影热榜</item>
+        <item>创意征集</item>
+        <item>动物萌宠</item>
+    </string-array>
+    <string-array name="hot_huati_multi_select_value">
+<!--         <item>0</item> -->
+<!--         <item>1</item> -->
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <string-array name="hot_huati_multi_select_value_def">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
+</resources>

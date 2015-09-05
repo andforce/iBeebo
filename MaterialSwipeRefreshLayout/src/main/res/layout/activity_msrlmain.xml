@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MSRLMainActivity">
+
+    <org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout
+        android:id="@+id/demo_msrl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/demo_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
+
+
+</RelativeLayout>

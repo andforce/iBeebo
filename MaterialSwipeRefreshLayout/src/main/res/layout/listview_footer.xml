@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFf2f2f2"
+    android:gravity="center"
+    android:visibility="visible">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="-15dp"
+        android:background="@drawable/time_line_item_bg"
+        android:minHeight="20dp"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/noMoreTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="没有更早内容了"
+            android:visibility="invisible" />
+
+        <org.zarroboogs.msrl.widget.CircleProgressBar
+            android:id="@+id/loadMoreProgressBar"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:mlpb_progress_color="#566da9"
+            app:mlpb_progress_stoke_width="3dp" />
+    </RelativeLayout>
+</RelativeLayout>

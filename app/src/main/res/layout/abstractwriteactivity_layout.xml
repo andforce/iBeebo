@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.zarroboogs.keyboardlayout.KeyboardRelativeLayout android:id="@+id/root_layout"
+                                                      xmlns:android="http://schemas.android.com/apk/res/android"
+                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                      android:layout_width="match_parent"
+                                                      android:layout_height="match_parent"
+                                                      android:background="@drawable/status_bar_bg"
+                                                      android:fitsSystemWindows="true"
+                                                      android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/abstractWriteToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="48dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/abstractWriteToolbar"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1.0"
+        android:background="@drawable/card_bg">
+
+        <org.zarroboogs.weibo.widget.KeyboardControlEditText
+            android:id="@+id/status_new_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadeScrollbars="true"
+            android:gravity="left|top"
+            android:hint="@string/say_something"
+            android:minHeight="180dp"
+            android:padding="10dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            app:met_hideUnderline="true"/>
+
+
+        <RelativeLayout
+            android:id="@+id/commentRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/commentCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text=""
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/commentCheckBox"
+                android:layout_alignTop="@id/commentCheckBox"
+                android:layout_toLeftOf="@id/commentCheckBox"
+                android:gravity="right"
+                android:padding="5dp"
+                android:text="同时评论"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/repostRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/repostCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text=""
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/repostCheckBox"
+                android:layout_alignTop="@id/repostCheckBox"
+                android:layout_toLeftOf="@id/repostCheckBox"
+                android:gravity="right"
+                android:padding="5dp"
+                android:text="同时转发"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bottom_menu"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginRight="-5dp"
+            android:background="@drawable/bottom_action_bg"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/menu_topic"
+                style="?android:actionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="?topic"/>
+
+            <ImageButton
+                android:id="@+id/menu_at"
+                style="?android:actionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="?at"/>
+
+            <ImageButton
+                android:id="@+id/menu_emoticon"
+                style="?android:actionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="?emoticon"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/menu_send"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/bottom_selector"
+                android:drawableRight="?statusnewactivity_send"
+                android:text="@string/send"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#FF000000"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <org.zarroboogs.keyboardlayout.smilepicker.SmileyPicker
+        android:id="@+id/smiley_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/container"
+        android:visibility="gone"/>
+
+</org.zarroboogs.keyboardlayout.KeyboardRelativeLayout>

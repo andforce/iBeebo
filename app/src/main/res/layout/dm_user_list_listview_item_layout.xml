@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listview_root"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/listview_item_background_selector_light"
+    android:clickable="false">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/time_line_item_bg"
+        android:padding="10dp" >
+
+        <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/timeline_avatar_width"
+            android:layout_height="@dimen/timeline_avatar_height"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginBottom="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="-5dp"
+            android:clickable="true"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/count_layout"
+            android:layout_toRightOf="@id/avatar"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/timeline_item_text_color_light"
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded" />
+
+        <org.zarroboogs.weibo.widget.TimeTextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:layout_toRightOf="@id/avatar"
+            android:textColor="?android:textColorTertiary"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/avatar"
+            android:layout_marginTop="6dp"
+            android:clickable="false"
+            android:ellipsize="end"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="3"
+            android:textColor="@color/timeline_item_text_color_light"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/listview_root"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/listview_item_background_selector_light"
+                android:clickable="false"
+                android:descendantFocusability="blocksDescendants">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/time_line_item_bg"
+        android:paddingBottom="8dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="2dp">
+
+        <RelativeLayout
+            android:id="@+id/contentMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+            <ImageButton
+                android:id="@+id/popupMenuIb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_background_selector"
+                android:focusable="false"
+                android:src="@drawable/ic_more_vert_grey600_36dp"
+                tools:ignore="RtlHardcoded,ContentDescription,ObsoleteLayoutParam"/>
+
+            <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/timeline_avatar_width"
+                android:layout_height="@dimen/timeline_avatar_height"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginBottom="-5dp"
+                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="-5dp"
+                android:clickable="true"
+                tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                android:id="@+id/weibo_text_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/avatar"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:lineSpacingMultiplier="1.1"
+                android:textColor="@color/timeline_item_text_color_light"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/avatar"
+                android:clickable="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/username"
+                android:textColor="@color/timeline_item_text_color_light"
+                android:textStyle="bold"
+                tools:ignore="RtlHardcoded"/>
+
+            <org.zarroboogs.weibo.widget.TimeTextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/username"
+                android:layout_toRightOf="@id/avatar"
+                android:text="刚刚"
+                android:textColor="?android:textColorTertiary"
+                tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                android:id="@+id/source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/time"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/time"
+                android:textColor="?android:textColorTertiary"
+                tools:ignore="RtlHardcoded"/>
+
+
+            <!-- android:layout_width="@dimen/timeline_pic_thumbnail_width" -->
+
+            <org.zarroboogs.weibo.widget.TimeLineImageView
+                android:id="@+id/content_pic"
+                android:layout_width="@dimen/timeline_pic_thumbnail_height"
+                android:layout_height="@dimen/timeline_pic_thumbnail_height"
+                android:layout_below="@id/weibo_text_content"
+                android:clickable="true"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:visibility="gone"/>
+
+            <GridLayout
+                android:id="@+id/content_pic_multi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weibo_text_content"
+                android:clickable="false"
+                android:columnCount="3"
+                android:orientation="horizontal"
+                android:rowCount="3"
+                android:useDefaultMargins="false"
+                android:visibility="gone">
+
+                <include
+                    layout="@layout/repost_nine_pic_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </GridLayout>
+
+            <RelativeLayout
+                android:id="@+id/timeLineRepostRootLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weibo_text_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/repost_bg"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/repost_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:clickable="false"
+                    android:includeFontPadding="true"
+                    android:lineSpacingMultiplier="1.1"
+                    android:textColor="@color/timeline_item_text_color_light"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+
+                <org.zarroboogs.weibo.widget.TimeLineImageView
+                    android:id="@+id/repost_content_pic"
+                    android:layout_width="@dimen/timeline_pic_thumbnail_height"
+                    android:layout_height="@dimen/timeline_pic_thumbnail_height"
+                    android:layout_below="@id/repost_content"
+                    android:layout_marginTop="5dp"
+                    android:clickable="true"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"/>
+
+                <GridLayout
+                    android:id="@+id/repost_content__pic_multi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/repost_content"
+                    android:layout_marginTop="5dp"
+                    android:clickable="false"
+                    android:columnCount="3"
+                    android:orientation="horizontal"
+                    android:rowCount="3"
+                    android:useDefaultMargins="false"
+                    android:visibility="gone">
+
+                    <include
+                        layout="@layout/repost_nine_pic_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </GridLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/count_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/contentMain"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="2dp"
+            android:visibility="visible"
+            tools:ignore="RtlHardcoded">
+
+            <ImageView
+                android:id="@+id/timeline_gps_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/timeline_gps_dark"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"/>
+
+            <ImageView
+                android:id="@+id/timeline_pic_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/timeline_pic_dark"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"/>
+
+            <TextView
+                android:id="@+id/repost_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:drawableLeft="@drawable/timeline_repost_dark"
+                android:drawablePadding="4dp"
+                android:fontFamily="monospace"
+                android:textColor="?android:textColorTertiary"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:drawableLeft="@drawable/timeline_comment_dark"
+                android:drawablePadding="4dp"
+                android:fontFamily="monospace"
+                android:textColor="?android:textColorTertiary"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <org.zarroboogs.weibo.support.gallery.ViewPagerFixed
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+    <LinearLayout
+        android:id="@+id/position_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="@dimen/index_text_margin_bottom"
+        android:layout_marginRight="8dp"
+        android:baselineAligned="true"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/dark_gray"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:text="1"
+            android:textColor="@color/white"
+            android:textSize="35sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/dark_gray"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:text="/"
+            android:textColor="@color/white"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:id="@+id/sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/dark_gray"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:text="1"
+            android:textColor="@color/white"
+            android:textSize="24sp"/>
+
+    </LinearLayout>
+
+
+</FrameLayout>

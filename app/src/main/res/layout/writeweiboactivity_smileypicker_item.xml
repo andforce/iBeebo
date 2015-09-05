@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.zarroboogs.weibo.widget.SquareFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:padding="3.0dip"
+    android:layout_width="@dimen/emotion_bg_size"
+    android:layout_height="@dimen/emotion_bg_size"
+    android:minWidth="@dimen/emotion_bg_size"
+    android:minHeight="@dimen/emotion_bg_size"
+    android:background="?android:selectableItemBackground"
+    >
+
+    <ImageView
+        android:visibility="invisible"
+        android:layout_gravity="center"
+        android:id="@+id/smiley_item"
+        android:layout_width="@dimen/emotion_size"
+        android:layout_height="@dimen/emotion_size"/>
+
+    <TextView
+        android:visibility="invisible"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_gravity="center"
+        android:id="@+id/smiley_text_item"
+        android:layout_width="@dimen/emotion_size"
+        android:layout_height="@dimen/emotion_size"/>
+</org.zarroboogs.weibo.widget.SquareFrameLayout>

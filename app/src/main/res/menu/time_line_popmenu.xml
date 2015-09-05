@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/menu_repost"
+        android:icon="?repost"
+        android:title="@string/repost"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_comment"
+        android:icon="?comment"
+        android:title="@string/comments"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_like"
+        android:icon="?comment"
+        android:title="@string/status_like"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_unlike"
+        android:icon="?comment"
+        android:title="@string/status_unlike"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_fav"
+        android:icon="?fav_un"
+        android:title="@string/do_favourite"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_unfav"
+        android:icon="?fav_en"
+        android:title="@string/un_favourite"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_copy"
+        android:icon="?share"
+        android:title="@string/copy_to_clipboard"
+        app:showAsAction="never"/>
+
+</menu>

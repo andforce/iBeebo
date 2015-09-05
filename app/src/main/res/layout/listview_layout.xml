@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/empty"
+        android:visibility="gone" />
+
+    <!--
+       requiresFadingEdge may have performance problem in some low price phones, but I like it.
+       use overScrollMode to disable blue boundaries at the top and the bottom of listview
+       because it is pull to refresh listview
+    -->
+    <org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.zarroboogs.weibo.widget.VelocityListView
+            android:id="@+id/listView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="@null"
+            android:layout_gravity="center"
+            android:fastScrollEnabled="false"
+            android:overScrollMode="never"
+            android:scrollingCache="true"
+            android:smoothScrollbar="true"
+            android:visibility="visible" />
+    </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
+
+
+    <!--    <ProgressBar
+            android:id="@+id/listLoadMoreProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />-->
+
+    <org.zarroboogs.weibo.widget.TopTipsView
+        android:id="@+id/tv_unread_new_message_count_tip_bar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="top"
+        android:background="@color/top_tip_bar_tip"
+        android:freezesText="true"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="invisible" />
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/absTimeLineFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/edit_light"
+        fab:fab_colorNormal="@color/accent"
+        fab:fab_colorPressed="@color/accent_pressed"
+        fab:fab_colorRipple="@color/ripple"
+        tools:ignore="RtlHardcoded" />
+
+</RelativeLayout>

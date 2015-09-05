@@ -1,0 +1,105 @@
+
+package org.zarroboogs.weibo.support.asyncdrawable;
+
+import org.zarroboogs.utils.ImageUtility;
+import org.zarroboogs.utils.file.FileLocationMethod;
+import org.zarroboogs.utils.file.FileManager;
+
+import android.graphics.drawable.ColorDrawable;
+import android.widget.ImageView;
+
+import java.lang.ref.WeakReference;
+
+public class LocalOrNetworkChooseWorker extends AbstractWorker<String, Integer, Boolean> {
+
+    private String data = "";
+
+    private WeakReference<ImageView> viewWeakReference;
+
+    private FileLocationMethod method;
+
+    private boolean isMultiPictures = false;
+
+    private IWeiboDrawable IWeiboDrawable;
+
+    public String getUrl() {
+        return data;
+    }
+
+    public LocalOrNetworkChooseWorker(ImageView view, String url, FileLocationMethod method, boolean isMultiPictures) {
+
+        this.viewWeakReference = new WeakReference<ImageView>(view);
+        this.data = url;
+        this.method = method;
+        this.isMultiPictures = isMultiPictures;
+    }
+
+    public LocalOrNetworkChooseWorker(IWeiboDrawable view, String url, FileLocationMethod method, boolean isMultiPictures) {
+
+        this(view.getImageView(), url, method, false);
+        this.IWeiboDrawable = view;
+        this.isMultiPictures = isMultiPictures;
+
+    }
+
+    @Override
+    protected Boolean doInBackground(String... url) {
+        String path = FileManager.getFilePathFromUrl(data, method);
+        return ImageUtility.isThisBitmapCanRead(path) && TaskCache.isThisUrlTaskFinished(data);
+    }
+
+    @Override
+    protected void onCancelled(Boolean aBoolean) {
+        super.onCancelled(aBoolean);
+        ImageView imageView = viewWeakReference.get();
+        if (!isMySelf(imageView)) {
+            return;
+        }
+
+        imageView.setImageDrawable(new ColorDrawable(DebugColor.CHOOSE_CANCEL));
+    }
+
+    @Override
+    protected void onPostExecute(Boolean result) {
+        super.onPostExecute(result);
+
+        ImageView imageView = viewWeakReference.get();
+        if (!isMySelf(imageView)) {
+            return;
+        }
+
+        if (result) {
+            LocalWorker newTask = null;
+
+            if (IWeiboDrawable != null) {
+                newTask = new LocalWorker(IWeiboDrawable, getUrl(), method, isMultiPictures);
+                PictureBitmapDrawable downloadedDrawable = new PictureBitmapDrawable(newTask);
+                IWeiboDrawable.setImageDrawable(downloadedDrawable);
+            } else {
+                newTask = new LocalWorker(imageView, getUrl(), method, isMultiPictures);
+                PictureBitmapDrawable downloadedDrawable = new PictureBitmapDrawable(newTask);
+                imageView.setImageDrawable(downloadedDrawable);
+            }
+
+            newTask.executeOnIO();
+        } else {
+
+            ReadWorker newTask = null;
+
+            if (IWeiboDrawable != null) {
+                newTask = new ReadWorker(IWeiboDrawable, getUrl(), method, isMultiPictures);
+                PictureBitmapDrawable downloadedDrawable = new PictureBitmapDrawable(newTask);
+                IWeiboDrawable.setImageDrawable(downloadedDrawable);
+            } else {
+                newTask = new ReadWorker(imageView, getUrl(), method, isMultiPictures);
+                PictureBitmapDrawable downloadedDrawable = new PictureBitmapDrawable(newTask);
+                imageView.setImageDrawable(downloadedDrawable);
+            }
+
+            newTask.executeOnWaitNetwork();
+
+        }
+
+    }
+
+}

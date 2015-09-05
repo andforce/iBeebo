@@ -1,0 +1,191 @@
+
+package org.zarroboogs.weibo.bean;
+
+import org.zarroboogs.weibo.bean.data.DataListItem;
+import org.zarroboogs.weibo.setting.SettingUtils;
+import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+public class MessageListBean extends DataListItem<MessageBean, MessageListBean> implements Parcelable {
+
+    private List<MessageBean> statuses = new ArrayList<>();
+
+    private List<AdBean> ad = new ArrayList<>();
+
+    private int removedCount = 0;
+
+    private List<MessageBean> getStatuses() {
+        return statuses;
+    }
+
+    public void setStatuses(List<MessageBean> statuses) {
+        this.statuses = statuses;
+    }
+
+    public List<AdBean> getAd() {
+        return ad;
+    }
+
+    @Override
+    public int getSize() {
+        return statuses.size();
+    }
+
+    @Override
+    public MessageBean getItem(int position) {
+        return getStatuses().get(position);
+    }
+
+    @Override
+    public List<MessageBean> getItemList() {
+        return getStatuses();
+    }
+
+    public int getReceivedCount() {
+        return getSize() + removedCount;
+    }
+
+    public void removedCountPlus() {
+        removedCount++;
+    }
+
+    @Override
+    public void addNewData(MessageListBean newValue) {
+
+        if (newValue == null || newValue.getSize() == 0) {
+            return;
+        }
+
+        boolean receivedCountBelowRequestCount = newValue.getReceivedCount() < Integer.valueOf(SettingUtils.getMsgCount());
+        boolean receivedCountEqualRequestCount = newValue.getReceivedCount() >= Integer.valueOf(SettingUtils.getMsgCount());
+        if (receivedCountEqualRequestCount && this.getSize() > 0) {
+            newValue.getItemList().add(null);
+        }
+        this.getItemList().addAll(0, newValue.getItemList());
+        this.setTotal_number(newValue.getTotal_number());
+
+        // remove duplicate null flag, [x,y,null,null,z....]
+        List<MessageBean> msgList = getItemList();
+        ListIterator<MessageBean> listIterator = msgList.listIterator();
+
+        boolean isLastItemNull = false;
+        while (listIterator.hasNext()) {
+            MessageBean msg = listIterator.next();
+            if (msg == null) {
+                if (isLastItemNull) {
+                    listIterator.remove();
+                }
+                isLastItemNull = true;
+            } else {
+                isLastItemNull = false;
+            }
+        }
+    }
+
+    @Override
+    public void addOldData(MessageListBean oldValue) {
+        if (oldValue != null && oldValue.getSize() > 1) {
+            getItemList().addAll(oldValue.getItemList().subList(1, oldValue.getSize()));
+            setTotal_number(oldValue.getTotal_number());
+
+        }
+    }
+
+    public void addMiddleData(int position, MessageListBean middleValue, boolean towardsBottom) {
+        if (middleValue == null) {
+            return;
+        }
+
+        if (middleValue.getSize() == 0 || middleValue.getSize() == 1) {
+            getItemList().remove(position);
+            return;
+        }
+
+        List<MessageBean> middleData = middleValue.getItemList().subList(1, middleValue.getSize());
+
+        String beginId = getItem(position + 1).getId();
+        String endId = getItem(position - 1).getId();
+        Iterator<MessageBean> iterator = middleData.iterator();
+        while (iterator.hasNext()) {
+            MessageBean msg = iterator.next();
+            boolean notNull = !TextUtils.isEmpty(msg.getId());
+            if (notNull) {
+                if (msg.getId().equals(beginId) || msg.getId().equals(endId)) {
+                    iterator.remove();
+                }
+            }
+        }
+
+        getItemList().addAll(position, middleData);
+
+    }
+
+    public void replaceData(MessageListBean value) {
+        if (value == null) {
+            return;
+        }
+        getItemList().clear();
+        getItemList().addAll(value.getItemList());
+        setTotal_number(value.getTotal_number());
+    }
+
+    public MessageListBean copy() {
+        MessageListBean object = new MessageListBean();
+        object.replaceData(MessageListBean.this);
+        return object;
+    }
+
+    @Override
+    public String toString() {
+        return ObjectToStringUtility.toString(this);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeInt(total_number);
+        dest.writeString(previous_cursor);
+        dest.writeString(next_cursor);
+
+        dest.writeTypedList(statuses);
+        dest.writeTypedList(ad);
+        dest.writeInt(removedCount);
+    }
+
+    public static final Creator<MessageListBean> CREATOR = new Creator<MessageListBean>() {
+        public MessageListBean createFromParcel(Parcel in) {
+            MessageListBean messageListBean = new MessageListBean();
+
+            messageListBean.total_number = in.readInt();
+            messageListBean.previous_cursor = in.readString();
+            messageListBean.next_cursor = in.readString();
+
+            messageListBean.statuses = new ArrayList<MessageBean>();
+            in.readTypedList(messageListBean.statuses, MessageBean.CREATOR);
+
+            messageListBean.ad = new ArrayList<AdBean>();
+            in.readTypedList(messageListBean.ad, AdBean.CREATOR);
+
+            messageListBean.removedCount = in.readInt();
+
+            return messageListBean;
+        }
+
+        public MessageListBean[] newArray(int size) {
+            return new MessageListBean[size];
+        }
+    };
+}
