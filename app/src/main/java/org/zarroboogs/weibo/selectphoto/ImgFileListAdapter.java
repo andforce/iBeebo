@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.R;
 
 import android.content.Context;
@@ -14,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 public class ImgFileListAdapter extends BaseAdapter {
 
@@ -68,7 +67,8 @@ public class ImgFileListAdapter extends BaseAdapter {
 
         holder.filename_textView.setText(listdata.get(arg0).get(filename));
         holder.filecount_textview.setText(listdata.get(arg0).get(filecount));
-        Glide.with(context).load("file://" + listdata.get(arg0).get(imgpath)).centerCrop().crossFade().into(holder.photo_imgview);
+
+        ImageLoader.load(context,"file://" + listdata.get(arg0).get(imgpath), holder.photo_imgview);
 
         return arg1;
     }

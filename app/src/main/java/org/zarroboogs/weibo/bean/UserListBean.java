@@ -9,9 +9,6 @@ import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: Jiang Qi Date: 12-8-16
- */
 public class UserListBean implements Parcelable {
 
     private List<UserBean> users = new ArrayList<UserBean>();

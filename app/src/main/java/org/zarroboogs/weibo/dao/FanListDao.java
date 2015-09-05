@@ -15,9 +15,6 @@ import org.zarroboogs.weibo.setting.SettingUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: Jiang Qi Date: 12-8-16
- */
 public class FanListDao {
 
     public UserListBean getGSONMsgList() throws WeiboException {

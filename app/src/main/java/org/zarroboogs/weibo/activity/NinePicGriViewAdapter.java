@@ -1,17 +1,15 @@
 package org.zarroboogs.weibo.activity;
 
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.selectphoto.SendImgData;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 public class NinePicGriViewAdapter extends BaseAdapter {
 
@@ -54,8 +52,7 @@ public class NinePicGriViewAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		Glide.with(mContext).load("file://" + SendImgData.getInstance().getSendImgs().get(position)).centerCrop().crossFade().into(holder.mImageView);
-
+		ImageLoader.load(mContext,"file://" + SendImgData.getInstance().getSendImgs().get(position), holder.mImageView);
 		return convertView;
 	}
 

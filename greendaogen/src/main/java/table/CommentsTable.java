@@ -1,9 +1,6 @@
 
 package table;
 
-/**
- * User: Jiang Qi Date: 12-8-10
- */
 public class CommentsTable {
 
     public static final String TABLE_NAME = "comments_table";

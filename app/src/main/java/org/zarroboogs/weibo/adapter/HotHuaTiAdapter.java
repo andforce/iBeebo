@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.hot.bean.huati.HotHuaTiCardGroup;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
@@ -15,8 +16,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 public class HotHuaTiAdapter extends BaseAdapter {
 
@@ -68,7 +67,8 @@ public class HotHuaTiAdapter extends BaseAdapter {
 		holder.title.setText(blog.getTitle_sub());
 		holder.descript.setText(blog.getDesc1());
 		holder.readnumber.setText(blog.getDesc2());
-		Glide.with(mContext).load(blog.getPic()).centerCrop().crossFade().into(holder.pic);
+
+		ImageLoader.load(mContext, blog.getPic(), holder.pic);
 
 		return convertView;
 	}

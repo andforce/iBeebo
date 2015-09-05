@@ -1,9 +1,6 @@
 
 package org.zarroboogs.weibo.db.table;
 
-/**
- * User: Jiang Qi Date: 12-7-30
- */
 public class GroupTable {
 
     public static final String TABLE_NAME = "group_table";

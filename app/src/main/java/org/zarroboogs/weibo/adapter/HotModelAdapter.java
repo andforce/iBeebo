@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.hot.bean.model.HotModelCardGroup;
 import org.zarroboogs.weibo.hot.bean.model.HotModelCards;
@@ -14,7 +15,6 @@ import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,8 +22,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 public class HotModelAdapter extends BaseAdapter{
 
@@ -86,18 +84,12 @@ public class HotModelAdapter extends BaseAdapter{
 		HotModelCardGroup group = blog.getCard_group().get(0);
 		final List<Pics> mPics = group.getPics();
 
-		Glide.with(mContext).load(mPics.get(0).getPic_small()).centerCrop().crossFade().into(holder.modelPic000);
-
-		Glide.with(mContext).load(mPics.get(1).getPic_small()).centerCrop().crossFade().into(holder.modelPic001);
-
-		Glide.with(mContext).load(mPics.get(2).getPic_small()).centerCrop().crossFade().into(holder.modelPic002);
-
-		Glide.with(mContext).load(mPics.get(3).getPic_small()).centerCrop().crossFade().into(holder.modelPic003);
-
-		Glide.with(mContext).load(mPics.get(4).getPic_small()).centerCrop().crossFade().into(holder.modelPic004);
-
-		Glide.with(mContext).load(mPics.get(5).getPic_small()).centerCrop().crossFade().into(holder.modelPic005);
-
+		ImageLoader.load(mContext, mPics.get(0).getPic_small(), holder.modelPic000);
+		ImageLoader.load(mContext, mPics.get(1).getPic_small(), holder.modelPic001);
+		ImageLoader.load(mContext, mPics.get(2).getPic_small(), holder.modelPic002);
+		ImageLoader.load(mContext, mPics.get(3).getPic_small(), holder.modelPic003);
+		ImageLoader.load(mContext, mPics.get(4).getPic_small(), holder.modelPic004);
+		ImageLoader.load(mContext, mPics.get(5).getPic_small(), holder.modelPic005);
 
 		holder.showModelDetail.setOnClickListener(new OnClickListener() {
 			

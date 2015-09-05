@@ -18,9 +18,6 @@ import org.zarroboogs.weibo.support.utils.TimeUtility;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: Jiang Qi Date: 12-8-16
- */
 public class StatusesTimeLineDao {
 
     public MessageListBean getGSONMsgList() throws WeiboException {

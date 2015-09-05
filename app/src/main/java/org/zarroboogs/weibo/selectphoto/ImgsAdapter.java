@@ -4,6 +4,7 @@ package org.zarroboogs.weibo.selectphoto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.R;
 
 import android.content.Context;
@@ -14,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 public class ImgsAdapter extends BaseAdapter {
 
@@ -70,8 +69,7 @@ public class ImgsAdapter extends BaseAdapter {
             arg1 = holderlist.get(arg0);
         }
 
-        Glide.with(context).load("file://" + data.get(arg0)).centerCrop().crossFade().into(holder.imageView);
-
+        ImageLoader.load(context, "file://" + data.get(arg0), holder.imageView);
         arg1.setOnClickListener(new OnPhotoClick(arg0, holder.checkBox));
         return arg1;
     }

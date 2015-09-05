@@ -1,9 +1,6 @@
 
 package org.zarroboogs.weibo.support.utils;
 
-/**
- * User: Jiang Qi Date: 12-8-1
- */
 public class AppConfig {
 
     private AppConfig() {

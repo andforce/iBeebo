@@ -14,9 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-/**
- * User: Jiang Qi Date: 12-8-2
- */
 public class CommentListBean extends DataListItem<CommentBean, CommentListBean> implements Parcelable {
 
     private List<CommentBean> comments = new ArrayList<CommentBean>();

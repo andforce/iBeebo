@@ -12,9 +12,6 @@ import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 import org.zarroboogs.weibo.support.utils.TimeLineUtility;
 import org.zarroboogs.weibo.support.utils.TimeUtility;
 
-/**
- * User: Jiang Qi Date: 12-8-2
- */
 public class CommentBean extends DataItem implements Parcelable {
     private String created_at;
     private long id;

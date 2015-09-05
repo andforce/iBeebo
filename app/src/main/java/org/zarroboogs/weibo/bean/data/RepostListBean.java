@@ -10,9 +10,6 @@ import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: Jiang Qi Date: 12-8-7
- */
 public class RepostListBean extends DataListItem<MessageBean, RepostListBean> implements Parcelable {
 
     private List<MessageBean> reposts = new ArrayList<MessageBean>();

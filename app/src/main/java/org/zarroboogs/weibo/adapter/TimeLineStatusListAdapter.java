@@ -36,6 +36,7 @@ import org.zarroboogs.devutils.http.request.HeaderList;
 import org.zarroboogs.senior.sdk.SeniorUrl;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.RepostWeiboWithAppSrcActivity;
@@ -480,11 +481,9 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
             for (int i = 0; i < count; i++) {
                 final IWeiboDrawable pic = (IWeiboDrawable) gridLayout.getChildAt(i);
                 pic.setVisibility(View.VISIBLE);
-                if (SettingUtils.getEnableBigPic()) {
-                    Glide.with(getFragment()).load(msg.getHighPicUrls().get(i)).crossFade().centerCrop().into(pic.getImageView());
-                } else {
-                    Glide.with(getFragment()).load(msg.getThumbnailPicUrls().get(i)).crossFade().centerCrop().into(pic.getImageView());
-                }
+
+                String avatar = SettingUtils.getEnableBigAvatar() ? msg.getHighPicUrls().get(i) : msg.getThumbnailPicUrls().get(i);
+                ImageLoader.load(getFragment(), avatar, pic.getImageView());
 
                 final int finalI = i;
                 pic.setOnClickListener(new View.OnClickListener() {
@@ -598,7 +597,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         String image_url = user.getAvatar_large();
         if (!TextUtils.isEmpty(image_url)) {
             view.setVisibility(View.VISIBLE);
-            Glide.with(getFragment()).load(image_url).crossFade().into(view);
+            ImageLoader.load(getFragment(), image_url, view);
         } else {
             view.setVisibility(View.GONE);
         }
@@ -623,11 +622,10 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
             });
             view.setVisibility(View.VISIBLE);
 
-            if (SettingUtils.getEnableBigPic()) {
-                Glide.with(getFragment()).load(msg.getOriginal_pic()).centerCrop().crossFade().into(view.getImageView());
-            } else {
-                Glide.with(getFragment()).load(msg.getThumbnail_pic()).centerCrop().crossFade().into(view.getImageView());
-            }
+            String avatar = SettingUtils.getEnableBigPic() ? msg.getOriginal_pic() : msg.getThumbnail_pic();
+
+            ImageLoader.load(getFragment(), avatar, view.getImageView());
+
 
         } else {
             view.setVisibility(View.GONE);

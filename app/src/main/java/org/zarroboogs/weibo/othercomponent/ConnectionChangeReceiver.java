@@ -10,9 +10,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
-/**
- * User: Jiang Qi Date: 12-8-6
- */
 public class ConnectionChangeReceiver extends BroadcastReceiver {
 
     private Handler handler = new Handler(Looper.getMainLooper());

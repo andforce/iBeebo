@@ -7,9 +7,6 @@ import android.text.TextUtils;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 
-/**
- * User: Jiang Qi Date: 12-8-14
- */
 public class WeiboException extends Exception {
 
     /**

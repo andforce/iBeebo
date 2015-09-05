@@ -3,18 +3,16 @@ package org.zarroboogs.weibo.adapter;
 
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.UserInfoActivity;
-import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.data.DataItem;
 import org.zarroboogs.weibo.dialogfragment.UserDialog;
 import org.zarroboogs.weibo.setting.SettingUtils;
-import org.zarroboogs.weibo.support.asyncdrawable.IPictureWorker;
 import org.zarroboogs.weibo.support.asyncdrawable.IWeiboDrawable;
-import org.zarroboogs.weibo.support.asyncdrawable.PictureBitmapDrawable;
 import org.zarroboogs.weibo.support.gallery.GalleryAnimationActivity;
 import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.lib.ClickableTextViewMentionLinkOnTouchListener;
@@ -26,7 +24,6 @@ import org.zarroboogs.weibo.widget.TimeTextView;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -42,8 +39,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -307,7 +302,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         String image_url = user.getAvatar_large();
         if (!TextUtils.isEmpty(image_url)) {
             view.setVisibility(View.VISIBLE);
-            Glide.with(getFragment()).load(image_url).crossFade().into(view);
+            ImageLoader.load(getFragment(), image_url, view);
         } else {
             view.setVisibility(View.GONE);
         }
@@ -322,11 +317,10 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
             for (int i = 0; i < count; i++) {
                 final IWeiboDrawable pic = (IWeiboDrawable) gridLayout.getChildAt(i);
                 pic.setVisibility(View.VISIBLE);
-                if (SettingUtils.getEnableBigPic()) {
-                    Glide.with(getFragment()).load(msg.getHighPicUrls().get(i)).crossFade().centerCrop().into(pic.getImageView());
-                } else {
-                    Glide.with(getFragment()).load(msg.getThumbnailPicUrls().get(i)).crossFade().centerCrop().into(pic.getImageView());
-                }
+
+                String avatar = SettingUtils.getEnableBigAvatar() ? msg.getHighPicUrls().get(i) : msg.getThumbnailPicUrls().get(i);
+
+                ImageLoader.load(getFragment(), avatar, pic.getImageView());
 
                 final int finalI = i;
                 pic.setOnClickListener(new View.OnClickListener() {
@@ -431,11 +425,9 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
             });
             view.setVisibility(View.VISIBLE);
 
-            if (SettingUtils.getEnableBigPic()) {
-                Glide.with(getFragment()).load(msg.getOriginal_pic()).centerCrop().crossFade().into(view.getImageView());
-            } else {
-                Glide.with(getFragment()).load(msg.getThumbnail_pic()).centerCrop().crossFade().into(view.getImageView());
-            }
+            String avatar = SettingUtils.getEnableBigPic() ? msg.getOriginal_pic() : msg.getThumbnail_pic();
+
+            ImageLoader.load(getFragment(), avatar,view.getImageView());
 
         } else {
             view.setVisibility(View.GONE);

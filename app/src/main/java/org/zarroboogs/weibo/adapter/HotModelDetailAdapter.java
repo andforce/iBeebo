@@ -3,6 +3,7 @@ package org.zarroboogs.weibo.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.hot.bean.model.detail.Pics;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
@@ -13,8 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 public class HotModelDetailAdapter extends BaseAdapter {
 
@@ -71,7 +70,8 @@ public class HotModelDetailAdapter extends BaseAdapter {
 		}
 		
 		String pic = mPics.get(position).getPic_small();
-		Glide.with(mContext).load(pic).centerCrop().crossFade().into(holder.modelDetail);
+
+		ImageLoader.load(mContext, pic, holder.modelDetail);
 		return convertView;
 	}
 

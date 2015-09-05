@@ -8,9 +8,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-/**
- * User: qii
- */
 public class QuickSendProgressFragment extends DialogFragment {
 
     @Override

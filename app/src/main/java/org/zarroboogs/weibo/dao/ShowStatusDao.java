@@ -14,9 +14,6 @@ import org.zarroboogs.weibo.bean.MessageBean;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: Jiang Qi Date: 12-8-7
- */
 public class ShowStatusDao {
 
     private String access_token;

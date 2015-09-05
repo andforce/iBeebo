@@ -1,9 +1,6 @@
 
 package org.zarroboogs.weibo.db.table;
 
-/**
- * User: Jiang Qi Date: 12-8-10
- */
 public class RepostsTable {
 
     public static final String TABLE_NAME = "reposts_table";

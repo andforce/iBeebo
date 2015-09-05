@@ -2,8 +2,6 @@
 package org.zarroboogs.weibo.support.lib;
 
 /**
- * User: qii
- * Date: 13-2-5
  * https://plus.google.com/113735310430199015092/posts/QrMMFNck5MA
  */
 

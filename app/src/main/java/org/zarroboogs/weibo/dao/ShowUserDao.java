@@ -16,9 +16,6 @@ import org.zarroboogs.weibo.bean.UserBean;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * User: Jiang Qi Date: 12-8-14
- */
 public class ShowUserDao {
 
     public UserBean getUserInfo() throws WeiboException {

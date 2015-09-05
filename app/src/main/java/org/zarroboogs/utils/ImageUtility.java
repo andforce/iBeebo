@@ -30,9 +30,6 @@ import static android.media.ExifInterface.ORIENTATION_ROTATE_270;
 import static android.media.ExifInterface.ORIENTATION_ROTATE_90;
 import static android.media.ExifInterface.TAG_ORIENTATION;
 
-/**
- * User: Jiang Qi Date: 12-8-3
- */
 public class ImageUtility {
 
     public static final int WITH_UNDEFINED = -1;
