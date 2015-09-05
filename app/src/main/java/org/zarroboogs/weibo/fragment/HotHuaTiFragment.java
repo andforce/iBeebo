@@ -40,7 +40,7 @@ import android.widget.TextView;
 public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
     private MsgDetailReadWorker picTask;
-    
+
     private ListView listView;
 
     private MaterialSwipeRefreshLayout mSwipeRefreshLayout;
@@ -53,25 +53,22 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
     private ActionMode actionMode;
 
-    private boolean canLoadOldRepostData = true;
-
     private int mPage = 1;
-    
-    private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
 
     private String mCtg;
 
-    public HotHuaTiFragment(){
+    public HotHuaTiFragment() {
         super();
     }
+
     @SuppressLint("ValidFragment")
     public HotHuaTiFragment(String ctg) {
-		super();
-		// TODO Auto-generated constructor stub
-		this.mCtg = ctg;
-	}
+        super();
+        // TODO Auto-generated constructor stub
+        this.mCtg = ctg;
+    }
 
-	@Override
+    @Override
     public void onResume() {
         super.onResume();
         getListView().setFastScrollEnabled(SettingUtils.allowFastScroll());
@@ -79,15 +76,15 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RelativeLayout swipeFrameLayout = (RelativeLayout) inflater.inflate(R.layout.hotweibo_fragment_layout,container, false);
+        View swipeFrameLayout = inflater.inflate(R.layout.hotweibo_fragment_layout, container, false);
 
-        mSwipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout,R.id.hotWeiboSRL);
+        mSwipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout, R.id.hotWeiboSRL);
         mSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
         mSwipeRefreshLayout.noMore();
 
         listView = (ListView) swipeFrameLayout.findViewById(R.id.pullToFreshView);
 
-//        pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
+        //pullToRefreshListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
         listView.setOnScrollListener(listViewOnScrollListener);
 
         mSwipeRefreshLayout.setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
@@ -116,23 +113,23 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
         adapter.notifyDataSetChanged();
         listView.setHeaderDividersEnabled(false);
 
-		
+
 //		pullToRefreshListView.setRefreshing();
-		
-		listView.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
+        listView.setOnItemClickListener(new OnItemClickListener() {
 
-				HotHuaTiCardGroup g = (HotHuaTiCardGroup) (adapter).getItem(position);
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+
+                HotHuaTiCardGroup g = (HotHuaTiCardGroup) (adapter).getItem(position);
                 Intent intent = new Intent(getActivity(), SearchTopicByNameActivity.class);
                 String str = g.getTitle_sub();
                 intent.putExtra("q", str.substring(1, str.length() - 1));
                 startActivity(intent);
-			}
-		});
+            }
+        });
         return swipeFrameLayout;
     }
 
@@ -189,7 +186,7 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
             if (getListView().getLastVisiblePosition() > 7
                     && getListView().getFirstVisiblePosition() != getListView().getHeaderViewsCount()) {
 
-            	if (getListView().getLastVisiblePosition() > repostList.size() - 3) {
+                if (getListView().getLastVisiblePosition() > repostList.size() - 3) {
                     loadOldRepostData();
                 }
             }
@@ -198,10 +195,10 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
     private void addNewDataAndRememberPosition(final List<HotHuaTiCardGroup> newValue) {
 
-    	Utility.printLongLog("HUATI_", "newValue Size: " + newValue.size());
-    	for (HotHuaTiCardGroup hotHuaTiCardGroup : newValue) {
-    		Utility.printLongLog("HUATI_", "HuaTi Text: " + hotHuaTiCardGroup.getDesc1());
-		}
+        Utility.printLongLog("HUATI_", "newValue Size: " + newValue.size());
+        for (HotHuaTiCardGroup hotHuaTiCardGroup : newValue) {
+            Utility.printLongLog("HUATI_", "HuaTi Text: " + hotHuaTiCardGroup.getDesc1());
+        }
         int initSize = getListView().getCount();
 
         if (getActivity() != null) {
@@ -222,9 +219,10 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
         }
 
     }
-    
+
 
     public void loadOldRepostData() {
+        boolean canLoadOldRepostData = true;
         if (getLoaderManager().getLoader(OLD_REPOST_LOADER_ID) != null || !canLoadOldRepostData) {
             return;
         }
@@ -232,70 +230,71 @@ public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 
     }
 
-	@Override
-	void onLoadDataSucess(String json) {
-		// TODO Auto-generated method stub
-		mPage++;
-		String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}");
-		Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
-		
-		HotHuaTi huati = new Gson().fromJson(jsonStr, new TypeToken<HotHuaTi>() {}.getType());
-		List<HotHuaTiCard> cards = huati.getCards();
-		
-		List<HotHuaTiCardGroup> result = new ArrayList<>();
-		for (HotHuaTiCard c : cards) {
-			List<HotHuaTiCardGroup> group = c.getCard_group();
+    @Override
+    void onLoadDataSucess(String json) {
+        // TODO Auto-generated method stub
+        mPage++;
+        String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}");
+        Utility.printLongLog("READ_JSON_DONE-GET_DATE_FROM_NET", json);
 
-			if (group != null) {
-                for (HotHuaTiCardGroup g : group){
-                    if (!TextUtils.isEmpty(g.getTitle_sub())){
+        HotHuaTi huati = new Gson().fromJson(jsonStr, new TypeToken<HotHuaTi>() {
+        }.getType());
+        List<HotHuaTiCard> cards = huati.getCards();
+
+        List<HotHuaTiCardGroup> result = new ArrayList<>();
+        for (HotHuaTiCard c : cards) {
+            List<HotHuaTiCardGroup> group = c.getCard_group();
+
+            if (group != null) {
+                for (HotHuaTiCardGroup g : group) {
+                    if (!TextUtils.isEmpty(g.getTitle_sub())) {
                         result.add(g);
                         Utility.printLongLog("onLoadDataSucess", g.getTitle_sub());
                     }
                 }
-			}
+            }
 
 
-		}
-		
-		if (SettingUtils.isReadStyleEqualWeibo()) {
-			adapter.addNewData(result);
-			adapter.notifyDataSetChanged();
-		}else {
-			addNewDataAndRememberPosition(result);
-		}
-		
+        }
+
+        if (SettingUtils.isReadStyleEqualWeibo()) {
+            adapter.addNewData(result);
+            adapter.notifyDataSetChanged();
+        } else {
+            addNewDataAndRememberPosition(result);
+        }
+
         mSwipeRefreshLayout.setRefreshing(false);
-	}
+    }
 
-	@Override
-	void onLoadDataFailed(String errorStr) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    void onLoadDataFailed(String errorStr) {
 
-	@Override
-	void onLoadDataStart() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	void onGsidLoadSuccess(String gsid) {
-		// TODO Auto-generated method stub
-		loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
-	}
+    @Override
+    void onLoadDataStart() {
 
-	@Override
-	void onGsidLoadFailed(String errorStr) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	void onPageSelected() {
-		// TODO Auto-generated method stub
+    @Override
+    void onGsidLoadSuccess(String gsid) {
         loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
+    }
+
+    @Override
+    void onGsidLoadFailed(String errorStr) {
+
+    }
+
+    private boolean mFirstSelect = true;
+
+    @Override
+    void onPageSelected() {
+        if (mFirstSelect) {
+            mFirstSelect = false;
+            loadData(SeniorUrl.hotHuaTiApi(getGsid(), mCtg, mPage, Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid())));
+        }
 
     }
 

@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rootSwipLayout"
+<org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout
+    android:id="@+id/hotWeiboSRL"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout
-        android:id="@+id/hotWeiboSRL"
+
+    <ListView
+        android:id="@+id/pullToFreshView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:divider="@null"
+        android:fastScrollEnabled="false"
+        android:overScrollMode="never"
+        android:scrollingCache="true"
+        android:smoothScrollbar="true"
+        android:visibility="visible"/>
 
-        <ListView
-            android:id="@+id/pullToFreshView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:fastScrollEnabled="false"
-            android:overScrollMode="never"
-            android:scrollingCache="true"
-            android:smoothScrollbar="true"
-            android:visibility="visible" />
-    </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
-
-</RelativeLayout>
+</org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>

@@ -21,7 +21,7 @@ public class HotHuaTiAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 
-	private List<HotHuaTiCardGroup> list = new ArrayList<HotHuaTiCardGroup>();
+	private List<HotHuaTiCardGroup> list = new ArrayList<>();
 
     private Context mContext;
 
@@ -33,26 +33,22 @@ public class HotHuaTiAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return list.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return list.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		ViewHolder holder = null;
+		ViewHolder holder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.hot_huati_item_layout, null);
 			holder = buildHolder(convertView);
