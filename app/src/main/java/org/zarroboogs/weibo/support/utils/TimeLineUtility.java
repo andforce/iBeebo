@@ -51,7 +51,7 @@ public class TimeLineUtility {
 
 
     private static String formatLink(String ori){
-        String format = "<a href=\"%s\">≡链接≡</a>";
+        String format = "<a href=\"%s\">≡链接※</a>";
 
         Pattern pattern = WeiboPatterns.WEB_URL;
         Matcher matcher = pattern.matcher(ori);
