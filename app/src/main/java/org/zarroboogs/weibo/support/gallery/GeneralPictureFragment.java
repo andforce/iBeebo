@@ -3,7 +3,6 @@ package org.zarroboogs.weibo.support.gallery;
 
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.lib.AnimationRect;
 import org.zarroboogs.weibo.support.utils.AnimationUtility;
@@ -11,7 +10,6 @@ import org.zarroboogs.weibo.support.utils.Utility;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,10 +28,6 @@ import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class GeneralPictureFragment extends Fragment {
-
-    private static final int IMAGEVIEW_SOFT_LAYER_MAX_WIDTH = 2000;
-
-    private static final int IMAGEVIEW_SOFT_LAYER_MAX_HEIGHT = 3000;
 
     private PhotoView mPhotoView;
 

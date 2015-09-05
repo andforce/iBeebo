@@ -3,6 +3,8 @@ package org.zarroboogs.weibo.support.gallery;
 
 import java.io.File;
 
+import org.zarroboogs.msrl.widget.CircleProgressBar;
+import org.zarroboogs.msrl.widget.MaterialProgressDrawable;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
@@ -10,6 +12,7 @@ import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.support.asyncdrawable.TaskCache;
 import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
 import org.zarroboogs.weibo.support.lib.AnimationRect;
+import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.CircleProgressView;
 
 import android.animation.ObjectAnimator;
@@ -24,14 +27,13 @@ import android.widget.TextView;
 
 public class BigPicContainerFragment extends Fragment {
 
-    private TextView wait;
-    private TextView error;
-    private CircleProgressView progressView;
-    private TextView mProgressNumber;
+    private CircleProgressBar mWait;
+    private TextView mError;
+    private CircleProgressView mDownLoadProgress;
 
 
     public static BigPicContainerFragment newInstance(String url, AnimationRect rect, boolean animationIn,
-            boolean firstOpenPage) {
+                                                      boolean firstOpenPage) {
         BigPicContainerFragment fragment = new BigPicContainerFragment();
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
@@ -45,11 +47,11 @@ public class BigPicContainerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.big_pic_gallery_container_layout, container, false);
-        progressView = (CircleProgressView) view.findViewById(R.id.loading);
-        wait = (TextView) view.findViewById(R.id.wait);
-        error = (TextView) view.findViewById(R.id.error);
-        mProgressNumber = (TextView) view.findViewById(R.id.progress_bumber);
+        mDownLoadProgress = (CircleProgressView) view.findViewById(R.id.loading);
+        mWait = ViewUtility.findViewById(view, R.id.wait);
+        mError = (TextView) view.findViewById(R.id.error);
 
         Bundle bundle = getArguments();
         String url = bundle.getString("url");
@@ -72,10 +74,8 @@ public class BigPicContainerFragment extends Fragment {
 
             GalleryAnimationActivity activity = (GalleryAnimationActivity) getActivity();
             activity.showBackgroundImmediately();
-            progressView.setVisibility(View.VISIBLE);
-            wait.setVisibility(View.VISIBLE);
-
-            mProgressNumber.setVisibility(View.VISIBLE);
+            mDownLoadProgress.setVisibility(View.VISIBLE);
+            mWait.setVisibility(View.VISIBLE);
 
             TimeLineBitmapDownloader.getInstance().download(this, url, FileLocationMethod.picture_large, downloadCallback);
 
@@ -89,40 +89,37 @@ public class BigPicContainerFragment extends Fragment {
         @Override
         public void onSubmitJobButNotBegin() {
             super.onSubmitJobButNotBegin();
-            wait.setVisibility(View.VISIBLE);
+            mWait.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onUpdate(int progress, int max) {
             super.onUpdate(progress, max);
-            wait.setVisibility(View.INVISIBLE);
-            progressView.setMax(max);
-            progressView.setProgress(progress);
-
-            mProgressNumber.setText((100 * progress / max) + "%");
+            mDownLoadProgress.setMax(max);
+            mDownLoadProgress.setProgress(progress);
         }
 
         @Override
         public void onComplete(final String localPath) {
             super.onComplete(localPath);
-            CircleProgressView circleProgressView = progressView;
+            CircleProgressView circleProgressView = mDownLoadProgress;
             circleProgressView.executeRunnableAfterAnimationFinish(new Runnable() {
                 @Override
                 public void run() {
                     if (getActivity() == null) {
                         return;
                     }
-                    progressView.setVisibility(View.INVISIBLE);
-                    wait.setVisibility(View.INVISIBLE);
+                    mDownLoadProgress.setVisibility(View.INVISIBLE);
+                    mWait.setVisibility(View.INVISIBLE);
 
                     if (TextUtils.isEmpty(localPath)) {
-                        error.setVisibility(View.VISIBLE);
-                        error.setText(getString(R.string.picture_cant_download_or_sd_cant_read));
+                        mError.setVisibility(View.VISIBLE);
+                        mError.setText(getString(R.string.picture_cant_download_or_sd_cant_read));
                     } else if (!ImageUtility.isThisBitmapCanRead(localPath)) {
-                        error.setVisibility(View.VISIBLE);
-                        error.setText(getString(R.string.download_finished_but_cant_read_picture_file));
+                        mError.setVisibility(View.VISIBLE);
+                        mError.setText(getString(R.string.download_finished_but_cant_read_picture_file));
                     } else {
-                        error.setVisibility(View.INVISIBLE);
+                        mError.setVisibility(View.INVISIBLE);
                         displayPicture(localPath, false);
                     }
 
@@ -133,8 +130,6 @@ public class BigPicContainerFragment extends Fragment {
     };
 
     private void displayPicture(String path, boolean animateIn) {
-
-        mProgressNumber.setVisibility(View.GONE);
 
         GalleryAnimationActivity activity = (GalleryAnimationActivity) getActivity();
 
