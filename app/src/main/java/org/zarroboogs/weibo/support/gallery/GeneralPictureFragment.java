@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.support.gallery;
 
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.setting.SettingUtils;
@@ -18,11 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -68,22 +64,12 @@ public class GeneralPictureFragment extends Fragment {
 
         if (!animateIn) {
 
-            Glide.with(this).load(path).into(new SimpleTarget<GlideDrawable>() {
-                @Override
-                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                    mPhotoView.setImageDrawable(resource);
-                }
-            });
+            ImageLoader.load(this, path, mPhotoView);
 
             return view;
         }
 
-        Glide.with(this).load(path).into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                mPhotoView.setImageDrawable(resource);
-            }
-        });
+        ImageLoader.load(this, path, mPhotoView);
 
         final Runnable endAction = new Runnable() {
             @Override

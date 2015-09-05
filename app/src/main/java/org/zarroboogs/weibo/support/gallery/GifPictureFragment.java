@@ -1,6 +1,7 @@
 
 package org.zarroboogs.weibo.support.gallery;
 
+import org.zarroboogs.utils.ImageLoader;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.setting.SettingUtils;
@@ -19,11 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,12 +77,7 @@ public class GifPictureFragment extends Fragment {
 
         final ClipImageView photoView = (ClipImageView) view.findViewById(R.id.cover);
 
-        Glide.with(this).load(path).into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                photoView.setImageDrawable(resource);
-            }
-        });
+        ImageLoader.load(this, path, photoView);
 
 //        Bitmap bitmap = ImageUtility.decodeBitmapFromSDCard(path, IMAGEVIEW_SOFT_LAYER_MAX_WIDTH,
 //                IMAGEVIEW_SOFT_LAYER_MAX_HEIGHT);
