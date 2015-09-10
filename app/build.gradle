@@ -64,14 +64,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile 'com.rengwuxian.materialedittext:library:2.0.3'
-    //    compile project(':android-support-v7-appcompat-without-multi-lang')
 
-    //    compile project(':FloatActionButton-Eclipse')
-    //    compile project(':SeniorSDK')
-    //    compile project(':Beebo-MaterialEdittext')
 
     compile files('libs/beebo-lib-slidingtablayout.jar')
-    compile files('libs/devutils.jar')
     compile files('libs/js_inject.jar')
 
 
@@ -98,6 +93,7 @@ dependencies {
     compile 'de.greenrobot:greendao:2.0.0'
     compile 'com.github.bumptech.glide:glide:3.6.1'
 
+    compile 'org.zarrboogs.android:android-dev-utils:0.0.1'
 
 
     compile 'com.github.chrisbanes.photoview:library:1.2.3'

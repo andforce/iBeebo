@@ -177,6 +177,10 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
 
     protected void bindViewData(final ViewHolder holder, final MessageBean msg) {
 
+        if (msg == null){
+            return;
+        }
+
         final AccountBean accountBean = BeeboApplication.getInstance().getAccountBean();
 
         holder.popupMenuIb.setOnClickListener(new View.OnClickListener() {
