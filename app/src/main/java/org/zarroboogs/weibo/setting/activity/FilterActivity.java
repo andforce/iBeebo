@@ -25,7 +25,7 @@ import org.zarroboogs.weibo.setting.fragment.FilterTopicFragment;
 import org.zarroboogs.weibo.setting.fragment.FilterUserFragment;
 import org.zarroboogs.weibo.support.lib.AppFragmentPagerAdapter;
 
-import com.example.android.common.view.SlidingTabLayout;
+import com.andforce.common.view.SlidingTabLayout;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;

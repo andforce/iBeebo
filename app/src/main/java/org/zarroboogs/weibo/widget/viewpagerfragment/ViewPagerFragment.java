@@ -10,8 +10,6 @@ import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 import org.zarroboogs.weibo.support.utils.Utility;
 
-import com.example.android.common.view.SlidingTabLayout;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +17,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.andforce.common.view.SlidingTabLayout;
 
 public abstract class ViewPagerFragment extends BaseStateFragment implements MainTimeLineActivity.ScrollableListFragment {
 

@@ -16,7 +16,7 @@
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:title="@string/filter"></android.support.v7.widget.Toolbar>
 
-    <com.example.android.common.view.SlidingTabLayout
+    <com.andforce.common.view.SlidingTabLayout
         android:id="@+id/filterSTL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

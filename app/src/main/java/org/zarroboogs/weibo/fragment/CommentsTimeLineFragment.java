@@ -12,7 +12,6 @@ import org.zarroboogs.weibo.support.lib.LongClickableLinkMovementMethod;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.Utility;
 
-import com.example.android.common.view.SlidingTabLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +23,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+
+import com.andforce.common.view.SlidingTabLayout;
 
 public class CommentsTimeLineFragment extends BaseStateFragment implements MainTimeLineActivity.ScrollableListFragment {
 
