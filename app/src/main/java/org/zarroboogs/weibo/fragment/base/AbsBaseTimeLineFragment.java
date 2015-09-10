@@ -184,7 +184,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         }
 
         getLoaderManager().destroyLoader(NEW_MSG_LOADER_ID);
-        mTimeLineSwipeRefreshLayout.setLoadingMore(false);
         getLoaderManager().restartLoader(OLD_MSG_LOADER_ID, null, msgAsyncTaskLoaderCallback);
     }
 
