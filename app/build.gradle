@@ -94,5 +94,5 @@ dependencies {
     // 自己的库
     compile 'com.andforce.common.view:slidingtablayout:0.0.1@aar'
     compile 'com.andforce.injectjs:injectjs4android:0.0.1@aar'
-    compile 'org.zarrboogs.android:android-dev-utils:0.0.1'
+    compile 'org.zarrboogs.android:android-dev-utils:0.0.2@aar'
 }
