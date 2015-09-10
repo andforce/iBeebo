@@ -1,1 +1,1 @@
-include ':app', ':greendaogen', 'MaterialSwipeRefreshLayout'
+include ':app', ':greendaogen'
