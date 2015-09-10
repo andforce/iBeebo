@@ -6,7 +6,7 @@ import org.zarroboogs.devutils.http.AbsAsyncHttpActivity;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
-import org.zarroboogs.senior.sdk.SeniorUrl;
+import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.utils.PatternUtils;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;

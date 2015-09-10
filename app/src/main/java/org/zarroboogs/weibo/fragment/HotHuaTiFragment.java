@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
-import org.zarroboogs.senior.sdk.SeniorUrl;
+import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.MyAnimationListener;
 import org.zarroboogs.weibo.R;

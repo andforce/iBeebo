@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
-import org.zarroboogs.senior.sdk.SeniorUrl;
+import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.activity.BrowserWeiboMsgActivity;
 import org.zarroboogs.weibo.adapter.HotWeiboStatusListAdapter;

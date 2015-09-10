@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.service;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.AbsAsyncHttpService;
 import org.zarroboogs.devutils.http.request.HeaderList;
-import org.zarroboogs.senior.sdk.SeniorUrl;
+import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.weibo.othercomponent.BeeboAlermManager;
 
 import android.content.Intent;

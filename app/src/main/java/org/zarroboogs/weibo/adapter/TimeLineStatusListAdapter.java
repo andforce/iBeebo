@@ -32,7 +32,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.apache.http.Header;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.devutils.http.request.HeaderList;
-import org.zarroboogs.senior.sdk.SeniorUrl;
+import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.ImageLoader;

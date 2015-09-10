@@ -2,8 +2,6 @@
 package org.zarroboogs.utils;
 
 import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.senior.sdk.SeniorParams;
-import org.zarroboogs.senior.sdk.SeniorUrl;
 
 import android.os.Build;
 

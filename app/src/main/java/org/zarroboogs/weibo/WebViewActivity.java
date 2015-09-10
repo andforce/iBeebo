@@ -1,7 +1,7 @@
 
 package org.zarroboogs.weibo;
 
-import org.zarroboogs.senior.sdk.SeniorUrl;
+import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.utils.PatternUtils;
 import org.zarroboogs.weibo.activity.SharedPreferenceActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
