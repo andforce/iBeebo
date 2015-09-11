@@ -44,10 +44,6 @@ public class ManageGroupActivity extends AbstractAppActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        // getActionBar().setDisplayShowHomeEnabled(false);
-        // getActionBar().setDisplayShowTitleEnabled(true);
-        // getActionBar().setDisplayHomeAsUpEnabled(false);
-        // getActionBar().setTitle(getString(R.string.friend_group));
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(android.R.id.content, new ManageGroupFragment()).commit();

@@ -10,6 +10,23 @@ public class HotGeoBean implements Parcelable {
 
 	// =============================================//
 
+	protected HotGeoBean(Parcel in) {
+		type = in.readString();
+		coordinates = in.createDoubleArray();
+	}
+
+	public static final Creator<HotGeoBean> CREATOR = new Creator<HotGeoBean>() {
+		@Override
+		public HotGeoBean createFromParcel(Parcel in) {
+			return new HotGeoBean(in);
+		}
+
+		@Override
+		public HotGeoBean[] newArray(int size) {
+			return new HotGeoBean[size];
+		}
+	};
+
 	public String getType() {
 		return type;
 	}
@@ -36,6 +53,8 @@ public class HotGeoBean implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		// TODO Auto-generated method stub
 
+		dest.writeString(type);
+		dest.writeDoubleArray(coordinates);
 	}
 
 }
