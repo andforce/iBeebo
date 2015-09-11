@@ -45,8 +45,6 @@ public class BitmapUtils {
 
     private static final int DEFAULT_JPEG_QUALITY = 90;
 
-    public static final int UNCONSTRAINED = -1;
-
     private BitmapUtils() {
     }
 
