@@ -4,7 +4,6 @@ package org.zarroboogs.weibo.widget.galleryview;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
@@ -93,7 +92,7 @@ public abstract class VersionedGestureDetector {
                     if (!mIsDragging) {
                         // Use Pythagoras to see if drag length is larger than
                         // touch slop
-                        mIsDragging = FloatMath.sqrt((dx * dx) + (dy * dy)) >= mTouchSlop;
+                        mIsDragging = Math.sqrt((dx * dx) + (dy * dy)) >= mTouchSlop;
                     }
 
                     if (mIsDragging) {
