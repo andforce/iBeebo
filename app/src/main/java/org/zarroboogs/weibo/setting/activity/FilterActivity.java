@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -61,17 +62,9 @@ public class FilterActivity extends AbstractAppActivity {
         TimeLinePagerAdapter adapter = new TimeLinePagerAdapter(getSupportFragmentManager());
         viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(onPageChangeListener);
         slidingTab.setViewPager(viewPager);
 
     }
-
-    ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-            // getActionBar().setSelectedNavigationItem(position);
-        }
-    };
 
     class TimeLinePagerAdapter extends AppFragmentPagerAdapter {
 
@@ -184,6 +177,8 @@ public class FilterActivity extends AbstractAppActivity {
     }
 
     public static class FilterRuleDialog extends DialogFragment {
+
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             return new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.filter_rule_content))

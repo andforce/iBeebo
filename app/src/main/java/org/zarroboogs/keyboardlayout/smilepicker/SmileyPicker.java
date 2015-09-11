@@ -71,7 +71,7 @@ public class SmileyPicker extends LinearLayout {
             rightPoint.setVisibility(View.GONE);
         }
         leftPoint.getDrawable().setLevel(1);
-        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);

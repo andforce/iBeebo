@@ -65,20 +65,6 @@ public class JavaHttpUtility {
         }
     }
 
-    private TrustManager[] trustAllCerts = new TrustManager[] {
-            new X509TrustManager() {
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-
-                public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
-                }
-
-                public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
-                }
-            }
-    };
-
     public JavaHttpUtility() {
 
         // allow Android to use an untrusted certificate for SSL/HTTPS
@@ -89,10 +75,23 @@ public class JavaHttpUtility {
             if (BuildConfig.DEBUG) {
                 HttpsURLConnection.setDefaultHostnameVerifier(new NullHostNameVerifier());
                 SSLContext sc = SSLContext.getInstance("SSL");
+                TrustManager[] trustAllCerts = new TrustManager[]{
+                        new X509TrustManager() {
+                            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                                return null;
+                            }
+
+                            public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+                            }
+
+                            public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+                            }
+                        }
+                };
                 sc.init(null, trustAllCerts, new java.security.SecureRandom());
                 HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -120,7 +119,6 @@ public class JavaHttpUtility {
     public String doPost(String urlAddress, Map<String, String> param) throws WeiboException {
         BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
-        globalContext = null;
         try {
             URL url = new URL(urlAddress);
             Proxy proxy = getProxy();
@@ -157,8 +155,7 @@ public class JavaHttpUtility {
     private String handleResponse(HttpURLConnection httpURLConnection) throws WeiboException {
         BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
-        globalContext = null;
-        int status = 0;
+        int status;
         try {
             status = httpURLConnection.getResponseCode();
         } catch (IOException e) {
@@ -177,8 +174,8 @@ public class JavaHttpUtility {
     private String handleError(HttpURLConnection urlConnection) throws WeiboException {
 
         String result = readError(urlConnection);
-        String err = null;
-        int errCode = 0;
+        String err;
+        int errCode;
         try {
             AppLoggerUtils.e("error=" + result);
             JSONObject json = new JSONObject(result);
@@ -209,7 +206,6 @@ public class JavaHttpUtility {
         BufferedReader buffer = null;
         BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
-        globalContext = null;
         try {
             is = urlConnection.getInputStream();
 
@@ -273,7 +269,6 @@ public class JavaHttpUtility {
             Utility.closeSilently(is);
             Utility.closeSilently(buffer);
             urlConnection.disconnect();
-            globalContext = null;
         }
 
     }
@@ -284,13 +279,9 @@ public class JavaHttpUtility {
 
         BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
-        globalContext = null;
-        InputStream is = null;
         try {
 
-            StringBuilder urlBuilder = new StringBuilder(urlStr);
-            urlBuilder.append("?").append(Utility.encodeUrl(param));
-            URL url = new URL(urlBuilder.toString());
+            URL url = new URL(urlStr + "?" + Utility.encodeUrl(param));
             AppLoggerUtils.d("get request" + url);
             Proxy proxy = getProxy();
             HttpURLConnection urlConnection;
@@ -359,7 +350,7 @@ public class JavaHttpUtility {
 
             int bytetotal = urlConnection.getContentLength();
             int bytesum = 0;
-            int byteread = 0;
+            int byteread;
             out = new BufferedOutputStream(new FileOutputStream(file));
 
             InputStream is = urlConnection.getInputStream();
@@ -371,7 +362,7 @@ public class JavaHttpUtility {
 
             final Thread thread = Thread.currentThread();
             byte[] buffer = new byte[1444];
-            while ((byteread = in.read(buffer)) != -1) {
+            while (-1 != (byteread = in.read(buffer))) {
                 if (thread.isInterrupted()) {
                     if (((float) bytesum / (float) bytetotal) < 0.8f) {
                         file.delete();
@@ -408,7 +399,7 @@ public class JavaHttpUtility {
     }
 
     private static String getBoundry() {
-        StringBuffer _sb = new StringBuffer();
+        StringBuilder _sb = new StringBuilder();
         for (int t = 1; t < 12; t++) {
             long time = System.currentTimeMillis() + t;
             if (time % 3 == 0) {
@@ -423,12 +414,10 @@ public class JavaHttpUtility {
     }
 
     private String getBoundaryMessage(String boundary, Map params, String fileField, String fileName, String fileType) {
-        StringBuffer res = new StringBuffer("--").append(boundary).append("\r\n");
+        StringBuilder res = new StringBuilder("--").append(boundary).append("\r\n");
 
-        Iterator keys = params.keySet().iterator();
-
-        while (keys.hasNext()) {
-            String key = (String) keys.next();
+        for (Object o : params.keySet()) {
+            String key = (String) o;
             String value = (String) params.get(key);
             res.append("Content-Disposition: form-data; name=\"").append(key).append("\"\r\n").append("\r\n").append(value)
                     .append("\r\n").append("--")
@@ -455,10 +444,9 @@ public class JavaHttpUtility {
 
             sendStr = getBoundaryMessage(BOUNDARYSTR, param, imageParamName, new File(path).getName(), "image/png");
             contentLength = sendStr.getBytes("UTF-8").length + (int) targetFile.length() + 2 * barry.length;
-        } catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException ignored) {
 
         }
-        int totalSent = 0;
         String lenstr = Integer.toString(contentLength);
 
         HttpURLConnection urlConnection = null;
@@ -466,11 +454,8 @@ public class JavaHttpUtility {
         FileInputStream fis = null;
         BeeboApplication globalContext = BeeboApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
-        globalContext = null;
         try {
-            URL url = null;
-
-            url = new URL(urlStr);
+            URL url = new URL(urlStr);
 
             Proxy proxy = getProxy();
             if (proxy != null) {
@@ -494,7 +479,6 @@ public class JavaHttpUtility {
 
             out = new BufferedOutputStream(urlConnection.getOutputStream());
             out.write(sendStr.getBytes("UTF-8"));
-            totalSent += sendStr.getBytes("UTF-8").length;
 
             fis = new FileInputStream(targetFile);
 
@@ -502,7 +486,7 @@ public class JavaHttpUtility {
             int bytesAvailable;
             int bufferSize;
             byte[] buffer;
-            int maxBufferSize = 1 * 1024;
+            int maxBufferSize = 1024;
 
             bytesAvailable = fis.available();
             bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -531,9 +515,7 @@ public class JavaHttpUtility {
             }
 
             out.write(barry);
-            totalSent += barry.length;
             out.write(barry);
-            totalSent += barry.length;
             out.flush();
             out.close();
             if (listener != null) {

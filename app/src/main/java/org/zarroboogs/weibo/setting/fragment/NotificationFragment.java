@@ -25,7 +25,7 @@ public class NotificationFragment extends PreferenceFragment implements SharedPr
 
     private Preference frequency;
     private Preference ringtone;
-    private List<Preference> preferenceList = new ArrayList<Preference>(9);
+    private List<Preference> preferenceList = new ArrayList<>(9);
 
     private Uri uri;
 
@@ -90,7 +90,7 @@ public class NotificationFragment extends PreferenceFragment implements SharedPr
             }
 
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            sharedPref.edit().putString(SettingActivity.ENABLE_RINGTONE, ringTonePath).commit();
+            sharedPref.edit().putString(SettingActivity.ENABLE_RINGTONE, ringTonePath).apply();
             buildSummary();
         }
     }

@@ -8,7 +8,7 @@ public class EmojiMap {
 
     private static EmojiMap instance = new EmojiMap();
 
-    private Map<String, String> emoji = new LinkedHashMap<String, String>();
+    private Map<String, String> emoji = new LinkedHashMap<>();
 
     private EmojiMap() {
 

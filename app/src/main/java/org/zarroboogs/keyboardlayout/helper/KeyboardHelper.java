@@ -104,9 +104,7 @@ public class KeyboardHelper {
                 mRootView.getWindowVisibleDisplayFrame(mRect);
 
                 int height = mOriRect.height() - mRect.height();
-                if (height == mKeyboardHeight) {
-                    return;
-                } else {
+                if (height != mKeyboardHeight){
                     if (mKeyboardHeight != UNKNOW) {
                         if (height > 0) {
                             mListener.onKeyBoardShow(height);
