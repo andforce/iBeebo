@@ -15,7 +15,7 @@ android {
         targetSdkVersion 23
 
         versionCode 41
-        versionName "3.2.0"
+        versionName "3.2.0 beta"
     }
 
     packagingOptions {

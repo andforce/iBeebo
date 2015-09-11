@@ -44,7 +44,7 @@ public class ChangeLogDialog {
 
     // Parse a the release tag and return html code
     private String ParseReleaseTag(XmlResourceParser aXml) throws XmlPullParserException, IOException {
-        String _Result = "<h1>Release: " + aXml.getAttributeValue(null, "version") + "</h1><ul>";
+        String _Result = "<h1>版本: " + aXml.getAttributeValue(null, "version") + "</h1><ul>";
         int eventType = aXml.getEventType();
         while ((eventType != XmlPullParser.END_TAG) || (aXml.getName().equals("change"))) {
             if ((eventType == XmlPullParser.START_TAG) && (aXml.getName().equals("change"))) {
