@@ -12,13 +12,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AbstractAppActivity;
-import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.setting.fragment.FilterKeywordFragment;
 import org.zarroboogs.weibo.setting.fragment.FilterSourceFragment;
 import org.zarroboogs.weibo.setting.fragment.FilterTopicFragment;
@@ -46,7 +42,6 @@ public class FilterActivity extends AbstractAppActivity {
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getName());
         MobclickAgent.onResume(this);
@@ -54,7 +49,6 @@ public class FilterActivity extends AbstractAppActivity {
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getName());
         MobclickAgent.onPause(this);
@@ -62,24 +56,12 @@ public class FilterActivity extends AbstractAppActivity {
 
     private void initLayout() {
 
-
-        View title = getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
-        Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
-
-        switchBtn.setChecked(SettingUtils.isEnableFilter());
-        switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingUtils.setEnableFilter(isChecked);
-            }
-        });
-
         SlidingTabLayout slidingTab = (SlidingTabLayout) findViewById(R.id.filterSTL);
         ViewPager viewPager = (ViewPager) findViewById(R.id.filterViewpager);
         TimeLinePagerAdapter adapter = new TimeLinePagerAdapter(getSupportFragmentManager());
         viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(onPageChangeListener);
+        viewPager.addOnPageChangeListener(onPageChangeListener);
         slidingTab.setViewPager(viewPager);
 
     }
@@ -93,7 +75,7 @@ public class FilterActivity extends AbstractAppActivity {
 
     class TimeLinePagerAdapter extends AppFragmentPagerAdapter {
 
-        List<Fragment> list = new ArrayList<Fragment>();
+        List<Fragment> list = new ArrayList<>();
 
         public TimeLinePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -128,7 +110,7 @@ public class FilterActivity extends AbstractAppActivity {
 
         @Override
         protected String getTag(int position) {
-            List<String> tagList = new ArrayList<String>();
+            List<String> tagList = new ArrayList<>();
             tagList.add(FilterKeywordFragment.class.getName());
             tagList.add(FilterUserFragment.class.getName());
             tagList.add(FilterTopicFragment.class.getName());
@@ -190,14 +172,14 @@ public class FilterActivity extends AbstractAppActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         int itemId = item.getItemId();
-		if (itemId == android.R.id.home) {
-			intent = new Intent(this, SettingActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			return true;
-		} else if (itemId == R.id.filter_rule) {
-			new FilterRuleDialog().show(getSupportFragmentManager(), "");
-		}
+        if (itemId == android.R.id.home) {
+            intent = new Intent(this, SettingActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.filter_rule) {
+            new FilterRuleDialog().show(getSupportFragmentManager(), "");
+        }
         return false;
     }
 

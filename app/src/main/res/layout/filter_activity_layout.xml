@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:useDefaultMargins="true">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:background="@drawable/status_bar_bg"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:useDefaultMargins="true">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/viewPagerToolBar"
@@ -23,12 +25,12 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/viewPagerToolBar"
         android:background="@color/md_actionbar_bg_color"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"/>
 
-    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/filterViewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/filterSTL" />
+    <android.support.v4.view.ViewPager android:id="@+id/filterViewpager"
+                                       xmlns:android="http://schemas.android.com/apk/res/android"
+                                       android:layout_width="match_parent"
+                                       android:layout_height="match_parent"
+                                       android:layout_below="@id/filterSTL"/>
 
 </RelativeLayout>

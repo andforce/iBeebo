@@ -47,10 +47,6 @@ public class SettingUtils {
         return value;
     }
 
-    public static boolean isEnableFilter() {
-        return SettingHelper.getSharedPreferences(getContext(), SettingActivity.FILTER, false);
-    }
-
     public static int getFontSize() {
         String value = SettingHelper.getSharedPreferences(getContext(), SettingActivity.FONT_SIZE, "15");
         return Integer.valueOf(value);
@@ -203,10 +199,6 @@ public class SettingUtils {
 
     public static void setEnableBigAvatar(boolean value) {
         SettingHelper.setEditor(getContext(), SettingActivity.SHOW_BIG_AVATAR, value);
-    }
-
-    public static void setEnableFilter(boolean value) {
-        SettingHelper.setEditor(getContext(), SettingActivity.FILTER, value);
     }
 
     public static void setEnableFetchMSG(boolean value) {

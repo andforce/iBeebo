@@ -64,9 +64,6 @@ public class SettingActivity extends AbstractAppActivity {
 
     public static final String ENABLE_MENTION_COMMENT_TO_ME = "mention_comment_to_me";
 
-    // filter
-    public static final String FILTER = "filter";
-
     // traffic control
     public static final String UPLOAD_PIC_QUALITY = "upload_pic_quality";
 

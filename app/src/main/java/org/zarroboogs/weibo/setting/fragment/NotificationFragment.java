@@ -45,19 +45,6 @@ public class NotificationFragment extends PreferenceFragment implements SharedPr
         preferenceList.add(findPreference(SettingActivity.ENABLE_LED));
         preferenceList.add(findPreference(SettingActivity.ENABLE_RINGTONE));
 
-        // View title =
-        // getActivity().getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
-        // Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
-        //
-        // switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-        // @Override
-        // public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        // SettingUtils.setEnableFetchMSG(isChecked);
-        // switchPre(isChecked);
-        // }
-        // });
-
-        // switchBtn.setChecked(SettingUtils.getEnableFetchMSG());
         switchPre(SettingUtils.getEnableFetchMSG());
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);

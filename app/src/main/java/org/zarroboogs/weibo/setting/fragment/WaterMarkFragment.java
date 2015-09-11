@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.setting.SettingUtils;
@@ -20,7 +17,7 @@ import java.util.List;
 public class WaterMarkFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Preference frequency;
-    private List<Preference> preferenceList = new ArrayList<Preference>(4);
+    private List<Preference> preferenceList = new ArrayList<>(4);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,20 +31,6 @@ public class WaterMarkFragment extends PreferenceFragment implements SharedPrefe
         preferenceList.add(findPreference(SettingActivity.WATER_MARK_WEIBO_URL));
 
         preferenceList.add(findPreference(SettingActivity.WATER_MARK_POS));
-
-        // View title =
-        // getActivity().getLayoutInflater().inflate(R.layout.filteractivity_title_layout, null);
-        // Switch switchBtn = (Switch) title.findViewById(R.id.switchBtn);
-        // switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-        // @Override
-        // public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        // SettingUtils.setEnableWaterMark(isChecked);
-        // switchPre(isChecked);
-        // }
-        // });
-        //
-        // switchBtn.setChecked(SettingUtils.getEnableWaterMark());
-        // switchPre(SettingUtils.getEnableWaterMark());
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
@@ -85,12 +68,4 @@ public class WaterMarkFragment extends PreferenceFragment implements SharedPrefe
         }
 
     }
-
-    private void switchPre(boolean value) {
-        for (Preference p : preferenceList) {
-            p.setEnabled(value);
-        }
-
-    }
-
 }

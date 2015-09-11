@@ -104,7 +104,7 @@
         </Preference>
         -->
         <Preference
-            android:key="filter"
+            android:key="time_line_filter"
             android:summary="眼不见心不烦"
             android:title="@string/filter" >
             <intent

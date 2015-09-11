@@ -252,8 +252,7 @@ public class TimeLineUtility {
             if (msg.getUser() == null) {
                 iterator.remove();
                 value.removedCountPlus();
-            } else if (SettingUtils.isEnableFilter()
-                    && TimeLineUtility.haveFilterWord(msg, keywordFilter, userFilter, topicFilter, sourceFilter)) {
+            } else if (TimeLineUtility.haveFilterWord(msg, keywordFilter, userFilter, topicFilter, sourceFilter)) {
                 iterator.remove();
                 value.removedCountPlus();
             } else {
