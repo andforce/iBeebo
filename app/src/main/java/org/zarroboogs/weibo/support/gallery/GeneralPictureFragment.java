@@ -64,12 +64,12 @@ public class GeneralPictureFragment extends Fragment {
 
         if (!animateIn) {
 
-            ImageLoader.load(this, path, mPhotoView);
+            ImageLoader.loadBitmap(this, path, mPhotoView);
 
             return view;
         }
 
-        ImageLoader.load(this, path, mPhotoView);
+        ImageLoader.loadBitmap(this, path, mPhotoView);
 
         final Runnable endAction = new Runnable() {
             @Override
