@@ -43,7 +43,6 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
     private InjectJS mInjectJS ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_layout);
 
@@ -76,7 +75,6 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getName());
         MobclickAgent.onResume(this);
@@ -84,7 +82,6 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getName());
         MobclickAgent.onPause(this);
@@ -114,7 +111,6 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 
 		@Override
 		public void onJSCallJava(String... arg0) {
-			// TODO Auto-generated method stub
 			DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
 			DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
 		}
@@ -143,37 +139,19 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 			
 			@Override
 			public void onLoad() {
-				// TODO Auto-generated method stub
-//				mInjectJS.exeJsFunction("fillAccount");
 				if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
 					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
 				}
-
-//				mInjectJS.jsCallJava();
-//				mInjectJS.exeJsFunction("doAutoLogIn()");
 			}
 		});
     }
-    
-    class JSInterface{
-    	
-    	public JSInterface() {
-			super();
-			// TODO Auto-generated constructor stub
-		}
-    	
-		@JavascriptInterface
-    	public void saveAccountInfo(String uname, String upassword){
-    		DevLog.printLog("saveAccountInfo ", "uname: " + uname + "  password:" + upassword );
-    	}
-    }
+
 
     private void showProgress() {
         runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 progressBar.setVisibility(View.VISIBLE);
             }
         });
@@ -185,7 +163,6 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
@@ -194,13 +171,11 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 
     @Override
     public void onCancel() {
-        // TODO Auto-generated method stub
         Toast.makeText(this, "Auth cancel", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onComplete(Bundle values) {
-        // TODO Auto-generated method stub
         CookieManager cookieManager = CookieManager.getInstance();
 
         String cookie = cookieManager.getCookie(SeniorUrl.SeniorUrl_SeniorLogin);
@@ -248,7 +223,6 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
 
     @Override
     public void onWeiboException(WeiboException e) {
-        // TODO Auto-generated method stub
         Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
@@ -259,11 +233,6 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
             showProgress();
             view.loadUrl(url);
             return super.shouldOverrideUrlLoading(view, url);
-        }
-
-        @Override
-        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            super.onReceivedError(view, errorCode, description, failingUrl);
         }
 
         @Override
