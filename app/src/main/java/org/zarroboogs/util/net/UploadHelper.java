@@ -19,7 +19,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Request;
@@ -29,12 +28,10 @@ public class UploadHelper {
 	
 	private String mCookie = "";
     private Context mContext;
-    private AsyncHttpClient mAsyncHttpClient;
     private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
 
-    public UploadHelper(Context context, AsyncHttpClient asyncHttpClient) {
+    public UploadHelper(Context context) {
         this.mContext = context;
-        this.mAsyncHttpClient = asyncHttpClient;
     }
 
     public static final int MSG_UPLOAD = 0x1000;

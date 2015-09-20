@@ -1,11 +1,8 @@
 package org.zarroboogs.weibo.fragment;
 
 import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
-import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -14,7 +11,6 @@ import java.io.IOException;
 import java.util.Map;
 
 public abstract class BaseLoadDataFragment extends BaseStateFragment {
-    private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
     private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
 
 

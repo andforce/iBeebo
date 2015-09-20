@@ -135,7 +135,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
         if (pics == null || pics.isEmpty()) {
             sendWeiboWidthPids(weiboCode, text, null);
         } else {
-            UploadHelper mUploadHelper = new UploadHelper(getApplicationContext(), getAsyncHttpClient());
+            UploadHelper mUploadHelper = new UploadHelper(getApplicationContext());
             mUploadHelper.uploadFiles(buildMark(mark), pics, new OnUpFilesListener() {
 
                 @Override

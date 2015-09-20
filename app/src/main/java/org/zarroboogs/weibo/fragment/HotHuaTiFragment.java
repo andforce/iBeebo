@@ -20,7 +20,6 @@ import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.AsyncHttpClient;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -34,8 +33,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class HotHuaTiFragment extends BaseHotHuaTiFragment {
 

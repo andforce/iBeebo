@@ -26,12 +26,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
-import org.apache.http.Header;
+import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
+import org.zarroboogs.asyncokhttpclient.SimpleHeadersBuilder;
 import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.devutils.http.request.HeaderList;
 import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
@@ -60,6 +62,7 @@ import org.zarroboogs.weibo.widget.TimeLineAvatarImageView;
 import org.zarroboogs.weibo.widget.TimeTextView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -69,7 +72,7 @@ import java.util.ListIterator;
  */
 public class TimeLineStatusListAdapter extends BaseAdapter {
 
-    private AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
+    private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
     private LongSparseArray<Integer> msgHeights = new LongSparseArray<>();
     private LongSparseArray<Integer> msgWidths = new LongSparseArray<>();
     private LongSparseArray<Integer> oriMsgHeights = new LongSparseArray<>();
@@ -398,35 +401,32 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         DevLog.printLog("Like_doInBackground", "" + url);
 
         String cookie = SeniorUrl.geCookie(gsid, accountBean.getUsernick());
-        HeaderList headerList = new HeaderList();
-        headerList.addHost("m.weibo.cn");
-        headerList.addAccept("application/json, text/javascript, */*; q=0.01");
-        headerList.addOrigin("http://m.weibo.cn");
-        headerList.addHeader("X-Requested-With", "XMLHttpRequest");
-        headerList.addUserAgent("Mozilla/5.0 (Linux; Android 5.0.1; Nexus 5 Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36");
-        headerList.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        headerList.addReferer("http://m.weibo.cn/");
-        headerList.addAcceptEncoding("gzip, deflate");
-        headerList.addAcceptLanguage("zh-CN,zh;q=0.8");
-        headerList.addHeader("Cookie", cookie);
-        DevLog.printLog("Like_doInBackground", "" + cookie);
 
-        mAsyncHttpClient.get(getActivity(), url, headerList.build(), null, new AsyncHttpResponseHandler() {
+        SimpleHeadersBuilder builder = new SimpleHeadersBuilder();
+        builder.addHost("m.weibo.cn");
+        builder.addAccept("application/json, text/javascript, */*; q=0.01");
+        builder.addOrigin("http://m.weibo.cn");
+        builder.addUserAgent("Mozilla/5.0 (Linux; Android 5.0.1; Nexus 5 Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36");
+        builder.addContentType("application/x-www-form-urlencoded; charset=UTF-8");
+        builder.addReferer("http://m.weibo.cn/");
+        builder.addAcceptEncoding("gzip, deflate");
+        builder.addAcceptLanguage("zh-CN,zh;q=0.8");
+        builder.addCookie(cookie);
+        Headers.Builder headersBuilder = builder.apply().add("X-Requested-With", "XMLHttpRequest");
+
+        mAsyncOKHttpClient.asyncGet(url, headersBuilder.build(), new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+            }
 
             @Override
-            public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
-                String result = new String(arg2);
-
-                if ("{\"ok\":1,\"msg\":\"succ\"}".equals(result)) {
+            public void onResponse(Response response) throws IOException {
+                if ("{\"ok\":1,\"msg\":\"succ\"}".equals(response.body().string())) {
                     Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            @Override
-            public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
-                Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -440,25 +440,30 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         DevLog.printLog("Like_doInBackground", "" + url);
 
         String cookie = SeniorUrl.geCookie(gsid, accountBean.getUsernick());
-        HeaderList headerList = new HeaderList();
-        headerList.addHost("m.weibo.cn");
-        headerList.addAccept("application/json, text/javascript, */*; q=0.01");
-        headerList.addOrigin("http://m.weibo.cn");
-        headerList.addHeader("X-Requested-With", "XMLHttpRequest");
-        headerList.addUserAgent("Mozilla/5.0 (Linux; Android 5.0.1; Nexus 5 Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36");
-        headerList.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        headerList.addReferer("http://m.weibo.cn/");
-        headerList.addAcceptEncoding("gzip, deflate");
-        headerList.addAcceptLanguage("zh-CN,zh;q=0.8");
-        headerList.addHeader("Cookie", cookie);
-        DevLog.printLog("Like_doInBackground", "" + cookie);
 
-        mAsyncHttpClient.get(getActivity(), url, headerList.build(), null, new AsyncHttpResponseHandler() {
+        SimpleHeadersBuilder simpleHeadersBuilder = new SimpleHeadersBuilder();
+        simpleHeadersBuilder.addHost("m.weibo.cn");
+        simpleHeadersBuilder.addAccept("application/json, text/javascript, */*; q=0.01");
+        simpleHeadersBuilder.addOrigin("http://m.weibo.cn");
+        simpleHeadersBuilder.addUserAgent("Mozilla/5.0 (Linux; Android 5.0.1; Nexus 5 Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36");
+        simpleHeadersBuilder.addContentType("application/x-www-form-urlencoded; charset=UTF-8");
+        simpleHeadersBuilder.addReferer("http://m.weibo.cn/");
+        simpleHeadersBuilder.addAcceptEncoding("gzip, deflate");
+        simpleHeadersBuilder.addAcceptLanguage("zh-CN,zh;q=0.8");
+        simpleHeadersBuilder.addCookie(cookie);
+
+        Headers.Builder builder = simpleHeadersBuilder.apply();
+        builder.add("X-Requested-With", "XMLHttpRequest");
+
+        mAsyncOKHttpClient.asyncGet(url, builder.build(), new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
+            }
 
             @Override
-            public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
-                // TODO Auto-generated method stub
-                String result = new String(arg2);
+            public void onResponse(Response response) throws IOException {
+                String result = response.body().string();
                 DevLog.printLog("Like_doInBackground", " Like CallBack:" + result);
 
                 if ("{\"ok\":1,\"msg\":\"succ\",\"data\":{\"result\":true}}".equals(result)) {
@@ -466,12 +471,6 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
                 } else {
                     Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            @Override
-            public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
-                // TODO Auto-generated method stub
-                Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
