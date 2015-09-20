@@ -29,7 +29,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RightMenuFragment extends BaseLoadDataFragment {
 
@@ -136,8 +138,8 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 	}
 
 	private void loadGroup() {
-		RequestParams requestParams = new RequestParams();
-		requestParams.add("access_token", BeeboApplication.getInstance().getAccountBean().getAccess_token_hack());
+		Map<String, String> requestParams = new HashMap<>();
+		requestParams.put("access_token", BeeboApplication.getInstance().getAccountBean().getAccess_token_hack());
 		loadData(WeiBoURLs.FRIENDSGROUP_INFO, requestParams);
 	}
 	

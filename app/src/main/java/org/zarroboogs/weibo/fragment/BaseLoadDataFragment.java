@@ -1,66 +1,63 @@
 package org.zarroboogs.weibo.fragment;
 
-import org.apache.http.Header;
+import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
+import java.util.Map;
 
 public abstract class BaseLoadDataFragment extends BaseStateFragment {
-	private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
+    private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
+    private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
 
-	public AsyncHttpClient getAsyncHttpClient() {
-		return mAsyncHttoClient;
-	}
 
-	abstract void onLoadDataSucess(String json);
+    abstract void onLoadDataSucess(String json);
 
-	abstract void onLoadDataFailed(String errorStr);
+    abstract void onLoadDataFailed(String errorStr);
 
-	abstract void onLoadDataStart();
+    abstract void onLoadDataStart();
 
-	protected void loadData(String url) {
+    protected void loadData(String url) {
 
-		onLoadDataStart();
+        onLoadDataStart();
+        mAsyncOKHttpClient.asyncGet(url, new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                onLoadDataFailed(e.getLocalizedMessage());
+            }
 
-		mAsyncHttoClient.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onResponse(Response response) throws IOException {
+                onLoadDataSucess(response.body().string());
+            }
+        });
 
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				// TODO Auto-generated method stub
-				onLoadDataSucess(new String(responseBody));
-			}
+    }
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				onLoadDataFailed(error.getLocalizedMessage());
-			}
-		});
-	}
+    protected void loadData(String url, Map<String, String> params) {
 
-	protected void loadData(String url, RequestParams params) {
+        onLoadDataStart();
 
-		onLoadDataStart();
+        mAsyncOKHttpClient.asyncGet(url, params, new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                onLoadDataFailed(e.getLocalizedMessage());
+            }
 
-		mAsyncHttoClient.get(url, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onResponse(Response response) throws IOException {
+                onLoadDataSucess(response.body().string());
+            }
+        });
 
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				// TODO Auto-generated method stub
-				String groups = new String(responseBody);
-				DevLog.printLog("LOAD_GROUPS: " , groups);
-				onLoadDataSucess(groups);
-			}
+    }
 
-			@Override
-			public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				onLoadDataFailed(error.getLocalizedMessage());
-			}
-		});
-	}
 
 }

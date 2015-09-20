@@ -1,26 +1,27 @@
 package org.zarroboogs.weibo.fragment;
 
-import org.apache.http.Header;
-import org.zarroboogs.utils.WeiBoURLs;
+import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
 import org.zarroboogs.weibo.fragment.base.AbsBaseTimeLineFragment;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.bean.MessageListBean;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+
+import java.io.IOException;
 
 public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<MessageListBean> implements MainTimeLineActivity.ScrollableListFragment{
 
     private MessageListBean mMessageListBean = new MessageListBean();
-    private AsyncHttpClient mAsyncHttoClient = new AsyncHttpClient();
+	private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
     private SharedPreferences mSharedPreference;
     
 	@Override
@@ -63,29 +64,19 @@ public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<Messa
 	protected void loadData(String url) {
 		
 		onLoadDataStart();
-		
-		mAsyncHttoClient.get(url, new AsyncHttpResponseHandler() {
 
+		mAsyncOKHttpClient.asyncGet(url, new Callback() {
 			@Override
-			public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-				// TODO Auto-generated method stub
-				onLoadDataSucess(new String(responseBody));
+			public void onFailure(Request request, IOException e) {
+				onLoadDataFailed(e.getLocalizedMessage());
 			}
 
 			@Override
-			public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				onLoadDataFailed(error.getLocalizedMessage());
-
-                if (responseBody != null){
-                    Utility.printLongLog("loadData -> onFailure ", statusCode + new String(responseBody));
-                } else {
-                    Utility.printLongLog("loadData -> onFailure ", statusCode + "");
-                }
-
-
+			public void onResponse(Response response) throws IOException {
+				onLoadDataSucess(response.body().string());
 			}
 		});
+
 	}
 	
 	@Override
