@@ -2,16 +2,14 @@
 package org.zarroboogs.util.net;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import lib.org.zarroboogs.weibo.login.javabean.UploadPicResult;
 
-import org.apache.http.Header;
-import org.apache.http.entity.FileEntity;
-import org.apache.http.message.BasicHeader;
+import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
 import org.zarroboogs.devutils.Constaces;
-import org.zarroboogs.devutils.http.request.HeaderList;
 import org.zarroboogs.utils.PatternUtils;
 
 import android.content.Context;
@@ -22,14 +20,17 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 public class UploadHelper {
 	
 	private String mCookie = "";
     private Context mContext;
     private AsyncHttpClient mAsyncHttpClient;
+    private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
 
     public UploadHelper(Context context, AsyncHttpClient asyncHttpClient) {
         this.mContext = context;
@@ -67,7 +68,7 @@ public class UploadHelper {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_UPLOAD: {
-                    uploadFile(mWaterMark, mNeedToUpload.get(mHasUploadFlag), mCookie);
+                    asyncUploadFile(mWaterMark, mNeedToUpload.get(mHasUploadFlag), mCookie);
                     break;
                 }
                 case MSG_UPLOAD_DONE: {
@@ -88,66 +89,53 @@ public class UploadHelper {
         }
     };
 
-    private void uploadFile(String waterMark, String file,String cookie) {
-        // "/sdcard/tencent/zebrasdk/Photoplus.jpg"
-
-		HeaderList headerList = new HeaderList();
-
-		headerList.add(new BasicHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"));
-		headerList.add(new BasicHeader("Accept-Encoding", "gzip,deflate"));
-		headerList.add(new BasicHeader("Accept-Language", "en-US,en;q=0.8"));
-		headerList.add(new BasicHeader("Cache-Control", "max-age=0"));
-		headerList.add(new BasicHeader("Connection", "keep-alive"));
-		headerList.add(new BasicHeader("Content-Type","application/octet-stream"));
-		headerList.add(new BasicHeader("Host", "picupload.service.weibo.com"));
-		headerList.add(new BasicHeader("Origin", "http://weibo.com"));
-		headerList.add(new BasicHeader("User-Agent", Constaces.User_Agent));
-		headerList.add(new BasicHeader("Referer","http://tjs.sjs.sinajs.cn/open/widget/static/swf/MultiFilesUpload.swf?version=1411256448572"));
-		headerList.add(new BasicHeader("Cookie",cookie));
-		
-        final String contentType = RequestParams.APPLICATION_OCTET_STREAM;
-        
-        
-        File uploadFile = new File(file);
-        FileEntity reqEntity = new FileEntity(uploadFile, "binary/octet-stream");
+    private void asyncUploadFile(String waterMark, String filePath, String cookie){
 
         String markUrl = "http://picupload.service.weibo.com/interface/pic_upload.php?" + "app=miniblog&data=1" + waterMark
                 + "&mime=image/png&ct=0.2805887470021844";
-        String unMark = "http://picupload.service.weibo.com/interface/pic_upload.php?app="
-                + "miniblog&data=1&mime=image/png&ct=0.2805887470021844";
+        Headers.Builder headers = new Headers.Builder();
+        headers.add("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        headers.add("Accept-Encoding", "gzip,deflate");
+        headers.add("Accept-Language", "en-US,en;q=0.8");
+        headers.add("Cache-Control", "max-age=0");
+        headers.add("Connection", "keep-alive");
+        headers.add("Content-Type","application/octet-stream");
+        headers.add("Host", "picupload.service.weibo.com");
+        headers.add("Origin", "http://weibo.com");
+        headers.add("User-Agent", Constaces.User_Agent);
+        headers.add("Referer","http://tjs.sjs.sinajs.cn/open/widget/static/swf/MultiFilesUpload.swf?version=1411256448572");
+        headers.add("Cookie",cookie);
 
-        mAsyncHttpClient.post(mContext.getApplicationContext(), markUrl, headerList.build(), reqEntity, contentType,
-                new AsyncHttpResponseHandler() {
+        File uploadFile = new File(filePath);
+        mAsyncOKHttpClient.asyncPostFile(markUrl, headers.build(), "application/octet-stream", uploadFile, new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.sendEmptyMessage(MSG_UPLOAD_FAILED);
+            }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String result = new String(responseBody);
-                        Log.d("uploadFile   RES======: ", result);
-                        Gson mGson = new Gson();
-                        UploadPicResult ur = mGson.fromJson(PatternUtils.preasePid(result), UploadPicResult.class);
-                        if (ur != null) {
-                            if (TextUtils.isEmpty(ur.getPid())) {
-                                mHandler.sendEmptyMessage(MSG_UPLOAD_FAILED);
-                                return;
-                            }
-                            Log.d("uploadFile   pid: ", ur.getPid());
-                            mHasUploadFlag++;
-                            mPids += ur.getPid() + ",";
-                            if (mHasUploadFlag < mNeedToUpload.size()) {
-                                mHandler.sendEmptyMessage(MSG_UPLOAD);
-                            } else {
-                                mHandler.sendEmptyMessage(MSG_UPLOAD_DONE);
-                            }
-                        } else {
-                            mHandler.sendEmptyMessage(MSG_UPLOAD_DONE);
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result = response.body().string();
+                Log.d("uploadFile ", result);
+                Gson mGson = new Gson();
+                UploadPicResult ur = mGson.fromJson(PatternUtils.preasePid(result), UploadPicResult.class);
+                if (ur != null) {
+                    if (TextUtils.isEmpty(ur.getPid())) {
                         mHandler.sendEmptyMessage(MSG_UPLOAD_FAILED);
+                        return;
                     }
-                });
+                    Log.d("uploadFile   pid: ", ur.getPid());
+                    mHasUploadFlag++;
+                    mPids += ur.getPid() + ",";
+                    if (mHasUploadFlag < mNeedToUpload.size()) {
+                        mHandler.sendEmptyMessage(MSG_UPLOAD);
+                    } else {
+                        mHandler.sendEmptyMessage(MSG_UPLOAD_DONE);
+                    }
+                } else {
+                    mHandler.sendEmptyMessage(MSG_UPLOAD_DONE);
+                }
+            }
+        });
     }
 }
