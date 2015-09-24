@@ -4,12 +4,12 @@ package org.zarroboogs.weibo;
 
 import org.zarroboogs.devutils.AssertLoader;
 import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.devutils.http.AbsAsyncHttpActivity;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
 import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.utils.PatternUtils;
+import org.zarroboogs.weibo.activity.AbstractAppActivity;
 import org.zarroboogs.weibo.activity.OAuthActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;
@@ -35,7 +35,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboClientListener {
+public class JSWebViewActivity extends AbstractAppActivity implements IWeiboClientListener {
 
     private WebView mWebView;
 
@@ -44,33 +44,32 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
     private WeiboWebViewClient mWeiboWebViewClient;
 
     private AccountBean mAccountBean;
-    
+
     private Toolbar mToolbar;
 
-    private InjectJS mInjectJS ;
+    private InjectJS mInjectJS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_layout);
 
-        setEnCode("gb2312");
-        
         mToolbar = (Toolbar) findViewById(R.id.webAuthToolbar);
-        
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mWebView.stopLoading();
-				finish();
-			}
-		});
-        
-        
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                mWebView.stopLoading();
+                finish();
+            }
+        });
+
+
         mAccountBean = getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
         if (mAccountBean == null) {
             mAccountBean = BeeboApplication.getInstance().getAccountBean();
@@ -99,9 +98,9 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 
     public void initView() {
         mWebView = (WebView) findViewById(R.id.webview);
-        
+
         mInjectJS = new InjectJS(mWebView);
-        
+
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.setHorizontalScrollBarEnabled(false);
         mWebView.requestFocus();
@@ -117,64 +116,66 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
 
     }
 
-    class JSCallBack extends JSCallJavaInterface{
+    class JSCallBack extends JSCallJavaInterface {
 
-		@Override
-		public void onJSCallJava(String... arg0) {
-			// TODO Auto-generated method stub
-			DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
-			DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
-		}
-    	
+        @Override
+        public void onJSCallJava(String... arg0) {
+            // TODO Auto-generated method stub
+            DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
+            DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
+        }
+
     }
+
     public void initData() {
         mWeiboWebViewClient = new WeiboWebViewClient();
         mWebView.setWebViewClient(mWeiboWebViewClient);
 //        mWebView.loadUrl(getAuthoUrl());
-        
+
         if (true) {
 
-        mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value","loginPassword.value");
-        mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>", 
-        		"<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
-        mInjectJS.removeDocument("<a href=\"javascript:history.go(-1);\" class=\"close\">关闭</a>");
-        mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>");
-        mInjectJS.removeDocument("<p class=\"label\"><a href=\"https://passport.weibo.cn/signin/other?r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">使用其他方式登录</a></p>");
-        mInjectJS.injectUrl(getAuthoUrl(), new AssertLoader(this).loadJs("inject.js"), "gb2312");
-        
+            mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value", "loginPassword.value");
+            mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>",
+                    "<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
+            mInjectJS.removeDocument("<a href=\"javascript:history.go(-1);\" class=\"close\">关闭</a>");
+            mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>");
+            mInjectJS.removeDocument("<p class=\"label\"><a href=\"https://passport.weibo.cn/signin/other?r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">使用其他方式登录</a></p>");
+            mInjectJS.injectUrl(getAuthoUrl(), new AssertLoader(this).loadJs("inject.js"), "gb2312");
 
-        mInjectJS.setOnLoadListener(new OnLoadListener() {
-			
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-				if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
-					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
-	            	if (!JSWebViewActivity.this.isFinishing()) {
-	            		mInjectJS.exeJsFunction("doAutoLogIn()");
-					}
-				}
-			}
-		});
-        
-		
-	}
+
+            mInjectJS.setOnLoadListener(new OnLoadListener() {
+
+                @Override
+                public void onLoad() {
+                    // TODO Auto-generated method stub
+                    if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
+                        mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(), mAccountBean.getPwd());
+                        if (!JSWebViewActivity.this.isFinishing()) {
+                            mInjectJS.exeJsFunction("doAutoLogIn()");
+                        }
+                    }
+                }
+            });
+
+
+        }
     }
-    
-    class JSInterface{
-    	
-    	public JSInterface() {
-			super();
-			// TODO Auto-generated constructor stub
-		}
-    	
-		@JavascriptInterface
-    	public void saveAccountInfo(String uname, String upassword){
-    		DevLog.printLog("saveAccountInfo ", "uname: " + uname + "  password:" + upassword );
-    	}
+
+    class JSInterface {
+
+        public JSInterface() {
+            super();
+            // TODO Auto-generated constructor stub
+        }
+
+        @JavascriptInterface
+        public void saveAccountInfo(String uname, String upassword) {
+            DevLog.printLog("saveAccountInfo ", "uname: " + uname + "  password:" + upassword);
+        }
     }
 
     static String url = "https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic";
+
     public String getAuthoUrl() {
         return url;
     }
@@ -300,45 +301,5 @@ public class JSWebViewActivity extends AbsAsyncHttpActivity implements IWeiboCli
         }
     }
 
-	@Override
-	public void onGetFailed(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetSuccess(String arg0) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onPostFailed(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPostSuccess(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRequestStart() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getStatusBarColor() {
-		// TODO Auto-generated method stub
-		return R.color.md_actionbar_bg_color;
-	}
-
-	@Override
-	public int getStatusBarColorBlack() {
-		// TODO Auto-generated method stub
-		return R.color.black;
-	}
 
 }

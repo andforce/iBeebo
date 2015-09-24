@@ -87,8 +87,8 @@ dependencies {
     // 自己的库
     compile 'com.andforce.common.view:slidingtablayout:0.0.1'
     compile 'com.andforce.common.view:materialswiperefresh:0.0.3'
-    compile 'org.zarroboogs.http:asyncokhttpclient:0.0.5'
+    compile 'org.zarroboogs.http:asyncokhttpclient:0.0.17'
     compile 'com.andforce.injectjs:injectjs4android:0.0.9'
-    compile 'org.zarrboogs.android:android-dev-utils:0.0.2'
+    compile 'org.zarrboogs.android:android-dev-utils:0.0.4'
     compile 'com.andforce.weibo.senior.api:sina-weibo-senior-api:0.0.1'
 }

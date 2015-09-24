@@ -1,5 +1,9 @@
 package org.zarroboogs.weibo.fragment;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+
 import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
 import org.zarroboogs.weibo.fragment.base.BaseStateFragment;
 
@@ -13,7 +17,8 @@ import java.util.Map;
 public abstract class BaseLoadDataFragment extends BaseStateFragment {
     private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
 
-
+    private static final int SUCCESS = 0;
+    private static final int FAIL = 1;
     abstract void onLoadDataSucess(String json);
 
     abstract void onLoadDataFailed(String errorStr);
@@ -25,17 +30,36 @@ public abstract class BaseLoadDataFragment extends BaseStateFragment {
         onLoadDataStart();
         mAsyncOKHttpClient.asyncGet(url, new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
-                onLoadDataFailed(e.getLocalizedMessage());
+            public void onFailure(Request request, final IOException e) {
+                Message message = new Message();
+                message.obj = e.getLocalizedMessage();
+                message.what = FAIL;
+                mHandler.sendMessage(message);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
-                onLoadDataSucess(response.body().string());
+            public void onResponse(final Response response) throws IOException {
+                String string = response.body().string();
+                Message message = new Message();
+                message.obj = string;
+                message.what = SUCCESS;
+                mHandler.sendMessage(message);
             }
         });
 
     }
+
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == SUCCESS){
+                onLoadDataSucess((String) msg.obj);
+            } else if (msg.what == FAIL){
+                onLoadDataFailed((String) msg.obj);
+            }
+        }
+    };
 
     protected void loadData(String url, Map<String, String> params) {
 
@@ -43,13 +67,20 @@ public abstract class BaseLoadDataFragment extends BaseStateFragment {
 
         mAsyncOKHttpClient.asyncGet(url, params, new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
-                onLoadDataFailed(e.getLocalizedMessage());
+            public void onFailure(Request request, final IOException e) {
+                Message message = new Message();
+                message.obj = e.getLocalizedMessage();
+                message.what = FAIL;
+                mHandler.sendMessage(message);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
-                onLoadDataSucess(response.body().string());
+            public void onResponse(final Response response) throws IOException {
+                String string = response.body().string();
+                Message message = new Message();
+                message.obj = string;
+                message.what = SUCCESS;
+                mHandler.sendMessage(message);
             }
         });
 

@@ -237,8 +237,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == ChangeWeibaActivity.REQUEST) {
-        } else if (resultCode == RESULT_OK && requestCode == AT_USER && data != null) {
+        if (resultCode == RESULT_OK && requestCode == AT_USER && data != null) {
             String name = data.getStringExtra("name");
             String ori = mEditText.getText().toString();
             int index = mEditText.getSelectionStart();

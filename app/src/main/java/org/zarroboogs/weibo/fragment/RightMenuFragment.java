@@ -14,7 +14,6 @@ import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 
 import com.google.gson.Gson;
-import com.loopj.android.http.RequestParams;
 
 import android.content.Intent;
 import android.os.Bundle;

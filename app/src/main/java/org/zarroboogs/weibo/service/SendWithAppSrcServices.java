@@ -2,14 +2,13 @@ package org.zarroboogs.weibo.service;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
+import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
 import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.devutils.http.AbsAsyncHttpService;
-import org.zarroboogs.util.net.SinaLoginHelper;
 import org.zarroboogs.util.net.UploadHelper;
 import org.zarroboogs.util.net.UploadHelper.OnUpFilesListener;
 import org.zarroboogs.util.net.WaterMark;
@@ -23,6 +22,7 @@ import org.zarroboogs.weibo.JSAutoLogin.CheckUserNamePasswordListener;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.WebViewActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
+import org.zarroboogs.weibo.bean.CheckUserPasswordBean;
 import org.zarroboogs.weibo.bean.SendWeiboResultBean;
 import org.zarroboogs.weibo.bean.UserBean;
 import org.zarroboogs.weibo.bean.WeiboWeiba;
@@ -33,8 +33,15 @@ import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.NotificationUtility;
 
 import com.google.gson.Gson;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import android.app.Notification;
+import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -42,13 +49,12 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class SendWithAppSrcServices extends AbsAsyncHttpService {
+public class SendWithAppSrcServices extends Service {
 
 	private SendImgData sendImgData = SendImgData.getInstance();
 	private AccountBean mAccountBean;
 	private WeiboWeiba mAppSrc = null;
 	private String mTextContent;
-    private SinaLoginHelper mSinaLoginHelper;
     private JSAutoLogin mJsAutoLogin;
     
 	private String TAG = "SendWithAppSrcServices";
@@ -67,7 +73,6 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		mSinaLoginHelper = new SinaLoginHelper();
 		mAccountBean = BeeboApplication.getInstance().getAccountBean();
 		mJsAutoLogin = new JSAutoLogin(getApplicationContext(), mAccountBean);
 	}
@@ -127,7 +132,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
         }
         WaterMark mark = new WaterMark(mAccountBean.getUsernick(), url);
 
-        dosend( mark, mAppSrc.getCode(), text, sendImgList);
+        dosend(mark, mAppSrc.getCode(), text, sendImgList);
     }
     
 
@@ -138,18 +143,18 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
             UploadHelper mUploadHelper = new UploadHelper(getApplicationContext());
             mUploadHelper.uploadFiles(buildMark(mark), pics, new OnUpFilesListener() {
 
-                @Override
-                public void onUpSuccess(String pids) {
-                	DevLog.printLog("UploadHelper onUpSuccess ", "" + pids);
-                    sendWeiboWidthPids(weiboCode, text, pids);
-                }
+				@Override
+				public void onUpSuccess(String pids) {
+					DevLog.printLog("UploadHelper onUpSuccess ", "" + pids);
+					sendWeiboWidthPids(weiboCode, text, pids);
+				}
 
-                @Override
-                public void onUpLoadFailed() {
-                    // TODO Auto-generated method stub
-                    startWebLogin();
-                }
-            }, getCookieIfHave());
+				@Override
+				public void onUpLoadFailed() {
+					// TODO Auto-generated method stub
+					startWebLogin();
+				}
+			}, getCookieIfHave());
         }
     }
     
@@ -167,11 +172,93 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
      */
     protected void sendWeiboWidthPids(String weiboCode, String text, String pids) {
     	String cookie = getCookieIfHave();
-        HttpEntity sendEntity = mSinaLoginHelper.sendWeiboEntity(weiboCode, text, cookie, pids);
-        asyncHttpPost(Constaces.ADDBLOGURL, mSinaLoginHelper.sendWeiboHeaders(weiboCode, cookie), sendEntity, "application/x-www-form-urlencoded");
+
+		SimpleHeaders simpleHeadersBuilder = new SimpleHeaders();
+		simpleHeadersBuilder.addAccept("*/*");
+		simpleHeadersBuilder.addAcceptEncoding("gzip, deflate");
+		simpleHeadersBuilder.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+		simpleHeadersBuilder.addHost("widget.weibo.com");
+		simpleHeadersBuilder.addOrigin("http://widget.weibo.com");
+		simpleHeadersBuilder.addReferer("http://widget.weibo.com/topics/topic_vote_base.php?tag=Weibo&app_src=" + weiboCode + "&isshowright=0&language=zh_cn");
+		simpleHeadersBuilder.addContentType("application/x-www-form-urlencoded");
+		simpleHeadersBuilder.addUserAgent(Constaces.User_Agent);
+		simpleHeadersBuilder.addCookie(cookie);
+		simpleHeadersBuilder.addConnection("keep-alive");
+		simpleHeadersBuilder.add("X-Requested-With","XMLHttpRequest");
+
+		
+		FormEncodingBuilder f = new FormEncodingBuilder()
+		.add("app_src", weiboCode)
+		.add("content", text)
+		.add("return_type", "2")
+		.add("refer", "")
+		.add("vsrc", "base_topic")
+		.add("wsrc", "app_topic_base")
+		.add("ext", "login=>1;url=>")
+		.add("html_type", "2")
+		.add("_t", "0")
+		.add("html_type", "2")
+		.add("html_type", "2")
+		.add("html_type", "2")
+		.add("html_type", "2");
+		if (!TextUtils.isEmpty(pids)) {
+			f.add("pic_id", pids);
+		}
+
+		OkHttpClient okHttpClient = new OkHttpClient();
+		Request request = new Request.Builder().url(Constaces.ADDBLOGURL).headers(simpleHeadersBuilder.build()).post(f.build()).build();
+		okHttpClient.newCall(request).enqueue(new Callback() {
+			@Override
+			public void onFailure(Request request, IOException e) {
+
+			}
+
+			@Override
+			public void onResponse(Response response) throws IOException {
+				String r = response.body().string();
+				SendWeiboResultBean sb = new Gson().fromJson(r, SendWeiboResultBean.class);
+				if (sb.isSuccess()) {
+
+					deleteSendFile();
+					showSuccessfulNotification();
+
+					stopSelf();
+
+					clearAppsrc();
+
+					DevLog.printLog(TAG, "发送成功！");
+				}else {
+					NotificationUtility.cancel(R.string.sending);
+					DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
+					if (sb.getMsg().equals("未登录")) {
+						mJsAutoLogin.checkUserPassword(mAccountBean.getUname(), mAccountBean.getPwd(), new CheckUserNamePasswordListener() {
+
+							@Override
+							public void onChecked(String msg) {
+								// TODO Auto-generated method stub
+								DevLog.printLog("JSAutoLogin onChecked", msg.trim());
+								if (TextUtils.isEmpty(msg)) {
+									DevLog.printLog("JSAutoLogin onChecked", "startLogin");
+									mJsAutoLogin.exejs();
+									mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
+
+										@Override
+										public void onAutoLonin(boolean result) {
+											// TODO Auto-generated method stub
+											startPicCacheAndSendWeibo();
+										}
+									});
+								}
+							}
+						});
+					}
+				}
+			}
+		});
 
     }
-    
+
+	
 	private String getCookieIfHave() {
 		String cookieInDB = BeeboApplication.getInstance().getAccountBean().getCookieInDB();
 		if (!TextUtils.isEmpty(cookieInDB)) {
@@ -196,24 +283,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
         SharedPreferences appsrcPreferences  = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         appsrcPreferences.edit().remove(Constants.KEY_NAME).remove(Constants.KEY_CODE).commit();
     }
-    
-	@Override
-	public void onGetFailed(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		DevLog.printLog(TAG, arg0);
-	}
-
-	@Override
-	public void onGetSuccess(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPostFailed(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	private Handler handler = new Handler();
 	
@@ -227,11 +297,11 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
         Notification notification = builder.getNotification();
         NotificationUtility.show(notification, R.string.send_successfully);
         handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                NotificationUtility.cancel(R.string.send_successfully);
-            }
-        }, 3000);
+			@Override
+			public void run() {
+				NotificationUtility.cancel(R.string.send_successfully);
+			}
+		}, 3000);
     }
     
     private void showSendingNotification(){
@@ -246,47 +316,7 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
         NotificationUtility.show(notification, R.string.sending);
     }
     
-	@Override
-	public void onPostSuccess(String arg0) {
-		// TODO Auto-generated method stub
-		SendWeiboResultBean sb = new Gson().fromJson(arg0, SendWeiboResultBean.class);
-		if (sb.isSuccess()) {
-			
-			deleteSendFile();
-			showSuccessfulNotification();
-			
-			this.stopSelf();
-			
-			clearAppsrc();
-			
-			DevLog.printLog(TAG, "发送成功！");
-		}else {
-			NotificationUtility.cancel(R.string.sending);
-			DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
-			if (sb.getMsg().equals("未登录")) {
-				mJsAutoLogin.checkUserPassword(mAccountBean.getUname(), mAccountBean.getPwd(), new CheckUserNamePasswordListener() {
-					
-					@Override
-					public void onChecked(String msg) {
-						// TODO Auto-generated method stub
-						DevLog.printLog("JSAutoLogin onChecked", msg.trim());
-						if (TextUtils.isEmpty(msg)) {
-							DevLog.printLog("JSAutoLogin onChecked", "startLogin");
-							mJsAutoLogin.exejs();
-							mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
-								
-								@Override
-								public void onAutoLonin(boolean result) {
-									// TODO Auto-generated method stub
-									startPicCacheAndSendWeibo();
-								}
-							});
-						}
-					}
-				});
-			}
-		}
-	}
+
 	
 
     class WeiBaCacheFile implements FilenameFilter {
@@ -311,10 +341,5 @@ public class SendWithAppSrcServices extends AbsAsyncHttpService {
 		}
 	}
 
-	@Override
-	public void onRequestStart() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

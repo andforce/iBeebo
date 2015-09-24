@@ -32,7 +32,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
-import org.zarroboogs.asyncokhttpclient.SimpleHeadersBuilder;
+import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
 import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.utils.AppLoggerUtils;
@@ -402,7 +402,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
 
         String cookie = SeniorUrl.geCookie(gsid, accountBean.getUsernick());
 
-        SimpleHeadersBuilder builder = new SimpleHeadersBuilder();
+        SimpleHeaders builder = new SimpleHeaders();
         builder.addHost("m.weibo.cn");
         builder.addAccept("application/json, text/javascript, */*; q=0.01");
         builder.addOrigin("http://m.weibo.cn");
@@ -412,9 +412,9 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         builder.addAcceptEncoding("gzip, deflate");
         builder.addAcceptLanguage("zh-CN,zh;q=0.8");
         builder.addCookie(cookie);
-        Headers.Builder headersBuilder = builder.apply().add("X-Requested-With", "XMLHttpRequest");
+        builder.add("X-Requested-With", "XMLHttpRequest");
 
-        mAsyncOKHttpClient.asyncGet(url, headersBuilder.build(), new Callback() {
+        mAsyncOKHttpClient.asyncGet(url, builder, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
@@ -441,7 +441,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
 
         String cookie = SeniorUrl.geCookie(gsid, accountBean.getUsernick());
 
-        SimpleHeadersBuilder simpleHeadersBuilder = new SimpleHeadersBuilder();
+        SimpleHeaders simpleHeadersBuilder = new SimpleHeaders();
         simpleHeadersBuilder.addHost("m.weibo.cn");
         simpleHeadersBuilder.addAccept("application/json, text/javascript, */*; q=0.01");
         simpleHeadersBuilder.addOrigin("http://m.weibo.cn");
@@ -452,10 +452,9 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         simpleHeadersBuilder.addAcceptLanguage("zh-CN,zh;q=0.8");
         simpleHeadersBuilder.addCookie(cookie);
 
-        Headers.Builder builder = simpleHeadersBuilder.apply();
-        builder.add("X-Requested-With", "XMLHttpRequest");
+        simpleHeadersBuilder.add("X-Requested-With", "XMLHttpRequest");
 
-        mAsyncOKHttpClient.asyncGet(url, builder.build(), new Callback() {
+        mAsyncOKHttpClient.asyncGet(url, simpleHeadersBuilder, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();

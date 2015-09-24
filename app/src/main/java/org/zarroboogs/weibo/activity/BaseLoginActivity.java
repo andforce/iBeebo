@@ -1,13 +1,14 @@
 
 package org.zarroboogs.weibo.activity;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
 import lib.org.zarroboogs.weibo.login.javabean.RequestResultParser;
 
-import org.apache.http.Header;
-import org.apache.http.message.BasicHeader;
+import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
+import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
 import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
@@ -23,12 +24,14 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.ResponseHandlerInterface;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 public class BaseLoginActivity extends SharedPreferenceActivity {
     private RequestResultParser mRequestResultParser;
-
+    private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
     private ProgressDialog mDialog;
 
     @Override
@@ -58,20 +61,14 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         return mRequestResultParser;
     }
 
-	private String getCookieIfHave() {
-		String cookieInDB = BeeboApplication.getInstance().getAccountBean().getCookieInDB();
-		if (!TextUtils.isEmpty(cookieInDB)) {
-			return cookieInDB;
-		}
-		return "";
-	}
-
-
-    private ResponseHandlerInterface mAutoRepostHandler;
-
-    public void setAutoRepostWeiboListener(ResponseHandlerInterface rhi) {
-        this.mAutoRepostHandler = rhi;
+    private String getCookieIfHave() {
+        String cookieInDB = BeeboApplication.getInstance().getAccountBean().getCookieInDB();
+        if (!TextUtils.isEmpty(cookieInDB)) {
+            return cookieInDB;
+        }
+        return "";
     }
+
 
     public void startWebLogin() {
         Intent intent = new Intent();
@@ -79,6 +76,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         intent.setClass(BaseLoginActivity.this, WebViewActivity.class);
         startActivity(intent);
     }
+
     public interface OnFetchAppSrcListener {
         void onStart();
 
@@ -96,41 +94,42 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         }
 
         String url = Constants.APPSRC;
-        Header[] srcHeaders = new Header[] {
-                new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"),
-                new BasicHeader("Accept-Encoding", "gzip,deflate,sdch"),
-                new BasicHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4"),
-                new BasicHeader("Cache-Control", "no-cache"),
-                new BasicHeader("Connection", "keep-alive"),
-                new BasicHeader("Host", "appsrc.sinaapp.com"),
-                new BasicHeader("Pragma", "no-cache"),
-                new BasicHeader("User-Agent", Constaces.User_Agent),
-        };
-        getAsyncHttpClient().get(getApplicationContext(), url, srcHeaders, null, new AsyncHttpResponseHandler() {
+
+
+        SimpleHeaders simpleHeadersBuilder = new SimpleHeaders();
+        simpleHeadersBuilder.addAccept("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        simpleHeadersBuilder.addAcceptEncoding("gzip,deflate,sdch");
+        simpleHeadersBuilder.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+        simpleHeadersBuilder.addConnection("keep-alive");
+        simpleHeadersBuilder.addHost("appsrc.sinaapp.com");
+        simpleHeadersBuilder.addUserAgent(Constaces.User_Agent);
+        simpleHeadersBuilder.add("Cache-Control", "no-cache");
+        simpleHeadersBuilder.add("Pragma", "no-cache");
+
+
+        mAsyncOKHttpClient.asyncGet(url, simpleHeadersBuilder, new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                if (mFetchAppSrcListener != null) {
+                    mFetchAppSrcListener.onFailure();
+                }
+            }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String resp = new String(responseBody);
+            public void onResponse(Response response) throws IOException {
+                String resp = response.body().string();
                 String jsonString = resp;//.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
                 Gson gson = new Gson();
-                
-                Type listType = new TypeToken<List<WeiboWeiba>>(){}.getType();
-                List<WeiboWeiba> mAppsrc = gson.fromJson(jsonString, listType);
-                
-//                List<WeiboWeiba> mAppsrc = Arrays.asList(gson.fromJson(jsonString,WeiboWeiba.class));
 
+                Type listType = new TypeToken<List<WeiboWeiba>>() {
+                }.getType();
+                List<WeiboWeiba> mAppsrc = gson.fromJson(jsonString, listType);
                 if (mFetchAppSrcListener != null) {
                     mFetchAppSrcListener.onSuccess(mAppsrc);
                 }
                 hideDialogForWeiBo();
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                if (mFetchAppSrcListener != null) {
-                    mFetchAppSrcListener.onFailure();
-                }
-            }
         });
+
     }
 }

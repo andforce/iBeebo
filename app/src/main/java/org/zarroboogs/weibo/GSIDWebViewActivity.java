@@ -2,12 +2,11 @@ package org.zarroboogs.weibo;
 
 import org.zarroboogs.devutils.AssertLoader;
 import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.devutils.http.AbsAsyncHttpActivity;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
 import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
-import org.zarroboogs.utils.PatternUtils;
+import org.zarroboogs.weibo.activity.AbstractAppActivity;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
@@ -21,18 +20,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboClientListener {
+public class GSIDWebViewActivity extends AbstractAppActivity implements IWeiboClientListener {
 
     private WebView mWebView;
 
@@ -45,8 +42,6 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_layout);
-
-        setEnCode("gb2312");
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.webAuthToolbar);
         
@@ -264,45 +259,5 @@ public class GSIDWebViewActivity extends AbsAsyncHttpActivity implements IWeiboC
         }
     }
 
-	@Override
-	public void onGetFailed(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetSuccess(String arg0) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onPostFailed(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPostSuccess(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRequestStart() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getStatusBarColor() {
-		// TODO Auto-generated method stub
-		return R.color.md_actionbar_bg_color;
-	}
-
-	@Override
-	public int getStatusBarColorBlack() {
-		// TODO Auto-generated method stub
-		return R.color.black;
-	}
 
 }

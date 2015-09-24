@@ -9,6 +9,7 @@ import java.util.List;
 import lib.org.zarroboogs.weibo.login.javabean.UploadPicResult;
 
 import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
+import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
 import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.utils.PatternUtils;
 
@@ -90,21 +91,24 @@ public class UploadHelper {
 
         String markUrl = "http://picupload.service.weibo.com/interface/pic_upload.php?" + "app=miniblog&data=1" + waterMark
                 + "&mime=image/png&ct=0.2805887470021844";
-        Headers.Builder headers = new Headers.Builder();
-        headers.add("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-        headers.add("Accept-Encoding", "gzip,deflate");
-        headers.add("Accept-Language", "en-US,en;q=0.8");
-        headers.add("Cache-Control", "max-age=0");
-        headers.add("Connection", "keep-alive");
-        headers.add("Content-Type","application/octet-stream");
-        headers.add("Host", "picupload.service.weibo.com");
-        headers.add("Origin", "http://weibo.com");
-        headers.add("User-Agent", Constaces.User_Agent);
-        headers.add("Referer","http://tjs.sjs.sinajs.cn/open/widget/static/swf/MultiFilesUpload.swf?version=1411256448572");
-        headers.add("Cookie",cookie);
+
+        SimpleHeaders simpleHeaders = new SimpleHeaders();
+        simpleHeaders.addAccept("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        simpleHeaders.addAcceptEncoding("gzip,deflate");
+        simpleHeaders.addAcceptLanguage("en-US,en;q=0.8");
+        simpleHeaders.addConnection("keep-alive");
+        simpleHeaders.addContentType("application/octet-stream");
+        simpleHeaders.addHost("picupload.service.weibo.com");
+        simpleHeaders.addOrigin("http://weibo.com");
+        simpleHeaders.addUserAgent(Constaces.User_Agent);
+        simpleHeaders.addReferer("http://tjs.sjs.sinajs.cn/open/widget/static/swf/MultiFilesUpload.swf?version=1411256448572");
+        simpleHeaders.addCookie(cookie);
+        simpleHeaders.add("Cache-Control", "max-age=0");
+
+
 
         File uploadFile = new File(filePath);
-        mAsyncOKHttpClient.asyncPostFile(markUrl, headers.build(), "application/octet-stream", uploadFile, new Callback() {
+        mAsyncOKHttpClient.asyncPostFile(markUrl, simpleHeaders, "application/octet-stream", uploadFile, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 mHandler.sendEmptyMessage(MSG_UPLOAD_FAILED);

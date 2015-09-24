@@ -306,7 +306,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
-                getCookieStore().clear();
+                getCookieStore().getCookieStore().removeAll();
 
                 finish();
             }

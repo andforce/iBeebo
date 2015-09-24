@@ -13,6 +13,9 @@ import com.squareup.okhttp.Response;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -23,6 +26,9 @@ public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<Messa
     private MessageListBean mMessageListBean = new MessageListBean();
 	private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
     private SharedPreferences mSharedPreference;
+
+	private static final int SUCCESS = 0;
+	private static final int FAIL = 1;
     
 	@Override
 	public MessageListBean getDataList() {
@@ -67,18 +73,36 @@ public abstract class BaseHotWeiboFragment extends AbsBaseTimeLineFragment<Messa
 
 		mAsyncOKHttpClient.asyncGet(url, new Callback() {
 			@Override
-			public void onFailure(Request request, IOException e) {
-				onLoadDataFailed(e.getLocalizedMessage());
+			public void onFailure(Request request, final IOException e) {
+				Message message = new Message();
+				message.obj = e.getLocalizedMessage();
+				message.what = FAIL;
+				mHandler.sendMessage(message);
 			}
 
 			@Override
-			public void onResponse(Response response) throws IOException {
-				onLoadDataSucess(response.body().string());
+			public void onResponse(final Response response) throws IOException {
+				String string = response.body().string();
+				Message message = new Message();
+				message.obj = string;
+				message.what = SUCCESS;
+				mHandler.sendMessage(message);
 			}
 		});
 
 	}
-	
+
+	Handler mHandler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == SUCCESS){
+				onLoadDataSucess((String) msg.obj);
+			} else if (msg.what == FAIL){
+				onLoadDataFailed((String) msg.obj);
+			}
+		}
+	};
 	@Override
 	protected void onTimeListViewItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub

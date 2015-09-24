@@ -1,11 +1,10 @@
 package org.zarroboogs.weibo;
 
-import org.apache.http.Header;
+import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
+import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
 import org.zarroboogs.devutils.AssertLoader;
 import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.devutils.DevLog;
-import org.zarroboogs.devutils.http.AbsAsyncHttpClient;
-import org.zarroboogs.devutils.http.request.HeaderList;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
@@ -17,7 +16,14 @@ import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.RequestParams;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.internal.framed.Header;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -30,8 +36,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.io.IOException;
+
 @SuppressLint("SetJavaScriptEnabled")
-public class JSAutoLogin extends AbsAsyncHttpClient {
+public class JSAutoLogin {
 
 	private Context mContext;
 	private WebView mWebView;
@@ -39,6 +47,7 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 	private AccountBean mAccountBean;
 	private WeiboWebViewClient mWeiboWebViewClient;
 
+	private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
 	private boolean isExecuted = false;
 	private AutoLogInListener mListener;
 	
@@ -57,8 +66,7 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 	}
 	
 	public JSAutoLogin(Context context,AccountBean ab) {
-		super(context);
-		
+
 		this.mContext = context;
 		this.mAccountBean = ab;
 		
@@ -91,31 +99,49 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 		}
     	
     }
-    
+
+
     public void checkUserPassword(String uname, String password , CheckUserNamePasswordListener listener){
     	this.cNamePasswordListener = listener;
     	
-    	RequestParams mParams = new RequestParams();
-    	mParams.put("username", uname);
-    	mParams.put("password", password);
-    	mParams.put("savestate", "1");
-    	mParams.put("ec", "0");
-    	mParams.put("entry", "mweibo");
-    	asyncHttpPost("https://passport.weibo.cn/sso/login", sendWeiboHeaders(), mParams, "application/x-www-form-urlencoded");
+        SimpleHeaders simpleHeaders = new SimpleHeaders();
+        simpleHeaders.addAccept("*/*");
+        simpleHeaders.addAcceptEncoding("gzip,deflate,sdch");
+        simpleHeaders.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+        simpleHeaders.addHost("passport.weibo.cn");
+        simpleHeaders.addOrigin("https://passport.weibo.cn");
+        simpleHeaders.addReferer("https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic");
+        simpleHeaders.addContentType("application/x-www-form-urlencoded");
+        simpleHeaders.addUserAgent(Constaces.User_Agent);
+
+        RequestBody formBody = new FormEncodingBuilder()
+                .add("username", uname)
+                .add("password", password)
+                .add("savestate", "1")
+                .add("ec", "0")
+                .add("entry", "mweibo")
+                .build();
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url("https://passport.weibo.cn/sso/login").headers(simpleHeaders.build()).post(formBody).build();
+		okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String r = response.body().string();
+                DevLog.printLog("JSAutoLogin onPostSuccess", r);
+                CheckUserPasswordBean cb = new Gson().fromJson(r, CheckUserPasswordBean.class);
+                if (cNamePasswordListener != null) {
+                    cNamePasswordListener.onChecked(cb.getMsg());
+                }
+            }
+        });
     }
-    
-    public Header[] sendWeiboHeaders() {
-    	HeaderList headerList = new HeaderList();
-    	headerList.addAccept("*/*");
-        headerList.addAcceptEncoding("gzip,deflate,sdch");
-        headerList.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
-        headerList.addHost("passport.weibo.cn");
-        headerList.addOrigin("https://passport.weibo.cn");
-        headerList.addReferer("https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic");
-        headerList.addUserAgent(Constaces.User_Agent);
-        headerList.addHeader("Content-Type", "application/x-www-form-urlencoded");
-        return headerList.build();
-    }
+
     
     
     public void exejs(){
@@ -224,37 +250,4 @@ public class JSAutoLogin extends AbsAsyncHttpClient {
 
     }
 
-	@Override
-	public void onGetFailed(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetSuccess(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPostFailed(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		DevLog.printLog("JSAutoLogin onPostFailed", arg0 + arg1);
-	}
-
-	@Override
-	public void onPostSuccess(String arg0) {
-		// TODO Auto-generated method stub
-		DevLog.printLog("JSAutoLogin onPostSuccess", arg0);
-		CheckUserPasswordBean cb = new Gson().fromJson(arg0, CheckUserPasswordBean.class);
-		if (this.cNamePasswordListener != null) {
-			cNamePasswordListener.onChecked(cb.getMsg());
-		}
-	}
-
-	@Override
-	public void onRequestStart() {
-		// TODO Auto-generated method stub
-		
-	}
 }

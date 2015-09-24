@@ -9,18 +9,17 @@ import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 
-import org.apache.http.client.CookieStore;
-
+import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.PersistentCookieStore;
 
 import java.lang.reflect.Field;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 
 import org.zarroboogs.util.net.WeiboException;
 
@@ -28,8 +27,8 @@ public class AbstractAppActivity extends WeiboDataProviderActivity {
 
     protected int theme = 0;
     public AccountBean mAccountBean;
-    private static AsyncHttpClient mAsyncHttoClient;
-    private static CookieStore cookieStore;
+    private static AsyncOKHttpClient mAsyncHttoClient;
+    private static CookieManager cookieStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +42,12 @@ public class AbstractAppActivity extends WeiboDataProviderActivity {
         super.onCreate(savedInstanceState);
 
         if (cookieStore == null) {
-            cookieStore = new PersistentCookieStore(getApplicationContext());
+            cookieStore = new CookieManager();
         }
 
         if (mAsyncHttoClient == null) {
-            mAsyncHttoClient = new AsyncHttpClient();
+            mAsyncHttoClient = new AsyncOKHttpClient(cookieStore);
         }
-
-        mAsyncHttoClient.setCookieStore(cookieStore);
 
         forceShowActionBarOverflowMenu();
         BeeboApplication.getInstance().setActivity(this);
@@ -76,16 +73,16 @@ public class AbstractAppActivity extends WeiboDataProviderActivity {
 		}
 	}
 
-    public AsyncHttpClient getAsyncHttpClient() {
+    public AsyncOKHttpClient getAsyncHttpClient() {
         if (mAsyncHttoClient == null) {
-            mAsyncHttoClient = new AsyncHttpClient();
+            mAsyncHttoClient = new AsyncOKHttpClient();
         }
         return mAsyncHttoClient;
     }
 
-    public CookieStore getCookieStore() {
+    public CookieManager getCookieStore() {
         if (cookieStore == null) {
-            cookieStore = new PersistentCookieStore(getApplicationContext());
+            cookieStore = new CookieManager();
         }
         return cookieStore;
     }

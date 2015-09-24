@@ -340,10 +340,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="org.zarroboogs.weibo.activity.ChangeWeibaActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name="org.zarroboogs.weibo.widget.galleryview.ViewPagerActivity"
             android:screenOrientation="portrait" />
 
