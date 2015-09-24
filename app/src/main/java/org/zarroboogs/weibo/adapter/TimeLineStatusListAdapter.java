@@ -482,8 +482,11 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
             for (int i = 0; i < count; i++) {
                 final IWeiboDrawable pic = (IWeiboDrawable) gridLayout.getChildAt(i);
                 pic.setVisibility(View.VISIBLE);
+                String avatar = SettingUtils.getEnableBigPic() ? msg.getHighPicUrls().get(i) : msg.getThumbnailPicUrls().get(i);
+                pic.setGifFlag(avatar.endsWith(".gif"));
 
-                String avatar = SettingUtils.getEnableBigAvatar() ? msg.getHighPicUrls().get(i) : msg.getThumbnailPicUrls().get(i);
+                DevLog.printLog("buildMultiPic", avatar);
+
                 ImageLoader.load(getFragment(), avatar, pic.getImageView());
 
                 final int finalI = i;
@@ -625,7 +628,11 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
 
             String avatar = SettingUtils.getEnableBigPic() ? msg.getOriginal_pic() : msg.getThumbnail_pic();
 
+
             ImageLoader.load(getFragment(), avatar, view.getImageView());
+            view.setGifFlag(avatar.endsWith(".gif"));
+
+            DevLog.printLog("buildPic", avatar);
 
 
         } else {

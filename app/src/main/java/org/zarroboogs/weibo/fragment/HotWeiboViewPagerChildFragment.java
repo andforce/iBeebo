@@ -117,7 +117,7 @@ public class HotWeiboViewPagerChildFragment extends BaseHotWeiboFragment {
     void onLoadDataSucess(String json) {
         // TODO Auto-generated method stub
         mPage++;
-        String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}").replace("},\"mblogid\":", "],\"mblogid\":").replace("\"pic_infos\":{", "\"pic_infos\":[").replaceAll("\"[A-Za-z0-9]{32}\":", "");
+        String jsonStr = json.replaceAll("\"geo\":\"\"", "\"geo\": {}").replace("},\"mblogid\":", "],\"mblogid\":").replace("\"pic_infos\":{", "\"pic_infos\":[").replaceAll("\"[A-Za-z0-9]{32}\":", "").replace("{\"ad\":{\"url_marked\":true}]", "{\"ad\":{\"url_marked\":true}}");
         Utility.printLongLog("READ_JSON_DONE", jsonStr);
 
         Gson gson = new Gson();
