@@ -1,13 +1,10 @@
-import com.android.build.gradle.api.AndroidSourceSet
-import com.android.build.gradle.internal.dsl.SigningConfig
-
 apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
-    useLibrary  'org.apache.http.legacy'
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "org.zarroboogs.weibo"
@@ -27,26 +24,23 @@ android {
     }
 
     sourceSets {
-        def set = main {
+        main {
             jniLibs.srcDirs = ['libs']
             java.srcDirs = ['src/main/java', 'src/main/java-greendao-gen']
         }
     }
 
-//      release
-//      gradle assembleRelease
+    //release
+    //gradle assembleRelease
     signingConfigs {
-        def config = releaseConfig {
+        //noinspection GroovyMissingReturnStatement
+        releaseConfig {
             if (System.console() != null) {
                 keyAlias System.console().readLine("\nkeyAlias:")
                 keyPassword System.console().readLine("\nPassword:")
                 storeFile file('../iBeebo.keystore')
                 storePassword System.console().readLine("\nPassword:")
             }
-//            keyAlias ''
-//            keyPassword ''
-//            storeFile file('')
-//            storePassword ''
         }
     }
 

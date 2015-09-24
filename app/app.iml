@@ -119,8 +119,8 @@
     <orderEntry type="library" exported="" name="injectjs4android-0.0.9" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.5.0" level="project" />
-    <orderEntry type="library" exported="" name="commons-codec-1.10" level="project" />
     <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
+    <orderEntry type="library" exported="" name="commons-codec-1.10" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="android-gif-drawable-1.1.3" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.0.1" level="project" />
