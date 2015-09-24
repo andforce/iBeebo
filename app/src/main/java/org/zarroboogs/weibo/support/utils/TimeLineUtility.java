@@ -17,6 +17,7 @@ import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.lib.LongClickableLinkMovementMethod;
 import org.zarroboogs.weibo.support.lib.MyURLSpan;
 
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.SpannableString;
@@ -26,7 +27,6 @@ import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class TimeLineUtility {
 
 
     private static String formatLink(String ori){
-        String format = "<a href=\"%s\">≡链接※</a>";
+        String format = "<a href=\"%s\">超链接</a>";
 
         Pattern pattern = WeiboPatterns.WEB_URL;
         Matcher matcher = pattern.matcher(ori);
@@ -82,7 +82,7 @@ public class TimeLineUtility {
         } else {
             hackTxt = txt;
         }
-//        SpannableString value = SpannableString.valueOf(hackTxt);
+        // SpannableString value = SpannableString.valueOf(hackTxt);
 
         String formatted = formatLink(hackTxt);
 
@@ -108,29 +108,6 @@ public class TimeLineUtility {
         return value;
     }
 
-    public static void addEmotions(TextView et, String txt) {
-        String hackTxt;
-        if (txt.startsWith("[") && txt.endsWith("]")) {
-            hackTxt = txt + " ";
-        } else {
-            hackTxt = txt;
-        }
-        SpannableString value = SpannableString.valueOf(hackTxt);
-        TimeLineUtility.addEmotions(value);
-        et.setText(value);
-    }
-
-    public static void addEmotions(EditText et, String txt) {
-        String hackTxt;
-        if (txt.startsWith("[") && txt.endsWith("]")) {
-            hackTxt = txt + " ";
-        } else {
-            hackTxt = txt;
-        }
-        SpannableString value = SpannableString.valueOf(hackTxt);
-        TimeLineUtility.addEmotions(value);
-        et.setText(value);
-    }
 
     public static void addJustHighLightLinks(MessageBean bean) {
         bean.setListViewSpannableString(convertNormalStringToSpannableString(bean.getText()));
@@ -350,11 +327,12 @@ public class TimeLineUtility {
 
     public static final Pattern EMOTION_URL = Pattern.compile("\\[(\\S+?)\\]");
     private static void addEmotions( SpannableString value) {
-//        Paint.FontMetrics fontMetrics = mEditText.getPaint().getFontMetrics();
-//        int size = (int)(fontMetrics.descent-fontMetrics.ascent);
+    // Paint.FontMetrics fontMetrics = mEditText.getPaint().getFontMetrics();
+    // int size = (int)(fontMetrics.descent-fontMetrics.ascent);
         int size = 50;
 
         Map<String, Integer> smiles = SmileyMap.getInstance().getSmiles();
+        Resources resources =  BeeboApplication.getAppContext().getResources();
 
         Matcher localMatcher = EMOTION_URL.matcher(value);
         while (localMatcher.find()) {
@@ -363,11 +341,11 @@ public class TimeLineUtility {
                 int k = localMatcher.start();
                 int m = localMatcher.end();
                 if (m - k < 8) {
-                    Drawable drawable = BeeboApplication.getAppContext().getResources().getDrawable(smiles.get(key));
+                    Drawable drawable = resources.getDrawable(smiles.get(key));
                     if (drawable != null) {
                         drawable.setBounds(0, 0, size, size);
                     }
-                    ImageSpan localImageSpan = new ImageSpan(drawable);
+                    ImageSpan localImageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
                     value.setSpan(localImageSpan, k, m, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
             }
