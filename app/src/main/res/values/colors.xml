@@ -36,5 +36,7 @@
 
     <color name="image_loader_place_holder">#FFF0F0F0</color>
 
+    <color name="repost_content_tv_color">#5D5D5D</color>
+    <color name="weibbo_content_tv_color">#333333</color>
 
 </resources>

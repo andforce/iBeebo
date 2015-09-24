@@ -53,8 +53,8 @@
                 android:layout_below="@id/avatar"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
-                android:lineSpacingMultiplier="1.1"
-                android:textColor="@color/timeline_item_text_color_light"
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="@color/weibbo_content_tv_color"
                 android:textSize="15sp" />
 
             <TextView
@@ -142,8 +142,8 @@
                     android:layout_marginTop="3dp"
                     android:clickable="false"
                     android:includeFontPadding="true"
-                    android:lineSpacingMultiplier="1.1"
-                    android:textColor="@color/timeline_item_text_color_light"
+                    android:lineSpacingMultiplier="1.2"
+                    android:textColor="@color/repost_content_tv_color"
                     android:textSize="15sp"
                     android:visibility="gone" />
 
