@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
     <TextView
         android:id="@+id/empty"
@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/empty"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <!--
        requiresFadingEdge may have performance problem in some low price phones, but I like it.
@@ -26,17 +26,17 @@
 
         <org.zarroboogs.weibo.widget.VelocityListView
             android:id="@+id/listView"
-            android:paddingTop="5dp"
-            android:clipToPadding="false"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:divider="@null"
             android:layout_gravity="center"
+            android:clipToPadding="false"
+            android:divider="@null"
             android:fastScrollEnabled="false"
             android:overScrollMode="never"
+            android:paddingTop="5dp"
             android:scrollingCache="true"
             android:smoothScrollbar="true"
-            android:visibility="visible" />
+            android:visibility="visible"/>
     </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
 
 
@@ -57,7 +57,7 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="14sp"
-        android:visibility="invisible" />
+        android:visibility="invisible"/>
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/absTimeLineFab"
@@ -71,6 +71,6 @@
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accent_pressed"
         fab:fab_colorRipple="@color/ripple"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"/>
 
 </RelativeLayout>
