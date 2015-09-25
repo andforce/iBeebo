@@ -84,7 +84,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
     private ArrayList<MessageBean> mMessageBeans;
     private Fragment mFragment;
 
-    public TimeLineStatusListAdapter(Fragment fragment, ArrayList<MessageBean> messageBeans){
+    public TimeLineStatusListAdapter(Fragment fragment, ArrayList<MessageBean> messageBeans) {
         this.mFragment = fragment;
         this.mMessageBeans = messageBeans;
     }
@@ -103,22 +103,22 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-    
-    public Activity getActivity(){
+
+    public Activity getActivity() {
         return mFragment.getActivity();
     }
 
-    public Fragment getFragment(){
+    public Fragment getFragment() {
         return mFragment;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if (convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(getActivity()).inflate(R.layout.timeline_status_list_item_layout, parent, false);
             holder = new ViewHolder();
-            
+
             holder.username = ViewUtility.findViewById(convertView, R.id.username);
             holder.weiboTextContent = ViewUtility.findViewById(convertView, R.id.weibo_text_content);
             holder.repost_content = ViewUtility.findViewById(convertView, R.id.repost_content);
@@ -140,7 +140,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
             holder.source = ViewUtility.findViewById(convertView, R.id.source);
             holder.comment_source = ViewUtility.findViewById(convertView, R.id.comment_source);
             holder.popupMenuIb = ViewUtility.findViewById(convertView, R.id.popupMenuIb);
-            
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -149,7 +149,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         bindOnTouchListener(holder);
 
         bindViewData(holder, mMessageBeans.get(position));
-        
+
         return convertView;
     }
 
@@ -180,7 +180,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
 
     protected void bindViewData(final ViewHolder holder, final MessageBean msg) {
 
-        if (msg == null){
+        if (msg == null) {
             return;
         }
 
@@ -349,8 +349,6 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
                 holder.comment_count.setVisibility(View.GONE);
             }
         }
-
-
 
 
         holder.repost_content.setVisibility(View.GONE);
@@ -574,7 +572,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
     }
 
 
-    protected void buildAvatar(IWeiboDrawable view,final UserBean user) {
+    protected void buildAvatar(IWeiboDrawable view, final UserBean user) {
         view.setVisibility(View.VISIBLE);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -597,7 +595,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         buildAvatar(view.getImageView(), user);
     }
 
-    protected void buildAvatar(ImageView view,  final UserBean user) {
+    protected void buildAvatar(ImageView view, final UserBean user) {
         String image_url = user.getAvatar_large();
         if (!TextUtils.isEmpty(image_url)) {
             view.setVisibility(View.VISIBLE);
@@ -704,12 +702,11 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
 
                 int position = firstVisibleItem - ((ListView) view).getHeaderViewsCount();
 
-                if (childView.getTop() == 0 && position <= 0) {
+                if (childView.getTop() - childView.getPaddingTop() <= 10 && position <= 0) {
                     topTipBar.clearAndReset();
                 } else {
                     handle(position + 1);
                 }
-                // }
             }
 
             private void handle(int position) {

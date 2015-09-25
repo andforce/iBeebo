@@ -25,306 +25,306 @@ import java.util.TreeSet;
 
 public class TopTipsView extends TextView {
 
-	// always show toptipbar, or hide itself when handling out of date data (for
-	// example user scroll down listview)
-	public enum Type {
-		ALWAYS, AUTO
-	}
+    // always show toptipbar, or hide itself when handling out of date data (for
+    // example user scroll down listview)
+    public enum Type {
+        ALWAYS, AUTO
+    }
 
-	private TreeSet<Long> ids = null;
+    private TreeSet<Long> ids = null;
 
-	private boolean disappear = false;
+    private boolean disappear = false;
 
-	private Runnable lastRunnable;
+    private Runnable lastRunnable;
 
-	private boolean error;
+    private boolean error;
 
-	private OnChangeListener onChangeListener;
+    private OnChangeListener onChangeListener;
 
-	private Type type;
+    private Type type;
 
-	private static class TopTipBarComparator implements Comparator<Long>,
-			Serializable {
-		private static final long serialVersionUID = -7797951527481522498L;
+    private static class TopTipBarComparator implements Comparator<Long>,
+            Serializable {
+        private static final long serialVersionUID = -7797951527481522498L;
 
-		@Override
-		public int compare(Long a, Long b) {
-			Long aL = a;
-			Long bL = b;
-			Long resultL = aL - bL;
-			int result = 0;
-			if (resultL > 0L) {
-				result = 1;
-			} else if (resultL < 0L) {
-				result = -1;
-			}
-			return result;
-		}
-	}
+        @Override
+        public int compare(Long a, Long b) {
+            Long aL = a;
+            Long bL = b;
+            Long resultL = aL - bL;
+            int result = 0;
+            if (resultL > 0L) {
+                result = 1;
+            } else if (resultL < 0L) {
+                result = -1;
+            }
+            return result;
+        }
+    }
 
-	public interface OnChangeListener {
+    public interface OnChangeListener {
 
-		void onChange(int count);
+        void onChange(int count);
 
-	}
+    }
 
-	public void setOnChangeListener(OnChangeListener l) {
-		this.onChangeListener = l;
-		this.onChangeListener.onChange(ids.size());
+    public void setOnChangeListener(OnChangeListener l) {
+        this.onChangeListener = l;
+        this.onChangeListener.onChange(ids.size());
 
-	}
+    }
 
-	public TopTipsView(Context context) {
-		this(context, null);
-	}
+    public TopTipsView(Context context) {
+        this(context, null);
+    }
 
-	public TopTipsView(Context context, AttributeSet attrs) {
-		this(context, attrs, -1);
-	}
+    public TopTipsView(Context context, AttributeSet attrs) {
+        this(context, attrs, -1);
+    }
 
-	public TopTipsView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		type = Type.AUTO;
-		ids = new TreeSet<Long>(new TopTipBarComparator());
-	}
+    public TopTipsView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        type = Type.AUTO;
+        ids = new TreeSet<Long>(new TopTipBarComparator());
+    }
 
-	public void setType(Type type) {
-		this.type = type;
-		setCount();
-	}
+    public void setType(Type type) {
+        this.type = type;
+        setCount();
+    }
 
-	public TreeSet<Long> getValues() {
-		TreeSet<Long> copy = new TreeSet<Long>();
-		copy.addAll(this.ids);
-		return copy;
-	}
+    public TreeSet<Long> getValues() {
+        TreeSet<Long> copy = new TreeSet<Long>();
+        copy.addAll(this.ids);
+        return copy;
+    }
 
-	/**
-	 * the json library gson has a bug, may convert database value to Double
-	 * type, so I have to force cast to Long type; todo use other json library
-	 */
-	public void setValue(Set<Long> values) {
-		this.ids.clear();
-		Iterator<Long> iterator = values.iterator();
-		while (iterator.hasNext()) {
-			Object object = iterator.next();
-			if (object instanceof Double) {
-				Double value = (Double) object;
-				this.ids.add(value.longValue());
-			} else {
-				this.ids.add((Long) object);
-			}
-		}
+    /**
+     * the json library gson has a bug, may convert database value to Double
+     * type, so I have to force cast to Long type; todo use other json library
+     */
+    public void setValue(Set<Long> values) {
+        this.ids.clear();
+        Iterator<Long> iterator = values.iterator();
+        while (iterator.hasNext()) {
+            Object object = iterator.next();
+            if (object instanceof Double) {
+                Double value = (Double) object;
+                this.ids.add(value.longValue());
+            } else {
+                this.ids.add((Long) object);
+            }
+        }
 
-		this.disappear = false;
-		setCount();
-	}
+        this.disappear = false;
+        setCount();
+    }
 
-	public void setValue(DataListItem<?, ?> listData, boolean disappear) {
-		this.disappear = disappear;
-		List<? extends DataItem> values = listData.getItemList();
-		for (DataItem b : values) {
-			if (b != null) {
-				ids.add(b.getIdLong());
-			}
-		}
-		setCount();
-		if (disappear) {
-			disappear(3000);
-			ids.clear();
-		}
+    public void setValue(DataListItem<?, ?> listData, boolean disappear) {
+        this.disappear = disappear;
+        List<? extends DataItem> values = listData.getItemList();
+        for (DataItem b : values) {
+            if (b != null) {
+                ids.add(b.getIdLong());
+            }
+        }
+        setCount();
+        if (disappear) {
+            disappear(3000);
+            ids.clear();
+        }
 
-		if (this.onChangeListener != null) {
-			this.onChangeListener.onChange(ids.size());
-		}
-	}
+        if (this.onChangeListener != null) {
+            this.onChangeListener.onChange(ids.size());
+        }
+    }
 
-	private void disappear(int duration) {
-		if (getVisibility() == View.INVISIBLE || getVisibility() == View.GONE) {
-			return;
-		}
-		if (lastRunnable != null) {
-			Handler handler = getHandler();
-			if (handler != null) {
-				handler.removeCallbacks(lastRunnable);
-			}
-		}
-		lastRunnable = new Runnable() {
-			@Override
-			public void run() {
-				animate().alpha(0).setDuration(300)
-						.setListener(new AnimatorListenerAdapter() {
-							@Override
-							public void onAnimationEnd(Animator animation) {
-								super.onAnimationEnd(animation);
-								setVisibility(View.INVISIBLE);
-								animate().alpha(1.0f).setListener(null);
-								if (ids.size() > 0) {
-									setCount();
-								}
-							}
-						});
-			}
+    private void disappear(int duration) {
+        if (getVisibility() == View.INVISIBLE || getVisibility() == View.GONE) {
+            return;
+        }
+        if (lastRunnable != null) {
+            Handler handler = getHandler();
+            if (handler != null) {
+                handler.removeCallbacks(lastRunnable);
+            }
+        }
+        lastRunnable = new Runnable() {
+            @Override
+            public void run() {
+                animate().alpha(0).setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                setVisibility(View.INVISIBLE);
+                                animate().alpha(1.0f).setListener(null);
+                                if (ids.size() > 0) {
+                                    setCount();
+                                }
+                            }
+                        });
+            }
 
-		};
-		Handler handler = getHandler();
-		if (handler != null) {
-			handler.postDelayed(lastRunnable, duration);
-		}
-	}
+        };
+        Handler handler = getHandler();
+        if (handler != null) {
+            handler.postDelayed(lastRunnable, duration);
+        }
+    }
 
-	private void setCount() {
+    private void setCount() {
 
-		this.error = false;
-		int count = ids.size();
-		if (count > 0) {
-			setVisibility(View.VISIBLE);
-			setText(String.format(
-					getContext().getString(R.string.new_messages_count),
-					String.valueOf(ids.size())));
-			setBackgroundResource(R.color.top_tip_bar_tip);
-		} else {
-			disappear(0);
-		}
-	}
+        this.error = false;
+        int count = ids.size();
+        if (count > 0) {
+            setVisibility(View.VISIBLE);
+            setText(String.format(
+                    getContext().getString(R.string.new_messages_count),
+                    String.valueOf(ids.size())));
+            setBackgroundResource(R.color.top_tip_bar_tip);
+        } else {
+            disappear(0);
+        }
+    }
 
-	public void hideCount() {
-		if (!error) {
-			setVisibility(View.INVISIBLE);
-		}
-	}
+    public void hideCount() {
+        if (!error) {
+            setVisibility(View.INVISIBLE);
+        }
+    }
 
-	// helperId can be used to keep TopTipBar stay Visible status
-	public void handle(long id, long helperId) {
-		if (disappear || id == 0L) {
-			return;
-		}
+    // helperId can be used to keep TopTipBar stay Visible status
+    public void handle(long id, long helperId) {
+        if (disappear || id == 0L) {
+            return;
+        }
 
-		NavigableSet<Long> tmp = ids.headSet(id, true);
-		if (tmp.size() > 0) {
-			tmp.clear();
-			setCount();
+        NavigableSet<Long> tmp = ids.headSet(id, true);
+        if (tmp.size() > 0) {
+            tmp.clear();
+            setCount();
 
-			if (this.onChangeListener != null) {
-				this.onChangeListener.onChange(ids.size());
-			}
-		}
+            if (this.onChangeListener != null) {
+                this.onChangeListener.onChange(ids.size());
+            }
+        }
 
-		if (type == Type.ALWAYS) {
-			return;
-		}
+        if (type == Type.ALWAYS) {
+            return;
+        }
 
-		if (helperId == 0L) {
-			return;
-		}
-		if (ids.contains(helperId)) {
-			setCount();
-		} else {
-			setVisibility(View.INVISIBLE);
-		}
+        if (helperId == 0L) {
+            return;
+        }
+        if (ids.contains(helperId)) {
+            setCount();
+        } else {
+            setVisibility(View.INVISIBLE);
+        }
 
-	}
+    }
 
-	public void clearAndReset() {
-		if (disappear) {
-			return;
-		}
-		ids.clear();
-		disappear(0);
-		if (this.onChangeListener != null) {
-			this.onChangeListener.onChange(ids.size());
-		}
-	}
+    public void clearAndReset() {
+        if (disappear) {
+            return;
+        }
+        ids.clear();
+        disappear(0);
+        if (this.onChangeListener != null) {
+            this.onChangeListener.onChange(ids.size());
+        }
+    }
 
-	public void setError(String error) {
-		this.disappear = true;
-		this.error = true;
-		setVisibility(View.VISIBLE);
-		animate().alpha(1.0f);
-		setText(error);
-		disappear(3000);
-		setBackgroundResource(R.color.top_tip_bar_error);
-	}
+    public void setError(String error) {
+        this.disappear = true;
+        this.error = true;
+        setVisibility(View.VISIBLE);
+        animate().alpha(1.0f);
+        setText(error);
+        disappear(3000);
+        setBackgroundResource(R.color.top_tip_bar_error);
+    }
 
-	@Override
-	public Parcelable onSaveInstanceState() {
-		// begin boilerplate code that allows parent classes to save state
-		Parcelable superState = super.onSaveInstanceState();
+    @Override
+    public Parcelable onSaveInstanceState() {
+        // begin boilerplate code that allows parent classes to save state
+        Parcelable superState = super.onSaveInstanceState();
 
-		SavedState ss = new SavedState(superState);
-		// end
+        SavedState ss = new SavedState(superState);
+        // end
 
-		ss.ids = this.ids;
-		ss.disappear = this.disappear;
-		ss.visible = this.isShown();
-		ss.type = this.type;
-		return ss;
-	}
+        ss.ids = this.ids;
+        ss.disappear = this.disappear;
+        ss.visible = this.isShown();
+        ss.type = this.type;
+        return ss;
+    }
 
-	@Override
-	public void onRestoreInstanceState(Parcelable state) {
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
 
-		if (!(state instanceof SavedState)) {
-			super.onRestoreInstanceState(state);
-			return;
-		}
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
 
-		SavedState ss = (SavedState) state;
-		super.onRestoreInstanceState(ss.getSuperState());
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
 
-		this.ids = ss.ids;
-		this.disappear = ss.disappear;
-		this.type = ss.type;
-		if (ss.visible) {
-			setVisibility(View.VISIBLE);
-		}
-	}
+        this.ids = ss.ids;
+        this.disappear = ss.disappear;
+        this.type = ss.type;
+        if (ss.visible) {
+            setVisibility(View.VISIBLE);
+        }
+    }
 
-	static class SavedState extends BaseSavedState {
+    static class SavedState extends BaseSavedState {
 
-		TreeSet<Long> ids;
+        TreeSet<Long> ids;
 
-		boolean disappear;
+        boolean disappear;
 
-		boolean visible;
+        boolean visible;
 
-		Type type;
+        Type type;
 
-		SavedState(Parcelable superState) {
-			super(superState);
-		}
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
 
-		@SuppressWarnings("unchecked")
-		private SavedState(Parcel in) {
-			super(in);
-			Bundle bundle = in.readBundle();
-			this.ids = (TreeSet<Long>) bundle.getSerializable("ids");
-			this.type = (Type) bundle.getSerializable("type");
-			boolean[] disappearArray = new boolean[2];
-			in.readBooleanArray(disappearArray);
-			this.disappear = disappearArray[0];
-			this.visible = disappearArray[1];
-		}
+        @SuppressWarnings("unchecked")
+        private SavedState(Parcel in) {
+            super(in);
+            Bundle bundle = in.readBundle();
+            this.ids = (TreeSet<Long>) bundle.getSerializable("ids");
+            this.type = (Type) bundle.getSerializable("type");
+            boolean[] disappearArray = new boolean[2];
+            in.readBooleanArray(disappearArray);
+            this.disappear = disappearArray[0];
+            this.visible = disappearArray[1];
+        }
 
-		@Override
-		public void writeToParcel(Parcel out, int flags) {
-			super.writeToParcel(out, flags);
-			Bundle bundle = new Bundle();
-			bundle.putSerializable("ids", ids);
-			bundle.putSerializable("type", type);
-			out.writeBundle(bundle);
-			out.writeBooleanArray(new boolean[] { this.disappear, this.visible });
-		}
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("ids", ids);
+            bundle.putSerializable("type", type);
+            out.writeBundle(bundle);
+            out.writeBooleanArray(new boolean[]{this.disappear, this.visible});
+        }
 
-		// required field that makes Parcelables from a Parcel
-		public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-			public SavedState createFromParcel(Parcel in) {
-				return new SavedState(in);
-			}
+        // required field that makes Parcelables from a Parcel
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
 
-			public SavedState[] newArray(int size) {
-				return new SavedState[size];
-			}
-		};
-	}
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+    }
 }
