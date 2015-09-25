@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
-        version="v3.2.0 beta" versioncode="41">
+        version="v3.2.2" versioncode="43">
         <change>最低支持到android4.4，不再向下兼容</change>
         <change>添加许多表情支持</change>
         <change>减小Apk体积</change>
@@ -11,5 +11,8 @@
         <change>修改九宫格图片展示大小</change>
         <change>添加几个新的热门微博分类</change>
         <change>去掉友盟升级检测</change>
+        <change>添加关注分组人数</change>
+        <change>微调时间线和转发文字颜色</change>
+        <change>修复部分热门微博崩溃</change>
     </release>
 </changelog>

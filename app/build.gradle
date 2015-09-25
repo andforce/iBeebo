@@ -11,8 +11,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
 
-        versionCode 42
-        versionName "3.2.1 beta"
+        versionCode 43
+        versionName "3.2.2"
     }
 
     packagingOptions {
