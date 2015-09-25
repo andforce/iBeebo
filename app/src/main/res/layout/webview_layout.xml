@@ -29,10 +29,13 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <ProgressBar
+        <org.zarroboogs.msrl.widget.CircleProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            app:mlpb_progress_color="#566da9"
+            app:mlpb_progress_stoke_width="3dp"/>
+
     </RelativeLayout>
 
     <RelativeLayout

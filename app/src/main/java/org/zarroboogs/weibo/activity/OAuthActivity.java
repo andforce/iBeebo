@@ -6,6 +6,7 @@ import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
+import org.zarroboogs.msrl.widget.CircleProgressBar;
 import org.zarroboogs.util.net.WeiboException;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.WeiboOAuthConstances;
@@ -20,6 +21,7 @@ import org.zarroboogs.weibo.db.table.AccountTable;
 import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
+import org.zarroboogs.weibo.widget.CircleProgressView;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -53,7 +55,7 @@ public class OAuthActivity extends AbstractAppActivity {
 
     private WebView webView;
 
-    private ProgressBar mprogressbar;
+    private CircleProgressBar mprogressbar;
     
     private boolean isAuthPro = false;
 
@@ -104,7 +106,7 @@ public class OAuthActivity extends AbstractAppActivity {
         
         webView.setWebViewClient(new WeiboWebViewClient());
 
-        mprogressbar = (ProgressBar) findViewById(R.id.oauthProgress);
+        mprogressbar = (CircleProgressBar) findViewById(R.id.oauthProgress);
         
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);

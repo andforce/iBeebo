@@ -27,10 +27,12 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
 
-    <ProgressBar
+    <org.zarroboogs.msrl.widget.CircleProgressBar
         android:id="@+id/oauthProgress"
+        app:mlpb_progress_stoke_width="3dp"
+        app:mlpb_progress_color="#566da9"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_height="wrap_content" />
 
 </FrameLayout>
