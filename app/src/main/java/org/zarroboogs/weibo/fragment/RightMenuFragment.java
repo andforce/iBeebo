@@ -6,6 +6,7 @@ import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.FriendsTimeLineListNavAdapter;
+import org.zarroboogs.weibo.auth.BeeboAuthUtils;
 import org.zarroboogs.weibo.bean.GroupBean;
 import org.zarroboogs.weibo.bean.GroupListBean;
 import org.zarroboogs.weibo.db.task.GroupDBTask;
@@ -138,14 +139,18 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 
 	private void loadGroup() {
 		Map<String, String> requestParams = new HashMap<>();
-		requestParams.put("access_token", BeeboApplication.getInstance().getAccountBean().getAccess_token_hack());
+		String accessToken = BeeboApplication.getInstance().getAccountBean().getAccess_token_hack();
+		requestParams.put("access_token", BeeboApplication.getInstance().getAccessToken());
+        requestParams.put("source", BeeboAuthUtils.getHackAppKey());
+
+		Log.d("FETCH_GROUP ", "loadGroup : " + accessToken + " " + BeeboApplication.getInstance().getAccessToken());
+
 		loadData(WeiBoURLs.FRIENDSGROUP_INFO, requestParams);
 	}
 	
 	@Override
 	void onLoadDataSucess(String json) {
-		// TODO Auto-generated method stub
-		Log.d("FETCH_GROUP ", "onLoadDataSucess");
+		Log.d("FETCH_GROUP ", "onLoadDataSucess: " + json);
 
 		GroupListBean groupListBean = new Gson().fromJson(json, GroupListBean.class);
 

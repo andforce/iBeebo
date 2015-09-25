@@ -7,11 +7,6 @@ import android.os.Build;
 
 public class WeiBoURLs {
 	
-	public static final String GSID = "http://appsrc.sinaapp.com/gsid.txt";
-
-	public static String passwordUrl = "http://m.weibo.cn/setting/forgotpwd?vt=4&wm=ig_0001_index";
-	public static String regUrl = "http://weibo.cn/dpool/ttt/h5/reg.php";
-
     // base url
     private static final String URL_SINA_WEIBO = "https://api.weibo.com/2/";
 

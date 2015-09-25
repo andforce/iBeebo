@@ -69,46 +69,20 @@ public class DMConversationAdapter extends BaseAdapter {
         int showPosition = bean.size() - 1 - position;
 
         ViewHolder holder;
-        if (convertView == null) {
+        if (convertView == null || convertView.getTag(getItemViewType(showPosition) == TYPE_MYSELF ? R.id.dm_MySimpleLayout : R.id.dm_NormalSimpleLayout) == null) {
 
-            switch (getItemViewType(showPosition)) {
-                case TYPE_NORMAL:
-                    convertView = initNormalSimpleLayout(parent);
-                    break;
-                case TYPE_MYSELF:
-                    convertView = initMySimpleLayout(parent);
-                    break;
-                default:
-                    throw new IllegalArgumentException("dm user type is wrong");
-            }
+            holder = new ViewHolder();
 
-            holder = buildHolder(convertView);
+            convertView = getItemViewType(showPosition) == TYPE_MYSELF ? initMySimpleLayout(parent) : initNormalSimpleLayout(parent);
 
-            switch (getItemViewType(showPosition)) {
-                case TYPE_NORMAL:
-                    convertView.setTag(R.id.dm_NormalSimpleLayout, holder);
-                    break;
-                case TYPE_MYSELF:
-                    convertView.setTag(R.id.dm_MySimpleLayout, holder);
-                    break;
-                default:
-                    throw new IllegalArgumentException("dm user type is wrong");
-            }
+            holder.content = ViewUtility.findViewById(convertView, R.id.content);
+            holder.time = ViewUtility.findViewById(convertView, R.id.time);
+            holder.avatar = (TimeLineAvatarImageView) convertView.findViewById(R.id.avatar);
 
-
+            convertView.setTag(getItemViewType(showPosition) == TYPE_MYSELF ? R.id.dm_MySimpleLayout : R.id.dm_NormalSimpleLayout, holder);
 
         } else {
-
-            switch (getItemViewType(showPosition)) {
-                case TYPE_NORMAL:
-                    holder = (ViewHolder) convertView.getTag(R.id.dm_NormalSimpleLayout);
-                    break;
-                case TYPE_MYSELF:
-                    holder = (ViewHolder) convertView.getTag(R.id.dm_MySimpleLayout);
-                    break;
-                default:
-                    throw new IllegalArgumentException("dm user type is wrong");
-            }
+            holder = (ViewHolder) convertView.getTag(getItemViewType(showPosition) == TYPE_MYSELF ? R.id.dm_MySimpleLayout : R.id.dm_NormalSimpleLayout);
         }
 
         configViewFont(holder);
@@ -145,14 +119,6 @@ public class DMConversationAdapter extends BaseAdapter {
         View convertView;
         convertView = inflater.inflate(R.layout.dmconversationadapter_item_myself_layout, parent, false);
         return convertView;
-    }
-
-    private ViewHolder buildHolder(View convertView) {
-        ViewHolder holder = new ViewHolder();
-        holder.content = ViewUtility.findViewById(convertView, R.id.content);
-        holder.time = ViewUtility.findViewById(convertView, R.id.time);
-        holder.avatar = (TimeLineAvatarImageView) convertView.findViewById(R.id.avatar);
-        return holder;
     }
 
     private void configViewFont(ViewHolder holder) {

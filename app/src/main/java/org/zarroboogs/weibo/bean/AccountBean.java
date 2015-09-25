@@ -26,48 +26,39 @@ public class AccountBean implements Parcelable {
     private String gsid;
 
 
-
-
-
-
-
-
-
-
-
     public String getGsid() {
-		return gsid;
-	}
+        return gsid;
+    }
 
-	public void setGsid(String gsid) {
-		this.gsid = gsid;
-	}
+    public void setGsid(String gsid) {
+        this.gsid = gsid;
+    }
 
-	public String getPwd() {
+    public String getPwd() {
         return pwd;
     }
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
-    
+
     public long getExpires_time_hack() {
-		return expires_time_hack;
-	}
+        return expires_time_hack;
+    }
 
-	public void setExpires_time_hack(long expires_time_hack) {
-		this.expires_time_hack = expires_time_hack;
-	}
+    public void setExpires_time_hack(long expires_time_hack) {
+        this.expires_time_hack = expires_time_hack;
+    }
 
-	public String getAccess_token_hack() {
-		return access_token_hack;
-	}
+    public String getAccess_token_hack() {
+        return access_token_hack;
+    }
 
-	public void setAccess_token_hack(String access_token_hack) {
-		this.access_token_hack = access_token_hack;
-	}
+    public void setAccess_token_hack(String access_token_hack) {
+        this.access_token_hack = access_token_hack;
+    }
 
-	public String getUname() {
+    public String getUname() {
         return uname;
     }
 
@@ -162,7 +153,7 @@ public class AccountBean implements Parcelable {
         dest.writeLong(expires_time_hack);
         dest.writeString(gsid);
         // end
-        dest.writeBooleanArray(new boolean[] {
+        dest.writeBooleanArray(new boolean[]{
                 this.black_magic
         });
         dest.writeParcelable(info, flags);
