@@ -45,6 +45,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,7 +54,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,8 +73,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
     private MessageBean msg;
 
-    private View mRootview;
-
     private BrowserWeiboMsgLayout layout;
 
     private UpdateMessageTask updateMsgTask;
@@ -86,8 +84,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     private Handler handler = new Handler();
 
     private ListView listView;
-
-    private MaterialSwipeRefreshLayout mSwipeRefreshLayout;
 
     private BrowserWeiboMsgCommentAndRepostAdapter adapter;
 
@@ -160,8 +156,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     }
 
     public static BrowserWeiboMsgFragment newInstance(MessageBean msg) {
-        BrowserWeiboMsgFragment fragment = new BrowserWeiboMsgFragment(msg);
-        return fragment;
+        return new BrowserWeiboMsgFragment(msg);
     }
 
     public BrowserWeiboMsgFragment() {
@@ -170,10 +165,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     @SuppressLint("ValidFragment")
     public BrowserWeiboMsgFragment(MessageBean msg) {
         this.msg = msg;
-    }
-
-    private boolean hasGpsInfo() {
-        return (this.msg != null) && (this.msg.getGeo() != null);
     }
 
     @Override
@@ -297,9 +288,9 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         SwipeFrameLayout swipeFrameLayout = (SwipeFrameLayout) inflater.inflate(R.layout.browser_weibo_msg_layout,
                 container, false);
 
-        mSwipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout, R.id.browserWeiboMsgSRL);
-        mSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
-        mSwipeRefreshLayout.setOnlyLoadMore();
+        MaterialSwipeRefreshLayout swipeRefreshLayout = ViewUtility.findViewById(swipeFrameLayout, R.id.browserWeiboMsgSRL);
+        swipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
+        swipeRefreshLayout.setOnlyLoadMore();
 
         listView = ViewUtility.findViewById(swipeFrameLayout, R.id.pullToFreshView);
 
@@ -501,7 +492,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
                     @Override
                     public void onClick(View v) {
 
-                        ArrayList<AnimationRect> animationRectArrayList = new ArrayList<AnimationRect>();
+                        ArrayList<AnimationRect> animationRectArrayList = new ArrayList<>();
                         for (int i = 0; i < count; i++) {
                             final IWeiboDrawable pic = (IWeiboDrawable) layout.getChildAt(i);
                             ImageView imageView = (ImageView) pic;
@@ -614,7 +605,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
                 startActivity(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
                         msg.getRetweeted_status(), BeeboApplication
                                 .getInstance().getAccessTokenHack()));
-            } else if (isNotLink && isDeleted) {
+            } else if (isNotLink) {
                 Toast.makeText(getActivity(), getString(R.string.cant_open_deleted_weibo), Toast.LENGTH_SHORT).show();
             }
 
@@ -663,20 +654,12 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         }
     };
 
-    private AdapterView.OnItemClickListener commentOnItemClickListener = new AdapterView.OnItemClickListener() {
+    protected AdapterView.OnItemClickListener commentOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             getListView().clearChoices();
 
-            if (position - listView.getHeaderViewsCount() < commentList.getSize()) {
-                // Intent intent = new Intent(getActivity(),
-                // BrowserWeiboMsgActivity.class);
-                // intent.putExtra("msg", repostList.getItemList().get(position
-                // - listView.getHeaderViewsCount()));
-                // intent.putExtra(Constants.TOKEN,
-                // GlobalContext.getInstance().getSpecialToken());
-                // startActivity(intent);
-            } else {
+            if (position - listView.getHeaderViewsCount() >= commentList.getSize()) {
                 loadOldCommentData();
             }
         }
@@ -863,7 +846,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
             CommentListBean data = result != null ? result.data : null;
             WeiboException exception = result != null ? result.exception : null;
-            Bundle args = result != null ? result.args : null;
 
             if (data != null) {
                 Utility.buildTabCount(commentTab, getString(R.string.comments), data.getTotal_number());
@@ -945,7 +927,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
             RepostListBean data = result != null ? result.data : null;
             WeiboException exception = result != null ? result.exception : null;
-            Bundle args = result != null ? result.args : null;
 
             if (data != null) {
                 Utility.buildTabCount(repostTab, getString(R.string.repost), data.getTotal_number());
