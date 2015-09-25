@@ -27,7 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -802,8 +801,6 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         }
 
         this.mMessageBeans.addAll(0, newValue);
-
-        // remove duplicate null flag, [x,y,null,null,z....]
 
         ListIterator<MessageBean> listIterator = this.mMessageBeans.listIterator();
 

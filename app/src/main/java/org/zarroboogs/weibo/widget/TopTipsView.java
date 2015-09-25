@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.Set;
@@ -37,8 +36,6 @@ public class TopTipsView extends TextView {
 
     private Runnable lastRunnable;
 
-    private boolean error;
-
     private OnChangeListener onChangeListener;
 
     private Type type;
@@ -49,9 +46,7 @@ public class TopTipsView extends TextView {
 
         @Override
         public int compare(Long a, Long b) {
-            Long aL = a;
-            Long bL = b;
-            Long resultL = aL - bL;
+            Long resultL = a - b;
             int result = 0;
             if (resultL > 0L) {
                 result = 1;
@@ -85,7 +80,7 @@ public class TopTipsView extends TextView {
     public TopTipsView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         type = Type.AUTO;
-        ids = new TreeSet<Long>(new TopTipBarComparator());
+        ids = new TreeSet<>(new TopTipBarComparator());
     }
 
     public void setType(Type type) {
@@ -94,26 +89,19 @@ public class TopTipsView extends TextView {
     }
 
     public TreeSet<Long> getValues() {
-        TreeSet<Long> copy = new TreeSet<Long>();
+        TreeSet<Long> copy = new TreeSet<>();
         copy.addAll(this.ids);
         return copy;
     }
 
     /**
      * the json library gson has a bug, may convert database value to Double
-     * type, so I have to force cast to Long type; todo use other json library
+     * type, so I have to force cast to Long type;
      */
     public void setValue(Set<Long> values) {
         this.ids.clear();
-        Iterator<Long> iterator = values.iterator();
-        while (iterator.hasNext()) {
-            Object object = iterator.next();
-            if (object instanceof Double) {
-                Double value = (Double) object;
-                this.ids.add(value.longValue());
-            } else {
-                this.ids.add((Long) object);
-            }
+        for (Long object : values) {
+            this.ids.add(object);
         }
 
         this.disappear = false;
@@ -175,22 +163,13 @@ public class TopTipsView extends TextView {
 
     private void setCount() {
 
-        this.error = false;
         int count = ids.size();
         if (count > 0) {
             setVisibility(View.VISIBLE);
-            setText(String.format(
-                    getContext().getString(R.string.new_messages_count),
-                    String.valueOf(ids.size())));
+            setText(String.format(getContext().getString(R.string.new_messages_count), new Object[]{String.valueOf(ids.size())}));
             setBackgroundResource(R.color.top_tip_bar_tip);
         } else {
             disappear(0);
-        }
-    }
-
-    public void hideCount() {
-        if (!error) {
-            setVisibility(View.INVISIBLE);
         }
     }
 
@@ -238,7 +217,6 @@ public class TopTipsView extends TextView {
 
     public void setError(String error) {
         this.disappear = true;
-        this.error = true;
         setVisibility(View.VISIBLE);
         animate().alpha(1.0f);
         setText(error);
