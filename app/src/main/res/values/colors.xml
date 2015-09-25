@@ -22,6 +22,7 @@
     <color name="dark_gray">#1E2129</color>
 
     <color name="md_actionbar_bg_color">#0087e7</color>
+    <color name="navigation_bar_color">#00528A</color>
 
     <color name="dark_blue">#7874b8</color>
     <color name="listview_checked_color_holo_light">#66ffffff</color>
