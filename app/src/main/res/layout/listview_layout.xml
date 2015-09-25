@@ -26,6 +26,8 @@
 
         <org.zarroboogs.weibo.widget.VelocityListView
             android:id="@+id/listView"
+            android:paddingTop="5dp"
+            android:clipToPadding="false"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:divider="@null"
