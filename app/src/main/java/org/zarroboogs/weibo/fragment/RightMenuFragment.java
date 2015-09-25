@@ -139,12 +139,7 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 
 	private void loadGroup() {
 		Map<String, String> requestParams = new HashMap<>();
-		String accessToken = BeeboApplication.getInstance().getAccountBean().getAccess_token_hack();
-		requestParams.put("access_token", BeeboApplication.getInstance().getAccessToken());
-        requestParams.put("source", BeeboAuthUtils.getHackAppKey());
-
-		Log.d("FETCH_GROUP ", "loadGroup : " + accessToken + " " + BeeboApplication.getInstance().getAccessToken());
-
+		requestParams.put("access_token", BeeboApplication.getInstance().getAccessTokenHack());
 		loadData(WeiBoURLs.FRIENDSGROUP_INFO, requestParams);
 	}
 	
