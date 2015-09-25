@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:padding="10dp" >
+                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:padding="10dp">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:ignore="RtlHardcoded" >
-
-        <TextView
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:id="@+id/weiboGroupName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/img_folder_name"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/draw_text_color" />
-    </RelativeLayout>
-
+    <TextView
+        android:id="@+id/weiboGroupName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/draw_text_color"/>
+    <TextView
+        android:id="@+id/weiboGroupCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textSize="10sp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/weiboGroupName"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/draw_text_color" tools:ignore="RtlHardcoded"/>
 </RelativeLayout>

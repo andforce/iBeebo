@@ -6,7 +6,6 @@ import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.MainTimeLineActivity;
 import org.zarroboogs.weibo.adapter.FriendsTimeLineListNavAdapter;
-import org.zarroboogs.weibo.auth.BeeboAuthUtils;
 import org.zarroboogs.weibo.bean.GroupBean;
 import org.zarroboogs.weibo.bean.GroupListBean;
 import org.zarroboogs.weibo.db.task.GroupDBTask;
@@ -67,31 +66,39 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 
-		List<GroupBean> list = new ArrayList<GroupBean>();
+		List<GroupBean> list;
 		if (BeeboApplication.getInstance().getGroup() != null) {
 			list = BeeboApplication.getInstance().getGroup().getLists();
 		} else {
-			list = new ArrayList<GroupBean>();
+			list = new ArrayList<>();
 		}
 
 		mBaseAdapter = new FriendsTimeLineListNavAdapter(getActivity(), buildListNavData(list));
 	}
 
-	private String[] buildListNavData(List<GroupBean> list) {
-		List<String> name = new ArrayList<String>();
 
-		name.add(getString(R.string.all_people));
-		name.add(getString(R.string.bilateral));
+    private List<GroupBean> buildListNavData(List<GroupBean> list) {
+        List<GroupBean> name = new ArrayList<>();
+        GroupBean all_people = new GroupBean();
+        all_people.setId("0");
+        all_people.setIdstr("0");
+        all_people.setName(getString(R.string.all_people));
+        all_people.setMember_count(0);
 
-		for (GroupBean b : list) {
-            if (b.getMember_count() != 0) {
-                name.add(b.getName());
-            }
-		}
+        name.add(all_people);
 
-		String[] valueArray = name.toArray(new String[name.size()]);
-		return valueArray;
-	}
+        GroupBean bilateral = new GroupBean();
+        bilateral.setId("1");
+        bilateral.setIdstr("1");
+        bilateral.setName(getString(R.string.bilateral));
+        bilateral.setMember_count(0);
+        name.add( bilateral);
+
+
+        name.addAll(list);
+
+        return name;
+    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -156,8 +163,7 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 			for (GroupBean groupBean : groupBeans) {
 				Log.d("FETCH_GROUP ", "" + groupBean.getName());
 			}
-			String[] newGroup = buildListNavData(groupBeans);
-			mBaseAdapter.refresh(newGroup);
+			mBaseAdapter.refresh( buildListNavData(groupBeans));
 		}
         mSwitchRefreshLayout.setRefreshing(false);
 
@@ -165,14 +171,12 @@ public class RightMenuFragment extends BaseLoadDataFragment {
 
 	@Override
 	void onLoadDataFailed(String errorStr) {
-		// TODO Auto-generated method stub
 		Log.d("FETCH_GROUP ", "onLoadDataFailed");
         mSwitchRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
 	void onLoadDataStart() {
-		// TODO Auto-generated method stub
 		Log.d("FETCH_GROUP ", "onLoadDataStart");
         mSwitchRefreshLayout.setRefreshing(true);
 	}

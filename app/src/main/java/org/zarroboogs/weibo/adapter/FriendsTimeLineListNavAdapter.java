@@ -17,7 +17,7 @@ import org.zarroboogs.weibo.db.task.FriendsTimeLineDBTask;
 
 public class FriendsTimeLineListNavAdapter extends BaseAdapter {
 	private Activity activity;
-	private String[] valueArray;
+	private List<GroupBean> mGroupBeans;
 
 	private int mSelectId = 0;
 
@@ -26,24 +26,23 @@ public class FriendsTimeLineListNavAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 	
-	public void refresh(String[] group){
-		this.valueArray = group;
+	public void refresh(List<GroupBean> group){
+		this.mGroupBeans = group;
 		notifyDataSetChanged();
 	}
 
-	public FriendsTimeLineListNavAdapter(Activity activity, String[] valueArray) {
+	public FriendsTimeLineListNavAdapter(Activity activity, List<GroupBean> groupBeanList) {
 		this.activity = activity;
-		this.valueArray = valueArray;
-
+        mGroupBeans = groupBeanList;
 		mSelectId = getRecentNavIndex(FriendsTimeLineDBTask.getRecentGroupId(BeeboApplication.getInstance().getCurrentAccountId()));
 	}
 
 	private int getRecentNavIndex(String currentGroupId) {
-		List<GroupBean> list = new ArrayList<GroupBean>();
+		List<GroupBean> list;
 		if (BeeboApplication.getInstance().getGroup() != null) {
 			list = BeeboApplication.getInstance().getGroup().getLists();
 		} else {
-			list = new ArrayList<GroupBean>();
+			list = new ArrayList<>();
 		}
 		return getIndexFromGroupId(currentGroupId, list);
 	}
@@ -73,12 +72,12 @@ public class FriendsTimeLineListNavAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return valueArray.length;
+		return mGroupBeans.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return valueArray[position];
+		return mGroupBeans.get(position);
 	}
 
 	@Override
@@ -94,22 +93,35 @@ public class FriendsTimeLineListNavAdapter extends BaseAdapter {
 			LayoutInflater inflater = activity.getLayoutInflater();
 			convertView = inflater.inflate(R.layout.spinner_selector_text_view, parent, false);
 			holder = new ViewHolder();
-			holder.textView = (TextView) convertView.findViewById(R.id.weiboGroupName);
+			holder.mGroupName = (TextView) convertView.findViewById(R.id.weiboGroupName);
+			holder.mGroupCount = (TextView) convertView.findViewById(R.id.weiboGroupCount);
+
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.textView.setText(valueArray[position]);
+		GroupBean groupBean = mGroupBeans.get(position);
+
+		holder.mGroupName.setText(groupBean.getName());
+		holder.mGroupCount.setText(groupBean.getMember_count()+ "");
+
+		if (groupBean.getId().equals("0") || groupBean.getId().equals("1")){
+			holder.mGroupCount.setText("");
+		}
+
 		if (position == mSelectId) {
-			holder.textView.setTextColor(convertView.getResources().getColor(R.color.md_actionbar_bg_color));
+			holder.mGroupName.setTextColor(convertView.getResources().getColor(R.color.md_actionbar_bg_color));
+			holder.mGroupCount.setTextColor(convertView.getResources().getColor(R.color.md_actionbar_bg_color));
 		} else {
-			holder.textView.setTextColor(convertView.getResources().getColor(R.color.draw_text_color));
+			holder.mGroupName.setTextColor(convertView.getResources().getColor(R.color.draw_text_color));
+			holder.mGroupCount.setTextColor(convertView.getResources().getColor(R.color.draw_text_color));
 		}
 
 		return convertView;
 	}
 
 	private static class ViewHolder {
-		TextView textView;
+		TextView mGroupName;
+		TextView mGroupCount;
 	}
 }

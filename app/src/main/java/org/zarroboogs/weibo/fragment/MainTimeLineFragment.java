@@ -394,17 +394,27 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         return selectedItemId;
     }
 
-    private String[] buildListNavData(List<GroupBean> list) {
-        List<String> name = new ArrayList<>();
+    private List<GroupBean> buildListNavData(List<GroupBean> list) {
+        List<GroupBean> name = new ArrayList<>();
+        GroupBean all_people = new GroupBean();
+        all_people.setId("0");
+        all_people.setIdstr("0");
+        all_people.setName(getString(R.string.all_people));
+        all_people.setMember_count(0);
 
-        name.add(getString(R.string.all_people));
-        name.add(getString(R.string.bilateral));
+        name.add(all_people);
 
-        for (GroupBean b : list) {
-            name.add(b.getName());
-        }
+        GroupBean bilateral = new GroupBean();
+        bilateral.setId("1");
+        bilateral.setIdstr("1");
+        bilateral.setName(getString(R.string.bilateral));
+        bilateral.setMember_count(0);
+        name.add( bilateral);
 
-        return name.toArray(new String[name.size()]);
+
+        name.addAll(list);
+
+        return name;
     }
 
     public void buildActionBarNav() {
