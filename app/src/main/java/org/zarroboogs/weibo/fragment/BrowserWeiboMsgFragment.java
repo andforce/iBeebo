@@ -113,8 +113,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
     private TextView emptyHeader;
 
-    private ActionMode actionMode;
-
     private BroadcastReceiver sendCommentCompletedReceiver;
 
     private BroadcastReceiver sendRepostCompletedReceiver;
@@ -181,24 +179,12 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        // if (hasGpsInfo())
-        // layout.mapView.onSaveInstanceState(outState);
         outState.putParcelable("msg", msg);
         outState.putParcelable("commentList", commentList);
         outState.putParcelable("repostList", repostList);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // try {
-        // if (hasGpsInfo()) {
-        // MapsInitializer.initialize(getActivity());
-        // }
-        // } catch (GooglePlayServicesNotAvailableException impossible) {
-        // /* Impossible */
-        // }
-    }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -581,7 +567,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 			    loadNewRepostData();
 			}
 		}
-        return true;
+        return false;
     }
 
     protected void showFooterView() {
@@ -591,20 +577,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     }
 
     protected void showErrorFooterView() {
-    }
-
-    public void clearActionMode() {
-        if (actionMode != null) {
-
-            actionMode.finish();
-            actionMode = null;
-        }
-        if (getListView() != null && getListView().getCheckedItemCount() > 0) {
-            getListView().clearChoices();
-            if (adapter != null) {
-                adapter.notifyDataSetChanged();
-            }
-        }
     }
 
     // only can remove comment
@@ -626,25 +598,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
     private ListView getListView() {
         return listView;
-    }
-
-    public void setActionMode(ActionMode mActionMode) {
-        this.actionMode = mActionMode;
-    }
-
-    public boolean hasActionMode() {
-        return actionMode != null;
-    }
-
-    private boolean resetActionMode() {
-        if (actionMode != null) {
-            getListView().clearChoices();
-            actionMode.finish();
-            actionMode = null;
-            return true;
-        } else {
-            return false;
-        }
     }
 
     private View.OnClickListener repostContentOnClickListener = new View.OnClickListener() {
@@ -696,9 +649,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     private AdapterView.OnItemClickListener repostOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (resetActionMode()) {
-                return;
-            }
 
             getListView().clearChoices();
 
@@ -716,10 +666,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     private AdapterView.OnItemClickListener commentOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (resetActionMode()) {
-                return;
-            }
-
             getListView().clearChoices();
 
             if (position - listView.getHeaderViewsCount() < commentList.getSize()) {
@@ -736,21 +682,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         }
     };
 
-//    private PullToRefreshBase.OnLastItemVisibleListener onLastItemVisibleListener = new PullToRefreshBase.OnLastItemVisibleListener() {
-//        @Override
-//        public void onLastItemVisible() {
-//            if (isCommentList) {
-//                if (msg.getComments_count() > 0 && commentList.getSize() > 0) {
-//                    loadOldCommentData();
-//                }
-//            } else {
-//                if (msg.getReposts_count() > 0 && repostList.getSize() > 0) {
-//                    loadOldRepostData();
-//                }
-//            }
-//        }
-//    };
-
     private AbsListView.OnScrollListener listViewOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -759,12 +690,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            if (hasActionMode()) {
-                int position = getListView().getCheckedItemPosition();
-                if (getListView().getFirstVisiblePosition() > position || getListView().getLastVisiblePosition() < position) {
-                }
-            }
 
             if (getListView().getLastVisiblePosition() > 7
                     && getListView().getFirstVisiblePosition() != getListView().getHeaderViewsCount()) {
@@ -802,7 +727,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             listView.setOnItemClickListener(repostOnItemClickListener);
             // listView.setOnItemLongClickListener(repostOnItemLongClickListener);
             emptyHeader.setText(R.string.repost_is_empty);
-            resetActionMode();
 
             dismissFooterView();
             if (isCommentList) {
@@ -841,7 +765,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
             listView.setOnItemClickListener(commentOnItemClickListener);
             // listView.setOnItemLongClickListener(commentOnItemLongClickListener);
             emptyHeader.setText(R.string.comment_is_empty);
-            resetActionMode();
 
             dismissFooterView();
             if (!isCommentList) {

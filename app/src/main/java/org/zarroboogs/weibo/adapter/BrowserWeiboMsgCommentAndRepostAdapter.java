@@ -430,9 +430,8 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
                             break;
                         }
                     }
-                    boolean hasActionMode = ((BrowserWeiboMsgFragment) fragment).hasActionMode();
                     boolean result = false;
-                    if (find && !hasActionMode) {
+                    if (find) {
                         result = true;
                     }
 

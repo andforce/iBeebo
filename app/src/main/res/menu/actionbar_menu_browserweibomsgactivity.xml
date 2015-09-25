@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <item
@@ -18,34 +18,34 @@
         app:showAsAction="never"/>
 
 
-        <item
+    <item
         android:id="@+id/menu_refresh"
         android:icon="?refresh"
-        app:showAsAction="never"
-        android:title="@string/refresh"/>
-        
+        android:title="@string/refresh"
+        app:showAsAction="never"/>
+
     <item
         android:id="@+id/menu_fav"
+        android:icon="?fav_un"
         android:title="@string/do_favourite"
-        app:showAsAction="never"
-        android:icon="?fav_un"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/menu_unfav"
+        android:icon="?fav_en"
         android:title="@string/un_favourite"
-        app:showAsAction="never"
-        android:icon="?fav_en"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/menu_copy"
+        android:icon="?share"
         android:title="@string/copy_to_clipboard"
-        app:showAsAction="never"
-        android:icon="?share"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/menu_delete"
+        android:title="@string/delete"
         android:visible="false"
-        app:showAsAction="never"
-        android:title="@string/delete"/>
+        app:showAsAction="never"/>
 
 </menu>

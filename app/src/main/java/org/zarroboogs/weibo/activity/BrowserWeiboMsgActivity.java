@@ -32,11 +32,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,8 +59,6 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
     private UnFavAsyncTask unFavTask = null;
 
-    private ShareActionProvider shareActionProvider;
-
     private GestureDetector gestureDetector;
 
     private RemoveTask removeTask;
@@ -82,8 +78,6 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
         if (savedInstanceState != null) {
             mAccountBean = savedInstanceState.getParcelable("mAccountBean");
 
-            Log.d("RpostWeiBo_activity_oncreate01", "AccountBean == null ? : " + (mAccountBean == null));
-
             msg = savedInstanceState.getParcelable("msg");
             token = savedInstanceState.getString(Constants.TOKEN);
             if (msg != null) {
@@ -96,15 +90,12 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
         } else {
             mAccountBean = getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
 
-            Log.d("RpostWeiBo_activity_oncreate02", "AccountBean == null ? : " + (mAccountBean == null));
-
             String action = getIntent().getAction();
             if (ACTION_WITH_ID.equalsIgnoreCase(action)) {
                 token = getIntent().getStringExtra(Constants.TOKEN);
                 msgId = getIntent().getStringExtra("weiboId");
                 fetchUserInfoFromServer();
-                findViewById(android.R.id.content).setBackgroundDrawable(
-                        ThemeUtility.getDrawable(android.R.attr.windowBackground));
+                findViewById(android.R.id.content).setBackground(ThemeUtility.getDrawable(android.R.attr.windowBackground));
             } else if (ACTION_WITH_DETAIL.equalsIgnoreCase(action)) {
                 Intent intent = getIntent();
                 token = intent.getStringExtra(Constants.TOKEN);
@@ -122,7 +113,6 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getName());
         MobclickAgent.onResume(this);
@@ -130,7 +120,6 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getName());
         MobclickAgent.onPause(this);
@@ -169,9 +158,6 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
     }
 
     private void fetchUserInfoFromServer() {
-
-        // getActionBar().setTitle(getString(R.string.fetching_weibo_info));
-
         CommonProgressDialogFragment dialog = CommonProgressDialogFragment
                 .newInstance(getString(R.string.fetching_weibo_info));
         getSupportFragmentManager().beginTransaction().add(dialog, CommonProgressDialogFragment.class.getName()).commit();
@@ -179,9 +165,7 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
     }
 
     private void initLayout() {
-        getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        // getActionBar().setDisplayShowHomeEnabled(false);
+        getWindow().setBackgroundDrawableResource(R.color.transparent);
     }
 
     private void buildContent() {
@@ -195,19 +179,13 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
                                     BrowserWeiboMsgFragment.class.getName())
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
-                    findViewById(R.id.content).setBackgroundDrawable(null);
+                    findViewById(R.id.content).setBackground(null);
                 }
             }
         });
 
-        // getActionBar().setTitle(getString(R.string.detail));
-
         invalidateOptionsMenu();
 
-    }
-
-    private Fragment getBrowserWeiboMsgFragment() {
-        return getSupportFragmentManager().findFragmentByTag(BrowserWeiboMsgFragment.class.getName());
     }
 
     @Override
@@ -222,10 +200,6 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
         if (msg.getUser() != null && msg.getUser().getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
             menu.findItem(R.id.menu_delete).setVisible(true);
         }
-
-        // MenuItem item = menu.findItem(R.id.menu_share);
-        //
-        // shareActionProvider = (ShareActionProvider) item.getActionProvider();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -233,57 +207,49 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         int itemId = item.getItemId();
-		if (itemId == android.R.id.home) {
-			intent = MainTimeLineActivity.newIntent();
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			return true;
-		} else if (itemId == R.id.menu_repost) {
-			intent = new Intent(this, RepostWeiboWithAppSrcActivity.class);
-			Log.d("RpostWeiBo_activity_start", "AccountBean == null ? : " + (mAccountBean == null));
-			intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
-			intent.putExtra(Constants.TOKEN, getToken());
-			intent.putExtra("id", getMsg().getId());
-			intent.putExtra("msg", getMsg());
-			startActivity(intent);
-			return true;
-		} else if (itemId == R.id.menu_comment) {
-			intent = new Intent(this, WriteCommentActivity.class);
-			intent.putExtra(Constants.TOKEN, getToken());
-			intent.putExtra("id", getMsg().getId());
-			intent.putExtra("msg", getMsg());
-			startActivity(intent);
-			return true;
-		} else if (itemId == R.id.menu_share) {
-			buildShareActionMenu();
-			return true;
-		} else if (itemId == R.id.menu_copy) {
-			ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-			cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", getMsg().getText()));
-			Toast.makeText(this, getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
-			return true;
-		} else if (itemId == R.id.menu_fav) {
-			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-			    favTask = new FavAsyncTask(getToken(), msg.getId());
-			    favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-			}
-			return true;
-		} else if (itemId == R.id.menu_unfav) {
-			if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
-			    unFavTask = new UnFavAsyncTask(getToken(), msg.getId());
-			    unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-			}
-			return true;
-		} else if (itemId == R.id.menu_delete) {
-			RemoveWeiboMsgDialog dialog = new RemoveWeiboMsgDialog(msg.getId());
-			dialog.show(getFragmentManager(), "");
-			return true;
-		}
+        if (itemId == android.R.id.home) {
+            intent = MainTimeLineActivity.newIntent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.menu_repost) {
+            intent = new Intent(this, RepostWeiboWithAppSrcActivity.class);
+            intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
+            intent.putExtra(Constants.TOKEN, getToken());
+            intent.putExtra("id", getMsg().getId());
+            intent.putExtra("msg", getMsg());
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.menu_comment) {
+            intent = new Intent(this, WriteCommentActivity.class);
+            intent.putExtra(Constants.TOKEN, getToken());
+            intent.putExtra("id", getMsg().getId());
+            intent.putExtra("msg", getMsg());
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.menu_copy) {
+            ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", getMsg().getText()));
+            Toast.makeText(this, getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (itemId == R.id.menu_fav) {
+            if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
+                favTask = new FavAsyncTask(getToken(), msg.getId());
+                favTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+            }
+            return true;
+        } else if (itemId == R.id.menu_unfav) {
+            if (Utility.isTaskStopped(favTask) && Utility.isTaskStopped(unFavTask)) {
+                unFavTask = new UnFavAsyncTask(getToken(), msg.getId());
+                unFavTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+            }
+            return true;
+        } else if (itemId == R.id.menu_delete) {
+            RemoveWeiboMsgDialog dialog = new RemoveWeiboMsgDialog(msg.getId());
+            dialog.show(getFragmentManager(), "");
+            return true;
+        }
         return false;
-    }
-
-    private void buildShareActionMenu() {
-        Utility.setShareIntent(BrowserWeiboMsgActivity.this, shareActionProvider, msg);
     }
 
     @Override
@@ -372,50 +338,50 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
         }
     }
 
-    private LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<MessageBean>> refreshCallback = 
-    		new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<MessageBean>>() {
-        @Override
-        public Loader<AsyncTaskLoaderResult<MessageBean>> onCreateLoader(int id, Bundle args) {
-            return new RefreshLoader(BrowserWeiboMsgActivity.this, msgId);
-        }
-
-        @Override
-        public void onLoadFinished(Loader<AsyncTaskLoaderResult<MessageBean>> loader,
-                AsyncTaskLoaderResult<MessageBean> result) {
-            MessageBean data = result != null ? result.data : null;
-            final WeiboException exception = result != null ? result.exception : null;
-
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
+    private LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<MessageBean>> refreshCallback =
+            new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<MessageBean>>() {
                 @Override
-                public void run() {
-                    CommonProgressDialogFragment dialog = (CommonProgressDialogFragment) getSupportFragmentManager()
-                            .findFragmentByTag(
-                                    CommonProgressDialogFragment.class.getName());
-                    if (dialog != null) {
-                        dialog.dismiss();
-                    }
-
-                    if (exception != null) {
-                        CommonErrorDialogFragment userInfoActivityErrorDialog = CommonErrorDialogFragment
-                                .newInstance(exception.getError());
-                        DevLog.printLog("BrowserWeiboMsgFragment", "Activity: " + exception.getError());
-                        getSupportFragmentManager().beginTransaction()
-                                .add(userInfoActivityErrorDialog, CommonErrorDialogFragment.class.getName()).commit();
-                    }
+                public Loader<AsyncTaskLoaderResult<MessageBean>> onCreateLoader(int id, Bundle args) {
+                    return new RefreshLoader(BrowserWeiboMsgActivity.this, msgId);
                 }
-            });
 
-            if (data != null) {
-                BrowserWeiboMsgActivity.this.msg = data;
-                buildContent();
-            }
-            getLoaderManager().destroyLoader(loader.getId());
-        }
+                @Override
+                public void onLoadFinished(Loader<AsyncTaskLoaderResult<MessageBean>> loader,
+                                           AsyncTaskLoaderResult<MessageBean> result) {
+                    MessageBean data = result != null ? result.data : null;
+                    final WeiboException exception = result != null ? result.exception : null;
 
-        @Override
-        public void onLoaderReset(Loader<AsyncTaskLoaderResult<MessageBean>> loader) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonProgressDialogFragment dialog = (CommonProgressDialogFragment) getSupportFragmentManager()
+                                    .findFragmentByTag(
+                                            CommonProgressDialogFragment.class.getName());
+                            if (dialog != null) {
+                                dialog.dismiss();
+                            }
 
-        }
-    };
+                            if (exception != null) {
+                                CommonErrorDialogFragment userInfoActivityErrorDialog = CommonErrorDialogFragment
+                                        .newInstance(exception.getError());
+                                DevLog.printLog("BrowserWeiboMsgFragment", "Activity: " + exception.getError());
+                                getSupportFragmentManager().beginTransaction()
+                                        .add(userInfoActivityErrorDialog, CommonErrorDialogFragment.class.getName()).commit();
+                            }
+                        }
+                    });
+
+                    if (data != null) {
+                        BrowserWeiboMsgActivity.this.msg = data;
+                        buildContent();
+                    }
+                    getLoaderManager().destroyLoader(loader.getId());
+                }
+
+                @Override
+                public void onLoaderReset(Loader<AsyncTaskLoaderResult<MessageBean>> loader) {
+
+                }
+            };
 
 }
