@@ -406,4 +406,6 @@
    	<string name="left_drawer_hotweibo">热门微博</string>
    	<string name="left_drawer_hothuati">热门话题</string>
    	<string name="username">UserName</string>
+    <string name="oauth_normal_title">普通授权</string>
+    <string name="oauth_senior_title">进阶授权</string>
 </resources>

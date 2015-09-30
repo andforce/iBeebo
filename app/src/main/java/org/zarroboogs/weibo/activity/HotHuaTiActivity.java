@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.Toolbar;
 
-public class HotHuaTiActivity extends TranslucentStatusBarActivity {
+public class HotHuaTiActivity extends ToolBarAppCompatActivity {
 
     private Toolbar mToolbar;
     

@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.TranslucentStatusBarActivity;
+import org.zarroboogs.weibo.activity.ToolBarAppCompatActivity;
 import org.zarroboogs.weibo.selectphoto.ImgsAdapter.OnItemClickClass;
 
 import com.umeng.analytics.MobclickAgent;
@@ -13,7 +13,6 @@ import com.umeng.analytics.MobclickAgent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +25,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class ImgsActivity extends TranslucentStatusBarActivity {
+public class ImgsActivity extends ToolBarAppCompatActivity {
 
     public static final int REQUEST_CODE = 0x0001;
     private SendImgData mSendImgData = SendImgData.getInstance();

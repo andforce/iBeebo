@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class NotifyActivity extends TranslucentStatusBarActivity {
+public class NotifyActivity extends ToolBarAppCompatActivity {
 
 
     @Override

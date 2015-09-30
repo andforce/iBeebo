@@ -18,12 +18,11 @@ import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 
 import java.lang.reflect.Field;
-import java.net.CookieHandler;
 import java.net.CookieManager;
 
 import org.zarroboogs.util.net.WeiboException;
 
-public class AbstractAppActivity extends WeiboDataProviderActivity {
+public class AbstractAppActivity extends ToolBarAppCompatActivity {
 
     protected int theme = 0;
     public AccountBean mAccountBean;
@@ -54,8 +53,8 @@ public class AbstractAppActivity extends WeiboDataProviderActivity {
 
     }
 
-    public void disPlayHomeAsUp(int toobrID){
-    	Toolbar toolbar = ViewUtility.findViewById(this, toobrID);
+    public void disPlayHomeAsUp(int toolbarId){
+    	Toolbar toolbar = ViewUtility.findViewById(this, toolbarId);
     	disPlayHomeAsUp(toolbar);
     }
 	public void disPlayHomeAsUp(Toolbar toolbar) {

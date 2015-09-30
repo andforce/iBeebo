@@ -21,7 +21,6 @@ import org.zarroboogs.weibo.db.table.AccountTable;
 import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
-import org.zarroboogs.weibo.widget.CircleProgressView;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -34,6 +33,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -42,7 +42,6 @@ import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -65,12 +64,16 @@ public class OAuthActivity extends AbstractAppActivity {
     
     private String uName = "";
     private String uPassword = "";
-    	
+
+    public static class Ext{
+        public static final String KEY_IS_HACK = "isHack";
+        public static final String KEY_ACCOUNT = "account";
+    }
     
     public static Intent oauthIntent(Activity activity,boolean isHack, AccountBean ab) {
 		Intent intent = new Intent(activity, OAuthActivity.class);
-		intent.putExtra("isHack", isHack);
-		intent.putExtra("accoubt_bean", ab);
+		intent.putExtra(Ext.KEY_IS_HACK, isHack);
+		intent.putExtra(Ext.KEY_ACCOUNT, ab);
 		return intent;
 	}
     
@@ -78,8 +81,9 @@ public class OAuthActivity extends AbstractAppActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.oauthactivity_layout);
-        this.isAuthPro = getIntent().getBooleanExtra("isHack", false);
-        this.mAccountBean = getIntent().getParcelableExtra("accoubt_bean");
+
+        this.isAuthPro = getIntent().getBooleanExtra(Ext.KEY_IS_HACK, false);
+        this.mAccountBean = getIntent().getParcelableExtra(Ext.KEY_ACCOUNT);
 
         Toolbar mToolbar = ViewUtility.findViewById(this, R.id.oauthToolbar);
         
@@ -90,17 +94,12 @@ public class OAuthActivity extends AbstractAppActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 finish();
             }
         });
-        
-        if (isAuthPro) {
-			getSupportActionBar().setTitle("进阶授权");
-		}else {
-			getSupportActionBar().setTitle("普通授权");
-		}
-        
+
+        getSupportActionBar().setTitle(isAuthPro? R.string.oauth_senior_title : R.string.oauth_normal_title);
+
         webView = (WebView) findViewById(R.id.webView);
         mInjectJS = new InjectJS(webView);
         
@@ -131,12 +130,6 @@ public class OAuthActivity extends AbstractAppActivity {
         webView.clearView();
         webView.loadUrl("about:blank");
         webView.stopLoading();
-//        webView.clearCache(true);
-//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
-//
-//        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.refresh);
-//        iv.startAnimation(rotation);
 
         String url = getWeiboOAuthUrl();
         webView.loadUrl(url);
@@ -146,7 +139,7 @@ public class OAuthActivity extends AbstractAppActivity {
 
     private String getWeiboOAuthUrl() {
 
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<>();
         
         if (isAuthPro) {
             parameters.put("client_id", WeiboOAuthConstances.HACK_APP_KEY);
@@ -174,7 +167,6 @@ public class OAuthActivity extends AbstractAppActivity {
 
 		@Override
 		public void onJSCallJava(String... arg0) {
-			// TODO Auto-generated method stub
 			DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
 			DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
 			uName = arg0[0].trim();
@@ -212,7 +204,6 @@ public class OAuthActivity extends AbstractAppActivity {
 					
 					@Override
 					public void onLoad() {
-						// TODO Auto-generated method stub
 						if (mAccountBean != null) {
 							mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
 			            	if (isAuthPro && !OAuthActivity.this.isFinishing()) {
@@ -240,14 +231,14 @@ public class OAuthActivity extends AbstractAppActivity {
         	if (isAuthPro) {
                 if (url.startsWith(WeiboOAuthConstances.HACK_DIRECT_URL)) {
 
-                    handleRedirectUrl(view, url);
+                    handleRedirectUrl(url);
                     view.stopLoading();
                     return;
                 }
 			}else {
 	            if (url.startsWith(WeiboOAuthConstances.DIRECT_URL)) {
 
-	                handleRedirectUrl(view, url);
+	                handleRedirectUrl(url);
 	                view.stopLoading();
 	                return;
 	            }
@@ -269,14 +260,12 @@ public class OAuthActivity extends AbstractAppActivity {
             super.onPageFinished(view, url);
             DevLog.printLog("OAUTH_ACTIVITY-onPageFinished:", ""+ url);
             
-            if (!url.equals("about:blank")) {
-            }
             mprogressbar.setVisibility(View.GONE);
         }
     }
 
 
-    private void handleRedirectUrl(WebView view, String url) {
+    private void handleRedirectUrl(String url) {
     	if (resultIntent == null) {
             Bundle values = Utility.parseUrl(url);
             resultIntent = new Intent();
@@ -293,19 +282,6 @@ public class OAuthActivity extends AbstractAppActivity {
             String expires_time = values.getString("expires_in");
             new OAuthTask(this, isAuthPro).execute(access_token, expires_time);
         }
-
-//
-//    	Bundle values = Utility.parseUrl(url);
-//
-//        String error = values.getString("error");
-//        String error_code = values.getString("error_code");
-//        if (error == null && error_code == null) {
-//
-//        } else {
-//            Toast.makeText(OAuthActivity.this, getString(R.string.you_cancel_login), Toast.LENGTH_SHORT).show();
-//            finish();
-//        }
-        
     }
 
     @Override
@@ -329,18 +305,12 @@ public class OAuthActivity extends AbstractAppActivity {
         private boolean taskIsAuthPro;
         private OAuthTask(OAuthActivity activity, boolean isAuthPro) {
         	this.taskIsAuthPro = isAuthPro;
-            oAuthActivityWeakReference = new WeakReference<OAuthActivity>(activity);
+            oAuthActivityWeakReference = new WeakReference<>(activity);
         }
 
         @Override
         protected void onPreExecute() {
             progressFragment.setAsyncTask(this);
-
-            OAuthActivity activity = oAuthActivityWeakReference.get();
-            if (activity != null) {
-//                progressFragment.show(activity.getSupportFragmentManager(), "");
-            }
-
         }
 
         @Override
@@ -427,7 +397,7 @@ public class OAuthActivity extends AbstractAppActivity {
             if (!taskIsAuthPro) {
             	activity.isAuthPro = true;
     			activity.refresh();
-    			activity.getSupportActionBar().setTitle("进阶授权");
+    			activity.getSupportActionBar().setTitle(R.string.oauth_senior_title);
     		}
             
             activity.updateUNamePassword(activity.uName, activity.uPassword);
@@ -437,7 +407,6 @@ public class OAuthActivity extends AbstractAppActivity {
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getName());
         MobclickAgent.onResume(this);
@@ -445,7 +414,6 @@ public class OAuthActivity extends AbstractAppActivity {
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getName());
         MobclickAgent.onPause(this);
@@ -466,6 +434,7 @@ public class OAuthActivity extends AbstractAppActivity {
             return frag;
         }
 
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 

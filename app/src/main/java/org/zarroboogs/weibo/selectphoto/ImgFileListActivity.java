@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.zarroboogs.weibo.R;
-import org.zarroboogs.weibo.activity.TranslucentStatusBarActivity;
+import org.zarroboogs.weibo.activity.ToolBarAppCompatActivity;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -19,7 +19,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class ImgFileListActivity extends TranslucentStatusBarActivity implements OnItemClickListener {
+public class ImgFileListActivity extends ToolBarAppCompatActivity implements OnItemClickListener {
 
     public static final int REQUEST_CODE = 0x0000;
     private SelectImgUtil util;
