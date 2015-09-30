@@ -5,6 +5,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
@@ -26,9 +28,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
 
 import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
 import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
@@ -46,6 +50,8 @@ import org.zarroboogs.weibo.asynctask.MyAsyncTask;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.bean.MessageBean;
 import org.zarroboogs.weibo.bean.UserBean;
+import org.zarroboogs.weibo.bean.hack.like.Like;
+import org.zarroboogs.weibo.bean.hack.like.UnLike;
 import org.zarroboogs.weibo.dialogfragment.UserDialog;
 import org.zarroboogs.weibo.setting.SettingUtils;
 import org.zarroboogs.weibo.support.asyncdrawable.IWeiboDrawable;
@@ -388,6 +394,35 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         }
     }
 
+    private static final int MSG_LIKE_SUCCESS = 0;
+    private static final int MSG_LIKE_FAIL = 1;
+
+    private static final int MSG_UNLIKE_SUCCESS = 3;
+    private static final int MSG_UNLIKE_FAIL = 4;
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MSG_LIKE_SUCCESS:{
+                    Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case MSG_LIKE_FAIL:{
+                    Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case MSG_UNLIKE_SUCCESS:{
+                    Toast.makeText(getActivity(), "取消点赞成功", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case MSG_UNLIKE_FAIL:{
+                    Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+        }
+    };
 
     public void like(String gsid, String id) {
 
@@ -406,7 +441,8 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         builder.addUserAgent("Mozilla/5.0 (Linux; Android 5.0.1; Nexus 5 Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36");
         builder.addContentType("application/x-www-form-urlencoded; charset=UTF-8");
         builder.addReferer("http://m.weibo.cn/");
-        builder.addAcceptEncoding("gzip, deflate");
+        // 暂时去掉gizp压缩
+        //builder.addAcceptEncoding("gzip, deflate");
         builder.addAcceptLanguage("zh-CN,zh;q=0.8");
         builder.addCookie(cookie);
         builder.add("X-Requested-With", "XMLHttpRequest");
@@ -414,19 +450,24 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         mAsyncOKHttpClient.asyncGet(url, builder, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+                mHandler.sendEmptyMessage(MSG_LIKE_FAIL);
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
-                if ("{\"ok\":1,\"msg\":\"succ\"}".equals(response.body().string())) {
-                    Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
+                ResponseBody responseBody = response.body();
+
+                Like like = new Gson().fromJson(responseBody.string(), Like.class);
+                if (like.getOk() == 1 && like.getMsg().equals("succ")){
+                    mHandler.sendEmptyMessage(MSG_LIKE_SUCCESS);
                 } else {
-                    Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
+                    mHandler.sendEmptyMessage(MSG_LIKE_FAIL);
                 }
+                DevLog.printLog("LOG_LIKE", responseBody.contentType().toString() + "\t" + "[" + responseBody.string()+"]");
             }
         });
     }
+
 
     public void unlike(String gsid, String id) {
 
@@ -445,7 +486,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         simpleHeadersBuilder.addUserAgent("Mozilla/5.0 (Linux; Android 5.0.1; Nexus 5 Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36");
         simpleHeadersBuilder.addContentType("application/x-www-form-urlencoded; charset=UTF-8");
         simpleHeadersBuilder.addReferer("http://m.weibo.cn/");
-        simpleHeadersBuilder.addAcceptEncoding("gzip, deflate");
+        //simpleHeadersBuilder.addAcceptEncoding("gzip, deflate");
         simpleHeadersBuilder.addAcceptLanguage("zh-CN,zh;q=0.8");
         simpleHeadersBuilder.addCookie(cookie);
 
@@ -454,19 +495,24 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         mAsyncOKHttpClient.asyncGet(url, simpleHeadersBuilder, new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
+                mHandler.sendEmptyMessage(MSG_UNLIKE_FAIL);
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 String result = response.body().string();
-                DevLog.printLog("Like_doInBackground", " Like CallBack:" + result);
 
-                if ("{\"ok\":1,\"msg\":\"succ\",\"data\":{\"result\":true}}".equals(result)) {
-                    Toast.makeText(getActivity(), "取消点赞成功", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
+                try{
+                    UnLike unLike = new Gson().fromJson(result, UnLike.class);
+                    if (unLike.getOk() == 1 && unLike.getMsg().equals("succ")){
+                        mHandler.sendEmptyMessage(MSG_UNLIKE_SUCCESS);
+                    } else{
+                        mHandler.sendEmptyMessage(MSG_UNLIKE_FAIL);
+                    }
+                } catch (Exception e){
+                    mHandler.sendEmptyMessage(MSG_UNLIKE_FAIL);
                 }
+
             }
         });
     }
