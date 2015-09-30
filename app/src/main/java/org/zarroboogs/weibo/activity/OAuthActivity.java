@@ -44,7 +44,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,44 +51,44 @@ import java.util.Map;
 @SuppressLint("SetJavaScriptEnabled")
 public class OAuthActivity extends AbstractAppActivity {
 
-    private WebView webView;
+    private WebView mWebView;
 
-    private CircleProgressBar mprogressbar;
-    
-    private boolean isAuthPro = false;
+    private CircleProgressBar mCircleProgressBar;
+
+    private boolean mIsAuthPro = false;
 
     private AccountBean mAccountBean;
-    private InjectJS mInjectJS ;
-    private Intent resultIntent;
-    
+    private InjectJS mInjectJS;
+    private Intent mResultIntent;
+
     private String uName = "";
     private String uPassword = "";
 
-    public static class Ext{
+    public static class Ext {
         public static final String KEY_IS_HACK = "isHack";
         public static final String KEY_ACCOUNT = "account";
     }
-    
-    public static Intent oauthIntent(Activity activity,boolean isHack, AccountBean ab) {
-		Intent intent = new Intent(activity, OAuthActivity.class);
-		intent.putExtra(Ext.KEY_IS_HACK, isHack);
-		intent.putExtra(Ext.KEY_ACCOUNT, ab);
-		return intent;
-	}
-    
+
+    public static Intent oauthIntent(Activity activity, boolean isHack, AccountBean ab) {
+        Intent intent = new Intent(activity, OAuthActivity.class);
+        intent.putExtra(Ext.KEY_IS_HACK, isHack);
+        intent.putExtra(Ext.KEY_ACCOUNT, ab);
+        return intent;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.oauthactivity_layout);
+        setContentView(R.layout.oauth_activity_layout);
 
-        this.isAuthPro = getIntent().getBooleanExtra(Ext.KEY_IS_HACK, false);
+        this.mIsAuthPro = getIntent().getBooleanExtra(Ext.KEY_IS_HACK, false);
         this.mAccountBean = getIntent().getParcelableExtra(Ext.KEY_ACCOUNT);
 
         Toolbar mToolbar = ViewUtility.findViewById(this, R.id.oauthToolbar);
-        
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
+
         mToolbar.setNavigationOnClickListener(new OnClickListener() {
 
             @Override
@@ -98,16 +97,16 @@ public class OAuthActivity extends AbstractAppActivity {
             }
         });
 
-        getSupportActionBar().setTitle(isAuthPro? R.string.oauth_senior_title : R.string.oauth_normal_title);
+        getSupportActionBar().setTitle(mIsAuthPro ? R.string.oauth_senior_title : R.string.oauth_normal_title);
 
-        webView = (WebView) findViewById(R.id.webView);
-        mInjectJS = new InjectJS(webView);
-        
-        webView.setWebViewClient(new WeiboWebViewClient());
+        mWebView = (WebView) findViewById(R.id.webView);
+        mInjectJS = new InjectJS(mWebView);
 
-        mprogressbar = (CircleProgressBar) findViewById(R.id.oauthProgress);
-        
-        WebSettings settings = webView.getSettings();
+        mWebView.setWebViewClient(new WeiboWebViewClient());
+
+        mCircleProgressBar = (CircleProgressBar) findViewById(R.id.oauthProgress);
+
+        WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setSaveFormData(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -122,127 +121,99 @@ public class OAuthActivity extends AbstractAppActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        webView.clearCache(true);
+        mWebView.clearCache(true);
     }
 
 
     public void refresh() {
-        webView.clearView();
-        webView.loadUrl("about:blank");
-        webView.stopLoading();
+        mWebView.clearView();
+        mWebView.loadUrl("about:blank");
+        mWebView.stopLoading();
 
-        String url = getWeiboOAuthUrl();
-        webView.loadUrl(url);
-        
-        DevLog.printLog("OAUTH_ACTIVITY-refresh:", ""+ url);
+        String url = buildOAuthUrl();
+        mWebView.loadUrl(url);
+
+        DevLog.printLog("OAUTH_ACTIVITY-refresh:", "" + url);
     }
 
-    private String getWeiboOAuthUrl() {
+
+    private String buildOAuthUrl() {
 
         Map<String, String> parameters = new HashMap<>();
-        
-        if (isAuthPro) {
-            parameters.put("client_id", WeiboOAuthConstances.HACK_APP_KEY);
-            parameters.put("redirect_uri", WeiboOAuthConstances.HACK_DIRECT_URL);
-            parameters.put("response_type", "code");
-            parameters.put("scope", WeiboOAuthConstances.HACK_SINA_SCOPE);
-            parameters.put("version", "0030105000");
-            parameters.put("packagename", WeiboOAuthConstances.HACK_PACKAGE_NAME);
-            parameters.put("key_hash", WeiboOAuthConstances.HACK_KEY_HASH);
-		}else {
-			parameters.put("client_id", WeiboOAuthConstances.APP_KEY);
-            parameters.put("redirect_uri", WeiboOAuthConstances.DIRECT_URL);
-            parameters.put("response_type", "code");
-            parameters.put("scope", WeiboOAuthConstances.SINA_SCOPE);
-            parameters.put("version", "0030105000");
-            parameters.put("packagename", WeiboOAuthConstances.PACKAGE_NAME);
-            parameters.put("key_hash", WeiboOAuthConstances.KEY_HASH);
 
-		}
-        
+        parameters.put("client_id", mIsAuthPro ? WeiboOAuthConstances.HACK_APP_KEY : WeiboOAuthConstances.APP_KEY);
+        parameters.put("redirect_uri", mIsAuthPro ? WeiboOAuthConstances.HACK_DIRECT_URL : WeiboOAuthConstances.DIRECT_URL);
+        parameters.put("response_type", "code");
+        parameters.put("scope", mIsAuthPro ? WeiboOAuthConstances.HACK_SINA_SCOPE : WeiboOAuthConstances.SINA_SCOPE);
+        parameters.put("version", "0030105000");
+        parameters.put("packagename", mIsAuthPro ? WeiboOAuthConstances.HACK_PACKAGE_NAME : WeiboOAuthConstances.PACKAGE_NAME);
+        parameters.put("key_hash", mIsAuthPro ? WeiboOAuthConstances.HACK_KEY_HASH : WeiboOAuthConstances.KEY_HASH);
+
         return WeiboOAuthConstances.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters);
     }
-    
-    class JSCallBack extends JSCallJavaInterface{
 
-		@Override
-		public void onJSCallJava(String... arg0) {
-			DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
-			DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
-			uName = arg0[0].trim();
-			uPassword = arg0[1].trim();
-			
-			updateUNamePassword(uName, uPassword);
+    class JSCallBack extends JSCallJavaInterface {
 
-		}
+        @Override
+        public void onJSCallJava(String... arg0) {
+            uName = arg0[0].trim();
+            uPassword = arg0[1].trim();
+            updateUNamePassword(uName, uPassword);
+        }
 
     }
-    
-	private void updateUNamePassword(String name , String password) {
-		if (mAccountBean != null ) {
-			DevLog.printLog("onJSCallJava U update Account: ", "+++++++++++++++++++++++ name :" + name + " pwd:" + password);
-			AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
-			manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(),
-					AccountTable.USER_NAME, name);
-			manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(),
-					AccountTable.USER_PWD, password);
-		}
+
+    private void updateUNamePassword(String name, String password) {
+        if (mAccountBean != null) {
+            AccountDatabaseManager manager = new AccountDatabaseManager(getApplicationContext());
+
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(), AccountTable.USER_NAME, name);
+            manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(), AccountTable.USER_PWD, password);
+        }
         BeeboApplication.getInstance().updateAccountBean();
-	}
+    }
 
     private class WeiboWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-            DevLog.printLog("OAUTH_ACTIVITY-shouldOverrideUrlLoading:", ""+ url);
             if (url.startsWith("https://passport.weibo.cn/signin/login")) {
 
+                mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value", "loginPassword.value");
+                mInjectJS.setOnLoadListener(new OnLoadListener() {
 
-            	mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value","loginPassword.value");
-            	mInjectJS.setOnLoadListener(new OnLoadListener() {
-					
-					@Override
-					public void onLoad() {
-						if (mAccountBean != null) {
-							mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
-			            	if (isAuthPro && !OAuthActivity.this.isFinishing()) {
-			            		mInjectJS.exeJsFunction("doAutoLogIn()");
-							}
-						}
-					}
-				});
-                //<a href="javascript:;" class="btn btnRed" id = "loginAction">登录</a>
-                //<a href="javascript:doAutoLogIn();" class="btn btnRed" id="loginAction">登录</a>
-                mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>", 
-                		"<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
-            	mInjectJS.injectUrl(url, new AssertLoader(getApplicationContext()).loadJs("inject.js"), "gb2312");
-			
-			}else {
-	            view.loadUrl(url);
-			}
+                    @Override
+                    public void onLoad() {
+                        if (mAccountBean != null) {
+                            mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(), mAccountBean.getPwd());
+                            if (mIsAuthPro && !OAuthActivity.this.isFinishing()) {
+                                mInjectJS.exeJsFunction("doAutoLogIn()");
+                            }
+                        }
+                    }
+                });
+
+                mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>",
+                        "<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
+                mInjectJS.injectUrl(url, new AssertLoader(getApplicationContext()).loadJs("inject.js"), "gb2312");
+
+            } else {
+                view.loadUrl(url);
+            }
             return true;
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        	mprogressbar.setVisibility(View.VISIBLE);
-        	DevLog.printLog("OAUTH_ACTIVITY-onPageStarted:", ""+ url);
-        	if (isAuthPro) {
-                if (url.startsWith(WeiboOAuthConstances.HACK_DIRECT_URL)) {
+            mCircleProgressBar.setVisibility(View.VISIBLE);
+            DevLog.printLog("OAUTH_ACTIVITY-onPageStarted:", "" + url);
 
-                    handleRedirectUrl(url);
-                    view.stopLoading();
-                    return;
-                }
-			}else {
-	            if (url.startsWith(WeiboOAuthConstances.DIRECT_URL)) {
-
-	                handleRedirectUrl(url);
-	                view.stopLoading();
-	                return;
-	            }
-			}
+            if (url.startsWith(mIsAuthPro ? WeiboOAuthConstances.HACK_DIRECT_URL : WeiboOAuthConstances.DIRECT_URL)) {
+                handleRedirectUrl(url);
+                view.stopLoading();
+                return;
+            }
 
             super.onPageStarted(view, url, favicon);
 
@@ -251,28 +222,28 @@ public class OAuthActivity extends AbstractAppActivity {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
-            mprogressbar.setVisibility(View.GONE);
+            mCircleProgressBar.setVisibility(View.GONE);
             new SinaWeiboErrorDialog().show(getSupportFragmentManager(), "");
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            DevLog.printLog("OAUTH_ACTIVITY-onPageFinished:", ""+ url);
-            
-            mprogressbar.setVisibility(View.GONE);
+            DevLog.printLog("OAUTH_ACTIVITY-onPageFinished:", "" + url);
+
+            mCircleProgressBar.setVisibility(View.GONE);
         }
     }
 
 
     private void handleRedirectUrl(String url) {
-    	if (resultIntent == null) {
+        if (mResultIntent == null) {
             Bundle values = Utility.parseUrl(url);
-            resultIntent = new Intent();
-            resultIntent.putExtras(values);
-		}
-    	
-    	Bundle values = Utility.parseUrl(url);
+            mResultIntent = new Intent();
+            mResultIntent.putExtras(values);
+        }
+
+        Bundle values = Utility.parseUrl(url);
         String error = values.getString("error");
         String error_code = values.getString("error_code");
 
@@ -280,33 +251,26 @@ public class OAuthActivity extends AbstractAppActivity {
         if (error == null && error_code == null) {
             String access_token = values.getString("access_token");
             String expires_time = values.getString("expires_in");
-            new OAuthTask(this, isAuthPro).execute(access_token, expires_time);
+            new OAuthTask().execute(access_token, expires_time);
         }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (webView.canGoBack()) {
-            webView.goBack();
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
         } else {
             Toast.makeText(OAuthActivity.this, getString(R.string.you_cancel_login), Toast.LENGTH_SHORT).show();
             finish();
         }
     }
 
-    private static class OAuthTask extends MyAsyncTask<String, UserBean, DBResult> {
+    private class OAuthTask extends MyAsyncTask<String, UserBean, DBResult> {
 
         private WeiboException e;
 
         private ProgressFragment progressFragment = ProgressFragment.newInstance();
-
-        private WeakReference<OAuthActivity> oAuthActivityWeakReference;
-        private boolean taskIsAuthPro;
-        private OAuthTask(OAuthActivity activity, boolean isAuthPro) {
-        	this.taskIsAuthPro = isAuthPro;
-            oAuthActivityWeakReference = new WeakReference<>(activity);
-        }
 
         @Override
         protected void onPreExecute() {
@@ -315,34 +279,32 @@ public class OAuthActivity extends AbstractAppActivity {
 
         @Override
         protected DBResult doInBackground(String... params) {
-        	OAuthActivity activity = oAuthActivityWeakReference.get();
             String token = params[0];
             long expiresInSeconds = Long.valueOf(params[1]);
 
             try {
-            	if (taskIsAuthPro) {
-            		
-            		if (activity.mAccountBean != null) {
-            			return AccountDao.updateAccountHackToken(activity.mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
-					}
+                if (mIsAuthPro) {
+                    if (mAccountBean != null) {
+                        return AccountDao.updateAccountHackToken(mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
+                    }
                     AccountBean account = BeeboApplication.getInstance().getAccountBean();
                     return AccountDao.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
-				}else {
-	                UserBean user = new OAuthDao(token).getOAuthUserInfo();
-	                AccountBean account = new AccountBean();
-	                account.setAccess_token(token);
-	                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
-	                account.setInfo(user);
-	                account.setUname(activity.uName);
-	                account.setPwd(activity.uPassword);
-	                
-	                if (activity.mAccountBean == null) {
-		                activity.mAccountBean = account;
-					}
+                } else {
+                    UserBean user = new OAuthDao(token).getOAuthUserInfo();
+                    AccountBean account = new AccountBean();
+                    account.setAccess_token(token);
+                    account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
+                    account.setInfo(user);
+                    account.setUname(uName);
+                    account.setPwd(uPassword);
 
-	                AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
-	                return AccountDao.addOrUpdateAccount(account, false);
-				}
+                    if (mAccountBean == null) {
+                        mAccountBean = account;
+                    }
+
+                    AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
+                    return AccountDao.addOrUpdateAccount(account, false);
+                }
 
             } catch (WeiboException e) {
                 AppLoggerUtils.e(e.getError());
@@ -360,15 +322,10 @@ public class OAuthActivity extends AbstractAppActivity {
                 progressFragment.dismissAllowingStateLoss();
             }
 
-            OAuthActivity activity = oAuthActivityWeakReference.get();
-            if (activity == null) {
-                return;
-            }
-
             if (e != null) {
-                Toast.makeText(activity, e.getError(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(OAuthActivity.this, e.getError(), Toast.LENGTH_SHORT).show();
             }
-            activity.webView.loadUrl(activity.getWeiboOAuthUrl());
+            mWebView.loadUrl(buildOAuthUrl());
         }
 
         @Override
@@ -376,32 +333,20 @@ public class OAuthActivity extends AbstractAppActivity {
             if (progressFragment.isVisible()) {
                 progressFragment.dismissAllowingStateLoss();
             }
-            OAuthActivity activity = oAuthActivityWeakReference.get();
-            if (activity == null) {
-                return;
-            }
-            switch (dbResult) {
-                case add_successfuly:
-                    //Toast.makeText(activity, activity.getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-                    break;
-                case update_successfully:
-                    //Toast.makeText(activity, activity.getString(R.string.update_account_success), Toast.LENGTH_SHORT).show();
-                    break;
+
+
+            if (mIsAuthPro) {
+                setResult(RESULT_OK, mResultIntent);
+                finish();
             }
 
-            if (taskIsAuthPro) {
-            	activity.setResult(RESULT_OK, activity.resultIntent);
-              activity.finish();
-			}
-            
-            if (!taskIsAuthPro) {
-            	activity.isAuthPro = true;
-    			activity.refresh();
-    			activity.getSupportActionBar().setTitle(R.string.oauth_senior_title);
-    		}
-            
-            activity.updateUNamePassword(activity.uName, activity.uPassword);
+            if (!mIsAuthPro) {
+                mIsAuthPro = true;
+                refresh();
+                getSupportActionBar().setTitle(R.string.oauth_senior_title);
+            }
 
+            updateUNamePassword(uName, uPassword);
         }
     }
 
@@ -418,7 +363,7 @@ public class OAuthActivity extends AbstractAppActivity {
         MobclickAgent.onPageEnd(this.getClass().getName());
         MobclickAgent.onPause(this);
         if (isFinishing()) {
-            webView.stopLoading();
+            mWebView.stopLoading();
         }
     }
 
