@@ -44,6 +44,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -251,7 +252,7 @@ public class OAuthActivity extends AbstractAppActivity {
         if (error == null && error_code == null) {
             String access_token = values.getString("access_token");
             String expires_time = values.getString("expires_in");
-            new OAuthTask().execute(access_token, expires_time);
+            new OAuthTask(OAuthActivity.this, mIsAuthPro).execute(access_token, expires_time);
         }
     }
 
@@ -266,45 +267,60 @@ public class OAuthActivity extends AbstractAppActivity {
         }
     }
 
-    private class OAuthTask extends MyAsyncTask<String, UserBean, DBResult> {
+    private static class OAuthTask extends MyAsyncTask<String, UserBean, DBResult> {
 
         private WeiboException e;
 
         private ProgressFragment progressFragment = ProgressFragment.newInstance();
 
+        private WeakReference<OAuthActivity> oAuthActivityWeakReference;
+        private boolean taskIsAuthPro;
+        private OAuthTask(OAuthActivity activity, boolean isAuthPro) {
+        	this.taskIsAuthPro = isAuthPro;
+            oAuthActivityWeakReference = new WeakReference<OAuthActivity>(activity);
+        }
+
         @Override
         protected void onPreExecute() {
             progressFragment.setAsyncTask(this);
+
+            OAuthActivity activity = oAuthActivityWeakReference.get();
+            if (activity != null) {
+//                progressFragment.show(activity.getSupportFragmentManager(), "");
+            }
+
         }
 
         @Override
         protected DBResult doInBackground(String... params) {
+        	OAuthActivity activity = oAuthActivityWeakReference.get();
             String token = params[0];
             long expiresInSeconds = Long.valueOf(params[1]);
 
             try {
-                if (mIsAuthPro) {
-                    if (mAccountBean != null) {
-                        return AccountDao.updateAccountHackToken(mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
-                    }
+            	if (taskIsAuthPro) {
+            		
+            		if (activity.mAccountBean != null) {
+            			return AccountDao.updateAccountHackToken(activity.mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
+					}
                     AccountBean account = BeeboApplication.getInstance().getAccountBean();
                     return AccountDao.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
-                } else {
-                    UserBean user = new OAuthDao(token).getOAuthUserInfo();
-                    AccountBean account = new AccountBean();
-                    account.setAccess_token(token);
-                    account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
-                    account.setInfo(user);
-                    account.setUname(uName);
-                    account.setPwd(uPassword);
+				}else {
+	                UserBean user = new OAuthDao(token).getOAuthUserInfo();
+	                AccountBean account = new AccountBean();
+	                account.setAccess_token(token);
+	                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
+	                account.setInfo(user);
+	                account.setUname(activity.uName);
+	                account.setPwd(activity.uPassword);
+	                
+	                if (activity.mAccountBean == null) {
+		                activity.mAccountBean = account;
+					}
 
-                    if (mAccountBean == null) {
-                        mAccountBean = account;
-                    }
-
-                    AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
-                    return AccountDao.addOrUpdateAccount(account, false);
-                }
+	                AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
+	                return AccountDao.addOrUpdateAccount(account, false);
+				}
 
             } catch (WeiboException e) {
                 AppLoggerUtils.e(e.getError());
@@ -322,10 +338,15 @@ public class OAuthActivity extends AbstractAppActivity {
                 progressFragment.dismissAllowingStateLoss();
             }
 
-            if (e != null) {
-                Toast.makeText(OAuthActivity.this, e.getError(), Toast.LENGTH_SHORT).show();
+            OAuthActivity activity = oAuthActivityWeakReference.get();
+            if (activity == null) {
+                return;
             }
-            mWebView.loadUrl(buildOAuthUrl());
+
+            if (e != null) {
+                Toast.makeText(activity, e.getError(), Toast.LENGTH_SHORT).show();
+            }
+            activity.mWebView.loadUrl(activity.buildOAuthUrl());
         }
 
         @Override
@@ -333,20 +354,32 @@ public class OAuthActivity extends AbstractAppActivity {
             if (progressFragment.isVisible()) {
                 progressFragment.dismissAllowingStateLoss();
             }
-
-
-            if (mIsAuthPro) {
-                setResult(RESULT_OK, mResultIntent);
-                finish();
+            OAuthActivity activity = oAuthActivityWeakReference.get();
+            if (activity == null) {
+                return;
+            }
+            switch (dbResult) {
+                case add_successfuly:
+                    //Toast.makeText(activity, activity.getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                    break;
+                case update_successfully:
+                    //Toast.makeText(activity, activity.getString(R.string.update_account_success), Toast.LENGTH_SHORT).show();
+                    break;
             }
 
-            if (!mIsAuthPro) {
-                mIsAuthPro = true;
-                refresh();
-                getSupportActionBar().setTitle(R.string.oauth_senior_title);
-            }
+            if (taskIsAuthPro) {
+            	activity.setResult(RESULT_OK, activity.mResultIntent);
+              activity.finish();
+			}
+            
+            if (!taskIsAuthPro) {
+            	activity.mIsAuthPro = true;
+    			activity.refresh();
+    			activity.getSupportActionBar().setTitle("进阶授权");
+    		}
+            
+            activity.updateUNamePassword(activity.uName, activity.uPassword);
 
-            updateUNamePassword(uName, uPassword);
         }
     }
 
