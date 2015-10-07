@@ -12,29 +12,13 @@
                 android:action="android.intent.action.VIEW"
                 android:data="org.zarroboogs.weibo://@andforce" />
         </Preference>
-        <!--
-             <Preference android:title="@string/pref_appearance_title" >
-            <intent
-                android:targetClass="org.zarroboogs.weibo.ui.preference.AppearanceActivity"
-                android:targetPackage="org.zarroboogs.weibo.plus" />
-        </Preference>
-        -->
-<!--         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="auto_refresh"
-            android:summary="@string/pref_auto_refresh_summary"
-            android:title="@string/pref_auto_refresh_title" /> -->
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="sound_of_pull_to_fresh"
             android:summary="开关操作音效,需重启应用生效"
             android:title="@string/pref_sound_title" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="setting_pref_navigationbar_md"
-            android:summary="底部虚拟按键同顶部一样,需重启应用生效"
-            android:title="虚拟按键颜色" />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_advanced_title" >
         <Preference
             android:key="change_weibo_account"
