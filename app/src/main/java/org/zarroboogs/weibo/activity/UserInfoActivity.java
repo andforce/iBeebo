@@ -230,7 +230,7 @@ public class UserInfoActivity extends AbstractAppActivity {
                             .replace(R.id.content, userInfoFragment, UserInfoFragment.class.getName()).commit();
                     getSupportFragmentManager().executePendingTransactions();
 
-                    AnimationUtility.translateFragmentY(userInfoFragment, -400, 0, userInfoFragment);
+                    AnimationUtility.translateFragmentY(userInfoFragment, 0, 0, userInfoFragment);
 
                 }
                 
