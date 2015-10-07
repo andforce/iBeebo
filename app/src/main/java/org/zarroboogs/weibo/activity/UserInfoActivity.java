@@ -26,8 +26,6 @@ import org.zarroboogs.weibo.support.utils.AnimationUtility;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.Utility;
 
-import com.umeng.analytics.MobclickAgent;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -139,26 +137,11 @@ public class UserInfoActivity extends AbstractAppActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         Utility.cancelTasks(followOrUnfollowTask, modifyGroupMemberTask);
     }
     
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
     public boolean isMyselfProfile() {
         boolean screenNameEqualCurrentAccount = bean.getScreen_name() != null
                 && bean.getScreen_name().equals(BeeboApplication.getInstance().getCurrentAccountName());

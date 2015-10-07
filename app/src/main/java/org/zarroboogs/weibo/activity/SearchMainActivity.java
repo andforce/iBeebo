@@ -7,7 +7,6 @@ import org.zarroboogs.weibo.fragment.SearchUserFragment;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.umeng.analytics.MobclickAgent;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -126,22 +125,6 @@ public class SearchMainActivity extends SharedPreferenceActivity {
 		}
 
 		return fragment;
-	}
-
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(this.getClass().getName());
-		MobclickAgent.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPageEnd(this.getClass().getName());
-		MobclickAgent.onPause(this);
 	}
 
 	@Override

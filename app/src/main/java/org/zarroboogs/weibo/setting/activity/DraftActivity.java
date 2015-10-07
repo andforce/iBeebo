@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import org.zarroboogs.weibo.activity.AbstractAppActivity;
 import org.zarroboogs.weibo.setting.fragment.DraftFragment;
 
-import com.umeng.analytics.MobclickAgent;
-
 public class DraftActivity extends AbstractAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,22 +21,6 @@ public class DraftActivity extends AbstractAppActivity {
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(android.R.id.content, new DraftFragment()).commit();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     @Override

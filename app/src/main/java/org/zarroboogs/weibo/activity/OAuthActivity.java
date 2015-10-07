@@ -22,8 +22,6 @@ import org.zarroboogs.weibo.db.task.AccountDao;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
-import com.umeng.analytics.MobclickAgent;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -384,17 +382,8 @@ public class OAuthActivity extends AbstractAppActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
         if (isFinishing()) {
             mWebView.stopLoading();
         }

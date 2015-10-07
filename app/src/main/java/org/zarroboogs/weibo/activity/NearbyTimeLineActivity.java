@@ -19,8 +19,6 @@ import org.zarroboogs.weibo.bean.data.NearbyStatusListBean;
 import org.zarroboogs.weibo.dao.NearbyTimeLineDao;
 import org.zarroboogs.weibo.support.utils.Utility;
 
-import com.umeng.analytics.MobclickAgent;
-
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -77,8 +75,6 @@ public class NearbyTimeLineActivity extends AbstractAppActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
 
         if (TextUtils.isEmpty(locationStr)) {
             if (Utility.isTaskStopped(locationTask)) {
@@ -94,8 +90,6 @@ public class NearbyTimeLineActivity extends AbstractAppActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
 
         Utility.cancelTasks(locationTask);
     }

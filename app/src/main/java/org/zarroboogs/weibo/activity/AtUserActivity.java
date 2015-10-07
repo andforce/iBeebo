@@ -10,8 +10,6 @@ import android.view.MenuItem;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.fragment.AtUserFragment;
 
-import com.umeng.analytics.MobclickAgent;
-
 public class AtUserActivity extends AbstractAppActivity {
 
     public static final String TOKEN_HACK = "token_hack";
@@ -43,16 +41,12 @@ public class AtUserActivity extends AbstractAppActivity {
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     @Override

@@ -8,8 +8,6 @@ import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.ToolBarAppCompatActivity;
 import org.zarroboogs.weibo.selectphoto.ImgsAdapter.OnItemClickClass;
 
-import com.umeng.analytics.MobclickAgent;
-
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -56,22 +54,6 @@ public class ImgsActivity extends ToolBarAppCompatActivity {
         
         disPlayHomeAsUp(mToolbar);
         
-    }
-
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     private void updateCount(MenuItem menuItem) {

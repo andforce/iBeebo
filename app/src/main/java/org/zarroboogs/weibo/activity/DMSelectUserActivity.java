@@ -14,7 +14,6 @@ import org.zarroboogs.weibo.support.asyncdrawable.TimeLineBitmapDownloader;
 import org.zarroboogs.weibo.widget.PerformanceImageView;
 
 import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
-import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -69,22 +68,6 @@ public class DMSelectUserActivity extends AbstractAppActivity {
         });
 
         disPlayHomeAsUp(R.id.dmselectUserToolbar);
-    }
-
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     public UserBean getUser() {

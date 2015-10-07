@@ -23,7 +23,6 @@ import org.zarroboogs.weibo.setting.fragment.FilterUserFragment;
 import org.zarroboogs.weibo.support.lib.AppFragmentPagerAdapter;
 
 import com.andforce.common.view.SlidingTabLayout;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,20 +38,6 @@ public class FilterActivity extends AbstractAppActivity {
         initLayout();
 
         disPlayHomeAsUp(R.id.viewPagerToolBar);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     private void initLayout() {

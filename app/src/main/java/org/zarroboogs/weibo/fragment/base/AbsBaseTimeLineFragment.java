@@ -25,8 +25,6 @@ import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.umeng.analytics.MobclickAgent;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,7 +32,6 @@ import android.os.Looper;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -302,7 +299,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         TimeLineBitmapDownloader.getInstance().setPauseDownloadWork(false);
         TimeLineBitmapDownloader.getInstance().setPauseReadWork(false);
 
-        MobclickAgent.onPageEnd(this.getClass().getName());
     }
 
     protected void onListViewScrollStop() {
@@ -355,7 +351,6 @@ public abstract class AbsBaseTimeLineFragment<T extends DataListItem<?, ?>> exte
         getListView().setFastScrollEnabled(SettingUtils.allowFastScroll());
         getAdapter().notifyDataSetChanged();
 
-        MobclickAgent.onPageStart(this.getClass().getName());
     }
 
     @Override

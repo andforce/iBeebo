@@ -23,8 +23,6 @@ import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.ui.task.FavAsyncTask;
 import org.zarroboogs.weibo.ui.task.UnFavAsyncTask;
 
-import com.umeng.analytics.MobclickAgent;
-
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -109,20 +107,6 @@ public class BrowserWeiboMsgActivity extends AbstractAppActivity implements Remo
         }
 
         disPlayHomeAsUp(mToolbar);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     @Override

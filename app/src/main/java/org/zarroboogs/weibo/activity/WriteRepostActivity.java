@@ -21,8 +21,6 @@ import org.zarroboogs.weibo.db.DraftDBManager;
 import org.zarroboogs.weibo.service.SendRepostService;
 import org.zarroboogs.weibo.support.utils.Utility;
 
-import com.umeng.analytics.MobclickAgent;
-
 public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
 
     public static final String ACTION_DRAFT = "org.zarroboogs.weibo.DRAFT";
@@ -59,22 +57,6 @@ public class WriteRepostActivity extends AbstractWriteActivity<MessageBean> {
                 handleNormalOperation(intent);
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     private void handleDraftOperation(Intent intent) {

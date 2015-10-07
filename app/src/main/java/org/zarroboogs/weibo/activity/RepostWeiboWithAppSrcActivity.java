@@ -23,7 +23,6 @@ import org.zarroboogs.weibo.service.SendRepostService;
 import org.zarroboogs.weibo.support.utils.ViewUtility;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.content.Intent;
@@ -164,22 +163,6 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
         view.startAnimation(animation);
 
-    }
-
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     private TextWatcher watcher = new TextWatcher() {

@@ -16,8 +16,6 @@ import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 
-import com.umeng.analytics.MobclickAgent;
-
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -84,16 +82,12 @@ public class JSWebViewActivity extends AbstractAppActivity implements IWeiboClie
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     public void initView() {

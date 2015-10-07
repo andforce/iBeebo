@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import org.zarroboogs.weibo.R;
 import org.zarroboogs.weibo.activity.AbstractAppActivity;
 
-import com.umeng.analytics.MobclickAgent;
 
 public class PerformanceActivity extends AbstractAppActivity {
     @Override
@@ -39,21 +38,6 @@ public class PerformanceActivity extends AbstractAppActivity {
         return false;
     }
 
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
-    }
 
     public static class PerformanceFragment extends PreferenceFragment {
 

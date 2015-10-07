@@ -26,7 +26,6 @@ import org.zarroboogs.weibo.support.utils.ViewUtility;
 import org.zarroboogs.weibo.widget.galleryview.ViewPagerActivity;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.content.Intent;
@@ -252,17 +251,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-        
-        refreshNineGridView();
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
+        refreshNineGridView();
     }
 
     private TextWatcher watcher = new TextWatcher() {

@@ -15,8 +15,6 @@ import org.zarroboogs.weibo.dialogfragment.SelectProfilePictureDialog;
 import org.zarroboogs.weibo.support.asyncdrawable.ProfileAvatarReadWorker;
 import org.zarroboogs.weibo.support.utils.Utility;
 
-import com.umeng.analytics.MobclickAgent;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -104,22 +102,6 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("picPath", picPath);
-    }
-
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     private void initLayout() {

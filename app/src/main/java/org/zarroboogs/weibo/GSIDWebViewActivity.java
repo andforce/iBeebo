@@ -12,8 +12,6 @@ import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
 import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 
-import com.umeng.analytics.MobclickAgent;
-
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -71,15 +69,11 @@ public class GSIDWebViewActivity extends AbstractAppActivity implements IWeiboCl
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
     }
 
     public void initView() {

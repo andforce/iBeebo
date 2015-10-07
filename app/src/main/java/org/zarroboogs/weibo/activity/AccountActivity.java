@@ -14,8 +14,6 @@ import org.zarroboogs.weibo.support.utils.ThemeUtility;
 import org.zarroboogs.weibo.support.utils.Utility;
 import org.zarroboogs.weibo.widget.ChangeLogDialog;
 
-import com.umeng.analytics.MobclickAgent;
-
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.app.AlertDialog.Builder;
@@ -68,10 +66,6 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        MobclickAgent.setDebugMode(false);
-        MobclickAgent.openActivityDurationTrack(false);
-        MobclickAgent.updateOnlineConfig(this);
 
         // CookieManager manager = CookieManager.getInstance();
         // manager.removeAllCookie();

@@ -1,8 +1,6 @@
 
 package org.zarroboogs.weibo.activity;
 
-import com.umeng.analytics.MobclickAgent;
-
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.utils.WeiBoURLs;
 import org.zarroboogs.weibo.BeeboApplication;
@@ -323,9 +321,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(this.getClass().getName());
-        MobclickAgent.onResume(this);
-
         IntentFilter filter = new IntentFilter(AppEventAction.UnRead_Message_Action);
         filter.setPriority(1);
 
@@ -340,8 +335,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(this.getClass().getName());
-        MobclickAgent.onPause(this);
 
         Utility.unregisterReceiverIgnoredReceiverNotRegisteredException(this, newMsgInterruptBroadcastReceiver);
 
