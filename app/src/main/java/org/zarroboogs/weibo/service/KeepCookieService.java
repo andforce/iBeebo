@@ -1,8 +1,11 @@
 package org.zarroboogs.weibo.service;
 
-import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
-import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
+
 import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.http.AsyncHttpHeaders;
+import org.zarroboogs.http.AsyncHttpRequest;
+import org.zarroboogs.http.AsyncHttpResponse;
+import org.zarroboogs.http.AsyncHttpResponseHandler;
 import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 
 import android.app.Service;
@@ -17,9 +20,9 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class KeepCookieService extends Service implements Callback {
+public class KeepCookieService extends Service {
 
-    private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
+    private AsyncHttpRequest mAsyncOKHttpClient = new AsyncHttpRequest();
 
     private String mCookie;
     public static final String COOKIE_KEEP = "cookie_keep";
@@ -28,22 +31,36 @@ public class KeepCookieService extends Service implements Callback {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // TODO Auto-generated method stub
         if (intent != null) {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 mCookie = bundle.getString(COOKIE_KEEP);
                 if (!TextUtils.isEmpty(mCookie)) {
-                    SimpleHeaders simpleHeaders = new SimpleHeaders();
+                    AsyncHttpHeaders simpleHeaders = new AsyncHttpHeaders();
                     simpleHeaders.addCookie(mCookie);
 
-                    mAsyncOKHttpClient.asyncGet(SeniorUrl.SeniorUrl_Public, KeepCookieService.this);
+                    mAsyncOKHttpClient.get(SeniorUrl.SeniorUrl_Public, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onFailure(IOException e) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(AsyncHttpResponse response) {
+                            String r = response.getBody();
+                            DevLog.printLog(TAG, r);
+                            if (r.contains("sina_name")) {
+                                stopSelf();
+                            } else {
+                                stopSelf();
+                            }
+                        }
+                    });
                 } else {
                     stopSelf();
                 }
@@ -55,21 +72,5 @@ public class KeepCookieService extends Service implements Callback {
             stopSelf();
         }
         return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
-    public void onFailure(Request request, IOException e) {
-
-    }
-
-    @Override
-    public void onResponse(Response response) throws IOException {
-        String r = response.body().string();
-        DevLog.printLog(TAG, r);
-        if (r.contains("sina_name")) {
-            stopSelf();
-        } else {
-            stopSelf();
-        }
     }
 }

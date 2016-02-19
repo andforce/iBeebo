@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 
-import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
+import org.zarroboogs.http.AsyncHttpRequest;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.bean.AccountBean;
 import org.zarroboogs.weibo.setting.SettingUtils;
@@ -26,7 +26,7 @@ public class AbstractAppActivity extends ToolBarAppCompatActivity {
 
     protected int theme = 0;
     public AccountBean mAccountBean;
-    private static AsyncOKHttpClient mAsyncHttoClient;
+    private static AsyncHttpRequest mAsyncHttoClient;
     private static CookieManager cookieStore;
 
     @Override
@@ -45,7 +45,7 @@ public class AbstractAppActivity extends ToolBarAppCompatActivity {
         }
 
         if (mAsyncHttoClient == null) {
-            mAsyncHttoClient = new AsyncOKHttpClient(cookieStore);
+            mAsyncHttoClient = new AsyncHttpRequest();
         }
 
         forceShowActionBarOverflowMenu();
@@ -72,9 +72,9 @@ public class AbstractAppActivity extends ToolBarAppCompatActivity {
 		}
 	}
 
-    public AsyncOKHttpClient getAsyncHttpClient() {
+    public AsyncHttpRequest getAsyncHttpClient() {
         if (mAsyncHttoClient == null) {
-            mAsyncHttoClient = new AsyncOKHttpClient();
+            mAsyncHttoClient = new AsyncHttpRequest();
         }
         return mAsyncHttoClient;
     }

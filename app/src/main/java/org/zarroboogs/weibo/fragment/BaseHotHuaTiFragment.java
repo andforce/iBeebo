@@ -6,13 +6,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
 
 public abstract class BaseHotHuaTiFragment extends BaseLoadDataFragment {
 
     private SharedPreferences mSharedPreference;
-
-    private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
 
     abstract void onGsidLoadSuccess(String gsid);
 

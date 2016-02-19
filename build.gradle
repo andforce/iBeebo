@@ -18,5 +18,7 @@ allprojects {
         jcenter()
         // 自己的库地址
         maven {url "https://dl.bintray.com/andforce/maven/"}
+        // jitpack
+        maven { url "https://jitpack.io" }
     }
 }

@@ -77,11 +77,12 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'com.umeng:analytics:5.4.1'
     // OkHttp
-    compile 'com.squareup.okhttp:okhttp:2.5.0'
+//    compile 'com.squareup.okhttp:okhttp:2.5.0'
     // 自己的库
     compile 'com.andforce.common.view:slidingtablayout:0.0.1'
     compile 'com.andforce.common.view:materialswiperefresh:0.0.3'
-    compile 'org.zarroboogs.http:asyncokhttpclient:0.0.19'
+    // http
+    compile 'com.github.andforce:AsyncHttpRequest:682d57f3d2'
     compile 'com.andforce.injectjs:injectjs4android:0.0.9'
     compile 'org.zarrboogs.android:android-dev-utils:0.0.4'
     compile 'com.andforce.weibo.senior.api:sina-weibo-senior-api:0.0.1'

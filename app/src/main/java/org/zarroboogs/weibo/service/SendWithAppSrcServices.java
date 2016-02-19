@@ -4,11 +4,16 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
 import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.http.AsyncHttpHeaders;
+import org.zarroboogs.http.AsyncHttpRequest;
+import org.zarroboogs.http.AsyncHttpResponse;
+import org.zarroboogs.http.AsyncHttpResponseHandler;
 import org.zarroboogs.util.net.UploadHelper;
 import org.zarroboogs.util.net.UploadHelper.OnUpFilesListener;
 import org.zarroboogs.util.net.WaterMark;
@@ -33,12 +38,6 @@ import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.NotificationUtility;
 
 import com.google.gson.Gson;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import android.app.Notification;
 import android.app.Service;
@@ -51,74 +50,70 @@ import android.util.Log;
 
 public class SendWithAppSrcServices extends Service {
 
-	private SendImgData sendImgData = SendImgData.getInstance();
-	private AccountBean mAccountBean;
-	private WeiboWeiba mAppSrc = null;
-	private String mTextContent;
+    private SendImgData sendImgData = SendImgData.getInstance();
+    private AccountBean mAccountBean;
+    private WeiboWeiba mAppSrc = null;
+    private String mTextContent;
     private JSAutoLogin mJsAutoLogin;
-    
-	private String TAG = "SendWithAppSrcServices";
-	public static final String APP_SRC = "mAppSrc";
-	public static final String TEXT_CONTENT = "TEXT_CONTENT";
-	
-	private ArrayList<String> sendImgList = new ArrayList<String>();
-	
-	@Override
-	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public void onCreate() {
-		// TODO Auto-generated method stub
-		super.onCreate();
-		mAccountBean = BeeboApplication.getInstance().getAccountBean();
-		mJsAutoLogin = new JSAutoLogin(getApplicationContext(), mAccountBean);
-	}
-	
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		// TODO Auto-generated method stub
-        if (intent != null && intent.getExtras() != null){
+    private String TAG = "SendWithAppSrcServices";
+    public static final String APP_SRC = "mAppSrc";
+    public static final String TEXT_CONTENT = "TEXT_CONTENT";
+
+    private ArrayList<String> sendImgList = new ArrayList<String>();
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mAccountBean = BeeboApplication.getInstance().getAccountBean();
+        mJsAutoLogin = new JSAutoLogin(getApplicationContext(), mAccountBean);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null && intent.getExtras() != null) {
             mAppSrc = (WeiboWeiba) intent.getExtras().getSerializable(APP_SRC);
             mTextContent = intent.getExtras().getString(TEXT_CONTENT);
         }
-		startPicCacheAndSendWeibo();
-		return super.onStartCommand(intent, flags, startId);
-	}
-	
-	private void startPicCacheAndSendWeibo() {
-		ArrayList<String> send = sendImgData.getSendImgs();
-		final int count = send.size();
+        startPicCacheAndSendWeibo();
+        return super.onStartCommand(intent, flags, startId);
+    }
 
-		DevLog.printLog("startPicCacheAndSendWeibo ", "SEND_COUNT: " + count);
-		if (count > 0) {
-		    for (int i = 0; i < send.size(); i++) {
-		        SendBitmapWorkerTask sendBitmapWorkerTask = new SendBitmapWorkerTask(getApplicationContext(),
-		                new OnCacheDoneListener() {
-		                    @Override
-		                    public void onCacheDone(String newFile) {
-		                        // TODO Auto-generated method stub
-		                    	sendImgList.add(newFile);
-		                        DevLog.printLog("startPicCacheAndSendWeibo ", " Should Send Count : " + count + "  current Count :" + sendImgList.size());
-		                        if (sendImgList.size() == count) {
-		                            sendWeibo(sendImgData, mTextContent);
-		                            DevLog.printLog("startPicCacheAndSendWeibo ", " Start Send==========");
-		                        }
-		                    }
-		                });
-		        sendBitmapWorkerTask.execute(send.get(i));
-		    }
-		} else {
+    private void startPicCacheAndSendWeibo() {
+        ArrayList<String> send = sendImgData.getSendImgs();
+        final int count = send.size();
 
-		    sendWeibo(sendImgData, mTextContent);
-		}
-	}
-	
+        DevLog.printLog("startPicCacheAndSendWeibo ", "SEND_COUNT: " + count);
+        if (count > 0) {
+            for (int i = 0; i < send.size(); i++) {
+                SendBitmapWorkerTask sendBitmapWorkerTask = new SendBitmapWorkerTask(getApplicationContext(),
+                        new OnCacheDoneListener() {
+                            @Override
+                            public void onCacheDone(String newFile) {
+                                sendImgList.add(newFile);
+                                DevLog.printLog("startPicCacheAndSendWeibo ", " Should Send Count : " + count + "  current Count :" + sendImgList.size());
+                                if (sendImgList.size() == count) {
+                                    sendWeibo(sendImgData, mTextContent);
+                                    DevLog.printLog("startPicCacheAndSendWeibo ", " Start Send==========");
+                                }
+                            }
+                        });
+                sendBitmapWorkerTask.execute(send.get(i));
+            }
+        } else {
+
+            sendWeibo(sendImgData, mTextContent);
+        }
+    }
+
     private void sendWeibo(SendImgData sendImgData, String text) {
-    	showSendingNotification();
-    	
+        showSendingNotification();
+
         if (TextUtils.isEmpty(text)) {
             text = getString(R.string.default_text_pic_weibo);
         }
@@ -134,7 +129,7 @@ public class SendWithAppSrcServices extends Service {
 
         dosend(mark, mAppSrc.getCode(), text, sendImgList);
     }
-    
+
 
     private void dosend(WaterMark mark, final String weiboCode, final String text, List<String> pics) {
         if (pics == null || pics.isEmpty()) {
@@ -143,21 +138,20 @@ public class SendWithAppSrcServices extends Service {
             UploadHelper mUploadHelper = new UploadHelper(getApplicationContext());
             mUploadHelper.uploadFiles(buildMark(mark), pics, new OnUpFilesListener() {
 
-				@Override
-				public void onUpSuccess(String pids) {
-					DevLog.printLog("UploadHelper onUpSuccess ", "" + pids);
-					sendWeiboWidthPids(weiboCode, text, pids);
-				}
+                @Override
+                public void onUpSuccess(String pids) {
+                    DevLog.printLog("UploadHelper onUpSuccess ", "" + pids);
+                    sendWeiboWidthPids(weiboCode, text, pids);
+                }
 
-				@Override
-				public void onUpLoadFailed() {
-					// TODO Auto-generated method stub
-					startWebLogin();
-				}
-			}, getCookieIfHave());
+                @Override
+                public void onUpLoadFailed() {
+                    startWebLogin();
+                }
+            }, getCookieIfHave());
         }
     }
-    
+
     public void startWebLogin() {
         Intent intent = new Intent();
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, mAccountBean);
@@ -165,108 +159,108 @@ public class SendWithAppSrcServices extends Service {
         intent.setClass(SendWithAppSrcServices.this, WebViewActivity.class);
         startActivity(intent);
     }
-    
+
     /**
      * @param weiboCode "ZwpYj"
      * @param pids
      */
     protected void sendWeiboWidthPids(String weiboCode, String text, String pids) {
-    	String cookie = getCookieIfHave();
+        String cookie = getCookieIfHave();
 
-		SimpleHeaders simpleHeadersBuilder = new SimpleHeaders();
-		simpleHeadersBuilder.addAccept("*/*");
-		simpleHeadersBuilder.addAcceptEncoding("gzip, deflate");
-		simpleHeadersBuilder.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
-		simpleHeadersBuilder.addHost("widget.weibo.com");
-		simpleHeadersBuilder.addOrigin("http://widget.weibo.com");
-		simpleHeadersBuilder.addReferer("http://widget.weibo.com/topics/topic_vote_base.php?tag=Weibo&app_src=" + weiboCode + "&isshowright=0&language=zh_cn");
-		simpleHeadersBuilder.addContentType("application/x-www-form-urlencoded");
-		simpleHeadersBuilder.addUserAgent(Constaces.User_Agent);
-		simpleHeadersBuilder.addCookie(cookie);
-		simpleHeadersBuilder.addConnection("keep-alive");
-		simpleHeadersBuilder.add("X-Requested-With","XMLHttpRequest");
+        AsyncHttpHeaders simpleHeadersBuilder = new AsyncHttpHeaders();
+        simpleHeadersBuilder.addAccept("*/*");
+        simpleHeadersBuilder.addAcceptEncoding("gzip, deflate");
+        simpleHeadersBuilder.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+        simpleHeadersBuilder.addHost("widget.weibo.com");
+        simpleHeadersBuilder.addOrigin("http://widget.weibo.com");
+        simpleHeadersBuilder.addReferer("http://widget.weibo.com/topics/topic_vote_base.php?tag=Weibo&app_src=" + weiboCode + "&isshowright=0&language=zh_cn");
+        simpleHeadersBuilder.addContentType("application/x-www-form-urlencoded");
+        simpleHeadersBuilder.addUserAgent(Constaces.User_Agent);
+        simpleHeadersBuilder.addCookie(cookie);
+        simpleHeadersBuilder.addConnection("keep-alive");
+        simpleHeadersBuilder.add("X-Requested-With", "XMLHttpRequest");
 
-		
-		FormEncodingBuilder f = new FormEncodingBuilder()
-		.add("app_src", weiboCode)
-		.add("content", text)
-		.add("return_type", "2")
-		.add("refer", "")
-		.add("vsrc", "base_topic")
-		.add("wsrc", "app_topic_base")
-		.add("ext", "login=>1;url=>")
-		.add("html_type", "2")
-		.add("_t", "0")
-		.add("html_type", "2")
-		.add("html_type", "2")
-		.add("html_type", "2")
-		.add("html_type", "2");
-		if (!TextUtils.isEmpty(pids)) {
-			f.add("pic_id", pids);
-		}
 
-		OkHttpClient okHttpClient = new OkHttpClient();
-		Request request = new Request.Builder().url(Constaces.ADDBLOGURL).headers(simpleHeadersBuilder.build()).post(f.build()).build();
-		okHttpClient.newCall(request).enqueue(new Callback() {
-			@Override
-			public void onFailure(Request request, IOException e) {
+        Map<String, String> formData = new HashMap<>();
+        formData.put("app_src", weiboCode);
+        formData.put("content", text);
+        formData.put("return_type", "2");
+        formData.put("refer", "");
+        formData.put("vsrc", "base_topic");
+        formData.put("wsrc", "app_topic_base");
+        formData.put("ext", "login=>1;url=>");
+        formData.put("html_type", "2");
+        formData.put("_t", "0");
+        formData.put("html_type", "2");
+        formData.put("html_type", "2");
+        formData.put("html_type", "2");
+        formData.put("html_type", "2");
+        if (!TextUtils.isEmpty(pids)) {
+            formData.put("pic_id", pids);
+        }
 
-			}
+        AsyncHttpRequest asyncHttpRequest = new AsyncHttpRequest();
+        asyncHttpRequest.post(Constaces.ADDBLOGURL, simpleHeadersBuilder, formData, new AsyncHttpResponseHandler() {
+            @Override
+            public void onFailure(IOException e) {
 
-			@Override
-			public void onResponse(Response response) throws IOException {
-				String r = response.body().string();
-				SendWeiboResultBean sb = new Gson().fromJson(r, SendWeiboResultBean.class);
-				if (sb.isSuccess()) {
+            }
 
-					deleteSendFile();
-					showSuccessfulNotification();
+            @Override
+            public void onSuccess(AsyncHttpResponse response) {
 
-					stopSelf();
+                String r = response.getBody();
+                SendWeiboResultBean sb = new Gson().fromJson(r, SendWeiboResultBean.class);
+                if (sb.isSuccess()) {
 
-					clearAppsrc();
+                    deleteSendFile();
+                    showSuccessfulNotification();
 
-					DevLog.printLog(TAG, "发送成功！");
-				}else {
-					NotificationUtility.cancel(R.string.sending);
-					DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
-					if (sb.getMsg().equals("未登录")) {
-						mJsAutoLogin.checkUserPassword(mAccountBean.getUname(), mAccountBean.getPwd(), new CheckUserNamePasswordListener() {
+                    stopSelf();
 
-							@Override
-							public void onChecked(String msg) {
-								// TODO Auto-generated method stub
-								DevLog.printLog("JSAutoLogin onChecked", msg.trim());
-								if (TextUtils.isEmpty(msg)) {
-									DevLog.printLog("JSAutoLogin onChecked", "startLogin");
-									mJsAutoLogin.exejs();
-									mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
+                    clearAppsrc();
 
-										@Override
-										public void onAutoLonin(boolean result) {
-											// TODO Auto-generated method stub
-											startPicCacheAndSendWeibo();
-										}
-									});
-								}
-							}
-						});
-					}
-				}
-			}
-		});
+                    DevLog.printLog(TAG, "发送成功！");
+                } else {
+                    NotificationUtility.cancel(R.string.sending);
+                    DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
+                    if (sb.getMsg().equals("未登录")) {
+                        mJsAutoLogin.checkUserPassword(mAccountBean.getUname(), mAccountBean.getPwd(), new CheckUserNamePasswordListener() {
+
+                            @Override
+                            public void onChecked(String msg) {
+                                DevLog.printLog("JSAutoLogin onChecked", msg.trim());
+                                if (TextUtils.isEmpty(msg)) {
+                                    DevLog.printLog("JSAutoLogin onChecked", "startLogin");
+                                    mJsAutoLogin.exejs();
+                                    mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
+
+                                        @Override
+                                        public void onAutoLonin(boolean result) {
+                                            startPicCacheAndSendWeibo();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+
+            }
+        });
+
 
     }
 
-	
-	private String getCookieIfHave() {
-		String cookieInDB = BeeboApplication.getInstance().getAccountBean().getCookieInDB();
-		if (!TextUtils.isEmpty(cookieInDB)) {
-			return cookieInDB;
-		}
-		return "";
-	}
-    
+
+    private String getCookieIfHave() {
+        String cookieInDB = BeeboApplication.getInstance().getAccountBean().getCookieInDB();
+        if (!TextUtils.isEmpty(cookieInDB)) {
+            return cookieInDB;
+        }
+        return "";
+    }
+
     public String buildMark(WaterMark mark) {
         if (SettingUtils.getEnableWaterMark()) {
             String markpos = SettingUtils.getWaterMarkPos();
@@ -278,18 +272,18 @@ public class SendWithAppSrcServices extends Service {
             return "&marks=0";
         }
     }
-    
-    public void clearAppsrc(){
-        SharedPreferences appsrcPreferences  = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+
+    public void clearAppsrc() {
+        SharedPreferences appsrcPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         appsrcPreferences.edit().remove(Constants.KEY_NAME).remove(Constants.KEY_CODE).commit();
     }
-	
 
-	private Handler handler = new Handler();
-	
+
+    private Handler handler = new Handler();
+
     private void showSuccessfulNotification() {
-    	NotificationUtility.cancel(R.string.sending);
-    	
+        NotificationUtility.cancel(R.string.sending);
+
         Notification.Builder builder = new Notification.Builder(SendWithAppSrcServices.this)
                 .setTicker(getString(R.string.send_successfully))
                 .setContentTitle(getString(R.string.send_successfully)).setOnlyAlertOnce(true).setAutoCancel(true)
@@ -297,27 +291,25 @@ public class SendWithAppSrcServices extends Service {
         Notification notification = builder.getNotification();
         NotificationUtility.show(notification, R.string.send_successfully);
         handler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				NotificationUtility.cancel(R.string.send_successfully);
-			}
-		}, 3000);
+            @Override
+            public void run() {
+                NotificationUtility.cancel(R.string.send_successfully);
+            }
+        }, 3000);
     }
-    
-    private void showSendingNotification(){
-            Notification.Builder builder = new Notification.Builder(this)
-                    .setTicker(getString(R.string.sending))
-                    .setContentTitle(getString(R.string.wait_server_response))
-                    .setNumber(100).setProgress(100, 100, false)
-                    .setOnlyAlertOnce(true).setOngoing(true).setSmallIcon(R.drawable.upload_white);
 
-            Notification notification = builder.getNotification();
+    private void showSendingNotification() {
+        Notification.Builder builder = new Notification.Builder(this)
+                .setTicker(getString(R.string.sending))
+                .setContentTitle(getString(R.string.wait_server_response))
+                .setNumber(100).setProgress(100, 100, false)
+                .setOnlyAlertOnce(true).setOngoing(true).setSmallIcon(R.drawable.upload_white);
+
+        Notification notification = builder.getNotification();
 
         NotificationUtility.show(notification, R.string.sending);
     }
-    
 
-	
 
     class WeiBaCacheFile implements FilenameFilter {
 
@@ -328,18 +320,18 @@ public class SendWithAppSrcServices extends Service {
         }
 
     }
-    
-	public void deleteSendFile() {
-		SendImgData sid = SendImgData.getInstance();
-		sid.clearSendImgs();
 
-		File[] cacheFiles = getExternalCacheDir().listFiles(
-				new WeiBaCacheFile());
-		for (File file : cacheFiles) {
-			Log.d("LIST_CAXCHE", " " + file.getName());
-			file.delete();
-		}
-	}
+    public void deleteSendFile() {
+        SendImgData sid = SendImgData.getInstance();
+        sid.clearSendImgs();
+
+        File[] cacheFiles = getExternalCacheDir().listFiles(
+                new WeiBaCacheFile());
+        for (File file : cacheFiles) {
+            Log.d("LIST_CAXCHE", " " + file.getName());
+            file.delete();
+        }
+    }
 
 
 }

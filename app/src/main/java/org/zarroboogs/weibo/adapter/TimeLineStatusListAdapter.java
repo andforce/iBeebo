@@ -5,8 +5,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
@@ -29,14 +27,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
 
-import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
-import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
 import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.http.AsyncHttpHeaders;
+import org.zarroboogs.http.AsyncHttpRequest;
+import org.zarroboogs.http.AsyncHttpResponse;
+import org.zarroboogs.http.AsyncHttpResponseHandler;
 import org.zarroboogs.sinaweiboseniorapi.SeniorUrl;
 import org.zarroboogs.utils.AppLoggerUtils;
 import org.zarroboogs.utils.Constants;
@@ -77,7 +73,7 @@ import java.util.ListIterator;
  */
 public class TimeLineStatusListAdapter extends BaseAdapter {
 
-    private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
+    private AsyncHttpRequest mAsyncOKHttpClient = new AsyncHttpRequest();
     private LongSparseArray<Integer> msgHeights = new LongSparseArray<>();
     private LongSparseArray<Integer> msgWidths = new LongSparseArray<>();
     private LongSparseArray<Integer> oriMsgHeights = new LongSparseArray<>();
@@ -394,36 +390,6 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         }
     }
 
-    private static final int MSG_LIKE_SUCCESS = 0;
-    private static final int MSG_LIKE_FAIL = 1;
-
-    private static final int MSG_UNLIKE_SUCCESS = 3;
-    private static final int MSG_UNLIKE_FAIL = 4;
-    Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case MSG_LIKE_SUCCESS:{
-                    Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                case MSG_LIKE_FAIL:{
-                    Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                case MSG_UNLIKE_SUCCESS:{
-                    Toast.makeText(getActivity(), "取消点赞成功", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                case MSG_UNLIKE_FAIL:{
-                    Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-            }
-        }
-    };
-
     public void like(String gsid, String id) {
 
         AccountBean accountBean = BeeboApplication.getInstance().getAccountBean();
@@ -434,7 +400,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
 
         String cookie = SeniorUrl.geCookie(gsid, accountBean.getUsernick());
 
-        SimpleHeaders builder = new SimpleHeaders();
+        AsyncHttpHeaders builder = new AsyncHttpHeaders();
         builder.addHost("m.weibo.cn");
         builder.addAccept("application/json, text/javascript, */*; q=0.01");
         builder.addOrigin("http://m.weibo.cn");
@@ -447,23 +413,21 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
         builder.addCookie(cookie);
         builder.add("X-Requested-With", "XMLHttpRequest");
 
-        mAsyncOKHttpClient.asyncGet(url, builder, new Callback() {
+        mAsyncOKHttpClient.get(url, builder, new AsyncHttpResponseHandler() {
             @Override
-            public void onFailure(Request request, IOException e) {
-                mHandler.sendEmptyMessage(MSG_LIKE_FAIL);
+            public void onFailure(IOException e) {
+                Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
-                ResponseBody responseBody = response.body();
+            public void onSuccess(AsyncHttpResponse response) {
 
-                Like like = new Gson().fromJson(responseBody.string(), Like.class);
+                Like like = new Gson().fromJson(response.getBody(), Like.class);
                 if (like.getOk() == 1 && like.getMsg().equals("succ")){
-                    mHandler.sendEmptyMessage(MSG_LIKE_SUCCESS);
+                    Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
                 } else {
-                    mHandler.sendEmptyMessage(MSG_LIKE_FAIL);
+                    Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();
                 }
-                DevLog.printLog("LOG_LIKE", responseBody.contentType().toString() + "\t" + "[" + responseBody.string()+"]");
             }
         });
     }
@@ -479,7 +443,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
 
         String cookie = SeniorUrl.geCookie(gsid, accountBean.getUsernick());
 
-        SimpleHeaders simpleHeadersBuilder = new SimpleHeaders();
+        AsyncHttpHeaders simpleHeadersBuilder = new AsyncHttpHeaders();
         simpleHeadersBuilder.addHost("m.weibo.cn");
         simpleHeadersBuilder.addAccept("application/json, text/javascript, */*; q=0.01");
         simpleHeadersBuilder.addOrigin("http://m.weibo.cn");
@@ -492,27 +456,26 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
 
         simpleHeadersBuilder.add("X-Requested-With", "XMLHttpRequest");
 
-        mAsyncOKHttpClient.asyncGet(url, simpleHeadersBuilder, new Callback() {
+        mAsyncOKHttpClient.get(url, simpleHeadersBuilder, new AsyncHttpResponseHandler() {
             @Override
-            public void onFailure(Request request, IOException e) {
-                mHandler.sendEmptyMessage(MSG_UNLIKE_FAIL);
+            public void onFailure(IOException e) {
+                Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
-                String result = response.body().string();
+            public void onSuccess(AsyncHttpResponse response) {
+                String result = response.getBody();
 
-                try{
+                try {
                     UnLike unLike = new Gson().fromJson(result, UnLike.class);
-                    if (unLike.getOk() == 1 && unLike.getMsg().equals("succ")){
-                        mHandler.sendEmptyMessage(MSG_UNLIKE_SUCCESS);
-                    } else{
-                        mHandler.sendEmptyMessage(MSG_UNLIKE_FAIL);
+                    if (unLike.getOk() == 1 && unLike.getMsg().equals("succ")) {
+                        Toast.makeText(getActivity(), "取消点赞成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
                     }
-                } catch (Exception e){
-                    mHandler.sendEmptyMessage(MSG_UNLIKE_FAIL);
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "取消点赞失败", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }

@@ -1,10 +1,13 @@
 package org.zarroboogs.weibo;
 
-import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
-import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
+
 import org.zarroboogs.devutils.AssertLoader;
 import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.devutils.DevLog;
+import org.zarroboogs.http.AsyncHttpHeaders;
+import org.zarroboogs.http.AsyncHttpRequest;
+import org.zarroboogs.http.AsyncHttpResponse;
+import org.zarroboogs.http.AsyncHttpResponseHandler;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
@@ -16,14 +19,6 @@ import org.zarroboogs.weibo.db.AccountDatabaseManager;
 import org.zarroboogs.weibo.db.table.AccountTable;
 
 import com.google.gson.Gson;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.internal.framed.Header;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -37,6 +32,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class JSAutoLogin {
@@ -47,7 +44,7 @@ public class JSAutoLogin {
 	private AccountBean mAccountBean;
 	private WeiboWebViewClient mWeiboWebViewClient;
 
-	private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
+	private AsyncHttpRequest mAsyncHttpRequest = new AsyncHttpRequest();
 	private boolean isExecuted = false;
 	private AutoLogInListener mListener;
 	
@@ -104,7 +101,7 @@ public class JSAutoLogin {
     public void checkUserPassword(String uname, String password , CheckUserNamePasswordListener listener){
     	this.cNamePasswordListener = listener;
     	
-        SimpleHeaders simpleHeaders = new SimpleHeaders();
+        AsyncHttpHeaders simpleHeaders = new AsyncHttpHeaders();
         simpleHeaders.addAccept("*/*");
         simpleHeaders.addAcceptEncoding("gzip,deflate,sdch");
         simpleHeaders.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
@@ -114,25 +111,22 @@ public class JSAutoLogin {
         simpleHeaders.addContentType("application/x-www-form-urlencoded");
         simpleHeaders.addUserAgent(Constaces.User_Agent);
 
-        RequestBody formBody = new FormEncodingBuilder()
-                .add("username", uname)
-                .add("password", password)
-                .add("savestate", "1")
-                .add("ec", "0")
-                .add("entry", "mweibo")
-                .build();
+        Map<String, String> formBodys = new HashMap<>();
+        formBodys.put("username",uname);
+        formBodys.put("password",password);
+        formBodys.put("savestate","1");
+        formBodys.put("ec","0");
+        formBodys.put("entry", "mweibo");
 
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder().url("https://passport.weibo.cn/sso/login").headers(simpleHeaders.build()).post(formBody).build();
-		okHttpClient.newCall(request).enqueue(new Callback() {
+        mAsyncHttpRequest.post("https://passport.weibo.cn/sso/login", simpleHeaders, formBodys, new AsyncHttpResponseHandler() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(IOException e) {
 
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
-                String r = response.body().string();
+            public void onSuccess(AsyncHttpResponse response) {
+                String r = response.getBody();
                 DevLog.printLog("JSAutoLogin onPostSuccess", r);
                 CheckUserPasswordBean cb = new Gson().fromJson(r, CheckUserPasswordBean.class);
                 if (cNamePasswordListener != null) {

@@ -2,13 +2,17 @@ package org.zarroboogs.weibo.service;
 
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
-import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
-import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
 import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.devutils.DevLog;
 
+import org.zarroboogs.http.AsyncHttpHeaders;
+import org.zarroboogs.http.AsyncHttpRequest;
+import org.zarroboogs.http.AsyncHttpResponse;
+import org.zarroboogs.http.AsyncHttpResponseHandler;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.JSAutoLogin;
@@ -22,11 +26,6 @@ import org.zarroboogs.weibo.support.utils.BundleArgsConstants;
 import org.zarroboogs.weibo.support.utils.NotificationUtility;
 
 import com.google.gson.Gson;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import android.app.Notification;
 import android.app.Service;
@@ -36,9 +35,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 
-public class RepostWithAppSrcServices extends Service implements Callback {
+public class RepostWithAppSrcServices extends Service{
 
-    private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
+    private AsyncHttpRequest mAsyncOKHttpClient = new AsyncHttpRequest();
     private AccountBean mAccountBean;
     private WeiboWeiba mAppSrc = null;
     private String mTextContent;
@@ -54,13 +53,11 @@ public class RepostWithAppSrcServices extends Service implements Callback {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void onCreate() {
-        // TODO Auto-generated method stub
         super.onCreate();
         mAccountBean = BeeboApplication.getInstance().getAccountBean();
         mJsAutoLogin = new JSAutoLogin(getApplicationContext(), mAccountBean);
@@ -68,7 +65,6 @@ public class RepostWithAppSrcServices extends Service implements Callback {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // TODO Auto-generated method stub
         mAppSrc = (WeiboWeiba) intent.getExtras().getSerializable(APP_SRC);
         mTextContent = intent.getExtras().getString(TEXT_CONTENT);
         mMid = intent.getExtras().getString(WEIBO_MID);
@@ -79,12 +75,12 @@ public class RepostWithAppSrcServices extends Service implements Callback {
     }
 
 
-    public void repostWeibo(String app_src, String content, String cookie, String mid, boolean isComment) {
+    public void repostWeibo(String app_src, String content, String cookie, String mid, final boolean isComment) {
         cookie = getCookieIfHave();
 
         showSendingNotification();
 
-        SimpleHeaders simpleHeaders = new SimpleHeaders();
+        AsyncHttpHeaders simpleHeaders = new AsyncHttpHeaders();
         simpleHeaders.addAccept("*/*");
         simpleHeaders.addAcceptEncoding("gzip, deflate");
         simpleHeaders.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
@@ -100,23 +96,59 @@ public class RepostWithAppSrcServices extends Service implements Callback {
             simpleHeaders.add("Cookie", cookie);
         }
 
+        Map<String , String> formData = new HashMap<>();
+        formData.put("content", content);
+        formData.put("visible", "0");
+        formData.put("refer", "");
 
-        RequestBody requestBody = new FormEncodingBuilder()
-                .add("content", content)
-                .add("visible", "0")
-                .add("refer", "")
+        formData.put("app_src", app_src);
+        formData.put("mid", mid);
+        formData.put("return_type", "2");
 
-                .add("app_src", app_src)
-                .add("mid", mid)
-                .add("return_type", "2")
+        formData.put("vsrc", "publish_web");
+        formData.put("wsrc", "app_publish");
+        formData.put("ext", "login=>1;url=>");
+        formData.put("html_type", "2");
+        formData.put("is_comment", isComment ? "1" : "0");
 
-                .add("vsrc", "publish_web")
-                .add("wsrc", "app_publish")
-                .add("ext", "login=>1;url=>")
-                .add("html_type", "2").add("is_comment", isComment ? "1" : "0").build();
+        mAsyncOKHttpClient.post(Constaces.REPOST_WEIBO, simpleHeaders, formData, new AsyncHttpResponseHandler() {
+            @Override
+            public void onFailure(IOException e) {
 
+            }
 
-        mAsyncOKHttpClient.asyncPost(Constaces.REPOST_WEIBO, simpleHeaders, requestBody, this);
+            @Override
+            public void onSuccess(AsyncHttpResponse response) {
+                SendWeiboResultBean sb = new Gson().fromJson(response.getBody(), SendWeiboResultBean.class);
+                if (sb.isSuccess()) {
+
+                    NotificationUtility.cancel(R.string.repost);
+
+                    showSuccessfulNotification();
+                    clearAppsrc();
+                    RepostWithAppSrcServices.this.stopSelf();
+                    DevLog.printLog(TAG, "发送成功！");
+                } else {
+                    NotificationUtility.cancel(R.string.repost);
+
+                    DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
+                    if (sb.getMsg().equals("未登录")) {
+                        mJsAutoLogin.exejs();
+                        mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
+
+                            @Override
+                            public void onAutoLonin(boolean result) {
+                                if (result) {
+                                    repostWeibo(mAppSrc.getCode(), mTextContent, getCookieIfHave(), mMid, isComment);
+                                } else {
+                                    startWebLogin();
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
 
@@ -169,44 +201,5 @@ public class RepostWithAppSrcServices extends Service implements Callback {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setClass(RepostWithAppSrcServices.this, WebViewActivity.class);
         startActivity(intent);
-    }
-
-
-    @Override
-    public void onFailure(Request request, IOException e) {
-
-    }
-
-    @Override
-    public void onResponse(Response response) throws IOException {
-        SendWeiboResultBean sb = new Gson().fromJson(response.body().string(), SendWeiboResultBean.class);
-        if (sb.isSuccess()) {
-
-            NotificationUtility.cancel(R.string.repost);
-
-            showSuccessfulNotification();
-            clearAppsrc();
-            this.stopSelf();
-            DevLog.printLog(TAG, "发送成功！");
-        } else {
-            NotificationUtility.cancel(R.string.repost);
-
-            DevLog.printLog(TAG, sb.getCode() + "    " + sb.getMsg());
-            if (sb.getMsg().equals("未登录")) {
-                mJsAutoLogin.exejs();
-                mJsAutoLogin.setAutoLogInListener(new AutoLogInListener() {
-
-                    @Override
-                    public void onAutoLonin(boolean result) {
-                        // TODO Auto-generated method stub
-                        if (result) {
-                            repostWeibo(mAppSrc.getCode(), mTextContent, getCookieIfHave(), mMid, isComment);
-                        } else {
-                            startWebLogin();
-                        }
-                    }
-                });
-            }
-        }
     }
 }

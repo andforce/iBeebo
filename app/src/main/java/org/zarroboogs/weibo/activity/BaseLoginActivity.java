@@ -7,9 +7,11 @@ import java.util.List;
 
 import lib.org.zarroboogs.weibo.login.javabean.RequestResultParser;
 
-import org.zarroboogs.asyncokhttpclient.AsyncOKHttpClient;
-import org.zarroboogs.asyncokhttpclient.SimpleHeaders;
 import org.zarroboogs.devutils.Constaces;
+import org.zarroboogs.http.AsyncHttpHeaders;
+import org.zarroboogs.http.AsyncHttpRequest;
+import org.zarroboogs.http.AsyncHttpResponse;
+import org.zarroboogs.http.AsyncHttpResponseHandler;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.R;
@@ -24,14 +26,10 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Headers;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 public class BaseLoginActivity extends SharedPreferenceActivity {
     private RequestResultParser mRequestResultParser;
-    private AsyncOKHttpClient mAsyncOKHttpClient = new AsyncOKHttpClient();
+    private AsyncHttpRequest mAsyncOKHttpClient = new AsyncHttpRequest();
     private ProgressDialog mDialog;
 
     @Override
@@ -96,7 +94,7 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         String url = Constants.APPSRC;
 
 
-        SimpleHeaders simpleHeadersBuilder = new SimpleHeaders();
+        AsyncHttpHeaders simpleHeadersBuilder = new AsyncHttpHeaders();
         simpleHeadersBuilder.addAccept("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
         simpleHeadersBuilder.addAcceptEncoding("gzip,deflate,sdch");
         simpleHeadersBuilder.addAcceptLanguage("zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
@@ -107,17 +105,17 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
         simpleHeadersBuilder.add("Pragma", "no-cache");
 
 
-        mAsyncOKHttpClient.asyncGet(url, simpleHeadersBuilder, new Callback() {
+        mAsyncOKHttpClient.get(url, simpleHeadersBuilder, new AsyncHttpResponseHandler() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(IOException e) {
                 if (mFetchAppSrcListener != null) {
                     mFetchAppSrcListener.onFailure();
                 }
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
-                String resp = response.body().string();
+            public void onSuccess(AsyncHttpResponse response) {
+                String resp = response.getBody();
                 String jsonString = resp;//.split("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")[1];
                 Gson gson = new Gson();
 
@@ -130,6 +128,5 @@ public class BaseLoginActivity extends SharedPreferenceActivity {
                 hideDialogForWeiBo();
             }
         });
-
     }
 }
