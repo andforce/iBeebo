@@ -8,6 +8,7 @@ import org.zarroboogs.http.AsyncHttpHeaders;
 import org.zarroboogs.http.AsyncHttpRequest;
 import org.zarroboogs.http.AsyncHttpResponse;
 import org.zarroboogs.http.AsyncHttpResponseHandler;
+import org.zarroboogs.http.post.AsyncHttpPostFormData;
 import org.zarroboogs.injectjs.InjectJS;
 import org.zarroboogs.injectjs.JSCallJavaInterface;
 import org.zarroboogs.injectjs.InjectJS.OnLoadListener;
@@ -90,7 +91,6 @@ public class JSAutoLogin {
 
 		@Override
 		public void onJSCallJava(String... arg0) {
-			// TODO Auto-generated method stub
 			DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
 			DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
 		}
@@ -111,14 +111,14 @@ public class JSAutoLogin {
         simpleHeaders.addContentType("application/x-www-form-urlencoded");
         simpleHeaders.addUserAgent(Constaces.User_Agent);
 
-        Map<String, String> formBodys = new HashMap<>();
-        formBodys.put("username",uname);
-        formBodys.put("password",password);
-        formBodys.put("savestate","1");
-        formBodys.put("ec","0");
-        formBodys.put("entry", "mweibo");
+        AsyncHttpPostFormData formData = new AsyncHttpPostFormData();
+        formData.addFormData("username", uname);
+        formData.addFormData("password", password);
+        formData.addFormData("savestate", "1");
+        formData.addFormData("ec", "0");
+        formData.addFormData("entry", "mweibo");
 
-        mAsyncHttpRequest.post("https://passport.weibo.cn/sso/login", simpleHeaders, formBodys, new AsyncHttpResponseHandler() {
+        mAsyncHttpRequest.post("https://passport.weibo.cn/sso/login", simpleHeaders, formData, new AsyncHttpResponseHandler() {
             @Override
             public void onFailure(IOException e) {
 

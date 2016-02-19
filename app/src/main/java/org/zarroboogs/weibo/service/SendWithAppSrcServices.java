@@ -14,6 +14,7 @@ import org.zarroboogs.http.AsyncHttpHeaders;
 import org.zarroboogs.http.AsyncHttpRequest;
 import org.zarroboogs.http.AsyncHttpResponse;
 import org.zarroboogs.http.AsyncHttpResponseHandler;
+import org.zarroboogs.http.post.AsyncHttpPostFormData;
 import org.zarroboogs.util.net.UploadHelper;
 import org.zarroboogs.util.net.UploadHelper.OnUpFilesListener;
 import org.zarroboogs.util.net.WaterMark;
@@ -181,22 +182,22 @@ public class SendWithAppSrcServices extends Service {
         simpleHeadersBuilder.add("X-Requested-With", "XMLHttpRequest");
 
 
-        Map<String, String> formData = new HashMap<>();
-        formData.put("app_src", weiboCode);
-        formData.put("content", text);
-        formData.put("return_type", "2");
-        formData.put("refer", "");
-        formData.put("vsrc", "base_topic");
-        formData.put("wsrc", "app_topic_base");
-        formData.put("ext", "login=>1;url=>");
-        formData.put("html_type", "2");
-        formData.put("_t", "0");
-        formData.put("html_type", "2");
-        formData.put("html_type", "2");
-        formData.put("html_type", "2");
-        formData.put("html_type", "2");
+        AsyncHttpPostFormData formData = new AsyncHttpPostFormData();
+        formData.addFormData("app_src", weiboCode);
+        formData.addFormData("content", text);
+        formData.addFormData("return_type", "2");
+        formData.addFormData("refer", "");
+        formData.addFormData("vsrc", "base_topic");
+        formData.addFormData("wsrc", "app_topic_base");
+        formData.addFormData("ext", "login=>1;url=>");
+        formData.addFormData("html_type", "2");
+        formData.addFormData("_t", "0");
+        formData.addFormData("html_type", "2");
+        formData.addFormData("html_type", "2");
+        formData.addFormData("html_type", "2");
+        formData.addFormData("html_type", "2");
         if (!TextUtils.isEmpty(pids)) {
-            formData.put("pic_id", pids);
+            formData.addFormData("pic_id", pids);
         }
 
         AsyncHttpRequest asyncHttpRequest = new AsyncHttpRequest();
@@ -315,7 +316,6 @@ public class SendWithAppSrcServices extends Service {
 
         @Override
         public boolean accept(File dir, String filename) {
-            // TODO Auto-generated method stub
             return filename.startsWith("WEI-");
         }
 

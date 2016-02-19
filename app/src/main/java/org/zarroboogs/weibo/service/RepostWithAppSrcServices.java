@@ -13,6 +13,7 @@ import org.zarroboogs.http.AsyncHttpHeaders;
 import org.zarroboogs.http.AsyncHttpRequest;
 import org.zarroboogs.http.AsyncHttpResponse;
 import org.zarroboogs.http.AsyncHttpResponseHandler;
+import org.zarroboogs.http.post.AsyncHttpPostFormData;
 import org.zarroboogs.utils.Constants;
 import org.zarroboogs.weibo.BeeboApplication;
 import org.zarroboogs.weibo.JSAutoLogin;
@@ -88,28 +89,27 @@ public class RepostWithAppSrcServices extends Service{
         simpleHeaders.addContentType("application/x-www-form-urlencoded");
         simpleHeaders.addHost("widget.weibo.com");
         simpleHeaders.addOrigin("http://widget.weibo.com");
-        simpleHeaders.addReferer("http://widget.weibo.com/dialog/publish.php?button=forward&language=zh_cn&mid=" + mid +
-                "&app_src=" + app_src + "&refer=1&rnd=14128245");
+        simpleHeaders.addReferer("http://widget.weibo.com/dialog/publish.php?button=forward&language=zh_cn&mid=" + mid + "&app_src=" + app_src + "&refer=1&rnd=14128245");
         simpleHeaders.addUserAgent(Constaces.User_Agent);
         simpleHeaders.add("X-Requested-With", "XMLHttpRequest");
         if (!TextUtils.isEmpty(cookie)) {
             simpleHeaders.add("Cookie", cookie);
         }
 
-        Map<String , String> formData = new HashMap<>();
-        formData.put("content", content);
-        formData.put("visible", "0");
-        formData.put("refer", "");
+        AsyncHttpPostFormData formData = new AsyncHttpPostFormData();
+        formData.addFormData("content", content);
+        formData.addFormData("visible", "0");
+        formData.addFormData("refer", "");
 
-        formData.put("app_src", app_src);
-        formData.put("mid", mid);
-        formData.put("return_type", "2");
+        formData.addFormData("app_src", app_src);
+        formData.addFormData("mid", mid);
+        formData.addFormData("return_type", "2");
 
-        formData.put("vsrc", "publish_web");
-        formData.put("wsrc", "app_publish");
-        formData.put("ext", "login=>1;url=>");
-        formData.put("html_type", "2");
-        formData.put("is_comment", isComment ? "1" : "0");
+        formData.addFormData("vsrc", "publish_web");
+        formData.addFormData("wsrc", "app_publish");
+        formData.addFormData("ext", "login=>1;url=>");
+        formData.addFormData("html_type", "2");
+        formData.addFormData("is_comment", isComment ? "1" : "0");
 
         mAsyncOKHttpClient.post(Constaces.REPOST_WEIBO, simpleHeaders, formData, new AsyncHttpResponseHandler() {
             @Override

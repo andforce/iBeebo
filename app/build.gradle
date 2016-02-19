@@ -82,7 +82,7 @@ dependencies {
     compile 'com.andforce.common.view:slidingtablayout:0.0.1'
     compile 'com.andforce.common.view:materialswiperefresh:0.0.3'
     // http
-    compile 'com.github.andforce:AsyncHttpRequest:682d57f3d2'
+    compile 'com.github.andforce:AsyncHttpRequest:e3e9b8716e'
     compile 'com.andforce.injectjs:injectjs4android:0.0.9'
     compile 'org.zarrboogs.android:android-dev-utils:0.0.4'
     compile 'com.andforce.weibo.senior.api:sina-weibo-senior-api:0.0.1'

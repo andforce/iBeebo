@@ -12,10 +12,10 @@ import lib.org.zarroboogs.weibo.login.javabean.UploadPicResult;
 
 import org.zarroboogs.devutils.Constaces;
 import org.zarroboogs.http.AsyncHttpHeaders;
-import org.zarroboogs.http.AsyncHttpPostFile;
 import org.zarroboogs.http.AsyncHttpRequest;
 import org.zarroboogs.http.AsyncHttpResponse;
 import org.zarroboogs.http.AsyncHttpResponseHandler;
+import org.zarroboogs.http.post.AsyncHttpPostFile;
 import org.zarroboogs.utils.PatternUtils;
 
 import android.content.Context;
