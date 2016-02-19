@@ -68,25 +68,24 @@ public class UploadHelper {
         String markUrl = "http://picupload.service.weibo.com/interface/pic_upload.php?" + "app=miniblog&data=1" + waterMark
                 + "&mime=image/png&ct=0.2805887470021844";
 
-        AsyncHttpHeaders simpleHeaders = new AsyncHttpHeaders();
-        simpleHeaders.addAccept("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-        simpleHeaders.addAcceptEncoding("gzip,deflate");
-        simpleHeaders.addAcceptLanguage("en-US,en;q=0.8");
-        simpleHeaders.addConnection("keep-alive");
-        simpleHeaders.addContentType("application/octet-stream");
-        simpleHeaders.addHost("picupload.service.weibo.com");
-        simpleHeaders.addOrigin("http://weibo.com");
-        simpleHeaders.addUserAgent(Constaces.User_Agent);
-        simpleHeaders.addReferer("http://tjs.sjs.sinajs.cn/open/widget/static/swf/MultiFilesUpload.swf?version=1411256448572");
-        simpleHeaders.addCookie(cookie);
-        simpleHeaders.add("Cache-Control", "max-age=0");
+        AsyncHttpHeaders httpHeaders = new AsyncHttpHeaders();
+        httpHeaders.addAccept("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        httpHeaders.addAcceptEncoding("gzip,deflate");
+        httpHeaders.addAcceptLanguage("en-US,en;q=0.8");
+        httpHeaders.addConnection("keep-alive");
+        httpHeaders.addContentType("application/octet-stream");
+        httpHeaders.addHost("picupload.service.weibo.com");
+        httpHeaders.addOrigin("http://weibo.com");
+        httpHeaders.addUserAgent(Constaces.User_Agent);
+        httpHeaders.addReferer("http://tjs.sjs.sinajs.cn/open/widget/static/swf/MultiFilesUpload.swf?version=1411256448572");
+        httpHeaders.addCookie(cookie);
+        httpHeaders.add("Cache-Control", "max-age=0");
 
 
         File uploadFile = new File(filePath);
 
-        Map<String, String> headers = new HashMap<>();
-
-        mAsyncHttpRequest.post(markUrl, simpleHeaders, new AsyncHttpPostFile("application/octet-stream", uploadFile), new AsyncHttpResponseHandler() {
+        AsyncHttpPostFile postFile = new AsyncHttpPostFile("application/octet-stream", uploadFile);
+        mAsyncHttpRequest.post(markUrl, httpHeaders, postFile, new AsyncHttpResponseHandler() {
             @Override
             public void onFailure(IOException e) {
                 if (mOnUpFilesListener != null) {
