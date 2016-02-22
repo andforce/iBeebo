@@ -63,9 +63,8 @@ public class MainTimeLineActivity extends AbstractAppActivity {
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
 
-    private static MenuItem notifcationMenu;
+    private static MenuItem sMenuItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,19 +106,19 @@ public class MainTimeLineActivity extends AbstractAppActivity {
     }
 
     public void closeLeftDrawer() {
-        mDrawerLayout.closeDrawer(Gravity.START);
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
     }
 
     public void closeRight() {
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
     }
 
     public void openRight() {
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.END);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
     }
 
     public void closeRightDrawer() {
-        mDrawerLayout.closeDrawer(Gravity.END);
+        mDrawerLayout.closeDrawer(Gravity.RIGHT);
     }
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
@@ -131,7 +130,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             public void run() {
                 toolbar.getMenu().clear();
                 toolbar.inflateMenu(menuRes);
-                notifcationMenu = toolbar.getMenu().findItem(R.id.notify_menu);
+                sMenuItem = toolbar.getMenu().findItem(R.id.notify_menu);
             }
         }, 200);
     }
@@ -180,16 +179,16 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         showMenuOnToolBar(R.menu.main_time_line_menu);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.writeWeiboDrawerL);
-        mDrawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
-        mDrawerToggle.syncState();
-        mDrawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
+        ActionBarDrawerToggle drawerToggle = new MyDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
+        drawerToggle.syncState();
+        drawerToggle.setToolbarNavigationClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Log.d("onOptionsItemSelected", " setToolbarNavigationClickListener");
             }
         });
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.setDrawerListener(drawerToggle);
 
         if (savedInstanceState == null) {
             initFragments();
@@ -223,7 +222,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             super.onDrawerOpened(drawerView);
             Log.d("onOptionsItemSelected", " onDrawerOpened");
             if (mDrawerLayout.isDrawerOpen(findViewById(R.id.left_drawer_layout))) {
-                mDrawerLayout.closeDrawer(Gravity.END);
+                mDrawerLayout.closeDrawer(Gravity.RIGHT);
             }
             getLeftMenuFragment().displayCover();
         }
@@ -406,7 +405,6 @@ public class MainTimeLineActivity extends AbstractAppActivity {
         return fragment;
     }
 
-    // todo
     private class NewMsgInterruptBroadcastReceiver extends RecordOperationAppBroadcastReceiver {
 
         @Override
@@ -446,13 +444,13 @@ public class MainTimeLineActivity extends AbstractAppActivity {
             switch (msg.what) {
                 case NOTIFY_ON: {
                     inNotify = true;
-                    notifcationMenu.setIcon(R.drawable.ic_notifications_on_white_24dp);
+                    sMenuItem.setIcon(R.drawable.ic_notifications_on_white_24dp);
                     this.sendEmptyMessageDelayed(NOTIFY_OFF, 1000);
                     break;
                 }
                 case NOTIFY_OFF: {
                     inNotify = true;
-                    notifcationMenu.setIcon(R.drawable.ic_notifications_none_white_24dp);
+                    sMenuItem.setIcon(R.drawable.ic_notifications_none_white_24dp);
                     this.sendEmptyMessageDelayed(NOTIFY_ON, 1000);
                     break;
                 }
@@ -460,7 +458,7 @@ public class MainTimeLineActivity extends AbstractAppActivity {
                     inNotify = false;
                     this.removeMessages(NOTIFY_ON);
                     this.removeMessages(NOTIFY_OFF);
-                    notifcationMenu.setIcon(R.drawable.ic_notifications_none_white_24dp);
+                    sMenuItem.setIcon(R.drawable.ic_notifications_none_white_24dp);
                     break;
                 }
             }

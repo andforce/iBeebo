@@ -3,8 +3,8 @@ package org.zarroboogs.weibo.support.gallery;
 
 import java.io.File;
 
+import org.zarroboogs.devutils.DevLog;
 import org.zarroboogs.msrl.widget.CircleProgressBar;
-import org.zarroboogs.msrl.widget.MaterialProgressDrawable;
 import org.zarroboogs.utils.ImageUtility;
 import org.zarroboogs.utils.file.FileLocationMethod;
 import org.zarroboogs.utils.file.FileManager;
@@ -155,7 +155,9 @@ public class BigPicContainerFragment extends Fragment {
             }
             getChildFragmentManager().beginTransaction().replace(R.id.child, fragment).commitAllowingStateLoss();
 
+            DevLog.printLog("isThisBitmapTooLargeToRead","不大能显示");
         } else {
+            DevLog.printLog("isThisBitmapTooLargeToRead","图片太大不能显示");
             LargePictureFragment fragment = LargePictureFragment.newInstance(path, animateIn);
             getChildFragmentManager().beginTransaction().replace(R.id.child, fragment).commitAllowingStateLoss();
         }
