@@ -7,17 +7,10 @@
 ![image](https://github.com/andforce/Beebo/blob/master/screenshot/mouse.gif)
 ####一定要注意锻炼身体，代码永远写不完！
 
-####iBeebo有两个版本
-+ 国内版本的iBeebo
-+ Google Play版本的iBeebo+[暂停更新]
-+ 两者唯一的区别是：iBeebo+可以智能解析微博中的视频链接，并直接播放，因此apk体积会比iBeebo大一点。
+#### 下载
+[![Crates.io](https://img.shields.io/badge/GooglePlay-v3.2.3-red.svg)](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo)
+[![Crates.io](https://img.shields.io/badge/CoolApk-v3.2.3-blue.svg)](http://coolapk.com/apk/org.zarroboogs.weibo)
 
-************************
-##一般情况下，【百度网盘】的版本会比市场新！
-[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/GooglePlay.png "Google Play")](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo.plus) [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/CoolApk.png "CoolApk")](http://coolapk.com/apk/org.zarroboogs.weibo)
-
-[![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/WanDouJia.png "豌豆荚")](http://www.wandoujia.com/apps/org.zarroboogs.weibo) [![alt text](https://github.com/andforce/Beebo/blob/master/screenshot/Baidu.png "百度网盘")](http://yun.baidu.com/s/1eQGOhKQ)
-************************
 
 ##主页面截图
 
