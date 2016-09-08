@@ -1,6 +1,4 @@
 #iBeebo - Sina Weibo Client
-
-##下载
 [![Crates.io](https://img.shields.io/badge/GooglePlay-v3.2.3-red.svg)](https://play.google.com/store/apps/details?id=org.zarroboogs.weibo)
 [![Crates.io](https://img.shields.io/badge/CoolApk-v3.2.3-blue.svg)](http://coolapk.com/apk/org.zarroboogs.weibo)
 
