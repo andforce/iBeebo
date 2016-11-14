@@ -36,13 +36,14 @@ public class ImgsActivity extends ToolBarAppCompatActivity {
 
     private Toolbar mToolbar;
     private MenuItem mMenuItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_images_activity_layout);
 
         mToolbar = (Toolbar) findViewById(R.id.selectImgsToobar);
-        
+
         imgGridView = (GridView) findViewById(R.id.gridView1);
         bundle = getIntent().getExtras();
         fileTraversal = bundle.getParcelable("data");
@@ -50,28 +51,28 @@ public class ImgsActivity extends ToolBarAppCompatActivity {
         imgGridView.setAdapter(imgsAdapter);
         hashImage = new HashMap<Integer, ImageView>();
         util = new SelectImgUtil(this);
-        
-        
+
+
         disPlayHomeAsUp(mToolbar);
-        
+
     }
 
     private void updateCount(MenuItem menuItem) {
-    	menuItem.setTitle(getString(R.string.img_select) + "(" + mSendImgData.getSendImgs().size() + ")");
+        menuItem.setTitle(getString(R.string.img_select) + "(" + mSendImgData.getSendImgs().size() + ")");
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
         switch (item.getItemId()) {
-            case android.R.id.home:{
+            case android.R.id.home: {
                 finish();
                 break;
             }
-            case R.id.select_done:{
-	            setResult(RESULT_OK);
-	            finish();
-            	break;
+            case R.id.select_done: {
+                setResult(RESULT_OK);
+                finish();
+                break;
             }
 
             default:

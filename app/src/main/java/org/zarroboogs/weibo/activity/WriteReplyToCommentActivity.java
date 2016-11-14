@@ -62,15 +62,15 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
 
         enableRepost = (CheckBox) findViewById(R.id.repostCheckBox);
         enableRepost.setChecked(savedEnableRepost);
-        
+
         mRepostRoot.setVisibility(View.VISIBLE);
         mCommentRoot.setVisibility(View.GONE);
-        
+
         disPlayHomeAsUp(getToolbar());
-        
+
         getSupportActionBar().setTitle(R.string.reply_to_comment);
     }
-    
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -100,8 +100,8 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
     // }
 
     public static Intent startBecauseSendFailed(Context context, AccountBean account, String content, CommentBean oriMsg,
-            ReplyDraftBean replyDraftBean,
-            String repostContent, String failedReason) {
+                                                ReplyDraftBean replyDraftBean,
+                                                String repostContent, String failedReason) {
         Intent intent = new Intent(context, WriteReplyToCommentActivity.class);
         intent.setAction(WriteReplyToCommentActivity.ACTION_SEND_FAILED);
         intent.putExtra(Constants.ACCOUNT, account);
@@ -206,19 +206,19 @@ public class WriteReplyToCommentActivity extends AbstractWriteActivity<CommentBe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-		if (itemId == android.R.id.home) {
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			if (imm.isActive()) {
-			    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-			}
-			finish();
-		} else if (itemId == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
-			intent.putExtra(Constants.TOKEN, token);
-			startActivityForResult(intent, AT_USER);
-		} else if (itemId == R.id.menu_clear) {
-			clearContentMenu();
-		}
+        if (itemId == android.R.id.home) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm.isActive()) {
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+            finish();
+        } else if (itemId == R.id.menu_at) {
+            Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
+            intent.putExtra(Constants.TOKEN, token);
+            startActivityForResult(intent, AT_USER);
+        } else if (itemId == R.id.menu_clear) {
+            clearContentMenu();
+        }
         return true;
     }
 

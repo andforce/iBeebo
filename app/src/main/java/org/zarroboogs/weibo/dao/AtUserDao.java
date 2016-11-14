@@ -23,7 +23,7 @@ public class AtUserDao {
     private String count = "10";
     private String type = "0";
     private String range = "2";
-    
+
     public List<AtUserBean> getUserInfo() throws WeiboException {
         String url = WeiBoURLs.AT_USER;
         Map<String, String> map = new HashMap<String, String>();

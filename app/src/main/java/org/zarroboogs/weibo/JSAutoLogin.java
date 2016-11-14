@@ -39,68 +39,68 @@ import java.util.Map;
 @SuppressLint("SetJavaScriptEnabled")
 public class JSAutoLogin {
 
-	private Context mContext;
-	private WebView mWebView;
-	private InjectJS mInjectJS;
-	private AccountBean mAccountBean;
-	private WeiboWebViewClient mWeiboWebViewClient;
+    private Context mContext;
+    private WebView mWebView;
+    private InjectJS mInjectJS;
+    private AccountBean mAccountBean;
+    private WeiboWebViewClient mWeiboWebViewClient;
 
-	private AsyncHttpRequest mAsyncHttpRequest = new AsyncHttpRequest();
-	private boolean isExecuted = false;
-	private AutoLogInListener mListener;
-	
-	public interface AutoLogInListener{
-		void onAutoLonin(boolean result);
-	}
-	
-	public void setAutoLogInListener(AutoLogInListener l){
-		this.mListener = l;
-	}
-	
-	
-	private CheckUserNamePasswordListener cNamePasswordListener;
-	public interface CheckUserNamePasswordListener{
-		void onChecked(String msg);
-	}
-	
-	public JSAutoLogin(Context context,AccountBean ab) {
+    private AsyncHttpRequest mAsyncHttpRequest = new AsyncHttpRequest();
+    private boolean isExecuted = false;
+    private AutoLogInListener mListener;
 
-		this.mContext = context;
-		this.mAccountBean = ab;
-		
-		this.mWebView = new WebView(mContext);
-        mWeiboWebViewClient = new WeiboWebViewClient();
-        mWebView.setWebViewClient(mWeiboWebViewClient);
-        
-		mInjectJS = new InjectJS(mWebView);
+    public interface AutoLogInListener {
+        void onAutoLonin(boolean result);
+    }
 
-		WebSettings webSettings = mWebView.getSettings();
-		webSettings.setJavaScriptEnabled(true);
-		webSettings.setBuiltInZoomControls(true);
-		webSettings.setSaveFormData(true);
-		webSettings.setSupportZoom(true);
-		webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-	}
-	
-	
-	
-    static String url = "https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic";
-
-    
-    class JSCallBack extends JSCallJavaInterface{
-
-		@Override
-		public void onJSCallJava(String... arg0) {
-			DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
-			DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
-		}
-    	
+    public void setAutoLogInListener(AutoLogInListener l) {
+        this.mListener = l;
     }
 
 
-    public void checkUserPassword(String uname, String password , CheckUserNamePasswordListener listener){
-    	this.cNamePasswordListener = listener;
-    	
+    private CheckUserNamePasswordListener cNamePasswordListener;
+
+    public interface CheckUserNamePasswordListener {
+        void onChecked(String msg);
+    }
+
+    public JSAutoLogin(Context context, AccountBean ab) {
+
+        this.mContext = context;
+        this.mAccountBean = ab;
+
+        this.mWebView = new WebView(mContext);
+        mWeiboWebViewClient = new WeiboWebViewClient();
+        mWebView.setWebViewClient(mWeiboWebViewClient);
+
+        mInjectJS = new InjectJS(mWebView);
+
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setSaveFormData(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+    }
+
+
+    static String url = "https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic";
+
+
+    class JSCallBack extends JSCallJavaInterface {
+
+        @Override
+        public void onJSCallJava(String... arg0) {
+            DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
+            DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
+        }
+
+    }
+
+
+    public void checkUserPassword(String uname, String password, CheckUserNamePasswordListener listener) {
+        this.cNamePasswordListener = listener;
+
         AsyncHttpHeaders simpleHeaders = new AsyncHttpHeaders();
         simpleHeaders.addAccept("*/*");
         simpleHeaders.addAcceptEncoding("gzip,deflate,sdch");
@@ -136,39 +136,38 @@ public class JSAutoLogin {
         });
     }
 
-    
-    
-    public void exejs(){
-        mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value","loginPassword.value");
-        mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>", 
-        		"<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
+
+    public void exejs() {
+        mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value", "loginPassword.value");
+        mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>",
+                "<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
         mInjectJS.removeDocument("<a href=\"javascript:history.go(-1);\" class=\"close\">关闭</a>");
         mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>");
         mInjectJS.removeDocument("<p class=\"label\"><a href=\"https://passport.weibo.cn/signin/other?r=http%3A%2F%2Fwidget.weibo.com%2Fdialog%2FPublishMobile.php%3Fbutton%3Dpublic\">使用其他方式登录</a></p>");
         mInjectJS.injectUrl(url, new AssertLoader(mContext).loadJs("inject.js"), "gb2312");
-        
+
 
         mInjectJS.setOnLoadListener(new OnLoadListener() {
-			
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-				if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
-					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
-	            	if (!isExecuted) {
-	            		mInjectJS.exeJsFunction("doAutoLogIn()");
-	            		isExecuted = true;
-					}
-				}
-			}
-		});
+
+            @Override
+            public void onLoad() {
+                // TODO Auto-generated method stub
+                if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
+                    mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(), mAccountBean.getPwd());
+                    if (!isExecuted) {
+                        mInjectJS.exeJsFunction("doAutoLogIn()");
+                        isExecuted = true;
+                    }
+                }
+            }
+        });
     }
-    
+
     private class WeiboWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        	DevLog.printLog("JSAutoLogin shouldOverrideUrlLoading", url);
+            DevLog.printLog("JSAutoLogin shouldOverrideUrlLoading", url);
             view.loadUrl(url);
             return super.shouldOverrideUrlLoading(view, url);
         }
@@ -181,8 +180,8 @@ public class JSAutoLogin {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
-        	DevLog.printLog("JSAutoLogin onPageStarted", url);
-        	
+            DevLog.printLog("JSAutoLogin onPageStarted", url);
+
             if (url.startsWith(SeniorUrl.SeniorUrl_Public)) {
                 view.stopLoading();
 
@@ -192,20 +191,20 @@ public class JSAutoLogin {
 
                 String uid = "";
                 String uname = "";
-                
+
                 String gsid = "";
-                
+
                 AccountDatabaseManager manager = new AccountDatabaseManager(mContext);
                 if (!TextUtils.isEmpty(cookie)) {
                     String[] cookies = cookie.split("; ");
                     for (String string : cookies) {
                         String oneLine = Uri.decode(Uri.decode(string));
-                        
+
                         if (oneLine.contains("SUB=")) {
-        					DevLog.printLog("GSID", "" + oneLine);
-        					gsid = oneLine.split("SUB=")[1];
-        				}
-                        
+                            DevLog.printLog("GSID", "" + oneLine);
+                            gsid = oneLine.split("SUB=")[1];
+                        }
+
                         String uidtmp = PatternUtils.macthUID(oneLine);
                         if (!TextUtils.isEmpty(uidtmp)) {
                             uid = uidtmp;
@@ -221,15 +220,15 @@ public class JSAutoLogin {
 
                 Log.d("Weibo-Cookie", "after for : " + uid);
                 if (uid.equals(mAccountBean.getUid())) {
-                	if (mListener != null) {
-						mListener.onAutoLonin(true);
-					}
+                    if (mListener != null) {
+                        mListener.onAutoLonin(true);
+                    }
                     manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.COOKIE, cookie);
                     BeeboApplication.getInstance().updateAccountBean();
                 } else if (!TextUtils.isEmpty(uid)) {
                     mWebView.loadUrl(url);
                 }
-                
+
                 return;
             }
 

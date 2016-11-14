@@ -4,7 +4,7 @@ import org.json.*;
 
 
 public class PageInfo {
-	
+
     private String pageId;
     private double actStatus;
     private String content1;
@@ -20,14 +20,14 @@ public class PageInfo {
     private MediaInfo mediaInfo;
     private String typeIcon;
     private String preload;
-    
-    
-	public PageInfo () {
-		
-	}	
-        
-    public PageInfo (JSONObject json) {
-    
+
+
+    public PageInfo() {
+
+    }
+
+    public PageInfo(JSONObject json) {
+
         this.pageId = json.optString("page_id");
         this.actStatus = json.optDouble("act_status");
         this.content1 = json.optString("content1");
@@ -45,7 +45,7 @@ public class PageInfo {
         this.preload = json.optString("preload");
 
     }
-    
+
     public String getPageId() {
         return this.pageId;
     }
@@ -167,5 +167,4 @@ public class PageInfo {
     }
 
 
-    
 }

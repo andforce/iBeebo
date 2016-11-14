@@ -30,7 +30,7 @@ public class SearchTopicByNameActivity extends AbstractAppActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content, new SearchTopicByNameFragment(q)).commit();
         }
-        
+
         disPlayHomeAsUp(searchTopicToolbar);
 
     }

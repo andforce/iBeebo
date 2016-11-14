@@ -6,9 +6,9 @@ import java.util.TreeSet;
 
 public class TimeLinePosition implements Serializable {
 
-	private static final long serialVersionUID = -8442914085483115385L;
+    private static final long serialVersionUID = -8442914085483115385L;
 
-	public TimeLinePosition(int position, int top) {
+    public TimeLinePosition(int position, int top) {
         this.position = position;
         this.top = top;
     }

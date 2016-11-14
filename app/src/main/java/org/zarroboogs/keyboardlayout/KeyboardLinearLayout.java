@@ -31,7 +31,7 @@ public class KeyboardLinearLayout extends LinearLayout {
         mHelper.setOnKeyboardStateListener(listener);
     }
 
-    public KeyboardHelper getKeyBoardHelper(){
+    public KeyboardHelper getKeyBoardHelper() {
         return mHelper;
     }
 

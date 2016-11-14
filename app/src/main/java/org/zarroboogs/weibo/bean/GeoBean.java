@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import org.zarroboogs.weibo.support.utils.ObjectToStringUtility;
 
 /**
- *  "geo":{"type":"Point","coordinates":[30.1953,120.199235]}
+ * "geo":{"type":"Point","coordinates":[30.1953,120.199235]}
  */
 public class GeoBean implements Parcelable {
     private String type;

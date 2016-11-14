@@ -274,7 +274,7 @@ public class Utility {
     }
 
     public static Uri getLatestCameraPicture(Activity activity) {
-        String[] projection = new String[] {
+        String[] projection = new String[]{
                 MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA,
                 MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, MediaStore.Images.ImageColumns.DATE_TAKEN,
                 MediaStore.Images.ImageColumns.MIME_TYPE
@@ -516,7 +516,7 @@ public class Utility {
     }
 
     public static void setListViewSelectionFromTop(final ListView listView, final int positionAfterRefresh, final int top,
-            final Runnable runnable) {
+                                                   final Runnable runnable) {
         listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {

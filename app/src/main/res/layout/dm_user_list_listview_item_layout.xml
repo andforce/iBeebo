@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/listview_root"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/listview_item_background_selector_light"
-    android:clickable="false">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/listview_root"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/listview_item_background_selector_light"
+                android:clickable="false">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/time_line_item_bg"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
             android:id="@+id/avatar"
@@ -23,7 +23,7 @@
             android:layout_marginRight="3dp"
             android:layout_marginTop="-5dp"
             android:clickable="true"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded"/>
 
         <TextView
             android:id="@+id/username"
@@ -36,7 +36,7 @@
             android:singleLine="true"
             android:textColor="@color/timeline_item_text_color_light"
             android:textStyle="bold"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded"/>
 
         <org.zarroboogs.weibo.widget.TimeTextView
             android:id="@+id/time"
@@ -45,7 +45,7 @@
             android:layout_below="@id/username"
             android:layout_toRightOf="@id/avatar"
             android:textColor="?android:textColorTertiary"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded"/>
 
         <TextView
             android:id="@+id/content"
@@ -58,7 +58,7 @@
             android:lineSpacingMultiplier="1.2"
             android:maxLines="3"
             android:textColor="@color/timeline_item_text_color_light"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
     </RelativeLayout>
 
 </RelativeLayout>

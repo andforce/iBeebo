@@ -62,7 +62,7 @@ public class DownloadPicturesDBTask {
 
     public static String get(String url) {
 
-        Cursor c = getRsd().query(DownloadPicturesTable.TABLE_NAME, null, DownloadPicturesTable.URL + "=?", new String[] {
+        Cursor c = getRsd().query(DownloadPicturesTable.TABLE_NAME, null, DownloadPicturesTable.URL + "=?", new String[]{
                 url
         }, null, null, null);
 
@@ -77,7 +77,7 @@ public class DownloadPicturesDBTask {
         if (!TextUtils.isEmpty(path)) {
             ContentValues cv = new ContentValues();
             cv.put(DownloadPicturesTable.TIME, System.currentTimeMillis());
-            getWsd().update(DownloadPicturesTable.TABLE_NAME, cv, DownloadPicturesTable.PATH + "=?", new String[] {
+            getWsd().update(DownloadPicturesTable.TABLE_NAME, cv, DownloadPicturesTable.PATH + "=?", new String[]{
                     path
             });
         }

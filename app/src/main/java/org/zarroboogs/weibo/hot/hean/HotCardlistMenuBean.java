@@ -5,47 +5,47 @@ import android.os.Parcelable;
 
 public class HotCardlistMenuBean implements Parcelable {
 
-	private String type = "gohome";
-	private String name = "返回首页";
+    private String type = "gohome";
+    private String name = "返回首页";
 
-	private HotSchemeBean params = null;
+    private HotSchemeBean params = null;
 
-	// =====================================================//
+    // =====================================================//
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public HotSchemeBean getParams() {
-		return params;
-	}
+    public HotSchemeBean getParams() {
+        return params;
+    }
 
-	public void setParams(HotSchemeBean params) {
-		this.params = params;
-	}
+    public void setParams(HotSchemeBean params) {
+        this.params = params;
+    }
 
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int describeContents() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public void writeToParcel(Parcel arg0, int arg1) {
-		// TODO Auto-generated method stub
+    @Override
+    public void writeToParcel(Parcel arg0, int arg1) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
 }

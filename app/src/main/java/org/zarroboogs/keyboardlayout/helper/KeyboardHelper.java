@@ -45,9 +45,10 @@ public class KeyboardHelper {
         showKeyBoardForce(view);
     }
 
-    public boolean isKeyboardShow(){
+    public boolean isKeyboardShow() {
         return isKeyboardShow;
     }
+
     private static void showKeyBoardForce(final View view) {
         if (view == null) {
             return;
@@ -104,7 +105,7 @@ public class KeyboardHelper {
                 mRootView.getWindowVisibleDisplayFrame(mRect);
 
                 int height = mOriRect.height() - mRect.height();
-                if (height != mKeyboardHeight){
+                if (height != mKeyboardHeight) {
                     if (mKeyboardHeight != UNKNOW) {
                         if (height > 0) {
                             mListener.onKeyBoardShow(height);

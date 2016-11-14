@@ -4,24 +4,24 @@ import org.json.*;
 
 
 public class PicInfo {
-	
+
     private PicBig picBig;
     private PicMiddle picMiddle;
     private PicSmall picSmall;
-    
-    
-	public PicInfo () {
-		
-	}	
-        
-    public PicInfo (JSONObject json) {
-    
+
+
+    public PicInfo() {
+
+    }
+
+    public PicInfo(JSONObject json) {
+
         this.picBig = new PicBig(json.optJSONObject("pic_big"));
         this.picMiddle = new PicMiddle(json.optJSONObject("pic_middle"));
         this.picSmall = new PicSmall(json.optJSONObject("pic_small"));
 
     }
-    
+
     public PicBig getPicBig() {
         return this.picBig;
     }
@@ -47,5 +47,4 @@ public class PicInfo {
     }
 
 
-    
 }

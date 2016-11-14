@@ -456,12 +456,12 @@ public class CommentsToMeTimeLineFragment extends AbsBaseTimeLineFragment<Commen
             }
         }.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
     }
-    
+
     @Override
     protected void onNewMsgLoaderFailedCallback(WeiboException exception) {
-    	if (exception.getError().trim().equals("用户请求超过上限")) {
-    		token = accountBean.getAccess_token_hack();
-		}
-    	Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+        if (exception.getError().trim().equals("用户请求超过上限")) {
+            token = accountBean.getAccess_token_hack();
+        }
+        Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
     }
 }

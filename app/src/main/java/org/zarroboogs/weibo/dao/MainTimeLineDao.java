@@ -88,7 +88,6 @@ public class MainTimeLineDao {
     }
 
 
-
     public MainTimeLineDao setSince_id(String since_id) {
         this.since_id = since_id;
         return this;

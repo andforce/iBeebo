@@ -22,7 +22,7 @@ public class VideoDownloader {
     }
 
     public String downloadFile(URL url, String saveInDir, String saveAsFilename,
-            DownloadProgressListener downloadProgressListener) {
+                               DownloadProgressListener downloadProgressListener) {
 
         // String sdDrive =
         // Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -75,7 +75,7 @@ public class VideoDownloader {
     static int IO_BUFFER_SIZE = 4096;
 
     private void copy(InputStream in, OutputStream out, DownloadProgressListener downloadProgressListener,
-            final int iFileSize) throws IOException {
+                      final int iFileSize) throws IOException {
         byte[] b = new byte[IO_BUFFER_SIZE];
         int read;
         int totalDownloaded = 0;

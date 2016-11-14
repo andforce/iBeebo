@@ -111,9 +111,10 @@ public abstract class AbstractViewPagerActivity extends ToolBarAppCompatActivity
 
     /**
      * Description: Date:Jun 14, 2013
-     * @author WangDiYuan
+     *
      * @param file
      * @return
+     * @author WangDiYuan
      */
     public boolean isFileExists(File file) {
         if (file != null) {
@@ -124,9 +125,10 @@ public abstract class AbstractViewPagerActivity extends ToolBarAppCompatActivity
 
     /**
      * Description: Date:Jun 14, 2013
-     * @author WangDiYuan
+     *
      * @param filePath
      * @return
+     * @author WangDiYuan
      */
     public boolean isFileExists(String filePath) {
         if (filePath != null) {

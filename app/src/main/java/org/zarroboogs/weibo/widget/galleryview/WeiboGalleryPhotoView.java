@@ -1,7 +1,6 @@
 package org.zarroboogs.weibo.widget.galleryview;
 
 
-
 import org.zarroboogs.weibo.widget.galleryview.PhotoViewAttacher.OnMatrixChangedListener;
 import org.zarroboogs.weibo.widget.galleryview.PhotoViewAttacher.OnPhotoTapListener;
 import org.zarroboogs.weibo.widget.galleryview.PhotoViewAttacher.OnViewTapListener;

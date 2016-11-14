@@ -81,10 +81,10 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
         Utility.cancelTasks(dbTask);
     }
 
-    public void showMenuOnToolBar(int menu){
-    	showMenuOnToolBar(writeDMToolbar, menu);
+    public void showMenuOnToolBar(int menu) {
+        showMenuOnToolBar(writeDMToolbar, menu);
     }
-    
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -104,8 +104,6 @@ public class DMUserListFragment extends AbsBaseTimeLineFragment<DMUserListBean> 
 //            }
 //        });
     }
-
-
 
 
     @Override

@@ -14,7 +14,7 @@ import java.io.File;
 /**
  * Created by andforce on 15/9/4.
  */
-public class GlideConfig implements GlideModule{
+public class GlideConfig implements GlideModule {
     @Override
     public void applyOptions(final Context context, GlideBuilder builder) {
         builder.setDiskCache(new ExternalCacheDiskCacheFactory(context, 1024 * 1024 * 500));

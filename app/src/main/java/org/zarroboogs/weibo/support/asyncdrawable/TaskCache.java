@@ -33,21 +33,21 @@ public class TaskCache {
                 }
 
             }, sDownloadThreadFactory, new ThreadPoolExecutor.DiscardOldestPolicy() {
-                @Override
-                public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-                    if (!e.isShutdown()) {
-                        LinkedBlockingDeque<Runnable> deque = (LinkedBlockingDeque) e.getQueue();
-                        Runnable runnable = deque.pollLast();
-                        if (runnable instanceof DownloadFutureTask) {
-                            DownloadFutureTask futureTask = (DownloadFutureTask) runnable;
-                            futureTask.cancel(true);
-                            String url = futureTask.getUrl();
-                            removeDownloadTask(url, futureTask);
-                        }
-                        e.execute(r);
-                    }
+        @Override
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+            if (!e.isShutdown()) {
+                LinkedBlockingDeque<Runnable> deque = (LinkedBlockingDeque) e.getQueue();
+                Runnable runnable = deque.pollLast();
+                if (runnable instanceof DownloadFutureTask) {
+                    DownloadFutureTask futureTask = (DownloadFutureTask) runnable;
+                    futureTask.cancel(true);
+                    String url = futureTask.getUrl();
+                    removeDownloadTask(url, futureTask);
                 }
-            });
+                e.execute(r);
+            }
+        }
+    });
 
     private static ConcurrentHashMap<String, DownloadFutureTask> downloadTasks = new ConcurrentHashMap<String, DownloadFutureTask>();
 
@@ -72,8 +72,8 @@ public class TaskCache {
     }
 
     public static boolean waitForPictureDownload(String url, FileDownloaderHttpHelper.DownloadListener downloadListener,
-            String savedPath,
-            FileLocationMethod method) {
+                                                 String savedPath,
+                                                 FileLocationMethod method) {
         while (true) {
             DownloadFutureTask downloadFutureTask = TaskCache.downloadTasks.get(url);
 

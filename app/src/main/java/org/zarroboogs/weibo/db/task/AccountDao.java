@@ -43,28 +43,28 @@ public class AccountDao {
         cv.put(AccountTable.ACCESS_TOKEN_HACK, toaken_hack);
         // toaken_time 
         cv.put(AccountTable.ACCESS_TOKEN_HACK_EXPIRES_TIME, token_hack_exp);
-        
+
         String[] args = {
                 account.getUid()
         };
         getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", args);
         return OAuthActivity.DBResult.update_successfully;
     }
-    
-    
+
+
     public static OAuthActivity.DBResult updateGSID(AccountBean account, String gsid) {
 
         ContentValues cv = new ContentValues();
         cv.put(AccountTable.GSID, gsid);
-        
+
         String[] args = {
                 account.getUid()
         };
         getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", args);
         return OAuthActivity.DBResult.update_successfully;
     }
-    
-    
+
+
     public static OAuthActivity.DBResult addOrUpdateAccount(AccountBean account, boolean blackMagic) {
 
         ContentValues cv = new ContentValues();
@@ -86,7 +86,7 @@ public class AccountDao {
         String json = new Gson().toJson(account.getInfo());
         cv.put(AccountTable.INFOJSON, json);
 
-        Cursor c = getWsd().query(AccountTable.ACCOUNT_TABLE, null, AccountTable.UID + "=?", new String[] {
+        Cursor c = getWsd().query(AccountTable.ACCOUNT_TABLE, null, AccountTable.UID + "=?", new String[]{
                 account.getUid()
         }, null, null, null);
 
@@ -121,7 +121,7 @@ public class AccountDao {
         cv.put(AccountTable.UID, uid);
         cv.put(AccountTable.INFOJSON, json);
 
-        int c = getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", new String[] {
+        int c = getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", new String[]{
                 uid
         });
     }
@@ -133,7 +133,7 @@ public class AccountDao {
         cv.put(AccountTable.UID, uid);
         cv.put(AccountTable.NAVIGATION_POSITION, position);
 
-        int c = getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", new String[] {
+        int c = getWsd().update(AccountTable.ACCOUNT_TABLE, cv, AccountTable.UID + "=?", new String[]{
                 uid
         });
     }
@@ -153,7 +153,7 @@ public class AccountDao {
             // cookie
             int cookie = c.getColumnIndex(AccountTable.COOKIE);
             account.setCookie(c.getString(cookie));
-            
+
             // access_token_hack
             int access_token_hack_index = c.getColumnIndex(AccountTable.ACCESS_TOKEN_HACK);
             account.setAccess_token_hack(c.getString(access_token_hack_index));
@@ -161,8 +161,8 @@ public class AccountDao {
             // gsid
             int gsid = c.getColumnIndex(AccountTable.GSID);
             account.setGsid(c.getString(gsid));
-            
-            
+
+
             int colid = c.getColumnIndex(AccountTable.OAUTH_TOKEN);
             account.setAccess_token(c.getString(colid));
 
@@ -227,14 +227,14 @@ public class AccountDao {
             // pwd
             colid = c.getColumnIndex(AccountTable.USER_PWD);
             account.setPwd(c.getString(colid));
-            
+
             // hack token
             colid = c.getColumnIndex(AccountTable.ACCESS_TOKEN_HACK);
             account.setAccess_token_hack(c.getString(colid));
 
             colid = c.getColumnIndex(AccountTable.GSID);
             account.setGsid(c.getString(colid));
-            
+
             colid = c.getColumnIndex(AccountTable.OAUTH_TOKEN_EXPIRES_TIME);
             account.setExpires_time(Long.valueOf(c.getString(colid)));
 

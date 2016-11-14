@@ -4,24 +4,24 @@ import org.json.*;
 
 
 public class PicSmall {
-	
+
     private String url;
     private String width;
     private String height;
-    
-    
-	public PicSmall () {
-		
-	}	
-        
-    public PicSmall (JSONObject json) {
-    
+
+
+    public PicSmall() {
+
+    }
+
+    public PicSmall(JSONObject json) {
+
         this.url = json.optString("url");
         this.width = json.optString("width");
         this.height = json.optString("height");
 
     }
-    
+
     public String getUrl() {
         return this.url;
     }
@@ -47,5 +47,4 @@ public class PicSmall {
     }
 
 
-    
 }

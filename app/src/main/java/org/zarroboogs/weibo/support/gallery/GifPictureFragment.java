@@ -261,13 +261,13 @@ public class GifPictureFragment extends Fragment {
         photoView.animate().translationX(deltaLeft).translationY(deltaTop).scaleY(startScaleFinal).scaleX(startScaleFinal)
                 .setDuration(ANIMATION_DURATION)
                 .setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new MyAnimationListener(new Runnable() {
-                    @Override
-                    public void run() {
+            @Override
+            public void run() {
 
-                        photoView.animate().alpha(0.0f).setDuration(200);
+                photoView.animate().alpha(0.0f).setDuration(200);
 
-                    }
-                }));
+            }
+        }));
 
         if (rect.type == AnimationRect.TYPE_EXTEND_V || rect.type == AnimationRect.TYPE_EXTEND_H) {
             AnimatorSet animationSet = new AnimatorSet();

@@ -27,21 +27,21 @@ class SettingHelper {
     public static int getSharedPreferences(Context paramContext, String paramString, int paramInt) {
         return getSharedPreferencesObject(paramContext).getInt(paramString, paramInt);
     }
-    
-    public static String[] getStringSetPreferences(Context paramContext, String paramString, int def) {
-    	String[] strs = paramContext.getResources().getStringArray(def);
 
-    	Set<String> sets = new HashSet<String>();
-    	for (String string : strs) {
-			sets.add(string);
-		}
-    	Set<String> result = getSharedPreferencesObject(paramContext).getStringSet(paramString, sets);
-    	
-    	String[] resultArray = result.toArray(new String[result.size()]);
+    public static String[] getStringSetPreferences(Context paramContext, String paramString, int def) {
+        String[] strs = paramContext.getResources().getStringArray(def);
+
+        Set<String> sets = new HashSet<String>();
+        for (String string : strs) {
+            sets.add(string);
+        }
+        Set<String> result = getSharedPreferencesObject(paramContext).getStringSet(paramString, sets);
+
+        String[] resultArray = result.toArray(new String[result.size()]);
         return resultArray;
     }
 
-    
+
     public static long getSharedPreferences(Context paramContext, String paramString, long paramLong) {
         return getSharedPreferencesObject(paramContext).getLong(paramString, paramLong);
     }

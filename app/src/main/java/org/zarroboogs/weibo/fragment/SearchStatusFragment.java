@@ -35,7 +35,7 @@ public class SearchStatusFragment extends AbsTimeLineFragment<SearchStatusListBe
     }
 
     public void search(String searchKey) {
-    	this.searchKey = searchKey;
+        this.searchKey = searchKey;
 //        mPullToRefreshListView.setRefreshing();
         getSwipeRefreshLayout().setRefreshing(true);
         loadNewMsg();

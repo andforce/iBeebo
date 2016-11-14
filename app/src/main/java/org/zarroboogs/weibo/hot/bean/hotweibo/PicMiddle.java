@@ -4,24 +4,24 @@ import org.json.*;
 
 
 public class PicMiddle {
-	
+
     private String url;
     private String width;
     private String height;
-    
-    
-	public PicMiddle () {
-		
-	}	
-        
-    public PicMiddle (JSONObject json) {
-    
+
+
+    public PicMiddle() {
+
+    }
+
+    public PicMiddle(JSONObject json) {
+
         this.url = json.optString("url");
         this.width = json.optString("width");
         this.height = json.optString("height");
 
     }
-    
+
     public String getUrl() {
         return this.url;
     }
@@ -47,5 +47,4 @@ public class PicMiddle {
     }
 
 
-    
 }

@@ -34,47 +34,47 @@ import java.util.Map;
 
 public class RightMenuFragment extends BaseLoadDataFragment {
 
-	private boolean firstStart = true;
+    private boolean firstStart = true;
 
-	public static final String SWITCH_GROUP_KEY = "switch_group";
+    public static final String SWITCH_GROUP_KEY = "switch_group";
 
     private MaterialSwipeRefreshLayout mSwitchRefreshLayout;
-	private FriendsTimeLineListNavAdapter mBaseAdapter;
+    private FriendsTimeLineListNavAdapter mBaseAdapter;
 
-	public static RightMenuFragment newInstance() {
-		RightMenuFragment fragment = new RightMenuFragment();
-		fragment.setArguments(new Bundle());
-		return fragment;
-	}
+    public static RightMenuFragment newInstance() {
+        RightMenuFragment fragment = new RightMenuFragment();
+        fragment.setArguments(new Bundle());
+        return fragment;
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putBoolean("firstStart", firstStart);
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("firstStart", firstStart);
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		if (savedInstanceState != null) {
-			firstStart = savedInstanceState.getBoolean("firstStart");
-		}
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            firstStart = savedInstanceState.getBoolean("firstStart");
+        }
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
 
-		List<GroupBean> list;
-		if (BeeboApplication.getInstance().getGroup() != null) {
-			list = BeeboApplication.getInstance().getGroup().getLists();
-		} else {
-			list = new ArrayList<>();
-		}
+        List<GroupBean> list;
+        if (BeeboApplication.getInstance().getGroup() != null) {
+            list = BeeboApplication.getInstance().getGroup().getLists();
+        } else {
+            list = new ArrayList<>();
+        }
 
-		mBaseAdapter = new FriendsTimeLineListNavAdapter(getActivity(), buildListNavData(list));
-	}
+        mBaseAdapter = new FriendsTimeLineListNavAdapter(getActivity(), buildListNavData(list));
+    }
 
 
     private List<GroupBean> buildListNavData(List<GroupBean> list) {
@@ -92,7 +92,7 @@ public class RightMenuFragment extends BaseLoadDataFragment {
         bilateral.setIdstr("1");
         bilateral.setName(getString(R.string.bilateral));
         bilateral.setMember_count(0);
-        name.add( bilateral);
+        name.add(bilateral);
 
 
         name.addAll(list);
@@ -100,84 +100,84 @@ public class RightMenuFragment extends BaseLoadDataFragment {
         return name;
     }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.right_slidingdrawer_contents, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.right_slidingdrawer_contents, container, false);
 
-        mSwitchRefreshLayout = ViewUtility.findViewById(view,R.id.rightMenuGroupSRL);
-		mSwitchRefreshLayout.setOnlyPullRefersh();
-        ListView mPullToRefreshListView  = ViewUtility.findViewById(view,R.id.rightGroupListView);
-		mPullToRefreshListView.setAdapter(mBaseAdapter);
-		mSwitchRefreshLayout.setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
-			@Override
-			public void onRefresh() {
-				loadGroup();
-			}
+        mSwitchRefreshLayout = ViewUtility.findViewById(view, R.id.rightMenuGroupSRL);
+        mSwitchRefreshLayout.setOnlyPullRefersh();
+        ListView mPullToRefreshListView = ViewUtility.findViewById(view, R.id.rightGroupListView);
+        mPullToRefreshListView.setAdapter(mBaseAdapter);
+        mSwitchRefreshLayout.setOnRefreshLoadMoreListener(new MaterialSwipeRefreshLayout.OnRefreshLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+                loadGroup();
+            }
 
-			@Override
-			public void onLoadMore() {
+            @Override
+            public void onLoadMore() {
 
-			}
-		});
+            }
+        });
 
-		mPullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
+        mPullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				((MainTimeLineActivity) getActivity()).closeRightDrawer();
-				mBaseAdapter.setSelectId(position);
-				Intent mIntent = new Intent(AppEventAction.SWITCH_WEIBO_GROUP_BROADCAST);
-				mIntent.putExtra(SWITCH_GROUP_KEY, position);
-				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(mIntent);
-			}
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((MainTimeLineActivity) getActivity()).closeRightDrawer();
+                mBaseAdapter.setSelectId(position);
+                Intent mIntent = new Intent(AppEventAction.SWITCH_WEIBO_GROUP_BROADCAST);
+                mIntent.putExtra(SWITCH_GROUP_KEY, position);
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(mIntent);
+            }
 
-		});
-		return view;
-	}
+        });
+        return view;
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		
-		if (BeeboApplication.getInstance().getGroup() == null || BeeboApplication.getInstance().getGroup().getLists().size() == 0) {
-			loadGroup();
-		}
-	}
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-	private void loadGroup() {
-		Map<String, String> requestParams = new HashMap<>();
-		requestParams.put("access_token", BeeboApplication.getInstance().getAccessTokenHack());
-		loadData(WeiBoURLs.FRIENDSGROUP_INFO, requestParams);
-	}
-	
-	@Override
-	void onLoadDataSucess(String json) {
-		Log.d("FETCH_GROUP ", "onLoadDataSucess: " + json);
+        if (BeeboApplication.getInstance().getGroup() == null || BeeboApplication.getInstance().getGroup().getLists().size() == 0) {
+            loadGroup();
+        }
+    }
 
-		GroupListBean groupListBean = new Gson().fromJson(json, GroupListBean.class);
+    private void loadGroup() {
+        Map<String, String> requestParams = new HashMap<>();
+        requestParams.put("access_token", BeeboApplication.getInstance().getAccessTokenHack());
+        loadData(WeiBoURLs.FRIENDSGROUP_INFO, requestParams);
+    }
 
-		List<GroupBean> groupBeans = groupListBean.getLists();
-		if (groupBeans != null) {
-			GroupDBTask.update(groupListBean, BeeboApplication.getInstance().getCurrentAccountId());
-			BeeboApplication.getInstance().setGroup(groupListBean);
-			for (GroupBean groupBean : groupBeans) {
-				Log.d("FETCH_GROUP ", "" + groupBean.getName());
-			}
-			mBaseAdapter.refresh( buildListNavData(groupBeans));
-		}
+    @Override
+    void onLoadDataSucess(String json) {
+        Log.d("FETCH_GROUP ", "onLoadDataSucess: " + json);
+
+        GroupListBean groupListBean = new Gson().fromJson(json, GroupListBean.class);
+
+        List<GroupBean> groupBeans = groupListBean.getLists();
+        if (groupBeans != null) {
+            GroupDBTask.update(groupListBean, BeeboApplication.getInstance().getCurrentAccountId());
+            BeeboApplication.getInstance().setGroup(groupListBean);
+            for (GroupBean groupBean : groupBeans) {
+                Log.d("FETCH_GROUP ", "" + groupBean.getName());
+            }
+            mBaseAdapter.refresh(buildListNavData(groupBeans));
+        }
         mSwitchRefreshLayout.setRefreshing(false);
 
-	}
+    }
 
-	@Override
-	void onLoadDataFailed(String errorStr) {
-		Log.d("FETCH_GROUP ", "onLoadDataFailed");
+    @Override
+    void onLoadDataFailed(String errorStr) {
+        Log.d("FETCH_GROUP ", "onLoadDataFailed");
         mSwitchRefreshLayout.setRefreshing(false);
-	}
+    }
 
-	@Override
-	void onLoadDataStart() {
-		Log.d("FETCH_GROUP ", "onLoadDataStart");
+    @Override
+    void onLoadDataStart() {
+        Log.d("FETCH_GROUP ", "onLoadDataStart");
         mSwitchRefreshLayout.setRefreshing(true);
-	}
+    }
 }

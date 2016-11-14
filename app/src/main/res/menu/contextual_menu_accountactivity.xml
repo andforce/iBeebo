@@ -5,5 +5,5 @@
         android:id="@+id/menu_remove_account"
         android:icon="?remove"
         android:title="@string/delete"
-        android:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText"/>
 </menu>

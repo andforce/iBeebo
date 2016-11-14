@@ -4,20 +4,20 @@ import org.json.*;
 
 
 public class PicItems {
-	
+
     private String actionlog;
     private String picBig;
     private String pic;
     private String content1;
     private String scheme;
-    
-    
-	public PicItems () {
-		
-	}	
-        
-    public PicItems (JSONObject json) {
-    
+
+
+    public PicItems() {
+
+    }
+
+    public PicItems(JSONObject json) {
+
         this.actionlog = json.optString("actionlog");
         this.picBig = json.optString("pic_big");
         this.pic = json.optString("pic");
@@ -25,7 +25,7 @@ public class PicItems {
         this.scheme = json.optString("scheme");
 
     }
-    
+
     public String getActionlog() {
         return this.actionlog;
     }
@@ -67,5 +67,4 @@ public class PicItems {
     }
 
 
-    
 }

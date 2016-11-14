@@ -25,6 +25,7 @@ import org.zarroboogs.weibo.widget.AutoScrollListView;
 import org.zarroboogs.weibo.widget.TopTipsView;
 
 import com.melnykov.fab.FloatingActionButton;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;

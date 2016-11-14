@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 public class AnimationUtility {
 
     public static void translateFragmentY(UserInfoFragment fragment, int from, int to,
-            Animator.AnimatorListener animatorListener) {
+                                          Animator.AnimatorListener animatorListener) {
         final View fragmentView = fragment.getView();
         if (fragmentView == null) {
             return;
@@ -96,7 +96,7 @@ public class AnimationUtility {
                 }
                 Method method = Activity.class.getDeclaredMethod("convertToTranslucent", listener);
                 method.setAccessible(true);
-                method.invoke(activity, new Object[] {
+                method.invoke(activity, new Object[]{
                         null
                 });
             } catch (Throwable ignored) {

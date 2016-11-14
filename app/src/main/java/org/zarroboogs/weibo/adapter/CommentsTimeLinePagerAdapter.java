@@ -18,7 +18,7 @@ public class CommentsTimeLinePagerAdapter extends AppFragmentPagerAdapter {
     private SparseArray<Fragment> fragmentList;
 
     public CommentsTimeLinePagerAdapter(CommentsTimeLineFragment fragment, ViewPager viewPager, FragmentManager fm,
-            SparseArray<Fragment> fragmentList) {
+                                        SparseArray<Fragment> fragmentList) {
         super(fm);
         this.fragmentList = fragmentList;
         fragmentList.append(CommentsTimeLineFragment.COMMENTS_TO_ME_CHILD_POSITION,

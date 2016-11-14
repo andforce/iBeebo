@@ -199,13 +199,13 @@ public class GeneralPictureFragment extends Fragment {
         mPhotoView.animate().translationX(deltaLeft).translationY(deltaTop).scaleY(startScaleFinal).scaleX(startScaleFinal)
                 .setDuration(ANIMATION_DURATION)
                 .setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new MyAnimationListener(new Runnable() {
-                    @Override
-                    public void run() {
+            @Override
+            public void run() {
 
-                        mPhotoView.animate().alpha(0.0f).setDuration(200);
+                mPhotoView.animate().alpha(0.0f).setDuration(200);
 
-                    }
-                }));
+            }
+        }));
 
         AnimatorSet animationSet = new AnimatorSet();
         animationSet.setDuration(ANIMATION_DURATION);

@@ -36,11 +36,11 @@ public class UpdateRemarkDialog extends DialogFragment {
                         }
                     }
                 }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
+            }
+        });
 
         return builder.create();
     }

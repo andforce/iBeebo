@@ -9,14 +9,14 @@ import android.content.pm.PackageManager;
  */
 public class CommUtils {
 
-    public static boolean isInstalled(Context context, String pkgName){
+    public static boolean isInstalled(Context context, String pkgName) {
         PackageManager packageManager = context.getPackageManager();
         try {
             PackageInfo info = packageManager.getPackageInfo(pkgName, PackageManager.GET_ACTIVITIES);
-            return  true;
+            return true;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            return  false;
+            return false;
         }
 
 

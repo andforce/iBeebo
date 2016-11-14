@@ -36,7 +36,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 
-public class RepostWithAppSrcServices extends Service{
+public class RepostWithAppSrcServices extends Service {
 
     private AsyncHttpRequest mAsyncOKHttpClient = new AsyncHttpRequest();
     private AccountBean mAccountBean;

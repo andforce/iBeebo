@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/listview_root"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp" >
+                android:id="@+id/listview_root"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
 
     <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
         android:id="@+id/avatar"
@@ -13,7 +13,7 @@
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="-5dp"
         android:layout_marginRight="3dp"
-        android:layout_marginTop="-5dp" />
+        android:layout_marginTop="-5dp"/>
 
     <TextView
         android:id="@+id/username"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/avatar"
         android:text="username"
-        android:textColor="?listview_text_color" />
+        android:textColor="?listview_text_color"/>
 
     <TextView
         android:id="@+id/content"
@@ -32,6 +32,6 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:text="content"
-        android:textColor="?listview_text_color" />
+        android:textColor="?listview_text_color"/>
 
 </RelativeLayout>

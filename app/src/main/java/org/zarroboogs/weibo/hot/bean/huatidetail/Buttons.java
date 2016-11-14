@@ -4,21 +4,21 @@ import org.json.*;
 
 
 public class Buttons {
-	
+
     private String pic;
     private double subType;
     private double showLoading;
     private String type;
     private String name;
     private Params params;
-    
-    
-	public Buttons () {
-		
-	}	
-        
-    public Buttons (JSONObject json) {
-    
+
+
+    public Buttons() {
+
+    }
+
+    public Buttons(JSONObject json) {
+
         this.pic = json.optString("pic");
         this.subType = json.optDouble("sub_type");
         this.showLoading = json.optDouble("show_loading");
@@ -27,7 +27,7 @@ public class Buttons {
         this.params = new Params(json.optJSONObject("params"));
 
     }
-    
+
     public String getPic() {
         return this.pic;
     }
@@ -77,5 +77,4 @@ public class Buttons {
     }
 
 
-    
 }

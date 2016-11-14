@@ -86,8 +86,8 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
 
 
     public static Intent startBecauseSendFailed(Context context, AccountBean account, String content, MessageBean oriMsg,
-            CommentDraftBean draft,
-            boolean comment_ori, String failedReason) {
+                                                CommentDraftBean draft,
+                                                boolean comment_ori, String failedReason) {
         Intent intent = new Intent(context, WriteCommentActivity.class);
         intent.setAction(WriteCommentActivity.ACTION_SEND_FAILED);
         intent.putExtra(Constants.ACCOUNT, account);
@@ -234,24 +234,24 @@ public class WriteCommentActivity extends AbstractWriteActivity<DataItem> {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-		if (itemId == android.R.id.home) {
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			if (imm.isActive()) {
-			    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-			}
-			finish();
-		} else if (itemId == R.id.menu_enable_ori_comment) {
-			if (enableCommentOri.isChecked()) {
-			    enableCommentOri.setChecked(false);
-			} else {
-			    enableCommentOri.setChecked(true);
-			}
-		} else if (itemId == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
-			startActivityForResult(intent, AT_USER);
-		} else if (itemId == R.id.menu_clear) {
-			clearContentMenu();
-		}
+        if (itemId == android.R.id.home) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm.isActive()) {
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+            finish();
+        } else if (itemId == R.id.menu_enable_ori_comment) {
+            if (enableCommentOri.isChecked()) {
+                enableCommentOri.setChecked(false);
+            } else {
+                enableCommentOri.setChecked(true);
+            }
+        } else if (itemId == R.id.menu_at) {
+            Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
+            startActivityForResult(intent, AT_USER);
+        } else if (itemId == R.id.menu_clear) {
+            clearContentMenu();
+        }
         return true;
     }
 

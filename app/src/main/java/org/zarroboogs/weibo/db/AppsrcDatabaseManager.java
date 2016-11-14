@@ -46,16 +46,16 @@ public class AppsrcDatabaseManager {
 
     public void updateDB(String tableName, int id, String key, String value) {
         String tmpValue = "\"" + value + "\"";
-        mSqLiteDatabase.execSQL("UPDATE " + tableName + " SET " + key + "=" + tmpValue + " WHERE id=?", new String[] {
+        mSqLiteDatabase.execSQL("UPDATE " + tableName + " SET " + key + "=" + tmpValue + " WHERE id=?", new String[]{
                 "" + id
         });
     }
 
     public WeiboWeiba searchAppsrcByCode(String code) {
         Cursor cursor = mSqLiteDatabase.rawQuery("select * from " + AppsrcDatabaseHelper.TABLE_NAME_APPSRC + " where "
-                + AppsrcDatabaseHelper.CODE + " = ?",
-                new String[] {
-                    code
+                        + AppsrcDatabaseHelper.CODE + " = ?",
+                new String[]{
+                        code
                 });
 
         while (cursor != null && cursor.moveToNext()) {

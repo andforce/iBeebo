@@ -39,16 +39,16 @@ public class SettingsFragment extends PreferenceFragment {
 
     public static final String APP_UA = "app_ua";
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (Constants.isBeeboPlus) {
-			addPreferencesFromResource(R.xml.beebo_plus_setting_activity_pref);
-		} else {
-			addPreferencesFromResource(R.xml.setting_activity_pref);
-		}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (Constants.isBeeboPlus) {
+            addPreferencesFromResource(R.xml.beebo_plus_setting_activity_pref);
+        } else {
+            addPreferencesFromResource(R.xml.setting_activity_pref);
+        }
 
-        if (false){
+        if (false) {
             mRootPreference = findPreference("root_request_key");
 
             mRootPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -63,9 +63,9 @@ public class SettingsFragment extends PreferenceFragment {
 
                                     if (CommUtils.isInstalled(getActivity(), "com.sina.weibo")) {
                                         boolean isRoot = RootUtils.haveRoot();
-                                        if (isRoot){
+                                        if (isRoot) {
                                             showProgressDialog();
-                                        }else {
+                                        } else {
                                             dissmissProgressDialog();
 
                                         }
@@ -75,28 +75,28 @@ public class SettingsFragment extends PreferenceFragment {
                                     }
 
                                 }
-                            }).setNegativeButton("取消",null).create().show();
+                            }).setNegativeButton("取消", null).create().show();
                     return false;
                 }
             });
         }
 
 
-		Preference myPref = findPreference(SettingActivity.CHANGE_WEIBO_ACCOUNT);
-		myPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        Preference myPref = findPreference(SettingActivity.CHANGE_WEIBO_ACCOUNT);
+        myPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				// TODO Auto-generated method stub
-				showAccountSwitchPage();
-				return false;
-			}
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // TODO Auto-generated method stub
+                showAccountSwitchPage();
+                return false;
+            }
 
-		});
-	}
+        });
+    }
 
-    private void showProgressDialog(){
-        if (progressDialog == null){
+    private void showProgressDialog() {
+        if (progressDialog == null) {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("正在获取高级授权...");
         }
@@ -109,15 +109,14 @@ public class SettingsFragment extends PreferenceFragment {
         String APP_UA_P = "<string name=\"app_ua\">.*";
         Pattern uaPattern = Pattern.compile(APP_UA_P);
         Matcher uaMather = uaPattern.matcher(cmdResult);
-        if (uaMather.find()){
+        if (uaMather.find()) {
             Context context = BeeboApplication.getAppContext();
 
-            app_ua = cmdResult.substring(uaMather.start(), uaMather.end()).replace("</string>","").replace("<string name=\"app_ua\">","");
-            SharedPreferences preferences = context.getSharedPreferences(context.getPackageName(),Context.MODE_PRIVATE);
-            preferences.edit().putString(APP_UA,app_ua).apply();
+            app_ua = cmdResult.substring(uaMather.start(), uaMather.end()).replace("</string>", "").replace("<string name=\"app_ua\">", "");
+            SharedPreferences preferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+            preferences.edit().putString(APP_UA, app_ua).apply();
 
         }
-
 
 
         String gsid = "";
@@ -130,24 +129,24 @@ public class SettingsFragment extends PreferenceFragment {
         String GSID_P = "<string name=\"key.gsid\">.*";
         Pattern p = Pattern.compile(GSID_P);
         Matcher m = p.matcher(result);
-        if (m.find()){
-            gsid = result.substring(m.start(), m.end()).replace("</string>","").replace("<string name=\"key.gsid\">","");
+        if (m.find()) {
+            gsid = result.substring(m.start(), m.end()).replace("</string>", "").replace("<string name=\"key.gsid\">", "");
             DevLog.printLog(TAG + "_ROOT_CMD", gsid);
         }
 
         String UID_P = "<long name=\"key.uid.new\" value=.*";
         Pattern uidPattern = Pattern.compile(UID_P);
         Matcher uidMatcher = uidPattern.matcher(result);
-        if (uidMatcher.find()){
-            uid = result.substring(uidMatcher.start(), uidMatcher.end()).replace("\" />","").replace("<long name=\"key.uid.new\" value=\"","");
+        if (uidMatcher.find()) {
+            uid = result.substring(uidMatcher.start(), uidMatcher.end()).replace("\" />", "").replace("<long name=\"key.uid.new\" value=\"", "");
             DevLog.printLog(TAG + "_ROOT_CMD", uid);
         }
 
         String accountUID = BeeboApplication.getInstance().getAccountBean().getUid();
-        if (!accountUID.equals(uid)){
+        if (!accountUID.equals(uid)) {
             showAuthFailed();
 
-        }else {
+        } else {
             AccountDatabaseManager manager = new AccountDatabaseManager(getActivity().getApplicationContext());
             manager.updateAccount(AccountTable.ACCOUNT_TABLE, uid, AccountTable.GSID, gsid);
             showAuthSuccess();
@@ -157,32 +156,33 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
 
-    private void showAuthSuccess(){
+    private void showAuthSuccess() {
         progressDialog.dismiss();
-        Toast.makeText(getActivity().getApplicationContext(),"授权成功!!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity().getApplicationContext(), "授权成功!!", Toast.LENGTH_LONG).show();
     }
 
-    private void showAuthFailed(){
+    private void showAuthFailed() {
         progressDialog.dismiss();
-        Toast.makeText(getActivity().getApplicationContext(),"当前登录帐号和官方客户端登录的帐号不一致!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity().getApplicationContext(), "当前登录帐号和官方客户端登录的帐号不一致!", Toast.LENGTH_LONG).show();
     }
-    private void dissmissProgressDialog(){
-        if (progressDialog == null || !progressDialog.isShowing()){
+
+    private void dissmissProgressDialog() {
+        if (progressDialog == null || !progressDialog.isShowing()) {
             return;
         }
-        Toast.makeText(getActivity().getApplicationContext(), "的手机没有Root或者你不信任iBeebo",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity().getApplicationContext(), "的手机没有Root或者你不信任iBeebo", Toast.LENGTH_LONG).show();
         progressDialog.dismiss();
     }
 
-    private void showSinaWeiboNotInstalledDialog(){
+    private void showSinaWeiboNotInstalledDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("错误").setMessage("你没有安装官方客户端，但这不是广告，只是为了获取官方的高级授权，授权完成之后可以卸载官方客户端，请安装并登录")
                 .setPositiveButton("确定", null).create().show();
     }
 
 
-	private void showAccountSwitchPage() {
-		Intent intent = AccountActivity.newIntent();
-		startActivity(intent);
-	}
+    private void showAccountSwitchPage() {
+        Intent intent = AccountActivity.newIntent();
+        startActivity(intent);
+    }
 }

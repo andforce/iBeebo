@@ -19,8 +19,9 @@ public class FixedOnActivityResultBugFragment extends Fragment {
 
     /**
      * Registers request code (used in {@link #startActivityForResult(android.content.Intent, int)}).
+     *
      * @param requestCode the request code.
-     * @param id the fragment ID (can be {@link android.support.v4.app.Fragment#getId()} of {@link android.support.v4.app.Fragment#hashCode()}).
+     * @param id          the fragment ID (can be {@link android.support.v4.app.Fragment#getId()} of {@link android.support.v4.app.Fragment#hashCode()}).
      */
     public void registerRequestCode(int requestCode, int id) {
         mRequestCodes.put(requestCode, id);
@@ -44,11 +45,12 @@ public class FixedOnActivityResultBugFragment extends Fragment {
     /**
      * Checks to see whether there is any children fragments which has been registered with
      * {@code requestCode} before. If so, let it handle the {@code requestCode}.
+     *
      * @param requestCode the code from {@link #onActivityResult(int, int, android.content.Intent)}.
-     * @param resultCode the code from {@link #onActivityResult(int, int, android.content.Intent)}.
-     * @param data the data from {@link #onActivityResult(int, int, android.content.Intent)}.
+     * @param resultCode  the code from {@link #onActivityResult(int, int, android.content.Intent)}.
+     * @param data        the data from {@link #onActivityResult(int, int, android.content.Intent)}.
      * @return {@code true} if the results have been handed over to some child fragment.
-     *         {@code false} otherwise.
+     * {@code false} otherwise.
      */
     protected boolean checkNestedFragmentsForResult(int requestCode, int resultCode, Intent data) {
         final int id = mRequestCodes.get(requestCode);

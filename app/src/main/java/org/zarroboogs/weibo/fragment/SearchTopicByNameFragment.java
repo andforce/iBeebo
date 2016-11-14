@@ -123,7 +123,6 @@ public class SearchTopicByNameFragment extends AbsTimeLineFragment<TopicResultLi
         }
 
 
-
 //		if (itemId == R.id.menu_write) {
 //			Intent intent = new Intent(getActivity(), WriteWeiboWithAppSrcActivity.class);
 //			intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessTokenHack());

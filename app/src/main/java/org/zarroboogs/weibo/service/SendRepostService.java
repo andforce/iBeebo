@@ -81,7 +81,7 @@ public class SendRepostService extends Service {
         RepostDraftBean repostDraftBean;
 
         public WeiboSendTask(String token, AccountBean account, String content, MessageBean oriMsg, String is_comment,
-                RepostDraftBean repostDraftBean) {
+                             RepostDraftBean repostDraftBean) {
             this.token = token;
             this.account = account;
             this.content = content;

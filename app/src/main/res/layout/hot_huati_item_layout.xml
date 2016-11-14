@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/listview_root"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/listview_item_background_selector_light"
-    android:clickable="false"
-    android:descendantFocusability="blocksDescendants" >
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/listview_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/listview_item_background_selector_light"
+                android:clickable="false"
+                android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,13 +15,13 @@
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp">
 
         <ImageView
             android:id="@+id/huatiPic"
             android:layout_width="@dimen/timeline_avatar_width"
             android:layout_height="@dimen/timeline_avatar_height"
-            android:clickable="false" />
+            android:clickable="false"/>
 
         <TextView
             android:id="@+id/title"
@@ -33,7 +33,7 @@
             android:singleLine="true"
             android:text="#话题#"
             android:layout_marginLeft="5dp"
-            android:textColor="#FF333333" />
+            android:textColor="#FF333333"/>
 
         <TextView
             android:layout_marginTop="5dp"
@@ -49,7 +49,7 @@
             android:textSize="12sp"
             android:text="这是话题的描述"
             android:textColor="#FF919191"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded"/>
 
         <TextView
             android:layout_below="@id/descript"
@@ -66,7 +66,7 @@
             android:textSize="10sp"
             android:text="数量"
             android:textColor="#FFD5D5D5"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded"/>
 
     </RelativeLayout>
 

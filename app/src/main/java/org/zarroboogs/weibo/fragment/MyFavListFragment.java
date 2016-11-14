@@ -94,8 +94,8 @@ public class MyFavListFragment extends AbsTimeLineFragment<FavListBean> implemen
 
     protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
         startActivityForResult(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(),
-                        bean.getItem(position), BeeboApplication
-                                .getInstance().getAccessToken()),
+                bean.getItem(position), BeeboApplication
+                        .getInstance().getAccessToken()),
                 MainTimeLineActivity.REQUEST_CODE_UPDATE_MY_FAV_TIMELINE_COMMENT_REPOST_COUNT);
 
     }

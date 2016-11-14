@@ -21,7 +21,7 @@ import org.zarroboogs.weibo.greendao.dao.Green_TimeLineStatusDao;
 
 /**
  * {@inheritDoc}
- * 
+ *
  * @see de.greenrobot.dao.AbstractDaoSession
  */
 public class DaoSession extends AbstractDaoSession {
@@ -55,7 +55,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(Green_AtUsersBean.class, green_AtUsersBeanDao);
         registerDao(Green_TimeLineStatus.class, green_TimeLineStatusDao);
     }
-    
+
     public void clear() {
         green_AccountBeanDaoConfig.getIdentityScope().clear();
         green_AtUsersBeanDaoConfig.getIdentityScope().clear();

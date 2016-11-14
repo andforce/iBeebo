@@ -4,20 +4,20 @@ import org.json.*;
 
 
 public class Largest {
-	
+
     private String height;
     private String type;
     private String url;
     private String width;
     private double cutType;
-    
-    
-	public Largest () {
-		
-	}	
-        
-    public Largest (JSONObject json) {
-    
+
+
+    public Largest() {
+
+    }
+
+    public Largest(JSONObject json) {
+
         this.height = json.optString("height");
         this.type = json.optString("type");
         this.url = json.optString("url");
@@ -25,7 +25,7 @@ public class Largest {
         this.cutType = json.optDouble("cut_type");
 
     }
-    
+
     public String getHeight() {
         return this.height;
     }
@@ -67,5 +67,4 @@ public class Largest {
     }
 
 
-    
 }

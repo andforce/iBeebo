@@ -1,7 +1,6 @@
 package org.zarroboogs.weibo.widget.galleryview;
 
 
-
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;

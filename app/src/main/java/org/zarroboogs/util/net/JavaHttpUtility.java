@@ -431,7 +431,7 @@ public class JavaHttpUtility {
     }
 
     public boolean doUploadFile(String urlStr, Map<String, String> param, String path, String imageParamName,
-            final FileUploaderHttpHelper.ProgressListener listener) throws WeiboException {
+                                final FileUploaderHttpHelper.ProgressListener listener) throws WeiboException {
         String BOUNDARYSTR = getBoundry();
 
         File targetFile = new File(path);

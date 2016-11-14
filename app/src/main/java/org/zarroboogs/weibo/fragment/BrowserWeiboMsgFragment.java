@@ -176,7 +176,6 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     }
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -461,7 +460,7 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     }
 
     private void displayPictures(final MessageBean msg, final GridLayout layout, WeiboDetailImageView view,
-            boolean refreshPic) {
+                                 boolean refreshPic) {
 
         if (!msg.isMultiPics()) {
             view.setVisibility(View.VISIBLE);
@@ -546,18 +545,18 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-		if (itemId == R.id.menu_refresh) {
-			if (Utility.isTaskStopped(updateMsgTask)) {
-			    updateMsgTask = new UpdateMessageTask(BrowserWeiboMsgFragment.this, layout.content, layout.recontent,
-			            msg, true);
-			    updateMsgTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-			}
-			if (isCommentList) {
-			    loadNewCommentData();
-			} else {
-			    loadNewRepostData();
-			}
-		}
+        if (itemId == R.id.menu_refresh) {
+            if (Utility.isTaskStopped(updateMsgTask)) {
+                updateMsgTask = new UpdateMessageTask(BrowserWeiboMsgFragment.this, layout.content, layout.recontent,
+                        msg, true);
+                updateMsgTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+            }
+            if (isCommentList) {
+                loadNewCommentData();
+            } else {
+                loadNewRepostData();
+            }
+        }
         return false;
     }
 
@@ -818,165 +817,165 @@ public class BrowserWeiboMsgFragment extends BaseStateFragment implements IRemov
         getLoaderManager().restartLoader(OLD_REPOST_LOADER_ID, null, repostMsgCallback);
     }
 
-    protected LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<CommentListBean>> commentMsgCallback = 
+    protected LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<CommentListBean>> commentMsgCallback =
             new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<CommentListBean>>() {
 
-        @Override
-        public Loader<AsyncTaskLoaderResult<CommentListBean>> onCreateLoader(int id, Bundle args) {
-            String token = BeeboApplication.getInstance().getAccessTokenHack();
+                @Override
+                public Loader<AsyncTaskLoaderResult<CommentListBean>> onCreateLoader(int id, Bundle args) {
+                    String token = BeeboApplication.getInstance().getAccessTokenHack();
 
-            switch (id) {
-                case NEW_COMMENT_LOADER_ID:
-                    String sinceId = null;
-                    return new CommentsByIdMsgLoader(getActivity(), msg.getId(), token, sinceId, null);
-                case OLD_COMMENT_LOADER_ID:
-                    String maxId = null;
-                    if (commentList.getItemList().size() > 0) {
-                        maxId = commentList.getItemList().get(commentList.getItemList().size() - 1).getId();
-                    }
-                    return new CommentsByIdMsgLoader(getActivity(), msg.getId(), token, null, maxId);
-            }
-
-            return null;
-        }
-
-        @Override
-        public void onLoadFinished(Loader<AsyncTaskLoaderResult<CommentListBean>> loader,
-                AsyncTaskLoaderResult<CommentListBean> result) {
-
-            CommentListBean data = result != null ? result.data : null;
-            WeiboException exception = result != null ? result.exception : null;
-
-            if (data != null) {
-                Utility.buildTabCount(commentTab, getString(R.string.comments), data.getTotal_number());
-                ((BrowserWeiboMsgActivity) getActivity()).updateCommentCount(data.getTotal_number());
-            }
-
-            switch (loader.getId()) {
-                case NEW_COMMENT_LOADER_ID:
-                    if (isCommentList) {
-                        progressHeader.setVisibility(View.GONE);
-                    }
-                    if (Utility.isAllNotNull(exception)) {
-                        Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
-                        DevLog.printLog("BrowserWeiboMsgFragment", "new-loadComments: " + exception.getError());
-                    } else {
-                        if (data != null && data.getSize() > 0) {
-                            commentList.replaceAll(data);
-                            adapter.notifyDataSetChanged();
-
-                        }
-
-                        if (commentList.getSize() > 0 && isCommentList) {
-                            emptyHeader.setVisibility(View.GONE);
-                        } else if (isCommentList) {
-                            emptyHeader.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    break;
-                case OLD_COMMENT_LOADER_ID:
-
-                    if (Utility.isAllNotNull(exception)) {
-                        Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
-                        DevLog.printLog("BrowserWeiboMsgFragment", "old-loadComments: " + exception.getError());
-                        showErrorFooterView();
-                    } else {
-                        canLoadOldCommentData = !(data != null && data.getSize() <= 1);
-                        dismissFooterView();
-                        commentList.addOldData(data);
-                        adapter.notifyDataSetChanged();
-                    }
-                    break;
-            }
-            getLoaderManager().destroyLoader(loader.getId());
-        }
-
-        @Override
-        public void onLoaderReset(Loader<AsyncTaskLoaderResult<CommentListBean>> loader) {
-
-        }
-    };
-
-    protected LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>> repostMsgCallback = 
-    										new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>>() {
-
-        @Override
-        public Loader<AsyncTaskLoaderResult<RepostListBean>> onCreateLoader(int id, Bundle args) {
-            String token = BeeboApplication.getInstance().getAccessTokenHack();
-
-            switch (id) {
-                case NEW_REPOST_LOADER_ID:
-                    String sinceId = null;
-                    return new RepostByIdMsgLoader(getActivity(), msg.getId(), token, sinceId, null);
-                case OLD_REPOST_LOADER_ID:
-                    String maxId = null;
-
-                    if (repostList.getSize() > 0) {
-                        maxId = repostList.getItemList().get(repostList.getSize() - 1).getId();
+                    switch (id) {
+                        case NEW_COMMENT_LOADER_ID:
+                            String sinceId = null;
+                            return new CommentsByIdMsgLoader(getActivity(), msg.getId(), token, sinceId, null);
+                        case OLD_COMMENT_LOADER_ID:
+                            String maxId = null;
+                            if (commentList.getItemList().size() > 0) {
+                                maxId = commentList.getItemList().get(commentList.getItemList().size() - 1).getId();
+                            }
+                            return new CommentsByIdMsgLoader(getActivity(), msg.getId(), token, null, maxId);
                     }
 
-                    return new RepostByIdMsgLoader(getActivity(), msg.getId(), token, null, maxId);
-            }
+                    return null;
+                }
 
-            return null;
-        }
+                @Override
+                public void onLoadFinished(Loader<AsyncTaskLoaderResult<CommentListBean>> loader,
+                                           AsyncTaskLoaderResult<CommentListBean> result) {
 
-        @Override
-        public void onLoadFinished(Loader<AsyncTaskLoaderResult<RepostListBean>> loader,
-                AsyncTaskLoaderResult<RepostListBean> result) {
+                    CommentListBean data = result != null ? result.data : null;
+                    WeiboException exception = result != null ? result.exception : null;
 
-            RepostListBean data = result != null ? result.data : null;
-            WeiboException exception = result != null ? result.exception : null;
-
-            if (data != null) {
-                Utility.buildTabCount(repostTab, getString(R.string.repost), data.getTotal_number());
-                ((BrowserWeiboMsgActivity) getActivity()).updateRepostCount(data.getTotal_number());
-            }
-
-            switch (loader.getId()) {
-                case NEW_REPOST_LOADER_ID:
-                    if (!isCommentList) {
-                        progressHeader.setVisibility(View.GONE);
+                    if (data != null) {
+                        Utility.buildTabCount(commentTab, getString(R.string.comments), data.getTotal_number());
+                        ((BrowserWeiboMsgActivity) getActivity()).updateCommentCount(data.getTotal_number());
                     }
-                    if (Utility.isAllNotNull(exception)) {
-                        Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
-                        DevLog.printLog("BrowserWeiboMsgFragment", "loadRepost: " + exception.getError());
-                    } else {
-                        if (data != null && data.getSize() > 0) {
-                            repostList.replaceAll(data);
-                            adapter.notifyDataSetChanged();
 
-                        }
+                    switch (loader.getId()) {
+                        case NEW_COMMENT_LOADER_ID:
+                            if (isCommentList) {
+                                progressHeader.setVisibility(View.GONE);
+                            }
+                            if (Utility.isAllNotNull(exception)) {
+                                Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+                                DevLog.printLog("BrowserWeiboMsgFragment", "new-loadComments: " + exception.getError());
+                            } else {
+                                if (data != null && data.getSize() > 0) {
+                                    commentList.replaceAll(data);
+                                    adapter.notifyDataSetChanged();
 
-                        if (repostList.getSize() > 0 && !isCommentList) {
-                            emptyHeader.setVisibility(View.GONE);
-                        } else if (!isCommentList) {
-                            emptyHeader.setVisibility(View.VISIBLE);
-                        }
+                                }
+
+                                if (commentList.getSize() > 0 && isCommentList) {
+                                    emptyHeader.setVisibility(View.GONE);
+                                } else if (isCommentList) {
+                                    emptyHeader.setVisibility(View.VISIBLE);
+                                }
+                            }
+                            break;
+                        case OLD_COMMENT_LOADER_ID:
+
+                            if (Utility.isAllNotNull(exception)) {
+                                Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+                                DevLog.printLog("BrowserWeiboMsgFragment", "old-loadComments: " + exception.getError());
+                                showErrorFooterView();
+                            } else {
+                                canLoadOldCommentData = !(data != null && data.getSize() <= 1);
+                                dismissFooterView();
+                                commentList.addOldData(data);
+                                adapter.notifyDataSetChanged();
+                            }
+                            break;
                     }
-                    break;
-                case OLD_REPOST_LOADER_ID:
+                    getLoaderManager().destroyLoader(loader.getId());
+                }
 
-                    if (Utility.isAllNotNull(exception)) {
-                        Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
-                        DevLog.printLog("BrowserWeiboMsgFragment", "old-loadRepost: " + exception.getError());
-                        showErrorFooterView();
-                    } else {
-                        canLoadOldRepostData = !(data != null && data.getSize() <= 1);
-                        dismissFooterView();
-                        repostList.addOldData(data);
-                        adapter.notifyDataSetChanged();
+                @Override
+                public void onLoaderReset(Loader<AsyncTaskLoaderResult<CommentListBean>> loader) {
+
+                }
+            };
+
+    protected LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>> repostMsgCallback =
+            new LoaderManager.LoaderCallbacks<AsyncTaskLoaderResult<RepostListBean>>() {
+
+                @Override
+                public Loader<AsyncTaskLoaderResult<RepostListBean>> onCreateLoader(int id, Bundle args) {
+                    String token = BeeboApplication.getInstance().getAccessTokenHack();
+
+                    switch (id) {
+                        case NEW_REPOST_LOADER_ID:
+                            String sinceId = null;
+                            return new RepostByIdMsgLoader(getActivity(), msg.getId(), token, sinceId, null);
+                        case OLD_REPOST_LOADER_ID:
+                            String maxId = null;
+
+                            if (repostList.getSize() > 0) {
+                                maxId = repostList.getItemList().get(repostList.getSize() - 1).getId();
+                            }
+
+                            return new RepostByIdMsgLoader(getActivity(), msg.getId(), token, null, maxId);
                     }
-                    break;
-            }
-            getLoaderManager().destroyLoader(loader.getId());
-        }
 
-        @Override
-        public void onLoaderReset(Loader<AsyncTaskLoaderResult<RepostListBean>> loader) {
+                    return null;
+                }
 
-        }
-    };
+                @Override
+                public void onLoadFinished(Loader<AsyncTaskLoaderResult<RepostListBean>> loader,
+                                           AsyncTaskLoaderResult<RepostListBean> result) {
+
+                    RepostListBean data = result != null ? result.data : null;
+                    WeiboException exception = result != null ? result.exception : null;
+
+                    if (data != null) {
+                        Utility.buildTabCount(repostTab, getString(R.string.repost), data.getTotal_number());
+                        ((BrowserWeiboMsgActivity) getActivity()).updateRepostCount(data.getTotal_number());
+                    }
+
+                    switch (loader.getId()) {
+                        case NEW_REPOST_LOADER_ID:
+                            if (!isCommentList) {
+                                progressHeader.setVisibility(View.GONE);
+                            }
+                            if (Utility.isAllNotNull(exception)) {
+                                Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+                                DevLog.printLog("BrowserWeiboMsgFragment", "loadRepost: " + exception.getError());
+                            } else {
+                                if (data != null && data.getSize() > 0) {
+                                    repostList.replaceAll(data);
+                                    adapter.notifyDataSetChanged();
+
+                                }
+
+                                if (repostList.getSize() > 0 && !isCommentList) {
+                                    emptyHeader.setVisibility(View.GONE);
+                                } else if (!isCommentList) {
+                                    emptyHeader.setVisibility(View.VISIBLE);
+                                }
+                            }
+                            break;
+                        case OLD_REPOST_LOADER_ID:
+
+                            if (Utility.isAllNotNull(exception)) {
+                                Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+                                DevLog.printLog("BrowserWeiboMsgFragment", "old-loadRepost: " + exception.getError());
+                                showErrorFooterView();
+                            } else {
+                                canLoadOldRepostData = !(data != null && data.getSize() <= 1);
+                                dismissFooterView();
+                                repostList.addOldData(data);
+                                adapter.notifyDataSetChanged();
+                            }
+                            break;
+                    }
+                    getLoaderManager().destroyLoader(loader.getId());
+                }
+
+                @Override
+                public void onLoaderReset(Loader<AsyncTaskLoaderResult<RepostListBean>> loader) {
+
+                }
+            };
 
     class RemoveTask extends MyAsyncTask<Void, Void, Boolean> {
 

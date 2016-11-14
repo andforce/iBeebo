@@ -1,10 +1,11 @@
 package org.zarroboogs.weibo.hot.bean.hotweibo;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class User {
-	
+
     private String coverImagePhone;
     private double id;
     private double biFollowersCount;
@@ -69,14 +70,14 @@ public class User {
     private String lang;
     private double ptype;
     private boolean following;
-    
-    
-	public User () {
-		
-	}	
-        
-    public User (JSONObject json) {
-    
+
+
+    public User() {
+
+    }
+
+    public User(JSONObject json) {
+
         this.coverImagePhone = json.optString("cover_image_phone");
         this.id = json.optDouble("id");
         this.biFollowersCount = json.optDouble("bi_followers_count");
@@ -93,8 +94,7 @@ public class User {
                     this.icons.add(new Icons(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("icons");
             if (null != item) {
                 this.icons.add(new Icons(item));
@@ -161,7 +161,7 @@ public class User {
         this.following = json.optBoolean("following");
 
     }
-    
+
     public String getCoverImagePhone() {
         return this.coverImagePhone;
     }
@@ -675,5 +675,4 @@ public class User {
     }
 
 
-    
 }

@@ -102,7 +102,7 @@ public class ClipImageView extends GifImageView {
 
         if (drawable == null
                 || (clipVerticalPercent == 0 && clipHorizontalPercent == 0 && clipTopPercent == 0 && clipBottomPercent == 0
-                        && clipLeftPercent == 0 && clipRightPercent == 0)) {
+                && clipLeftPercent == 0 && clipRightPercent == 0)) {
             super.draw(canvas);
             return;
         }

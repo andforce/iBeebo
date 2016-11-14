@@ -154,21 +154,21 @@ public class BrowserCommentFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         int itemId = item.getItemId();
-		if (itemId == R.id.menu_comment) {
-			intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
-			intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
-			intent.putExtra("msg", msg);
-			getActivity().startActivity(intent);
-		} else if (itemId == R.id.menu_share) {
-			buildShareActionMenu();
-			return true;
-		} else if (itemId == R.id.menu_copy) {
-			ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-			cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", content.getText().toString()));
-			Toast.makeText(getActivity(), getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
-		} else {
-			return super.onOptionsItemSelected(item);
-		}
+        if (itemId == R.id.menu_comment) {
+            intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
+            intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
+            intent.putExtra("msg", msg);
+            getActivity().startActivity(intent);
+        } else if (itemId == R.id.menu_share) {
+            buildShareActionMenu();
+            return true;
+        } else if (itemId == R.id.menu_copy) {
+            ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", content.getText().toString()));
+            Toast.makeText(getActivity(), getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
         return true;
     }
 

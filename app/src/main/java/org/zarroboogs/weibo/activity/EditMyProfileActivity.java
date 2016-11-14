@@ -69,34 +69,34 @@ public class EditMyProfileActivity extends AbstractAppActivity implements Dialog
         initLayout();
         userBean = getIntent().getParcelableExtra(Constants.USERBEAN);
         initValue(savedInstanceState);
-        
+
         disPlayHomeAsUp(mEditToolBar);
     }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.actionbar_menu_editmyprofileactivity,
-				menu);
-		save = menu.findItem(R.id.menu_save);
-		return super.onCreateOptionsMenu(menu);
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu_editmyprofileactivity,
+                menu);
+        save = menu.findItem(R.id.menu_save);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent;
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			intent = MainTimeLineActivity.newIntent();
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-					| Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			return true;
-		case R.id.menu_save:
-			save();
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                intent = MainTimeLineActivity.newIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            case R.id.menu_save:
+                save();
+                return true;
+        }
+        return false;
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

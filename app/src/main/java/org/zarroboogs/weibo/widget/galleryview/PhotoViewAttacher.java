@@ -1,7 +1,6 @@
 package org.zarroboogs.weibo.widget.galleryview;
 
 
-
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Matrix.ScaleToFit;
@@ -234,7 +233,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
                 zoomTo(mMidScale, x, y);
             }/*
               * else if (scale >= mMidScale && scale < mMaxScale) { zoomTo(mMaxScale, x, y); }
-              */else {
+              */ else {
                 zoomTo(mMinScale, x, y);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -577,6 +576,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 
     /**
      * Helper method that maps the supplied Matrix to the current Drawable
+     *
      * @param matrix - Matrix to map Drawable against
      * @return RectF - Displayed Rectangle
      */
@@ -596,7 +596,8 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 
     /**
      * Helper method that 'unpacks' a Matrix and returns the required value
-     * @param matrix - Matrix to unpack
+     *
+     * @param matrix     - Matrix to unpack
      * @param whichValue - Which value from Matrix.M* to return
      * @return float - returned value
      */
@@ -633,6 +634,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 
     /**
      * Calculate Matrix for FIT_CENTER
+     *
      * @param d - Drawable being displayed
      */
     private void updateBaseMatrix(Drawable d) {
@@ -698,12 +700,14 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
     /**
      * Interface definition for a callback to be invoked when the internal Matrix has changed for
      * this View.
+     *
      * @author Chris Banes
      */
     public interface OnMatrixChangedListener {
         /**
          * Callback for when the Matrix displaying the Drawable has changed. This could be because
          * the View's bounds have changed, or the user has zoomed.
+         *
          * @param rect - Rectangle displaying the Drawable's new bounds.
          */
         void onMatrixChanged(RectF rect);
@@ -711,6 +715,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 
     /**
      * Interface definition for a callback to be invoked when the Photo is tapped with a single tap.
+     *
      * @author Chris Banes
      */
     public interface OnPhotoTapListener {
@@ -718,11 +723,12 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
         /**
          * A callback to receive where the user taps on a photo. You will only receive a callback if
          * the user taps on the actual photo, tapping on 'whitespace' will be ignored.
+         *
          * @param view - View the user tapped.
-         * @param x - where the user tapped from the of the Drawable, as percentage of the Drawable
-         *            width.
-         * @param y - where the user tapped from the top of the Drawable, as percentage of the
-         *            Drawable height.
+         * @param x    - where the user tapped from the of the Drawable, as percentage of the Drawable
+         *             width.
+         * @param y    - where the user tapped from the top of the Drawable, as percentage of the
+         *             Drawable height.
          */
         void onPhotoTap(View view, float x, float y);
     }
@@ -730,6 +736,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
     /**
      * Interface definition for a callback to be invoked when the ImageView is tapped with a single
      * tap.
+     *
      * @author Chris Banes
      */
     public interface OnViewTapListener {
@@ -737,9 +744,10 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
         /**
          * A callback to receive where the user taps on a ImageView. You will receive a callback if
          * the user taps anywhere on the view, tapping on 'whitespace' will not be ignored.
+         *
          * @param view - View the user tapped.
-         * @param x - where the user tapped from the left of the View.
-         * @param y - where the user tapped from the top of the View.
+         * @param x    - where the user tapped from the left of the View.
+         * @param y    - where the user tapped from the top of the View.
          */
         void onViewTap(View view, float x, float y);
     }
@@ -755,7 +763,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
         private final float mDeltaScale;
 
         public AnimatedZoomRunnable(final float currentZoom, final float targetZoom, final float focalX,
-                final float focalY) {
+                                    final float focalY) {
             mTargetZoom = targetZoom;
             mFocalX = focalX;
             mFocalY = focalY;

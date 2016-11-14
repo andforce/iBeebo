@@ -11,56 +11,56 @@ import android.os.Parcelable;
 
 public class HotWeiboBean implements Parcelable {
 
-	private HotCardlistInfoBean cardlistInfo = null;
-	private List<HotCardBean> cards = null;
+    private HotCardlistInfoBean cardlistInfo = null;
+    private List<HotCardBean> cards = null;
 
-	// ===================================//
-	
-	
-	public MessageListBean getMessageListBean() {
-		MessageListBean messageListBean = new MessageListBean();
-		messageListBean.setStatuses(getMessageBeans());
-		return messageListBean;
-	}
+    // ===================================//
 
-	public List<MessageBean> getMessageBeans() {
-		List<HotCardBean> cardBeans = getCards();
-		List<MessageBean> hotMblogBeans = new ArrayList<MessageBean>();
-		for (HotCardBean i : cardBeans) {
-			MessageBean blog = i.getMblog();
-			if (blog != null) {
-				hotMblogBeans.add(blog);
-			}
-		}
-		return hotMblogBeans;
-	}
 
-	public HotCardlistInfoBean getCardlistInfo() {
-		return cardlistInfo;
-	}
+    public MessageListBean getMessageListBean() {
+        MessageListBean messageListBean = new MessageListBean();
+        messageListBean.setStatuses(getMessageBeans());
+        return messageListBean;
+    }
 
-	public void setCardlistInfo(HotCardlistInfoBean cardlistInfo) {
-		this.cardlistInfo = cardlistInfo;
-	}
+    public List<MessageBean> getMessageBeans() {
+        List<HotCardBean> cardBeans = getCards();
+        List<MessageBean> hotMblogBeans = new ArrayList<MessageBean>();
+        for (HotCardBean i : cardBeans) {
+            MessageBean blog = i.getMblog();
+            if (blog != null) {
+                hotMblogBeans.add(blog);
+            }
+        }
+        return hotMblogBeans;
+    }
 
-	public List<HotCardBean> getCards() {
-		return cards;
-	}
+    public HotCardlistInfoBean getCardlistInfo() {
+        return cardlistInfo;
+    }
 
-	public void setCards(List<HotCardBean> cards) {
-		this.cards = cards;
-	}
+    public void setCardlistInfo(HotCardlistInfoBean cardlistInfo) {
+        this.cardlistInfo = cardlistInfo;
+    }
 
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public List<HotCardBean> getCards() {
+        return cards;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
+    public void setCards(List<HotCardBean> cards) {
+        this.cards = cards;
+    }
 
-	}
+    @Override
+    public int describeContents() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

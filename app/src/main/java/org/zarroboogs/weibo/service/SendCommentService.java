@@ -100,7 +100,7 @@ public class SendCommentService extends Service {
         WeiboException e;
 
         public WeiboSendTask(AccountBean account, String token, String content, MessageBean oriMsg, boolean comment_ori,
-                CommentDraftBean commentDraftBean) {
+                             CommentDraftBean commentDraftBean) {
             this.account = account;
             this.token = token;
             this.comment_ori = comment_ori;

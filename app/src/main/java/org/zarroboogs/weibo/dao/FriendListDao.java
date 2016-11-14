@@ -23,7 +23,7 @@ public class FriendListDao {
     private String count;
     private String cursor;
     private String trim_status;
-    
+
     public FriendListDao(String token, String uid) {
         this.access_token = token;
         this.uid = uid;
@@ -47,7 +47,6 @@ public class FriendListDao {
     }
 
 
-    
     public UserListBean getGSONMsgList() throws WeiboException {
 
         String url = WeiBoURLs.FRIENDS_LIST_BYID;

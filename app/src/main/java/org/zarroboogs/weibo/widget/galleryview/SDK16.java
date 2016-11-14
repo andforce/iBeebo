@@ -1,7 +1,6 @@
 package org.zarroboogs.weibo.widget.galleryview;
 
 
-
 import android.annotation.TargetApi;
 import android.view.View;
 

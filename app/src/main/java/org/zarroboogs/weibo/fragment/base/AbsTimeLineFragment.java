@@ -47,7 +47,7 @@ public abstract class AbsTimeLineFragment<T extends DataListItem<MessageBean, ?>
         super.onViewCreated(view, savedInstanceState);
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     }
-    
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

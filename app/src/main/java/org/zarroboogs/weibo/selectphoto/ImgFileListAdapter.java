@@ -68,7 +68,7 @@ public class ImgFileListAdapter extends BaseAdapter {
         holder.filename_textView.setText(listdata.get(arg0).get(filename));
         holder.filecount_textview.setText(listdata.get(arg0).get(filecount));
 
-        ImageLoader.load(context,"file://" + listdata.get(arg0).get(imgpath), holder.photo_imgview);
+        ImageLoader.load(context, "file://" + listdata.get(arg0).get(imgpath), holder.photo_imgview);
 
         return arg1;
     }

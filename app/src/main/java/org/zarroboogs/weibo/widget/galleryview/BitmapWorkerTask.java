@@ -22,7 +22,7 @@ public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
 
     private int scalW = -1;
     private int scalH = -1;
-    private static final int DEF_W =  720;
+    private static final int DEF_W = 720;
     private static final int DEF_H = 1080;
 
     public BitmapWorkerTask(ImageView imageView, Context context) {
@@ -130,7 +130,7 @@ public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options,
-            int reqWidth, int reqHeight) {
+                                            int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;

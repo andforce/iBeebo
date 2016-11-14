@@ -77,7 +77,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
     private Map<ViewHolder, Drawable> bg = new WeakHashMap<ViewHolder, Drawable>();
 
     public BrowserWeiboMsgCommentAndRepostAdapter(Fragment fragment, ListView listView, List<CommentBean> commentListBean,
-            List<MessageBean> repostListBean) {
+                                                  List<MessageBean> repostListBean) {
 
         this.fragment = fragment;
         this.listView = listView;
@@ -207,7 +207,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         holder.time.setTime(comment.getMills());
 
         holder.comment_source.setText(Html.fromHtml(comment.getSource()).toString());
-        
+
         holder.reply.setVisibility(View.VISIBLE);
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,41 +216,41 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
                 PopupMenu popupMenu = new PopupMenu(getActivity(), holder.reply);
                 popupMenu.inflate(R.menu.comments_popmenu);
                 popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-					
-					@Override
-					public boolean onMenuItemClick(MenuItem arg0) {
-						// TODO Auto-generated method stub
-						int id = arg0.getItemId();
-						switch (id) {
-						case R.id.reply_comment:{
-							replyComment(comment);
-							break;
-						}
-						case R.id.menu_copy:{
-							ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-							cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", comment.getText()));
-							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
-							break;
-						}
 
-						default:
-							break;
-						}
-						return false;
-					}
-				});
+                    @Override
+                    public boolean onMenuItemClick(MenuItem arg0) {
+                        // TODO Auto-generated method stub
+                        int id = arg0.getItemId();
+                        switch (id) {
+                            case R.id.reply_comment: {
+                                replyComment(comment);
+                                break;
+                            }
+                            case R.id.menu_copy: {
+                                ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                                cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", comment.getText()));
+                                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
                 popupMenu.show();
             }
         });
     }
 
-	private void replyComment(final CommentBean comment) {
-		Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
+    private void replyComment(final CommentBean comment) {
+        Intent intent = new Intent(getActivity(), WriteReplyToCommentActivity.class);
         intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
         intent.putExtra("msg", comment);
         getActivity().startActivity(intent);
-	}
-	
+    }
+
     private void bindRepostData(ViewHolder holder, int position) {
         Drawable drawable = bg.get(holder);
         if (drawable != null) {
@@ -296,7 +296,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         }
 
         holder.comment_source.setText(Html.fromHtml(msg.getSource()).toString());
-        
+
         holder.avatar.checkVerified(user);
 
         holder.time.setTime(msg.getMills());
@@ -334,7 +334,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         holder.listview_root = ViewUtility.findViewById(convertView, R.id.listview_root);
         holder.reply = ViewUtility.findViewById(convertView, R.id.replyIV);
         holder.comment_source = ViewUtility.findViewById(convertView, R.id.comment_source);
-        
+
         return holder;
     }
 
@@ -369,7 +369,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
 
         if (Utility.sp2px(prefFontSizeSp - 3) != currentWidgetTextSizePx) {
             holder.time.setTextSize(prefFontSizeSp - 3);
-            holder.comment_source.setTextSize(prefFontSizeSp -3);
+            holder.comment_source.setTextSize(prefFontSizeSp - 3);
 
         }
 
@@ -512,7 +512,7 @@ public class BrowserWeiboMsgCommentAndRepostAdapter extends BaseAdapter {
         TimeLineAvatarImageView avatar;
 
         ImageView reply;
-        
+
         TextView comment_source;
     }
 

@@ -24,13 +24,14 @@ public class SearchUserFragment extends AbstractUserListFragment {
 
     private int page = 1;
     private String searchKey = "";
+
     public SearchUserFragment() {
         super();
     }
 
     public void search(String searchKey) {
-    	this.searchKey = searchKey;
-    	
+        this.searchKey = searchKey;
+
 //        pullToRefreshListView.setRefreshing();
         mSwipeRefreshLayout.setRefreshing(true);
         loadNewMsg();

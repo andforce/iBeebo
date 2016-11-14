@@ -27,9 +27,9 @@ public class DMActivity extends AbstractAppActivity {
                     .replace(R.id.content_frame, DMConversationListFragment.newInstance(bean),
                             DMConversationListFragment.class.getName()).commit();
         }
-        
+
         disPlayHomeAsUp(mToolBar);
-        
+
     }
 
     @Override

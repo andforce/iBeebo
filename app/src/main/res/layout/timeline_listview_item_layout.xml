@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/listview_root"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/listview_item_background_selector_light"
-    android:clickable="false"
-    android:descendantFocusability="blocksDescendants" >
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/listview_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/listview_item_background_selector_light"
+                android:clickable="false"
+                android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:paddingBottom="8dp"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
-        android:paddingTop="2dp" >
+        android:paddingTop="2dp">
 
         <RelativeLayout
             android:id="@+id/contentMain"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="10dp" >
+            android:paddingTop="10dp">
 
             <ImageButton
                 android:id="@+id/popupMenuIb"
@@ -33,7 +33,7 @@
                 android:background="@drawable/button_background_selector"
                 android:focusable="false"
                 android:src="@drawable/ic_more_vert_grey600_36dp"
-                tools:ignore="RtlHardcoded,ContentDescription,ObsoleteLayoutParam" />
+                tools:ignore="RtlHardcoded,ContentDescription,ObsoleteLayoutParam"/>
 
             <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
                 android:id="@+id/avatar"
@@ -44,7 +44,7 @@
                 android:layout_marginLeft="-5dp"
                 android:layout_marginRight="3dp"
                 android:layout_marginTop="-5dp"
-                android:clickable="true" />
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/weibo_text_content"
@@ -55,7 +55,7 @@
                 android:clickable="true"
                 android:lineSpacingMultiplier="1.2"
                 android:textColor="@color/weibbo_content_tv_color"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/username"
@@ -68,7 +68,7 @@
                 android:text="@string/username"
                 android:textColor="@color/timeline_item_text_color_light"
                 android:textStyle="bold"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"/>
 
             <org.zarroboogs.weibo.widget.TimeTextView
                 android:id="@+id/time"
@@ -78,7 +78,7 @@
                 android:layout_toRightOf="@id/avatar"
                 android:text="刚刚"
                 android:textColor="?android:textColorTertiary"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"/>
 
             <TextView
                 android:id="@+id/source"
@@ -89,7 +89,7 @@
                 android:layout_toRightOf="@id/time"
                 android:text="iPhone 6 Plus"
                 android:textColor="?android:textColorTertiary"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"/>
 
 
             <!-- android:layout_width="@dimen/timeline_pic_thumbnail_width" -->
@@ -102,7 +102,7 @@
                 android:clickable="true"
                 android:padding="2dp"
                 android:scaleType="fitCenter"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <GridLayout
                 android:id="@+id/content_pic_multi"
@@ -114,12 +114,12 @@
                 android:orientation="horizontal"
                 android:rowCount="3"
                 android:useDefaultMargins="false"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <include
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    layout="@layout/repost_nine_pic_layout" />
+                    layout="@layout/repost_nine_pic_layout"/>
             </GridLayout>
 
             <RelativeLayout
@@ -132,7 +132,7 @@
                 android:layout_marginRight="0dp"
                 android:layout_marginTop="3dp"
                 android:background="@drawable/repost_bg"
-                android:padding="10dp" >
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/repost_content"
@@ -145,7 +145,7 @@
                     android:lineSpacingMultiplier="1.2"
                     android:textColor="@color/repost_content_tv_color"
                     android:textSize="15sp"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
 
                 <org.zarroboogs.weibo.widget.TimeLineImageView
                     android:id="@+id/repost_content_pic"
@@ -156,7 +156,7 @@
                     android:clickable="true"
                     android:padding="2dp"
                     android:scaleType="fitCenter"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
 
                 <GridLayout
                     android:id="@+id/repost_content__pic_multi"
@@ -170,12 +170,12 @@
                     android:orientation="horizontal"
                     android:rowCount="3"
                     android:useDefaultMargins="false"
-                    android:visibility="gone" >
+                    android:visibility="gone">
 
                     <include
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        layout="@layout/repost_nine_pic_layout" />
+                        layout="@layout/repost_nine_pic_layout"/>
                 </GridLayout>
             </RelativeLayout>
         </RelativeLayout>
@@ -189,7 +189,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="2dp"
             android:visibility="visible"
-            tools:ignore="RtlHardcoded" >
+            tools:ignore="RtlHardcoded">
 
             <ImageView
                 android:id="@+id/timeline_gps_iv"
@@ -198,7 +198,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/timeline_gps_dark"
                 android:visibility="gone"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"/>
 
             <ImageView
                 android:id="@+id/timeline_pic_iv"
@@ -208,7 +208,7 @@
                 android:layout_marginLeft="8dp"
                 android:src="@drawable/timeline_pic_dark"
                 android:visibility="gone"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"/>
 
             <TextView
                 android:id="@+id/repost_count"
@@ -219,7 +219,7 @@
                 android:drawablePadding="4dp"
                 android:fontFamily="monospace"
                 android:textColor="?android:textColorTertiary"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/comment_count"
@@ -230,7 +230,7 @@
                 android:drawablePadding="4dp"
                 android:fontFamily="monospace"
                 android:textColor="?android:textColorTertiary"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
     </RelativeLayout>
 

@@ -280,13 +280,13 @@ public class FriendsTimeLineDBTask {
 
     private static void updateCount(String msgId, int commentCount, int repostCount) {
 
-        DevLog.printLog("getHomeLineMsgList - updateCount: "," " + msgId + " " + commentCount + "  " + repostCount);
+        DevLog.printLog("getHomeLineMsgList - updateCount: ", " " + msgId + " " + commentCount + "  " + repostCount);
 
         String sql = "select * from " + HomeTable.HomeDataTable.HOME_DATA_TABLE + " where " + HomeTable.HomeDataTable.MBLOGID
                 + "  = " + msgId + " order by "
                 + HomeTable.HomeDataTable.ID + " asc limit 50";
 
-        DevLog.printLog("getHomeLineMsgList - updateCount: "," SQLITE: update Count: " + sql);
+        DevLog.printLog("getHomeLineMsgList - updateCount: ", " SQLITE: update Count: " + sql);
 
 
         Cursor c = getRsd().rawQuery(sql, null);
@@ -367,7 +367,7 @@ public class FriendsTimeLineDBTask {
 
     private static MessageListBean getHomeLineMsgList(String accountId, int limitCount) {
 
-        DevLog.printLog("getHomeLineMsgList: ", accountId + " limitCount:" + limitCount );
+        DevLog.printLog("getHomeLineMsgList: ", accountId + " limitCount:" + limitCount);
 
         Gson gson = new Gson();
         MessageListBean result = new MessageListBean();

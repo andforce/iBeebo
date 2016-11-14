@@ -1,10 +1,11 @@
 package org.zarroboogs.weibo.hot.bean.huati;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class HotHuaTiCardGroup {
-	
+
     private double displayArrow;
     private String title_sub;
     private String desc1;
@@ -18,13 +19,13 @@ public class HotHuaTiCardGroup {
     private String scheme;
     private String itemid;
     private double attitudesStatus;
-    
-    
-	public HotHuaTiCardGroup () {
-		
-	}	
-        
-    
+
+
+    public HotHuaTiCardGroup() {
+
+    }
+
+
     public double getDisplayArrow() {
         return this.displayArrow;
     }
@@ -35,16 +36,16 @@ public class HotHuaTiCardGroup {
 
 
     public String getTitle_sub() {
-		return title_sub;
-	}
+        return title_sub;
+    }
 
 
-	public void setTitle_sub(String title_sub) {
-		this.title_sub = title_sub;
-	}
+    public void setTitle_sub(String title_sub) {
+        this.title_sub = title_sub;
+    }
 
 
-	public String getDesc1() {
+    public String getDesc1() {
         return this.desc1;
     }
 
@@ -133,5 +134,4 @@ public class HotHuaTiCardGroup {
     }
 
 
-    
 }

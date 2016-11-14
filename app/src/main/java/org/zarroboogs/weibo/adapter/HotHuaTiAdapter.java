@@ -19,55 +19,55 @@ import android.widget.TextView;
 
 public class HotHuaTiAdapter extends BaseAdapter {
 
-	private LayoutInflater mInflater;
+    private LayoutInflater mInflater;
 
-	private List<HotHuaTiCardGroup> list = new ArrayList<>();
+    private List<HotHuaTiCardGroup> list = new ArrayList<>();
 
     private Context mContext;
 
-	public HotHuaTiAdapter(Context context) {
-		super();
-		mInflater = LayoutInflater.from(context);
+    public HotHuaTiAdapter(Context context) {
+        super();
+        mInflater = LayoutInflater.from(context);
         mContext = context;
-	}
+    }
 
-	@Override
-	public int getCount() {
-		return list.size();
-	}
+    @Override
+    public int getCount() {
+        return list.size();
+    }
 
-	@Override
-	public Object getItem(int position) {
-		return list.get(position);
-	}
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
 
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
-		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.hot_huati_item_layout, null);
-			holder = buildHolder(convertView);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.hot_huati_item_layout, null);
+            holder = buildHolder(convertView);
 
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-		HotHuaTiCardGroup blog = list.get(position);
+        HotHuaTiCardGroup blog = list.get(position);
 
-		holder.title.setText(blog.getTitle_sub());
-		holder.descript.setText(blog.getDesc1());
-		holder.readnumber.setText(blog.getDesc2());
+        holder.title.setText(blog.getTitle_sub());
+        holder.descript.setText(blog.getDesc1());
+        holder.readnumber.setText(blog.getDesc2());
 
-		ImageLoader.load(mContext, blog.getPic(), holder.pic);
+        ImageLoader.load(mContext, blog.getPic(), holder.pic);
 
-		return convertView;
-	}
+        return convertView;
+    }
 
 
     public static class ViewHolder {
@@ -80,17 +80,16 @@ public class HotHuaTiAdapter extends BaseAdapter {
     private ViewHolder buildHolder(View convertView) {
         ViewHolder holder = new ViewHolder();
         holder.pic = ViewUtility.findViewById(convertView, R.id.huatiPic);
-        
+
         holder.title = ViewUtility.findViewById(convertView, R.id.title);
         holder.descript = ViewUtility.findViewById(convertView, R.id.descript);
- 
+
         holder.readnumber = ViewUtility.findViewById(convertView, R.id.readNumber);
-        
+
         return holder;
     }
 
-    
-    
+
     public void addNewData(List<HotHuaTiCardGroup> newValue) {
 
         if (newValue == null || newValue.size() == 0) {
@@ -98,14 +97,14 @@ public class HotHuaTiAdapter extends BaseAdapter {
         }
 
         this.list.addAll(0, newValue);
-        
+
         // remove duplicate null flag, [x,y,null,null,z....]
- 
+
         ListIterator<HotHuaTiCardGroup> listIterator = this.list.listIterator();
 
         boolean isLastItemNull = false;
         while (listIterator.hasNext()) {
-        	HotHuaTiCardGroup msg = listIterator.next();
+            HotHuaTiCardGroup msg = listIterator.next();
             if (msg == null) {
                 if (isLastItemNull) {
                     listIterator.remove();

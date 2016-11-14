@@ -19,7 +19,7 @@ public class ThemeUtility {
     }
 
     public static int getColor(Activity activity, int attr) {
-        int[] attrs = new int[] {
+        int[] attrs = new int[]{
                 attr
         };
         TypedArray ta = activity.obtainStyledAttributes(attrs);
@@ -29,7 +29,7 @@ public class ThemeUtility {
     }
 
     public static Drawable getDrawable(int attr) {
-        int[] attrs = new int[] {
+        int[] attrs = new int[]{
                 attr
         };
         Context context = BeeboApplication.getInstance().getActivity();
@@ -41,7 +41,7 @@ public class ThemeUtility {
     }
 
     public static int getResourceId(int attr) {
-        int[] attrs = new int[] {
+        int[] attrs = new int[]{
                 attr
         };
         Context context = BeeboApplication.getInstance().getActivity();
@@ -52,7 +52,7 @@ public class ThemeUtility {
     }
 
     public static int getDimensionPixelSize(Activity activity, int attr, int defaultValue) {
-        int[] attrs = new int[] {
+        int[] attrs = new int[]{
                 attr
         };
         TypedArray ta = activity.obtainStyledAttributes(attrs);

@@ -14,7 +14,7 @@ public class AppsrcDatabaseHelper extends SQLiteOpenHelper {
     public static String CODE = "code";
     public static String TEXT = "text";
     private static AppsrcDatabaseHelper mHelper;
-    
+
     private static final int DB_VERSION = 4;
 
     public synchronized static AppsrcDatabaseHelper getInstance(Context context) {
@@ -39,13 +39,13 @@ public class AppsrcDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-    	if (oldVersion <= 3) {
+        if (oldVersion <= 3) {
             // 删除原来的数据表
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPSRC);
 
             // 重新创建
             onCreate(db);
-		}
+        }
 
     }
 

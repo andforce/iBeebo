@@ -1,10 +1,11 @@
 package org.zarroboogs.weibo.hot.bean.model;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class CardlistInfo {
-	
+
     private ArrayList<String> button;
     private double showStyle;
     private ArrayList<String> filterGroup;
@@ -15,14 +16,14 @@ public class CardlistInfo {
     private String pageType;
     private String background;
     private String titleTop;
-    
-    
-	public CardlistInfo () {
-		
-	}	
-        
-    public CardlistInfo (JSONObject json) {
-    
+
+
+    public CardlistInfo() {
+
+    }
+
+    public CardlistInfo(JSONObject json) {
+
 
         this.button = new ArrayList<String>();
         JSONArray arrayButton = json.optJSONArray("button");
@@ -34,8 +35,7 @@ public class CardlistInfo {
                     this.button.add(item);
                 }
             }
-        }
-        else {
+        } else {
             String item = json.optString("button");
             if (null != item) {
                 this.button.add(item);
@@ -54,8 +54,7 @@ public class CardlistInfo {
                     this.filterGroup.add(item);
                 }
             }
-        }
-        else {
+        } else {
             String item = json.optString("filter_group");
             if (null != item) {
                 this.filterGroup.add(item);
@@ -73,8 +72,7 @@ public class CardlistInfo {
                     this.cardlistMenus.add(new CardlistMenus(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("cardlist_menus");
             if (null != item) {
                 this.cardlistMenus.add(new CardlistMenus(item));
@@ -89,7 +87,7 @@ public class CardlistInfo {
         this.titleTop = json.optString("title_top");
 
     }
-    
+
     public ArrayList<String> getButton() {
         return this.button;
     }
@@ -171,5 +169,4 @@ public class CardlistInfo {
     }
 
 
-    
 }

@@ -19,6 +19,7 @@ package org.zarroboogs.weibo;
 
 /**
  * Encapsulation a Weibo error, when weibo request can not be implemented successful.
+ *
  * @author ZhangJie (zhangjie2@staff.sina.com.cn)
  */
 public class WeiboException extends Exception {

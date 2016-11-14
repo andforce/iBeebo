@@ -4,5 +4,5 @@
         android:id="@+id/menu_add"
         android:icon="?attr/add"
         android:title="@string/add_filter"
-        android:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText"/>
 </menu>

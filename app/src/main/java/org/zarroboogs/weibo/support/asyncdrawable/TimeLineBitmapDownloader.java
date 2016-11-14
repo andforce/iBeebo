@@ -152,7 +152,7 @@ public class TimeLineBitmapDownloader {
     }
 
     public void displayMultiPicture(IWeiboDrawable view, String picUrl, FileLocationMethod method,
-            AbsBaseTimeLineFragment fragment) {
+                                    AbsBaseTimeLineFragment fragment) {
 
         boolean isFling = fragment.isListViewFling();
 
@@ -182,7 +182,7 @@ public class TimeLineBitmapDownloader {
 
         }
     }
-    
+
     public void downContentPic(IWeiboDrawable view, MessageBean msg, AbsBaseTimeLineFragment fragment) {
         String picUrl;
 
@@ -222,7 +222,7 @@ public class TimeLineBitmapDownloader {
     }
 
     private void displayImageView(final ImageView view, final String urlKey, final FileLocationMethod method,
-            boolean isFling, boolean isMultiPictures) {
+                                  boolean isFling, boolean isMultiPictures) {
         view.clearAnimation();
 
         if (!shouldReloadPicture(view, urlKey)) {
@@ -270,7 +270,7 @@ public class TimeLineBitmapDownloader {
     }
 
     private void display(final IWeiboDrawable view, final String urlKey, final FileLocationMethod method,
-            boolean isFling, boolean isMultiPictures) {
+                         boolean isFling, boolean isMultiPictures) {
         view.getImageView().clearAnimation();
 
         if (!shouldReloadPicture(view.getImageView(), urlKey)) {
@@ -357,7 +357,7 @@ public class TimeLineBitmapDownloader {
     }
 
     public void display(final ImageView imageView, final int width, final int height, final String url,
-            final FileLocationMethod method) {
+                        final FileLocationMethod method) {
         ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>();
         imageViewArrayList.add(imageView);
         display(imageViewArrayList, width, height, url, method, null);
@@ -365,8 +365,8 @@ public class TimeLineBitmapDownloader {
     }
 
     public void display(final ArrayList<ImageView> imageView, final int width, final int height, final String url,
-            final FileLocationMethod method,
-            final ArrayList<Animation> animations) {
+                        final FileLocationMethod method,
+                        final ArrayList<Animation> animations) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
@@ -451,17 +451,17 @@ public class TimeLineBitmapDownloader {
     }
 
     public void download(final Activity activity, final String url, final FileLocationMethod method,
-            final DownloadCallback callback) {
+                         final DownloadCallback callback) {
         downloadInner(activity, url, method, callback);
     }
 
     public void download(final Fragment fragment, final String url, final FileLocationMethod method,
-            final DownloadCallback callback) {
+                         final DownloadCallback callback) {
         downloadInner(fragment, url, method, callback);
     }
 
     private void downloadInner(final Object object, final String url, final FileLocationMethod method,
-            final DownloadCallback callback) {
+                               final DownloadCallback callback) {
 
         if (TextUtils.isEmpty(url)) {
             return;

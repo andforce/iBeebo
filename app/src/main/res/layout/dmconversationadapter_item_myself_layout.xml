@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp" >
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
 
     <TextView
         android:id="@+id/time"
@@ -13,7 +13,7 @@
         android:text="12月15日 12:00"
         android:textSize="10sp"
         android:textColor="?android:textColorTertiary"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"/>
 
     <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
         android:id="@+id/avatar"
@@ -26,7 +26,7 @@
         android:layout_marginRight="3dp"
         android:layout_marginTop="5dp"
         android:clickable="true"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"/>
 
     <RelativeLayout
         android:layout_alignTop="@id/avatar"
@@ -37,7 +37,7 @@
         android:layout_toLeftOf="@id/avatar"
         android:background="@drawable/my_dm_item_selector"
         android:padding="8dp"
-        tools:ignore="RtlHardcoded" >
+        tools:ignore="RtlHardcoded">
 
         <TextView
             android:id="@+id/content"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="content"
             android:textSize="15sp"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded"/>
     </RelativeLayout>
 
 </RelativeLayout>

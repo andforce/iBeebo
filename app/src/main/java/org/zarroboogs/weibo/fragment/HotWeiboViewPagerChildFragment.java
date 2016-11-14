@@ -41,7 +41,6 @@ public class HotWeiboViewPagerChildFragment extends BaseHotWeiboFragment {
     private boolean mIsFirst = true;
 
 
-
     public HotWeiboViewPagerChildFragment() {
         super();
     }
@@ -203,7 +202,7 @@ public class HotWeiboViewPagerChildFragment extends BaseHotWeiboFragment {
 
     @Override
     void onPageSelected() {
-        if (mIsFirst){
+        if (mIsFirst) {
             mIsFirst = false;
             DevLog.printLog("onViewPageSelected", "onPageSelected-----");
             long uid = Long.valueOf(BeeboApplication.getInstance().getAccountBean().getUid());

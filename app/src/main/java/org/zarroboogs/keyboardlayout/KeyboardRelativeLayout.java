@@ -32,7 +32,7 @@ public class KeyboardRelativeLayout extends RelativeLayout {
     }
 
 
-    public KeyboardHelper getKeyBoardHelper(){
+    public KeyboardHelper getKeyBoardHelper() {
         return mHelper;
     }
 

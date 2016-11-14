@@ -30,11 +30,11 @@ public class SaveDraftDialog extends DialogFragment {
                         ((IDraft) getActivity()).saveToDraft();
                     }
                 }).setNegativeButton(getString(R.string.cancel_draft), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getActivity().finish();
-                    }
-                });
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getActivity().finish();
+            }
+        });
 
         return builder.create();
     }

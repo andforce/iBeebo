@@ -15,8 +15,8 @@ import android.view.MenuItem;
 
 public class SettingActivity extends AbstractAppActivity {
 
-	public static final String CHANGE_WEIBO_ACCOUNT = "change_weibo_account";
-	
+    public static final String CHANGE_WEIBO_ACCOUNT = "change_weibo_account";
+
     public static final String SOUND_OF_PULL_TO_FRESH = "sound_of_pull_to_fresh";
 
     // appearance
@@ -103,7 +103,7 @@ public class SettingActivity extends AbstractAppActivity {
     public static final String DEBUG_MEM_INFO = "pref_mem_key";
 
     public static final String CRASH = "pref_crash_key";
-    
+
     public static final String HOT_WEIBO_LIST_KEY = "hot_weibo_multiselect_key";
     public static final String HOT_HUATI_LIST_KEY = "hot_huati_multiselect_key";
 

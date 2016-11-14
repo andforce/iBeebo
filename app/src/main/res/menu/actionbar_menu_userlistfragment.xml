@@ -5,6 +5,6 @@
         android:id="@+id/refresh"
         android:icon="?refresh"
         android:title="@string/refresh"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="ifRoom"/>
 
 </menu>

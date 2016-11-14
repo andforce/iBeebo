@@ -4,6 +4,6 @@
         android:id="@+id/menu_add_topic"
         android:icon="?attr/add"
         android:title="@string/add_topic"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="ifRoom"/>
 
 </menu>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
     <TextView
         android:id="@+id/empty"
@@ -10,7 +10,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/empty"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <!--
        requiresFadingEdge may have performance problem in some low price phones, but I like it.
@@ -32,7 +32,7 @@
             android:overScrollMode="never"
             android:scrollingCache="true"
             android:smoothScrollbar="true"
-            android:visibility="visible" />
+            android:visibility="visible"/>
     </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
 
     <org.zarroboogs.weibo.widget.TopTipsView
@@ -45,6 +45,6 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="14sp"
-        android:visibility="invisible" />
+        android:visibility="invisible"/>
 
 </RelativeLayout>

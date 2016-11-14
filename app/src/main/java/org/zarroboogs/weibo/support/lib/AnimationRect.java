@@ -24,13 +24,13 @@ public class AnimationRect implements Parcelable {
         dest.writeParcelable(imageViewEntireRect, flags);
         dest.writeParcelable(imageViewVisibleRect, flags);
         dest.writeInt(type);
-        dest.writeBooleanArray(new boolean[] {
+        dest.writeBooleanArray(new boolean[]{
                 isTotalVisible
         });
-        dest.writeBooleanArray(new boolean[] {
+        dest.writeBooleanArray(new boolean[]{
                 isTotalInvisible
         });
-        dest.writeBooleanArray(new boolean[] {
+        dest.writeBooleanArray(new boolean[]{
                 isScreenPortrait
         });
         dest.writeFloat(thumbnailWidthHeightRatio);
@@ -131,7 +131,7 @@ public class AnimationRect implements Parcelable {
 
         Drawable drawable = imageView.getDrawable();
 
-        if (drawable == null){
+        if (drawable == null) {
             return null;
         }
         Rect drawableRect = drawable.getBounds();

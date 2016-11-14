@@ -1,7 +1,6 @@
 package org.zarroboogs.weibo.widget.galleryview;
 
 
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -71,8 +70,7 @@ public class WeiboGalleryPhotoViewAdapter extends PagerAdapter {
         }
         return lis.size();
     }
-    
-    
+
 
     @Override
     public Object instantiateItem(View container, final int position) {
@@ -90,9 +88,9 @@ public class WeiboGalleryPhotoViewAdapter extends PagerAdapter {
             task.setOnCreateBitmapListener(new OnCreateBitmapListener() {
                 @Override
                 public void onCreateBitmap(Bitmap newBitmap) {
-                	if (!lis.isEmpty()) {
+                    if (!lis.isEmpty()) {
                         mLruCaches.put(lis.get(position), newBitmap);
-					}
+                    }
                 }
             });
             // add to set

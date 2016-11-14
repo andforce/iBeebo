@@ -19,9 +19,9 @@ public class NotificationActivity extends AbstractAppActivity {
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new NotificationFragment()).commit();
         }
-        
+
         disPlayHomeAsUp(R.id.settingToolBar);
-        
+
         getSupportActionBar().setTitle("消息通知");
     }
 

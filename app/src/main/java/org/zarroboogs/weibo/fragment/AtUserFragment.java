@@ -75,11 +75,12 @@ public class AtUserFragment extends ListFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    	// TODO Auto-generated method stub
-    	inflater.inflate(R.menu.actionbar_menu_atuserfragment, menu);
-    	showSearchMenu(menu);
-    	super.onCreateOptionsMenu(menu, inflater);
+        // TODO Auto-generated method stub
+        inflater.inflate(R.menu.actionbar_menu_atuserfragment, menu);
+        showSearchMenu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

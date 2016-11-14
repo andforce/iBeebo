@@ -10,7 +10,7 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-    
+
     <!-- 通知 -->
     <string-array name="frequency">
         <item>半分钟</item>
@@ -22,9 +22,8 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-    
-    
-    
+
+
     <string-array name="list_avatar_mode">
         <item>普通</item>
         <item>高清</item>
@@ -118,8 +117,8 @@
         <item>1</item>
     </string-array>
     <string-array name="hot_weibo_multi_select_title">
-<!--         <item>当前</item> -->
-<!--         <item>昨天</item> -->
+        <!--         <item>当前</item> -->
+        <!--         <item>昨天</item> -->
         <item>前天</item>
         <item>神最右</item>
         <item>视频</item>
@@ -132,8 +131,8 @@
         <item>美图</item>
     </string-array>
     <string-array name="hot_weibo_multi_select_value">
-<!--         <item>0</item> -->
-<!--         <item>1</item> -->
+        <!--         <item>0</item> -->
+        <!--         <item>1</item> -->
         <item>2</item>
         <item>3</item>
         <item>4</item>
@@ -159,12 +158,11 @@
         <item>10</item>
         <item>11</item>
     </string-array>
-    
-    
-    
+
+
     <string-array name="hot_huati_multi_select_title">
-<!--         <item>1小时热榜</item> -->
-<!--         <item>幽默搞笑</item> -->
+        <!--         <item>1小时热榜</item> -->
+        <!--         <item>幽默搞笑</item> -->
         <item>电影热榜</item>
         <item>消费数码</item>
         <item>IT互联网</item>
@@ -173,8 +171,8 @@
         <item>动物萌宠</item>
     </string-array>
     <string-array name="hot_huati_multi_select_value">
-<!--         <item>0</item> -->
-<!--         <item>1</item> -->
+        <!--         <item>0</item> -->
+        <!--         <item>1</item> -->
         <item>2</item>
         <item>3</item>
         <item>4</item>

@@ -164,7 +164,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
         mSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
         mSwipeRefreshLayout.setOnlyPullRefersh();
 
-        mPullToRefreshListView = ViewUtility.findViewById(view,R.id.listView);
+        mPullToRefreshListView = ViewUtility.findViewById(view, R.id.listView);
 //        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
 
         mRootKeyBoardLayout = ViewUtility.findViewById(view, R.id.root_layout);
@@ -207,7 +207,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
                 isSmileClicked = true;
                 if (mRootKeyBoardLayout.getKeyBoardHelper().isKeyboardShow()) {
 
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mContainer.getLayoutParams();
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mContainer.getLayoutParams();
                     params.height = mContainer.getHeight();
                     mContainer.requestLayout();
 
@@ -223,8 +223,8 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
             @Override
             public void onKeyBoardShow(int height) {
 
-                if (isSmileClicked){
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mContainer.getLayoutParams();
+                if (isSmileClicked) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mContainer.getLayoutParams();
                     params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
                     mContainer.requestLayout();
                 }
@@ -232,7 +232,7 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
             @Override
             public void onKeyBoardHide() {
-                if (isSmileClicked){
+                if (isSmileClicked) {
                     showViewWithAnim(smiley);
                 }
             }
@@ -310,16 +310,17 @@ public class DMConversationListFragment extends AbsBaseTimeLineFragment<DMListBe
 
     }
 
-    public boolean isSmileShown(){
+    public boolean isSmileShown() {
         return smiley.isShown();
     }
-    public void removeSmile(){
+
+    public void removeSmile() {
         removeViewWithAnim(smiley);
     }
 
-    private void removeViewWithAnim(View view){
-        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 1);
+    private void removeViewWithAnim(View view) {
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1);
         animation.setDuration(200);
         animation.setFillAfter(true);
         animation.setAnimationListener(new Animation.AnimationListener() {

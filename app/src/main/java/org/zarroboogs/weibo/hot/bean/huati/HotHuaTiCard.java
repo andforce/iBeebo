@@ -1,10 +1,11 @@
 package org.zarroboogs.weibo.hot.bean.huati;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class HotHuaTiCard {
-	
+
     private double autoFlow;
     private double col;
     private double displayArrow;
@@ -20,24 +21,24 @@ public class HotHuaTiCard {
     private ArrayList<Group> group;
     private ArrayList<HotHuaTiCardGroup> card_group;
     private ArrayList<PicItems> picItems;
-    
-    
-	public HotHuaTiCard () {
-		
-	}	
-        
-    
+
+
+    public HotHuaTiCard() {
+
+    }
+
+
     public ArrayList<HotHuaTiCardGroup> getCard_group() {
-		return card_group;
-	}
+        return card_group;
+    }
 
 
-	public void setCard_group(ArrayList<HotHuaTiCardGroup> card_group) {
-		this.card_group = card_group;
-	}
+    public void setCard_group(ArrayList<HotHuaTiCardGroup> card_group) {
+        this.card_group = card_group;
+    }
 
 
-	public double getAutoFlow() {
+    public double getAutoFlow() {
         return this.autoFlow;
     }
 
@@ -151,5 +152,4 @@ public class HotHuaTiCard {
     }
 
 
-    
 }

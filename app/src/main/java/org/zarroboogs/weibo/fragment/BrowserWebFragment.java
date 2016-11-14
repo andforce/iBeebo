@@ -198,20 +198,20 @@ public class BrowserWebFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-		if (itemId == R.id.menu_close) {
-			getActivity().finish();
-		} else if (itemId == R.id.menu_refresh) {
-			getWebView().reload();
-		} else if (itemId == R.id.menu_open_with_other_app) {
-			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
-			getActivity().startActivity(intent);
-		} else if (itemId == R.id.menu_copy) {
-			ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-			cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", buildShareCopyContent()));
-			Toast.makeText(getActivity(), getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
-		} else if (itemId == R.id.menu_share) {
-			Utility.setShareIntent(getActivity(), mShareActionProvider, buildShareCopyContent());
-		}
+        if (itemId == R.id.menu_close) {
+            getActivity().finish();
+        } else if (itemId == R.id.menu_refresh) {
+            getWebView().reload();
+        } else if (itemId == R.id.menu_open_with_other_app) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
+            getActivity().startActivity(intent);
+        } else if (itemId == R.id.menu_copy) {
+            ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("sinaweibo", buildShareCopyContent()));
+            Toast.makeText(getActivity(), getString(R.string.copy_successfully), Toast.LENGTH_SHORT).show();
+        } else if (itemId == R.id.menu_share) {
+            Utility.setShareIntent(getActivity(), mShareActionProvider, buildShareCopyContent());
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -6,13 +6,13 @@ import org.zarroboogs.devutils.DevLog;
 import android.os.Build;
 
 public class WeiBoURLs {
-	
+
     // base url
     private static final String URL_SINA_WEIBO = "https://api.weibo.com/2/";
 
     // login
     public static final String UID = URL_SINA_WEIBO + "account/get_uid.json";
-    
+
     // main timeline
     public static final String FRIENDS_TIMELINE = URL_SINA_WEIBO + "statuses/friends_timeline.json";
     public static final String COMMENTS_MENTIONS_TIMELINE = URL_SINA_WEIBO + "comments/mentions.json";
@@ -134,7 +134,7 @@ public class WeiBoURLs {
     // edit my profile
     public static final String MYPROFILE_EDIT = URL_SINA_WEIBO + "account/profile/basic_update.json";
     public static final String AVATAR_UPLOAD = URL_SINA_WEIBO + "account/avatar/upload.json";
-    
+
     // heart
     // give heart
     public static final String GIVE_HEART = URL_SINA_WEIBO + "attitudes/create.json";
@@ -142,12 +142,12 @@ public class WeiBoURLs {
     public static final String DELETE_HEART = URL_SINA_WEIBO + "attitudes/destroy.json";
     // show heart
     public static final String SHOW_HEART = URL_SINA_WEIBO + "attitudes/show.json";
-    
+
     public static String buildUA() {
-		String str = "%s-%s__weibo__5.1.2__android__android%s";
-		String result = String.format(str, Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE);
-		DevLog.printLog("buildUA", "" + result);
-		return result;
-	}
+        String str = "%s-%s__weibo__5.1.2__android__android%s";
+        String result = String.format(str, Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE);
+        DevLog.printLog("buildUA", "" + result);
+        return result;
+    }
 
 }

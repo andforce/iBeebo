@@ -4,22 +4,22 @@ import org.json.*;
 
 
 public class Params {
-	
+
     private String scheme;
     private String uid;
-    
-    
-	public Params () {
-		
-	}	
-        
-    public Params (JSONObject json) {
-    
+
+
+    public Params() {
+
+    }
+
+    public Params(JSONObject json) {
+
         this.scheme = json.optString("scheme");
         this.uid = json.optString("uid");
 
     }
-    
+
     public String getScheme() {
         return this.scheme;
     }
@@ -37,5 +37,4 @@ public class Params {
     }
 
 
-    
 }

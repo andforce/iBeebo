@@ -4,20 +4,20 @@ import org.json.*;
 
 
 public class Annotations {
-	
+
     private String clientMblogid;
-    
-    
-	public Annotations () {
-		
-	}	
-        
-    public Annotations (JSONObject json) {
-    
+
+
+    public Annotations() {
+
+    }
+
+    public Annotations(JSONObject json) {
+
         this.clientMblogid = json.optString("client_mblogid");
 
     }
-    
+
     public String getClientMblogid() {
         return this.clientMblogid;
     }
@@ -27,5 +27,4 @@ public class Annotations {
     }
 
 
-    
 }

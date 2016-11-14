@@ -144,7 +144,7 @@ public class BlurImageView extends ImageView {
         // the following line:
         //
         // Stack Blur Algorithm by Mario Klingemann <mario@quasimondo.com>
-        if (sentBitmap == null){
+        if (sentBitmap == null) {
             return null;
         }
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <org.zarroboogs.keyboardlayout.KeyboardRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_layout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#FFEDEDED"
-    android:orientation="vertical">
+                                                      android:id="@+id/root_layout"
+                                                      android:layout_width="fill_parent"
+                                                      android:layout_height="fill_parent"
+                                                      android:background="#FFEDEDED"
+                                                      android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/container"
@@ -24,7 +24,7 @@
                 android:layout_height="fill_parent"
                 android:gravity="center"
                 android:text="@string/empty"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <!--
                requiresFadingEdge may have performance problem in some low price phones, but I like it.
@@ -49,7 +49,7 @@
                     android:overScrollMode="never"
                     android:scrollingCache="true"
                     android:smoothScrollbar="true"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
             </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
 
         </FrameLayout>
@@ -58,7 +58,7 @@
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="?line_drawable" />
+            android:background="?line_drawable"/>
 
         <LinearLayout
             android:id="@+id/quick_repost"
@@ -72,13 +72,13 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/bottom_selector"
-                android:src="@drawable/emoticon_dark" />
+                android:src="@drawable/emoticon_dark"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <ImageView
                 android:id="@+id/send"
@@ -88,7 +88,7 @@
                 android:background="?android:selectableItemBackground"
                 android:clickable="true"
                 android:padding="3dp"
-                android:src="?send" />
+                android:src="?send"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -98,6 +98,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 </org.zarroboogs.keyboardlayout.KeyboardRelativeLayout>

@@ -28,7 +28,7 @@ public class UpdateMessageTask extends MyAsyncTask<Void, Void, MessageBean> {
     private boolean refreshPic;
 
     public UpdateMessageTask(BrowserWeiboMsgFragment fragment, TextView content, TextView recontent, MessageBean msg,
-            boolean refreshPic) {
+                             boolean refreshPic) {
         this.fragment = fragment;
         this.content = content;
         this.recontent = recontent;

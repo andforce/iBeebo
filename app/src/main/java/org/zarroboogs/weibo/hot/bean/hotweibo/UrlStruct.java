@@ -4,7 +4,7 @@ import org.json.*;
 
 
 public class UrlStruct {
-	
+
     private boolean result;
     private String pageId;
     private double hide;
@@ -14,14 +14,14 @@ public class UrlStruct {
     private String urlTypePic;
     private String log;
     private String shortUrl;
-    
-    
-	public UrlStruct () {
-		
-	}	
-        
-    public UrlStruct (JSONObject json) {
-    
+
+
+    public UrlStruct() {
+
+    }
+
+    public UrlStruct(JSONObject json) {
+
         this.result = json.optBoolean("result");
         this.pageId = json.optString("page_id");
         this.hide = json.optDouble("hide");
@@ -33,7 +33,7 @@ public class UrlStruct {
         this.shortUrl = json.optString("short_url");
 
     }
-    
+
     public boolean getResult() {
         return this.result;
     }
@@ -107,5 +107,4 @@ public class UrlStruct {
     }
 
 
-    
 }

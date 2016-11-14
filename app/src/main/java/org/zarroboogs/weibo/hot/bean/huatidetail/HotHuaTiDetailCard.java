@@ -1,18 +1,19 @@
 package org.zarroboogs.weibo.hot.bean.huatidetail;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class HotHuaTiDetailCard {
-	
+
     private PageInfo pageInfo;
     private ArrayList<Cards> cards;
-    
-    
-	public HotHuaTiDetailCard () {
-		
-	}	
-    
+
+
+    public HotHuaTiDetailCard() {
+
+    }
+
     public PageInfo getPageInfo() {
         return this.pageInfo;
     }
@@ -30,5 +31,4 @@ public class HotHuaTiDetailCard {
     }
 
 
-    
 }

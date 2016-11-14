@@ -171,7 +171,7 @@ public class SettingUtils {
     // end water mark setting
 
     public static boolean getEnableAutoRefresh() {
-    	return false;
+        return false;
 //        return SettingHelper.getSharedPreferences(getContext(), SettingActivity.AUTO_REFRESH, false);
     }
 
@@ -312,7 +312,7 @@ public class SettingUtils {
 
     public static boolean allowInternalWebBrowser() {
         return false;// SettingHelper.getSharedPreferences(getContext(),
-                     // SettingActivity.ENABLE_INTERNAL_WEB_BROWSER, true);
+        // SettingActivity.ENABLE_INTERNAL_WEB_BROWSER, true);
 
     }
 
@@ -339,11 +339,11 @@ public class SettingUtils {
         return SettingHelper.getSharedPreferences(getContext(), SettingActivity.UPLOAD_BIG_PIC, true);
     }
 
-    public static String[] getHotWeiboSelected(){
-    	return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_WEIBO_LIST_KEY, R.array.hot_weibo_multi_select_value_def);
+    public static String[] getHotWeiboSelected() {
+        return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_WEIBO_LIST_KEY, R.array.hot_weibo_multi_select_value_def);
     }
-    
-    public static String[] getHotHuaTioSelected(){
-    	return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_HUATI_LIST_KEY, R.array.hot_huati_multi_select_value_def);
+
+    public static String[] getHotHuaTioSelected() {
+        return SettingHelper.getStringSetPreferences(getContext(), SettingActivity.HOT_HUATI_LIST_KEY, R.array.hot_huati_multi_select_value_def);
     }
 }

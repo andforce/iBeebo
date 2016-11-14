@@ -1,7 +1,7 @@
 
 package org.zarroboogs.util.net;
 
-public class LoginWeiboAsyncTask{
+public class LoginWeiboAsyncTask {
 
     public interface LoginWeiboCallack {
         void onLonginWeiboCallback(boolean isSuccess);

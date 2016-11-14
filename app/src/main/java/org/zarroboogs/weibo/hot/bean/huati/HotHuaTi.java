@@ -3,16 +3,16 @@ package org.zarroboogs.weibo.hot.bean.huati;
 import java.util.ArrayList;
 
 public class HotHuaTi {
-	
+
     private CardlistInfo cardlistInfo;
     private ArrayList<HotHuaTiCard> cards;
-    
-    
-	public HotHuaTi () {
-		
-	}	
-        
-    
+
+
+    public HotHuaTi() {
+
+    }
+
+
     public CardlistInfo getCardlistInfo() {
         return this.cardlistInfo;
     }
@@ -30,5 +30,4 @@ public class HotHuaTi {
     }
 
 
-    
 }

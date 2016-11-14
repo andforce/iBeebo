@@ -16,7 +16,7 @@ public class HotHuaTiViewPagerAdapter extends AppFragmentPagerAdapter {
     private SparseArray<Fragment> mFragmentList;
     private List<String> mTitleList;
     private SparseArray<String> tagList = new SparseArray<String>();
-    
+
 
     public HotHuaTiViewPagerAdapter(Fragment fragment, ViewPager viewPager, FragmentManager fm, SparseArray<Fragment> fragmentList, List<String> titleList) {
         super(fm);
@@ -24,19 +24,19 @@ public class HotHuaTiViewPagerAdapter extends AppFragmentPagerAdapter {
         this.mTitleList = titleList;
 
         for (int i = 0; i < this.mFragmentList.size(); i++) {
-			tagList.append(i, this.mFragmentList.get(i).getClass().getName());
-		}
+            tagList.append(i, this.mFragmentList.get(i).getClass().getName());
+        }
 
-        
+
         FragmentTransaction transaction = fragment.getChildFragmentManager().beginTransaction();
-        
+
         for (int i = 0; i < fragmentList.size(); i++) {
-			Fragment ft = this.mFragmentList.get(i);
-			if (!ft.isAdded()) {
-				transaction.add(viewPager.getId(), mFragmentList.get(i), ft.getClass().getName());
-			}
-		}
-        
+            Fragment ft = this.mFragmentList.get(i);
+            if (!ft.isAdded()) {
+                transaction.add(viewPager.getId(), mFragmentList.get(i), ft.getClass().getName());
+            }
+        }
+
         if (!transaction.isEmpty()) {
             transaction.commit();
             fragment.getChildFragmentManager().executePendingTransactions();
@@ -59,6 +59,6 @@ public class HotHuaTiViewPagerAdapter extends AppFragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-    	return mTitleList.get(position);
+        return mTitleList.get(position);
     }
 }

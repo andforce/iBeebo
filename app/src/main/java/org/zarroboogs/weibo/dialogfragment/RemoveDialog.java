@@ -53,12 +53,12 @@ public class RemoveDialog extends DialogFragment {
                         iRemoveItem.removeItem(positon);
                     }
                 }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        IRemoveItem iRemoveItem = (IRemoveItem) getTargetFragment();
-                        iRemoveItem.removeCancel();
-                    }
-                });
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                IRemoveItem iRemoveItem = (IRemoveItem) getTargetFragment();
+                iRemoveItem.removeCancel();
+            }
+        });
 
         return builder.create();
     }

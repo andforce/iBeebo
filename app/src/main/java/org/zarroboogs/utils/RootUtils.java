@@ -14,8 +14,6 @@ public class RootUtils {
     private static final String TAG = "RootUtils";
 
 
-
-
     public static boolean haveRoot() {
 
         boolean mHaveRoot = false;

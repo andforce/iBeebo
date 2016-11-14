@@ -7,6 +7,7 @@ public interface IWeiboClientListener {
 
     /**
      * Called when a dialog completes. Executed by the thread that initiated the dialog.
+     *
      * @param values Key-value string pairs extracted from the response.
      */
     void onComplete(Bundle values);

@@ -273,8 +273,9 @@ public class OAuthActivity extends AbstractAppActivity {
 
         private WeakReference<OAuthActivity> oAuthActivityWeakReference;
         private boolean taskIsAuthPro;
+
         private OAuthTask(OAuthActivity activity, boolean isAuthPro) {
-        	this.taskIsAuthPro = isAuthPro;
+            this.taskIsAuthPro = isAuthPro;
             oAuthActivityWeakReference = new WeakReference<OAuthActivity>(activity);
         }
 
@@ -291,34 +292,34 @@ public class OAuthActivity extends AbstractAppActivity {
 
         @Override
         protected DBResult doInBackground(String... params) {
-        	OAuthActivity activity = oAuthActivityWeakReference.get();
+            OAuthActivity activity = oAuthActivityWeakReference.get();
             String token = params[0];
             long expiresInSeconds = Long.valueOf(params[1]);
 
             try {
-            	if (taskIsAuthPro) {
-            		
-            		if (activity.mAccountBean != null) {
-            			return AccountDao.updateAccountHackToken(activity.mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
-					}
+                if (taskIsAuthPro) {
+
+                    if (activity.mAccountBean != null) {
+                        return AccountDao.updateAccountHackToken(activity.mAccountBean, token, System.currentTimeMillis() + expiresInSeconds * 1000);
+                    }
                     AccountBean account = BeeboApplication.getInstance().getAccountBean();
                     return AccountDao.updateAccountHackToken(account, token, System.currentTimeMillis() + expiresInSeconds * 1000);
-				}else {
-	                UserBean user = new OAuthDao(token).getOAuthUserInfo();
-	                AccountBean account = new AccountBean();
-	                account.setAccess_token(token);
-	                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
-	                account.setInfo(user);
-	                account.setUname(activity.uName);
-	                account.setPwd(activity.uPassword);
-	                
-	                if (activity.mAccountBean == null) {
-		                activity.mAccountBean = account;
-					}
+                } else {
+                    UserBean user = new OAuthDao(token).getOAuthUserInfo();
+                    AccountBean account = new AccountBean();
+                    account.setAccess_token(token);
+                    account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
+                    account.setInfo(user);
+                    account.setUname(activity.uName);
+                    account.setPwd(activity.uPassword);
 
-	                AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
-	                return AccountDao.addOrUpdateAccount(account, false);
-				}
+                    if (activity.mAccountBean == null) {
+                        activity.mAccountBean = account;
+                    }
+
+                    AppLoggerUtils.e("token expires in " + Utility.calcTokenExpiresInDays(account) + " days");
+                    return AccountDao.addOrUpdateAccount(account, false);
+                }
 
             } catch (WeiboException e) {
                 AppLoggerUtils.e(e.getError());
@@ -366,16 +367,16 @@ public class OAuthActivity extends AbstractAppActivity {
             }
 
             if (taskIsAuthPro) {
-            	activity.setResult(RESULT_OK, activity.mResultIntent);
-              activity.finish();
-			}
-            
+                activity.setResult(RESULT_OK, activity.mResultIntent);
+                activity.finish();
+            }
+
             if (!taskIsAuthPro) {
-            	activity.mIsAuthPro = true;
-    			activity.refresh();
-    			activity.getSupportActionBar().setTitle("进阶授权");
-    		}
-            
+                activity.mIsAuthPro = true;
+                activity.refresh();
+                activity.getSupportActionBar().setTitle("进阶授权");
+            }
+
             activity.updateUNamePassword(activity.uName, activity.uPassword);
 
         }

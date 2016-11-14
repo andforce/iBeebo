@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_web_browser_title" >
+    <PreferenceCategory android:title="@string/pref_web_browser_title">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_internal_web_browser"
             android:summary="@string/pref_web_browser_summary"
-            android:title="@string/pref_enable_internal_web_browser" />
+            android:title="@string/pref_enable_internal_web_browser"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_cache_title" >
+    <PreferenceCategory android:title="@string/pref_cache_title">
         <Preference
             android:key="click_to_clean_cache"
             android:summary="@string/getting_cache_size"
-            android:title="@string/pref_click_to_clean_cache" />
+            android:title="@string/pref_click_to_clean_cache"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_debug_info_key"
-        android:title="@string/pref_black_magic_title" >
+        android:title="@string/pref_black_magic_title">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="filter_sina_ad"
-            android:title="@string/pref_filter_sina_ad" />
+            android:title="@string/pref_filter_sina_ad"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

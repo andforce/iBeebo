@@ -108,27 +108,28 @@ public class MsgDetailReadWorker extends MyAsyncTask<Void, Integer, String> {
     protected void onProgressUpdate(final Integer... values) {
         super.onProgressUpdate(values);
         if (this.getStatus() == Status.RUNNING) {
-        	mHadler.post(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-		            pb.setVisibility(View.VISIBLE);
-		            pb.setIndeterminate(false);
+            mHadler.post(new Runnable() {
 
-		            Integer progress = values[0];
-		            Integer max = values[1];
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    pb.setVisibility(View.VISIBLE);
+                    pb.setIndeterminate(false);
 
-		            pb.setMax(max);
-		            pb.setProgress(progress);
-				}
-			});
+                    Integer progress = values[0];
+                    Integer max = values[1];
+
+                    pb.setMax(max);
+                    pb.setProgress(progress);
+                }
+            });
 
 
         }
     }
 
     Handler mHadler = new Handler(Looper.getMainLooper());
+
     @Override
     protected void onCancelled(String bitmap) {
         pb.setVisibility(View.INVISIBLE);

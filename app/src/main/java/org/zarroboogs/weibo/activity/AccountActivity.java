@@ -95,7 +95,6 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
                 finish();
             }
         });
-        
 
 
         listAdapter = new AccountAdapter();
@@ -125,20 +124,22 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	// TODO Auto-generated method stub
-    	getMenuInflater().inflate(R.menu.actionbar_menu_accountactivity, menu);
-    	return super.onCreateOptionsMenu(menu);
+        // TODO Auto-generated method stub
+        getMenuInflater().inflate(R.menu.actionbar_menu_accountactivity, menu);
+        return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	// TODO Auto-generated method stub
-    	int itemId = item.getItemId();
-		if (itemId == R.id.menu_add_account) {
-			startOAuthActivity(false, null);
-		} else {
-		}
-    	return super.onOptionsItemSelected(item);
+        // TODO Auto-generated method stub
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_add_account) {
+            startOAuthActivity(false, null);
+        } else {
+        }
+        return super.onOptionsItemSelected(item);
     }
+
     public static Intent newIntent() {
         Intent intent = new Intent(BeeboApplication.getInstance(), AccountActivity.class);
         intent.setAction(ACTION_OPEN_FROM_APP_INNER);
@@ -170,8 +171,8 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
             startActivityForResult(intent, ADD_ACCOUNT_REQUEST_CODE);
             return;
         }
-        
-        
+
+
         final ArrayList<Class> activityList = new ArrayList<Class>();
         ArrayList<String> itemValueList = new ArrayList<String>();
 
@@ -199,7 +200,7 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
 
             String content = String.format(getString(R.string.token_expires_in_time), String.valueOf(expiresDays));
             DevLog.printLog("AccountActivity: ", content);
-            if (false){
+            if (false) {
                 Builder builder = new Builder(this).setMessage(content).setPositiveButton(R.string.ok,
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -262,26 +263,27 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         }
     }
 
-    
+
     private AlertDialog mDoorAlertDialog;
+
     private class AccountListItemClickListener implements AdapterView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             final AccountBean selectAccountBean = accountList.get(i);
             String cookie = selectAccountBean.getCookie();
-            
+
             if (TextUtils.isEmpty(selectAccountBean.getAccess_token_hack())) {
-				startOAuthActivity(true, selectAccountBean);
-				return;
-			}
-            
-			if (TextUtils.isEmpty(selectAccountBean.getGsid())) {
-				Intent intent = new Intent(AccountActivity.this, GSIDWebViewActivity.class);
-				intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, selectAccountBean);
-				startActivity(intent);
-				return;
-			}
+                startOAuthActivity(true, selectAccountBean);
+                return;
+            }
+
+            if (TextUtils.isEmpty(selectAccountBean.getGsid())) {
+                Intent intent = new Intent(AccountActivity.this, GSIDWebViewActivity.class);
+                intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, selectAccountBean);
+                startActivity(intent);
+                return;
+            }
 
 
             if (!Utility.isTokenValid(selectAccountBean)) {
@@ -325,11 +327,11 @@ public class AccountActivity extends BaseLoginActivity implements LoaderManager.
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             int itemId = item.getItemId();
-			if (itemId == R.id.menu_remove_account) {
-				remove();
-				mode.finish();
-				return true;
-			}
+            if (itemId == R.id.menu_remove_account) {
+                remove();
+                mode.finish();
+                return true;
+            }
             return false;
         }
 

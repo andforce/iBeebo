@@ -16,11 +16,11 @@ import android.widget.Toast;
 
 public class BeeboAlermManager {
 
-	public static final boolean DEBUG = false;
-	
+    public static final boolean DEBUG = false;
+
     private static final int REQUEST_CODE = 195;
 
-    public static void startAlarm(boolean debug,Context context, boolean silent) {
+    public static void startAlarm(boolean debug, Context context, boolean silent) {
 
         String value = SettingUtils.getFrequency();
 
@@ -35,10 +35,10 @@ public class BeeboAlermManager {
         if (value.equals("3")) {
             time = (1000 * 60 * 5);
         }
-        
+
         if (DEBUG) {
-			time = 1000 * 5;// 5秒
-		}
+            time = 1000 * 5;// 5秒
+        }
 
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, FetchNewMsgService.class);
@@ -48,14 +48,14 @@ public class BeeboAlermManager {
             Toast.makeText(context, context.getString(R.string.start_fetch_msg), Toast.LENGTH_SHORT).show();
         }
     }
-    
+
     public static void keepCookie(Context context, String cookie) {
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, KeepCookieService.class);
         intent.putExtra(KeepCookieService.COOKIE_KEEP, cookie);
         PendingIntent sender = PendingIntent.getService(context, KeepCookieService.KeepCookie, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 0, 1000 * 60 * 10, sender);
-	}
+    }
 
     public static void stopAlarm(Context context, boolean clearNotification) {
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

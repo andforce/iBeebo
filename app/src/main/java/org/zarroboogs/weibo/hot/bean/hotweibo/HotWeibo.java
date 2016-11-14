@@ -1,20 +1,21 @@
 package org.zarroboogs.weibo.hot.bean.hotweibo;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class HotWeibo {
-	
+
     private CardlistInfo cardlistInfo;
     private ArrayList<Cards> cards;
-    
-    
-	public HotWeibo () {
-		
-	}	
-        
-    public HotWeibo (JSONObject json) {
-    
+
+
+    public HotWeibo() {
+
+    }
+
+    public HotWeibo(JSONObject json) {
+
         this.cardlistInfo = new CardlistInfo(json.optJSONObject("cardlistInfo"));
 
         this.cards = new ArrayList<Cards>();
@@ -27,8 +28,7 @@ public class HotWeibo {
                     this.cards.add(new Cards(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("cards");
             if (null != item) {
                 this.cards.add(new Cards(item));
@@ -37,7 +37,7 @@ public class HotWeibo {
 
 
     }
-    
+
     public CardlistInfo getCardlistInfo() {
         return this.cardlistInfo;
     }
@@ -55,5 +55,4 @@ public class HotWeibo {
     }
 
 
-    
 }

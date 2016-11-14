@@ -34,7 +34,7 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
     private WeiboWebViewClient mWeiboWebViewClient;
 
     private AccountBean mAccountBean;
-    
+
     private Toolbar mToolbar;
 
     @Override
@@ -44,20 +44,20 @@ public class WebViewActivity extends SharedPreferenceActivity implements IWeiboC
         setContentView(R.layout.webview_layout);
 
         mToolbar = (Toolbar) findViewById(R.id.webAuthToolbar);
-        
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mWebView.stopLoading();
-				finish();
-			}
-		});
-        
-        
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                mWebView.stopLoading();
+                finish();
+            }
+        });
+
+
         mAccountBean = getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
         if (mAccountBean == null) {
             mAccountBean = BeeboApplication.getInstance().getAccountBean();

@@ -83,16 +83,16 @@ public abstract class AbstractFilterFragment extends ListFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-		if (itemId == R.id.menu_add) {
-			AddFilterDialog dialog = new AddFilterDialog();
-			dialog.setTargetFragment(AbstractFilterFragment.this, 0);
-			dialog.show(getFragmentManager(), "");
-		} else if (itemId == R.id.filter_clear) {
-			ClearFilterDialog clearFilterDialog = new ClearFilterDialog();
-			clearFilterDialog.setTargetFragment(this, 0);
-			clearFilterDialog.show(getFragmentManager(), "");
-			return true;
-		}
+        if (itemId == R.id.menu_add) {
+            AddFilterDialog dialog = new AddFilterDialog();
+            dialog.setTargetFragment(AbstractFilterFragment.this, 0);
+            dialog.show(getFragmentManager(), "");
+        } else if (itemId == R.id.filter_clear) {
+            ClearFilterDialog clearFilterDialog = new ClearFilterDialog();
+            clearFilterDialog.setTargetFragment(this, 0);
+            clearFilterDialog.show(getFragmentManager(), "");
+            return true;
+        }
 
         return true;
     }
@@ -141,12 +141,12 @@ public abstract class AbstractFilterFragment extends ListFragment {
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             int itemId = item.getItemId();
-			if (itemId == R.id.menu_remove) {
-				SparseBooleanArray positions = getListView().getCheckedItemPositions();
-				long[] ids = getListView().getCheckedItemIds();
-				removeItem(positions, ids, mode);
-				return true;
-			}
+            if (itemId == R.id.menu_remove) {
+                SparseBooleanArray positions = getListView().getCheckedItemPositions();
+                long[] ids = getListView().getCheckedItemIds();
+                removeItem(positions, ids, mode);
+                return true;
+            }
             return false;
         }
 

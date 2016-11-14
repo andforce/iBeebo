@@ -122,6 +122,7 @@ public abstract class AppFragmentPagerAdapter extends PagerAdapter {
      * The default implementation returns the given position. Subclasses should override this method
      * if the positions of items can change.
      * </p>
+     *
      * @param position Position within this adapter
      * @return Unique identifier for the item at position
      */

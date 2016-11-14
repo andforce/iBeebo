@@ -14,41 +14,41 @@ public class SharedPreferenceHelper {
     private static Context sContent = BeeboApplication.getAppContext();
     private static SharedPreferences sPreference;
 
-    public SharedPreferences getPreference(){
-        if (sPreference == null){
+    public SharedPreferences getPreference() {
+        if (sPreference == null) {
             sPreference = sContent.getSharedPreferences(sContent.getPackageName(), Context.MODE_PRIVATE);
         }
         return sPreference;
     }
 
-    public boolean commitValue(String key, Object value){
-        if (value instanceof String){
+    public boolean commitValue(String key, Object value) {
+        if (value instanceof String) {
             return getPreference().edit().putString(key, (String) value).commit();
-        }else if (value instanceof Integer){
+        } else if (value instanceof Integer) {
             return getPreference().edit().putInt(key, (Integer) value).commit();
-        } else if(value instanceof Boolean){
-            return getPreference().edit().putBoolean(key, (Boolean)value).commit();
-        } else if (value instanceof Float){
+        } else if (value instanceof Boolean) {
+            return getPreference().edit().putBoolean(key, (Boolean) value).commit();
+        } else if (value instanceof Float) {
             return getPreference().edit().putFloat(key, (Float) value).commit();
-        } else  if (value instanceof Long){
+        } else if (value instanceof Long) {
             return getPreference().edit().putLong(key, (Long) value).commit();
-        } else{
+        } else {
             return getPreference().edit().putStringSet(key, (Set) value).commit();
         }
     }
 
-    public SharedPreferences.Editor putValue(String key, Object value){
-        if (value instanceof String){
+    public SharedPreferences.Editor putValue(String key, Object value) {
+        if (value instanceof String) {
             return getPreference().edit().putString(key, (String) value);
-        }else if (value instanceof Integer){
+        } else if (value instanceof Integer) {
             return getPreference().edit().putInt(key, (Integer) value);
-        } else if(value instanceof Boolean){
-            return getPreference().edit().putBoolean(key, (Boolean)value);
-        } else if (value instanceof Float){
+        } else if (value instanceof Boolean) {
+            return getPreference().edit().putBoolean(key, (Boolean) value);
+        } else if (value instanceof Float) {
             return getPreference().edit().putFloat(key, (Float) value);
-        } else  if (value instanceof Long){
+        } else if (value instanceof Long) {
             return getPreference().edit().putLong(key, (Long) value);
-        } else{
+        } else {
             return getPreference().edit().putStringSet(key, (Set) value);
         }
     }

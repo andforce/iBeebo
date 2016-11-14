@@ -4,7 +4,7 @@ import org.json.*;
 
 
 public class Badge {
-	
+
     private double gongyi;
     private double gongyiLevel;
     private double enterprise;
@@ -18,14 +18,14 @@ public class Badge {
     private double ucDomain;
     private double dailv;
     private double hongbao2015;
-    
-    
-	public Badge () {
-		
-	}	
-        
-    public Badge (JSONObject json) {
-    
+
+
+    public Badge() {
+
+    }
+
+    public Badge(JSONObject json) {
+
         this.gongyi = json.optDouble("gongyi");
         this.gongyiLevel = json.optDouble("gongyi_level");
         this.enterprise = json.optDouble("enterprise");
@@ -41,7 +41,7 @@ public class Badge {
         this.hongbao2015 = json.optDouble("hongbao_2015");
 
     }
-    
+
     public double getGongyi() {
         return this.gongyi;
     }
@@ -147,5 +147,4 @@ public class Badge {
     }
 
 
-    
 }

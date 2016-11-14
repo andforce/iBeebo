@@ -115,7 +115,7 @@ public class BrowserShareTimeLineActivity extends AbstractAppActivity {
         @Override
         protected void onTimeListViewItemClick(AdapterView parent, View view, int position, long id) {
             startActivityForResult(BrowserWeiboMsgActivity.newIntent(BeeboApplication.getInstance().getAccountBean(), getDataList()
-                    .getItemList().get(position),
+                            .getItemList().get(position),
                     BeeboApplication.getInstance().getAccessToken()), 0);
         }
 

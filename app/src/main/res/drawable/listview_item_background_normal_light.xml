@@ -3,13 +3,13 @@
     <corners android:radius="0dp"/>
     <solid android:color="@color/host_background"/>
     <padding
-            android:left="6dp"
-            android:top="3dp"
-            android:right="6dp"
-            android:bottom="3dp"/>
+        android:left="6dp"
+        android:top="3dp"
+        android:right="6dp"
+        android:bottom="3dp"/>
 
     <stroke
-            android:width="10dp"
-            android:color="@color/host_background"/>
+        android:width="10dp"
+        android:color="@color/host_background"/>
 
 </shape>

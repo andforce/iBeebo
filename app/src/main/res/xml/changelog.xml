@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
-        version="v3.2.2" versioncode="43">
+        version="v3.2.2"
+        versioncode="43">
         <change>最低支持到android4.4，不再向下兼容</change>
         <change>添加许多表情支持</change>
         <change>减小Apk体积</change>

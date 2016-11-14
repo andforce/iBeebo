@@ -22,11 +22,8 @@ import java.util.List;
 import java.util.Set;
 
 
-
-
 /**
  * 注册在AndroidManifest中
- *
  */
 public class UnreadMsgReceiver extends BroadcastReceiver {
 
@@ -46,8 +43,8 @@ public class UnreadMsgReceiver extends BroadcastReceiver {
     }
 
     private void showNotification(Context context, AccountBean accountBean, MessageListBean mentionsWeiboData,
-            CommentListBean commentsToMeData,
-            CommentListBean mentionsCommentData, UnreadBean unreadBean) {
+                                  CommentListBean commentsToMeData,
+                                  CommentListBean mentionsCommentData, UnreadBean unreadBean) {
 
         Intent clickNotificationToOpenAppPendingIntentInner = MainTimeLineActivity.unReadIntent(accountBean, mentionsWeiboData,
                 mentionsCommentData,

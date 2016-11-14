@@ -10,7 +10,7 @@ import org.zarroboogs.weibo.R;
 public class WeiboException extends Exception {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1714382823548752204L;
     /**

@@ -4,7 +4,7 @@ import org.json.*;
 
 
 public class PageInfo {
-	
+
     private String pageDesc;
     private String pageId;
     private double actStatus;
@@ -23,14 +23,14 @@ public class PageInfo {
     private String content2;
     private String typeIcon;
     private double oid;
-    
-    
-	public PageInfo () {
-		
-	}	
-        
-    public PageInfo (JSONObject json) {
-    
+
+
+    public PageInfo() {
+
+    }
+
+    public PageInfo(JSONObject json) {
+
         this.pageDesc = json.optString("page_desc");
         this.pageId = json.optString("page_id");
         this.actStatus = json.optDouble("act_status");
@@ -51,7 +51,7 @@ public class PageInfo {
         this.oid = json.optDouble("oid");
 
     }
-    
+
     public String getPageDesc() {
         return this.pageDesc;
     }
@@ -197,5 +197,4 @@ public class PageInfo {
     }
 
 
-    
 }

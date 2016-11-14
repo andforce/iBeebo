@@ -27,7 +27,7 @@ public class MainTimeLineMsgLoader extends AbstractAsyncNetRequestTaskLoader<Mes
 
     private final int MAX_RETRY_COUNT; // 1*50+6*49=344 new messages count
 
-    public MainTimeLineMsgLoader(Context context,String token, String groupId, String sinceId, String maxId) {
+    public MainTimeLineMsgLoader(Context context, String token, String groupId, String sinceId, String maxId) {
         super(context);
         this.token = token;
         this.sinceId = sinceId;

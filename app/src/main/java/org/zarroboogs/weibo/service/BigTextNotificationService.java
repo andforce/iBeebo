@@ -46,9 +46,9 @@ import java.util.HashMap;
 public class BigTextNotificationService extends NotificationServiceHelper {
 
     public static Intent newIntent(AccountBean accountBean, MessageListBean mentionsWeiboData,
-            CommentListBean commentsToMeData,
-            CommentListBean mentionsCommentData, UnreadBean unreadBean, Intent clickNotificationToOpenAppPendingIntentInner,
-            String ticker, int currentIndex) {
+                                   CommentListBean commentsToMeData,
+                                   CommentListBean mentionsCommentData, UnreadBean unreadBean, Intent clickNotificationToOpenAppPendingIntentInner,
+                                   String ticker, int currentIndex) {
 
         Intent intent = new Intent(BeeboApplication.getInstance(), BigTextNotificationService.class);
 
@@ -255,7 +255,7 @@ public class BigTextNotificationService extends NotificationServiceHelper {
         Intent broadcastIntent = new Intent(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
 
         PendingIntent deletedPendingIntent = PendingIntent.getBroadcast(BeeboApplication.getInstance(), accountBean.getUid()
-                .hashCode(), broadcastIntent,
+                        .hashCode(), broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setDeleteIntent(deletedPendingIntent);
 
@@ -303,7 +303,7 @@ public class BigTextNotificationService extends NotificationServiceHelper {
                     mentionsComment, unreadBean,
                     clickToOpenAppPendingIntentInner, ticker, nextIndex);
             PendingIntent retrySendIntent = PendingIntent.getService(BigTextNotificationService.this, accountBean.getUid()
-                    .hashCode(), nextIntent,
+                            .hashCode(), nextIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
             builder.addAction(actionDrawable, actionName, retrySendIntent);
         }
@@ -328,7 +328,7 @@ public class BigTextNotificationService extends NotificationServiceHelper {
     }
 
     private PendingIntent getPendingIntent(Intent clickToOpenAppPendingIntentInner, Parcelable itemBean,
-            AccountBean accountBean) {
+                                           AccountBean accountBean) {
         clickToOpenAppPendingIntentInner.setExtrasClassLoader(getClass().getClassLoader());
 
         UnreadTabIndex unreadTabIndex = UnreadTabIndex.NONE;

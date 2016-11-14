@@ -4,20 +4,20 @@ import org.json.*;
 
 
 public class Icons {
-	
+
     private String url;
-    
-    
-	public Icons () {
-		
-	}	
-        
-    public Icons (JSONObject json) {
-    
+
+
+    public Icons() {
+
+    }
+
+    public Icons(JSONObject json) {
+
         this.url = json.optString("url");
 
     }
-    
+
     public String getUrl() {
         return this.url;
     }
@@ -27,5 +27,4 @@ public class Icons {
     }
 
 
-    
 }

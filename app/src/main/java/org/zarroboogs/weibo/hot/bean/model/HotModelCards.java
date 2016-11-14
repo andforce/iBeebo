@@ -5,7 +5,7 @@ import org.json.*;
 import java.util.ArrayList;
 
 public class HotModelCards {
-	
+
     private String itemid;
     private ArrayList<HotModelCardGroup> card_group;
     private String scheme;
@@ -14,21 +14,21 @@ public class HotModelCards {
     private String title;
     private String buttontitle;
     private String openurl;
-    
-    
-	public HotModelCards () {
-		
-	}	
-        
-	public String getExtparam(){
-		String str = "extparam=";
-		int extparamStart = getScheme().indexOf(str, str.length() + 5);
-		String ext = getScheme().substring(extparamStart + str.length(), extparamStart + str.length() + 5);
-		return ext;
-	}
-	
-    public HotModelCards (JSONObject json) {
-    
+
+
+    public HotModelCards() {
+
+    }
+
+    public String getExtparam() {
+        String str = "extparam=";
+        int extparamStart = getScheme().indexOf(str, str.length() + 5);
+        String ext = getScheme().substring(extparamStart + str.length(), extparamStart + str.length() + 5);
+        return ext;
+    }
+
+    public HotModelCards(JSONObject json) {
+
         this.itemid = json.optString("itemid");
 
         this.card_group = new ArrayList<HotModelCardGroup>();
@@ -41,8 +41,7 @@ public class HotModelCards {
                     this.card_group.add(new HotModelCardGroup(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("card_group");
             if (null != item) {
                 this.card_group.add(new HotModelCardGroup(item));
@@ -57,7 +56,7 @@ public class HotModelCards {
         this.openurl = json.optString("openurl");
 
     }
-    
+
     public String getItemid() {
         return this.itemid;
     }
@@ -65,17 +64,17 @@ public class HotModelCards {
     public void setItemid(String itemid) {
         this.itemid = itemid;
     }
-    
-    
+
+
     public ArrayList<HotModelCardGroup> getCard_group() {
-		return card_group;
-	}
+        return card_group;
+    }
 
-	public void setCard_group(ArrayList<HotModelCardGroup> card_group) {
-		this.card_group = card_group;
-	}
+    public void setCard_group(ArrayList<HotModelCardGroup> card_group) {
+        this.card_group = card_group;
+    }
 
-	public String getScheme() {
+    public String getScheme() {
         return this.scheme;
     }
 
@@ -124,5 +123,4 @@ public class HotModelCards {
     }
 
 
-    
 }

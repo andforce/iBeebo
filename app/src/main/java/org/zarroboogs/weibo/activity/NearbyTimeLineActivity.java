@@ -139,8 +139,8 @@ public class NearbyTimeLineActivity extends AbstractAppActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-		if (itemId == R.id.refresh) {
-		}
+        if (itemId == R.id.refresh) {
+        }
         return super.onOptionsItemSelected(item);
     }
 

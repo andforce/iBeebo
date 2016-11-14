@@ -13,6 +13,7 @@ public class VelocityListView extends AutoScrollListView {
 
     /**
      * A callback to be notified the velocity has changed.
+     *
      * @author Cyril Mottier
      */
     public interface OnVelocityListViewListener {
@@ -99,6 +100,7 @@ public class VelocityListView extends AutoScrollListView {
      * value indicates the ListView is currently being scrolled towards the bottom (i.e items are
      * moving from bottom to top) while a positive value indicates it is currently being scrolled
      * towards the top (i.e. items are moving from top to bottom).
+     *
      * @return An approximative value of the ListView's velocity on the Y-axis
      */
     public int getVelocity() {

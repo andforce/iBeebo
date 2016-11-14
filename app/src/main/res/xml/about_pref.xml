@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_general_title" >
+    <PreferenceCategory android:title="@string/pref_general_title">
         <Preference
             android:key="pref_version_key"
             android:summary="1.0 alpha"
-            android:title="@string/pref_version_title" />
+            android:title="@string/pref_version_title"/>
         <Preference
             android:summary="github.com/andforce/Beebo"
-            android:title="@string/pref_github_title" >
+            android:title="@string/pref_github_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/andforce/Beebo" />
+                android:data="https://github.com/andforce/Beebo"/>
         </Preference>
         <Preference
             android:summary="GPL v3.0"
-            android:title="@string/pref_open_source_license_title" >
+            android:title="@string/pref_open_source_license_title">
             <intent
                 android:targetClass="org.zarroboogs.weibo.setting.activity.LicenseActivity"
-                android:targetPackage="org.zarroboogs.weibo" />
+                android:targetPackage="org.zarroboogs.weibo"/>
         </Preference>
         <Preference
             android:summary="@string/pref_ui_summary"
-            android:title="@string/pref_special_thanks" >
+            android:title="@string/pref_special_thanks">
         </Preference>
         <Preference
             android:summary="@string/pref_special_thanks_summary"
-            android:title="@string/pref_special_thanks" >
+            android:title="@string/pref_special_thanks">
         </Preference>
         <Preference
             android:summary="@string/pref_special_thanks_new_icon"
-            android:title="@string/pref_special_thanks" >
+            android:title="@string/pref_special_thanks">
         </Preference>
 
         <Preference
             android:summary="@string/pref_special_thanks_new_icon_suanshuangde"
-            android:title="@string/pref_special_thanks" >
+            android:title="@string/pref_special_thanks">
         </Preference>
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_storage_title" >
+    <PreferenceCategory android:title="@string/pref_storage_title">
         <Preference
             android:key="pref_cache_path_key"
-            android:title="@string/pref_cache_path_title" >
+            android:title="@string/pref_cache_path_title">
         </Preference>
         <Preference
             android:key="pref_saved_pic_path_key"
-            android:title="@string/pref_saved_pic_path_title" >
+            android:title="@string/pref_saved_pic_path_title">
         </Preference>
         <Preference
             android:key="pref_saved_log_path_key"
-            android:title="@string/pref_saved_log_path_title" >
+            android:title="@string/pref_saved_log_path_title">
         </Preference>
     </PreferenceCategory>
     <!--<PreferenceCategory-->
-        <!--android:key="pref_debug_info_key"-->
-        <!--android:title="@string/pref_debug_title" >-->
-        <!--<Preference-->
-            <!--android:key="pref_mem_key"-->
-            <!--android:title="@string/pref_debug_mem_title" >-->
-        <!--</Preference>-->
-        <!--<Preference-->
-            <!--android:key="pref_crash_key"-->
-            <!--android:summary="@string/pref_make_a_app_crash_summary"-->
-            <!--android:title="@string/pref_make_a_app_crash_title" >-->
-        <!--</Preference>-->
+    <!--android:key="pref_debug_info_key"-->
+    <!--android:title="@string/pref_debug_title" >-->
+    <!--<Preference-->
+    <!--android:key="pref_mem_key"-->
+    <!--android:title="@string/pref_debug_mem_title" >-->
+    <!--</Preference>-->
+    <!--<Preference-->
+    <!--android:key="pref_crash_key"-->
+    <!--android:summary="@string/pref_make_a_app_crash_summary"-->
+    <!--android:title="@string/pref_make_a_app_crash_title" >-->
+    <!--</Preference>-->
     <!--</PreferenceCategory>-->
 
 </PreferenceScreen>

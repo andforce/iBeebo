@@ -45,7 +45,9 @@
         <item name="timeline_gps_icon">@drawable/timeline_gps_dark</item>
         <item name="timeline_pic_icon">@drawable/timeline_pic_dark</item>
         <item name="timeline_load_more_background">@drawable/timeline_load_more_light</item>
-        <item name="listview_item_background_selector">@drawable/listview_item_background_selector_light</item>
+        <item name="listview_item_background_selector">
+            @drawable/listview_item_background_selector_light
+        </item>
         <item name="listview_item_refresh_animation">@drawable/refresh_dark</item>
         <item name="link_color">@color/dark_blue</item>
         <!-- 链接点击背景颜色 -->
@@ -54,7 +56,9 @@
         <item name="listview_checked_color">@color/listview_checked_color_holo_light</item>
         <item name="listview_pic_bg_border">@drawable/bg_timeline_picture_dark</item>
         <item name="timeline_middle_layout_background">@color/black</item>
-        <item name="timeline_middle_layout_text_color">@color/timeline_item_middle_layout_text_color_light</item>
+        <item name="timeline_middle_layout_text_color">
+            @color/timeline_item_middle_layout_text_color_light
+        </item>
         <item name="listview_card_bg">@drawable/time_line_item_bg</item>
         <item name="listview_item_bg">@drawable/listview_item_background_normal_light</item>
         <item name="listview_text_color">@color/timeline_item_text_color_light</item>
@@ -64,9 +68,13 @@
         <item name="profile_detail_count_divider_color">@color/list_divider_color</item>
         <item name="profile_detail_count_bottom_color">@color/list_divider_color</item>
         <item name="browser_weibo_detail_background_color">#fcfcfc</item>
-        <item name="browser_weibo_detail_comments_reposts_category_color_selected">@color/orange</item>
-        <item name="browser_weibo_detail_comments_reposts_category_color_unselected">@color/black</item>
-        <item name="split_line_between_content_and_bottom_button_panel">@drawable/ab_bottom_solid_inverse_holo</item>
+        <item name="browser_weibo_detail_comments_reposts_category_color_selected">@color/orange
+        </item>
+        <item name="browser_weibo_detail_comments_reposts_category_color_unselected">@color/black
+        </item>
+        <item name="split_line_between_content_and_bottom_button_panel">
+            @drawable/ab_bottom_solid_inverse_holo
+        </item>
     </style>
 
     <style name="PrivateThemeHoloLightOnlyForInherit" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -113,7 +121,9 @@
     </style>
 
     <style name="ActionBarDropDownStyle" parent="@android:style/Widget.Holo.Light.Spinner">
-        <item name="android:background">@drawable/actionbar_dropdown_navigation_item_background_light</item>
+        <item name="android:background">
+            @drawable/actionbar_dropdown_navigation_item_background_light
+        </item>
         <item name="android:gravity">center_vertical|left</item>
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:dropDownWidth">200dp</item>

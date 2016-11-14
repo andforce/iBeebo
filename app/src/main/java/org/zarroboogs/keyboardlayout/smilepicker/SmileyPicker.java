@@ -98,7 +98,7 @@ public class SmileyPicker extends LinearLayout {
         addView(view);
     }
 
-    public void setEditText( EditText paramEditText) {
+    public void setEditText(EditText paramEditText) {
         this.mEditText = paramEditText;
 
     }
@@ -114,7 +114,7 @@ public class SmileyPicker extends LinearLayout {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.smileypicker_gridview, container, false);
 
             GridView gridView = (GridView) view.findViewById(R.id.smiley_grid);
@@ -194,7 +194,7 @@ public class SmileyPicker extends LinearLayout {
             if (emotionPosition != SmileyMap.EMOJI_EMOTION_POSITION) {
                 imageView.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.INVISIBLE);
-                    imageView.setImageResource(mSmiles.get(keys.get(position)));
+                imageView.setImageResource(mSmiles.get(keys.get(position)));
             } else {
                 imageView.setVisibility(View.INVISIBLE);
                 textView.setVisibility(View.VISIBLE);
@@ -218,7 +218,6 @@ public class SmileyPicker extends LinearLayout {
                 }
             });
         }
-
 
 
         @Override
@@ -261,13 +260,13 @@ public class SmileyPicker extends LinearLayout {
 
     private void addEmotions(SpannableString value, Map<String, Integer> smiles) {
         Paint.FontMetrics fontMetrics = mEditText.getPaint().getFontMetrics();
-        int size = (int)(fontMetrics.descent-fontMetrics.ascent);
+        int size = (int) (fontMetrics.descent - fontMetrics.ascent);
 
 
         Matcher localMatcher = EMOTION_URL.matcher(value);
         while (localMatcher.find()) {
             String key = localMatcher.group(0);
-            if (smiles.containsKey(key)){
+            if (smiles.containsKey(key)) {
                 int k = localMatcher.start();
                 int m = localMatcher.end();
                 if (m - k < 8) {

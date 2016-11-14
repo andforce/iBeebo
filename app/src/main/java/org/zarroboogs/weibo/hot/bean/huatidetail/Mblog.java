@@ -1,10 +1,11 @@
 package org.zarroboogs.weibo.hot.bean.huatidetail;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class Mblog {
-	
+
     private boolean favorited;
     private double expireTime;
     private PageInfo pageInfo;
@@ -41,14 +42,14 @@ public class Mblog {
     private String inReplyToUserId;
     private ArrayList<UrlStruct> urlStruct;
     private String originalPic;
-    
-    
-	public Mblog () {
-		
-	}	
-        
-    public Mblog (JSONObject json) {
-    
+
+
+    public Mblog() {
+
+    }
+
+    public Mblog(JSONObject json) {
+
         this.favorited = json.optBoolean("favorited");
         this.expireTime = json.optDouble("expire_time");
         this.pageInfo = new PageInfo(json.optJSONObject("page_info"));
@@ -69,8 +70,7 @@ public class Mblog {
                     this.topicStruct.add(new TopicStruct(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("topic_struct");
             if (null != item) {
                 this.topicStruct.add(new TopicStruct(item));
@@ -99,8 +99,7 @@ public class Mblog {
                     this.annotations.add(new Annotations(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("annotations");
             if (null != item) {
                 this.annotations.add(new Annotations(item));
@@ -123,8 +122,7 @@ public class Mblog {
                     this.picIds.add(item);
                 }
             }
-        }
-        else {
+        } else {
             String item = json.optString("pic_ids");
             if (null != item) {
                 this.picIds.add(item);
@@ -145,8 +143,7 @@ public class Mblog {
                     this.darwinTags.add(item);
                 }
             }
-        }
-        else {
+        } else {
             String item = json.optString("darwin_tags");
             if (null != item) {
                 this.darwinTags.add(item);
@@ -166,8 +163,7 @@ public class Mblog {
                     this.urlStruct.add(new UrlStruct(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("url_struct");
             if (null != item) {
                 this.urlStruct.add(new UrlStruct(item));
@@ -177,7 +173,7 @@ public class Mblog {
         this.originalPic = json.optString("original_pic");
 
     }
-    
+
     public boolean getFavorited() {
         return this.favorited;
     }
@@ -467,5 +463,4 @@ public class Mblog {
     }
 
 
-    
 }

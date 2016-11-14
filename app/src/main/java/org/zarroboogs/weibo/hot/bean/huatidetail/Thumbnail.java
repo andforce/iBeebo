@@ -4,20 +4,20 @@ import org.json.*;
 
 
 public class Thumbnail {
-	
+
     private double height;
     private String type;
     private String url;
     private double width;
     private double cutType;
-    
-    
-	public Thumbnail () {
-		
-	}	
-        
-    public Thumbnail (JSONObject json) {
-    
+
+
+    public Thumbnail() {
+
+    }
+
+    public Thumbnail(JSONObject json) {
+
         this.height = json.optDouble("height");
         this.type = json.optString("type");
         this.url = json.optString("url");
@@ -25,7 +25,7 @@ public class Thumbnail {
         this.cutType = json.optDouble("cut_type");
 
     }
-    
+
     public double getHeight() {
         return this.height;
     }
@@ -67,5 +67,4 @@ public class Thumbnail {
     }
 
 
-    
 }

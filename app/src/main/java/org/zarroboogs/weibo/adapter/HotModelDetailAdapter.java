@@ -17,63 +17,64 @@ import android.widget.ImageView;
 
 public class HotModelDetailAdapter extends BaseAdapter {
 
-	private LayoutInflater mInflater;
-	private Context mContext;
-	private List<Pics> mPics = new ArrayList<>();
-	
-	
-	public ArrayList<String> getPicStrings(){
-		ArrayList<String> pics = new ArrayList<String>();
-		for (Pics p : mPics) {
-			pics.add(p.getPic_big());
-		}
-		return pics;
-		
-	}
-	public HotModelDetailAdapter(Context context) {
-		super();
-		// TODO Auto-generated constructor stub
-		mInflater = LayoutInflater.from(context);
-		mContext = context;
+    private LayoutInflater mInflater;
+    private Context mContext;
+    private List<Pics> mPics = new ArrayList<>();
 
-	}
 
-	@Override
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return mPics.size();
-	}
+    public ArrayList<String> getPicStrings() {
+        ArrayList<String> pics = new ArrayList<String>();
+        for (Pics p : mPics) {
+            pics.add(p.getPic_big());
+        }
+        return pics;
 
-	@Override
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return mPics.get(position);
-	}
+    }
 
-	@Override
-	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return position;
-	}
+    public HotModelDetailAdapter(Context context) {
+        super();
+        // TODO Auto-generated constructor stub
+        mInflater = LayoutInflater.from(context);
+        mContext = context;
 
-	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		ViewHolder holder = null;
-		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.hot_model_detail_item_layout, null);
-			holder = buildHolder(convertView);
+    }
 
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
-		
-		String pic = mPics.get(position).getPic_small();
+    @Override
+    public int getCount() {
+        // TODO Auto-generated method stub
+        return mPics.size();
+    }
 
-		ImageLoader.load(mContext, pic, holder.modelDetail);
-		return convertView;
-	}
+    @Override
+    public Object getItem(int position) {
+        // TODO Auto-generated method stub
+        return mPics.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        // TODO Auto-generated method stub
+        return position;
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        // TODO Auto-generated method stub
+        ViewHolder holder = null;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.hot_model_detail_item_layout, null);
+            holder = buildHolder(convertView);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        String pic = mPics.get(position).getPic_small();
+
+        ImageLoader.load(mContext, pic, holder.modelDetail);
+        return convertView;
+    }
 
 
     public static class ViewHolder {
@@ -86,8 +87,7 @@ public class HotModelDetailAdapter extends BaseAdapter {
         return holder;
     }
 
-    
-    
+
     public void addNewData(List<Pics> newValue) {
 
         if (newValue == null || newValue.size() == 0) {

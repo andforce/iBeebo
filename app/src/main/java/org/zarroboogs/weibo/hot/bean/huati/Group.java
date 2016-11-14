@@ -4,26 +4,26 @@ import org.json.*;
 
 
 public class Group {
-	
+
     private String titleSub;
     private String pic;
     private String newflag;
     private String scheme;
-    
-    
-	public Group () {
-		
-	}	
-        
-    public Group (JSONObject json) {
-    
+
+
+    public Group() {
+
+    }
+
+    public Group(JSONObject json) {
+
         this.titleSub = json.optString("title_sub");
         this.pic = json.optString("pic");
         this.newflag = json.optString("newflag");
         this.scheme = json.optString("scheme");
 
     }
-    
+
     public String getTitleSub() {
         return this.titleSub;
     }
@@ -57,5 +57,4 @@ public class Group {
     }
 
 
-    
 }

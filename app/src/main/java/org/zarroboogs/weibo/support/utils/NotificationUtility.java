@@ -39,7 +39,7 @@ public class NotificationUtility {
 
     @Deprecated
     public static String getTicker(UnreadBean unreadBean, MessageListBean mentionsWeibo, CommentListBean mentionsComment,
-            CommentListBean commentsToMe) {
+                                   CommentListBean commentsToMe) {
         int unreadMentionCmt = unreadBean.getMention_cmt();
         int unreadMentionStatus = unreadBean.getMention_status();
         int mention = 0;

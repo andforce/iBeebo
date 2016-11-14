@@ -16,6 +16,7 @@ public class AppLoggerUtils {
 
     /**
      * Send a VERBOSE log message.
+     *
      * @param msg The message you would like logged.
      */
     public static void v(String msg) {
@@ -25,6 +26,7 @@ public class AppLoggerUtils {
 
     /**
      * Send a VERBOSE log message and log the exception.
+     *
      * @param msg The message you would like logged.
      * @param thr An exception to log
      */
@@ -35,6 +37,7 @@ public class AppLoggerUtils {
 
     /**
      * Send a DEBUG log message.
+     *
      * @param msg
      */
     public static void d(String msg) {
@@ -44,6 +47,7 @@ public class AppLoggerUtils {
 
     /**
      * Send a DEBUG log message and log the exception.
+     *
      * @param msg The message you would like logged.
      * @param thr An exception to log
      */
@@ -54,6 +58,7 @@ public class AppLoggerUtils {
 
     /**
      * Send an INFO log message.
+     *
      * @param msg The message you would like logged.
      */
     public static void i(String msg) {
@@ -63,6 +68,7 @@ public class AppLoggerUtils {
 
     /**
      * Send a INFO log message and log the exception.
+     *
      * @param msg The message you would like logged.
      * @param thr An exception to log
      */
@@ -73,6 +79,7 @@ public class AppLoggerUtils {
 
     /**
      * Send an ERROR log message.
+     *
      * @param msg The message you would like logged.
      */
     public static void e(String msg) {
@@ -82,6 +89,7 @@ public class AppLoggerUtils {
 
     /**
      * Send a WARN log message
+     *
      * @param msg The message you would like logged.
      */
     public static void w(String msg) {
@@ -91,6 +99,7 @@ public class AppLoggerUtils {
 
     /**
      * Send a WARN log message and log the exception.
+     *
      * @param msg The message you would like logged.
      * @param thr An exception to log
      */
@@ -101,6 +110,7 @@ public class AppLoggerUtils {
 
     /**
      * Send an empty WARN log message and log the exception.
+     *
      * @param thr An exception to log
      */
     public static void w(Throwable thr) {
@@ -110,6 +120,7 @@ public class AppLoggerUtils {
 
     /**
      * Send an ERROR log message and log the exception.
+     *
      * @param msg The message you would like logged.
      * @param thr An exception to log
      */
@@ -120,6 +131,7 @@ public class AppLoggerUtils {
 
     /**
      * Building Message
+     *
      * @param msg The message you would like logged.
      * @return Message String
      */

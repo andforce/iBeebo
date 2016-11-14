@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -18,24 +18,24 @@
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
 
             <org.zarroboogs.weibo.widget.BlurImageView
                 android:id="@+id/blur"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
 
             <org.zarroboogs.weibo.widget.LinearGradientCoverImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/transparent" />
+                android:src="@color/transparent"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
         </FrameLayout>
 
@@ -53,7 +53,7 @@
                 android:layout_marginRight="1dp"
                 android:paddingTop="15dp"
                 android:src="@drawable/ic_profile_info_viewpager_point"
-                android:visibility="visible" />
+                android:visibility="visible"/>
 
             <ImageView
                 android:id="@+id/center_point"
@@ -63,7 +63,7 @@
                 android:layout_marginRight="1dp"
                 android:paddingTop="15dp"
                 android:src="@drawable/ic_profile_info_viewpager_point"
-                android:visibility="visible" />
+                android:visibility="visible"/>
 
             <ImageView
                 android:id="@+id/right_point"
@@ -72,7 +72,7 @@
                 android:layout_marginLeft="1dp"
                 android:paddingTop="15dp"
                 android:src="@drawable/ic_profile_info_viewpager_point"
-                android:visibility="visible" />
+                android:visibility="visible"/>
         </LinearLayout>
 
     </FrameLayout>
@@ -100,13 +100,13 @@
                 style="@style/profileStatValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="0"/>
 
             <TextView
                 style="@style/profileStatName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/weibo_number" />
+                android:text="@string/weibo_number"/>
 
 
         </LinearLayout>
@@ -128,13 +128,13 @@
                 style="@style/profileStatValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="0"/>
 
             <TextView
                 style="@style/profileStatName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/following_number" />
+                android:text="@string/following_number"/>
 
 
         </LinearLayout>
@@ -156,13 +156,13 @@
                 style="@style/profileStatValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="0"/>
 
             <TextView
                 style="@style/profileStatName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fan_number" />
+                android:text="@string/fan_number"/>
 
 
         </LinearLayout>
@@ -185,13 +185,13 @@
                 style="@style/profileStatValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="0"/>
 
             <TextView
                 style="@style/profileStatName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/topic_number" />
+                android:text="@string/topic_number"/>
 
         </LinearLayout>
 
@@ -200,5 +200,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?profile_detail_count_bottom_color" />
+        android:background="?profile_detail_count_bottom_color"/>
 </LinearLayout>

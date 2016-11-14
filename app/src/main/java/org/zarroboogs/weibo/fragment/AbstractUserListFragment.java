@@ -87,7 +87,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
         // mToolbar = (Toolbar) view.findViewById(R.id.baseToolBar);
 
         empty = (TextView) view.findViewById(R.id.empty);
-        mSwipeRefreshLayout = ViewUtility.findViewById(view,R.id.userListSRL);
+        mSwipeRefreshLayout = ViewUtility.findViewById(view, R.id.userListSRL);
         mSwipeRefreshLayout.setOnlyPullRefersh();
 
         mSwipeRefreshLayout.setEnableSount(SettingUtils.getEnableSound());
@@ -288,7 +288,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
                 return;
             }
             getListView().clearChoices();
-            if (position< getList().getUsers().size()) {
+            if (position < getList().getUsers().size()) {
 
                 listViewItemClick(parent, view, position, id);
             } else {
@@ -370,7 +370,7 @@ public abstract class AbstractUserListFragment extends BaseStateFragment {
 
         @Override
         public void onLoadFinished(Loader<AsyncTaskLoaderResult<UserListBean>> loader,
-                AsyncTaskLoaderResult<UserListBean> result) {
+                                   AsyncTaskLoaderResult<UserListBean> result) {
 
             UserListBean data = result != null ? result.data : null;
             WeiboException exception = result != null ? result.exception : null;

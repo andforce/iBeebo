@@ -24,32 +24,32 @@ public class NotifyViewPagerFragment extends ViewPagerFragment {
         return fragment;
     }
 
-	@Override
-	public ArrayList<ChildPage> buildChildPage() {
-		// TODO Auto-generated method stub
-		ArrayList<ChildPage> sparseArray = new ArrayList<ChildPage>();
-		
-		Resources re = getActivity().getResources();
+    @Override
+    public ArrayList<ChildPage> buildChildPage() {
+        // TODO Auto-generated method stub
+        ArrayList<ChildPage> sparseArray = new ArrayList<ChildPage>();
+
+        Resources re = getActivity().getResources();
 
         sparseArray.add(new ChildPage(
                 re.getString(R.string.all_people_send_to_me), getCommentsToMeTimeLineFragment()));
 
-		sparseArray.add(new ChildPage(
-				re.getString(R.string.mentions_weibo),getMentionsWeiboTimeLineFragment()));
-		
-		sparseArray.add(new ChildPage(
-				re.getString(R.string.mentions_to_me), getMentionsCommentTimeLineFragment()));
-        
+        sparseArray.add(new ChildPage(
+                re.getString(R.string.mentions_weibo), getMentionsWeiboTimeLineFragment()));
 
-		sparseArray.add( new ChildPage(
-				re.getString(R.string.private_message), getDMFragment()));
-		
+        sparseArray.add(new ChildPage(
+                re.getString(R.string.mentions_to_me), getMentionsCommentTimeLineFragment()));
+
+
+        sparseArray.add(new ChildPage(
+                re.getString(R.string.private_message), getDMFragment()));
+
 //		sparseArray.append(AtMeTimeLineFragment.COMMENT_BY_ME,new ChildPage(
 //				getActivity().getResources().getString(R.string.my_comment), getCommentsByMeTimeLineFragment()));
-        
-		return sparseArray;
-	}
-    
+
+        return sparseArray;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -107,7 +107,7 @@ public class NotifyViewPagerFragment extends ViewPagerFragment {
         }
         return fragment;
     }
-    
+
     public CommentsByMeTimeLineFragment getCommentsByMeTimeLineFragment() {
         CommentsByMeTimeLineFragment fragment = ((CommentsByMeTimeLineFragment) getChildFragmentManager().findFragmentByTag(
                 CommentsByMeTimeLineFragment.class.getName()));
@@ -117,13 +117,13 @@ public class NotifyViewPagerFragment extends ViewPagerFragment {
         }
         return fragment;
     }
-    
 
-	@Override
-	public void onViewPageSelected(int id) {
-		// TODO Auto-generated method stub
-		
-	}
+
+    @Override
+    public void onViewPageSelected(int id) {
+        // TODO Auto-generated method stub
+
+    }
 
 //	public void scrollToTop(){
 //		AbsBaseTimeLineFragment<?> abf = (AbsBaseTimeLineFragment<?>) getCurrentFargment();

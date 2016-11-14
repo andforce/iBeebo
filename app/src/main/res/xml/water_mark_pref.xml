@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="water_mark_enable"
         android:summary="控制开关水印"
-        android:title="水印总开关" />
+        android:title="水印总开关"/>
 
-    <PreferenceCategory 
-        android:title="水印" >
+    <PreferenceCategory
+        android:title="水印">
         <CheckBoxPreference
             android:defaultValue="true"
             android:dependency="water_mark_enable"
             android:key="water_mark_screen_name"
             android:summary="是否显示微博昵称"
-            android:title="微博昵称" />
+            android:title="微博昵称"/>
         <CheckBoxPreference
             android:dependency="water_mark_enable"
             android:defaultValue="true"
             android:key="water_mark_weibo_icon"
             android:summary="是否显示微博图标"
-            android:title="微博图标" />
+            android:title="微博图标"/>
         <CheckBoxPreference
             android:dependency="water_mark_enable"
             android:defaultValue="true"
             android:key="water_mark_weibo_url"
             android:summary="是否显示微博地址"
-            android:title="微博地址" />
+            android:title="微博地址"/>
 
         <ListPreference
             android:dependency="water_mark_enable"
@@ -35,7 +35,7 @@
             android:entries="@array/water_mark_pos_array"
             android:entryValues="@array/water_mark_pos_value"
             android:key="water_mark_pos"
-            android:title="水印位置" />
+            android:title="水印位置"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

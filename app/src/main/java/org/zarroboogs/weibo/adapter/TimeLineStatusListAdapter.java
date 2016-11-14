@@ -423,7 +423,7 @@ public class TimeLineStatusListAdapter extends BaseAdapter {
             public void onSuccess(AsyncHttpResponse response) {
 
                 Like like = new Gson().fromJson(response.getBody(), Like.class);
-                if (like.getOk() == 1 && like.getMsg().equals("succ")){
+                if (like.getOk() == 1 && like.getMsg().equals("succ")) {
                     Toast.makeText(getActivity(), "点赞成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT).show();

@@ -39,7 +39,7 @@ public class UserTopicListActivity extends AbstractAppActivity {
             }
             getFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
         }
-        
+
         disPlayHomeAsUp(R.id.userTopicListToolbar);
     }
 

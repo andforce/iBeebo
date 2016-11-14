@@ -1,23 +1,24 @@
 package org.zarroboogs.weibo.hot.bean.model;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class HotModelCardGroup {
-	
+
     private ArrayList<Pics> pics;
     private String openurl;
     private double cols;
     private double cardType;
     private String itemid;
-    
-    
-	public HotModelCardGroup () {
-		
-	}	
-        
-    public HotModelCardGroup (JSONObject json) {
-    
+
+
+    public HotModelCardGroup() {
+
+    }
+
+    public HotModelCardGroup(JSONObject json) {
+
 
         this.pics = new ArrayList<Pics>();
         JSONArray arrayPics = json.optJSONArray("pics");
@@ -29,8 +30,7 @@ public class HotModelCardGroup {
                     this.pics.add(new Pics(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("pics");
             if (null != item) {
                 this.pics.add(new Pics(item));
@@ -43,7 +43,7 @@ public class HotModelCardGroup {
         this.itemid = json.optString("itemid");
 
     }
-    
+
     public ArrayList<Pics> getPics() {
         return this.pics;
     }
@@ -85,5 +85,4 @@ public class HotModelCardGroup {
     }
 
 
-    
 }

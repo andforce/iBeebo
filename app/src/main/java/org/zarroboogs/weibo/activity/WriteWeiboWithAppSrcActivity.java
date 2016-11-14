@@ -52,7 +52,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements LoginWeiboCallack, OnClickListener,
-         OnItemClickListener, OnSharedPreferenceChangeListener {
+        OnItemClickListener, OnSharedPreferenceChangeListener {
 
     public static final int AT_USER = 0x1000;
 
@@ -81,10 +81,10 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     private KeyboardRelativeLayout keyboardLayout;
 
     private RelativeLayout mContentRelativeLayout;
-    
+
     public static Intent startBecauseSendFailed(Context context, AccountBean accountBean, String content, String picPath,
-            GeoBean geoBean,
-            StatusDraftBean statusDraftBean, String failedReason) {
+                                                GeoBean geoBean,
+                                                StatusDraftBean statusDraftBean, String failedReason) {
         Intent intent = new Intent(context, WriteWeiboWithAppSrcActivity.class);
         intent.setAction(ACTION_SEND_FAILED);
         intent.putExtra(Constants.ACCOUNT, accountBean);
@@ -95,8 +95,8 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         intent.putExtra("statusDraftBean", statusDraftBean);
         return intent;
     }
-    
-    
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,14 +125,13 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
                 if (isSmileClicked) {
                     mNinePicGridView.setVisibility(View.GONE);
                     showViewWithAnim(mSmileyPicker);
-                }else {
+                } else {
                     mNinePicGridView.setVisibility(View.VISIBLE);
                 }
 
 
             }
         });
-
 
 
         // drawerLayout
@@ -147,7 +146,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         mContentRelativeLayout = ViewUtility.findViewById(this, R.id.contentRelativeLayout);
 
         weiTextCountTV = (TextView) findViewById(R.id.weiTextCountTV);
-        
+
         mNinePicAdapter = new NinePicGriViewAdapter(getApplicationContext());
         mNinePicGridView = (GridView) findViewById(R.id.ninePicGridView);
         mNinePicGridView.setAdapter(mNinePicAdapter);
@@ -166,11 +165,11 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         });
 
 
-         ImageButton mSelectPhoto;
-         ImageButton mSendBtn;
-         ImageButton smileButton;
-         ImageButton mTopicBtn;
-         ImageButton mAtButton;
+        ImageButton mSelectPhoto;
+        ImageButton mSendBtn;
+        ImageButton smileButton;
+        ImageButton mTopicBtn;
+        ImageButton mAtButton;
 
         mSelectPhoto = (ImageButton) findViewById(R.id.imageButton1);
         mEditText = (com.rengwuxian.materialedittext.MaterialEditText) findViewById(R.id.weiboContentET);
@@ -197,7 +196,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
 
                 if (keyboardLayout.getKeyBoardHelper().isKeyboardShow()) {
 
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mContentRelativeLayout.getLayoutParams();
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mContentRelativeLayout.getLayoutParams();
                     params.height = mContentRelativeLayout.getHeight();
                     mContentRelativeLayout.requestLayout();
 
@@ -217,20 +216,19 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         }
 
 
-
         Intent intent = getIntent();
         if (ACTION_SEND_FAILED.equals(intent.getAction())) {
-        	mEditText.setText(intent.getStringExtra("content"));
-        	String picUrl = intent.getStringExtra("picPath");
-        	if (!TextUtils.isEmpty(picUrl)) {
-        		SendImgData.getInstance().clearSendImgs();
-        		
-        		SendImgData.getInstance().addSendImg(picUrl);
-				refreshNineGridView();
-			}
-        	
-        	mAccountBean = intent.getParcelableExtra(Constants.ACCOUNT);
-		}
+            mEditText.setText(intent.getStringExtra("content"));
+            String picUrl = intent.getStringExtra("picPath");
+            if (!TextUtils.isEmpty(picUrl)) {
+                SendImgData.getInstance().clearSendImgs();
+
+                SendImgData.getInstance().addSendImg(picUrl);
+                refreshNineGridView();
+            }
+
+            mAccountBean = intent.getParcelableExtra(Constants.ACCOUNT);
+        }
 
     }
 
@@ -284,7 +282,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     protected void onDestroy() {
         super.onDestroy();
         getSPs().unregisterOnSharedPreferenceChangeListener(this);
-        
+
         SendImgData.getInstance().clearSendImgs();
     }
 
@@ -305,9 +303,9 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         }
     }
 
-	private void refreshNineGridView() { 
-		mNinePicAdapter.notifyDataSetChanged();
-	}
+    private void refreshNineGridView() {
+        mNinePicAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onBackPressed() {
@@ -319,9 +317,9 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         }
     }
 
-    private void removeViewWithAnim(View view){
-        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 1);
+    private void removeViewWithAnim(View view) {
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1);
         animation.setDuration(200);
         animation.setFillAfter(true);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -348,6 +346,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         view.startAnimation(animation);
 
     }
+
     @Override
     public void onLonginWeiboCallback(boolean isSuccess) {
         if (!isSuccess) {
@@ -356,24 +355,24 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     }
 
 
-
-	private String getWeiboTextContent() {
-		String text = mEditText.getEditableText().toString();
+    private String getWeiboTextContent() {
+        String text = mEditText.getEditableText().toString();
         if (TextUtils.isEmpty(text)) {
             text = getString(R.string.default_text_pic_weibo);
         }
-		return text;
-	}
+        return text;
+    }
 
     private boolean checkDataEmpty() {
         return TextUtils.isEmpty(mEditText.getText().toString()) && SendImgData.getInstance().getSendImgs().size() < 1;
     }
 
-    public boolean isMoreThan140(){
+    public boolean isMoreThan140() {
         String charSequence = mEditText.getText().toString();
         int count = Utility.length(charSequence);
         return count > 140;
     }
+
     protected void insertTopic() {
         int currentCursor = mEditText.getSelectionStart();
         Editable editable = mEditText.getText();
@@ -384,48 +383,48 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
     @Override
     public void onClick(View v) {
         int id = v.getId();
-		if (id == R.id.menu_topic) {
-			insertTopic();
-		} else if (id == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
-			startActivityForResult(intent, AT_USER);
-		} else if (id == R.id.sendWeiBoBtn) {
-			if (isMoreThan140()) {
-				Toast.makeText(getApplicationContext(), R.string.weibo_text_large_error, Toast.LENGTH_SHORT).show();
-				return;
-			}
-			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-			    if (checkDataEmpty()) {
-			        mEmptyToast.show();
-			    } else {
-			    	
-		    		ArrayList<String> send = SendImgData.getInstance().getSendImgs(); 
-		    		
-		    		if (send.size() > 1) {
-						Intent intent = new Intent(getApplicationContext(), SendWithAppSrcServices.class);
-						intent.putExtra(SendWithAppSrcServices.APP_SRC, getWeiba());
-						intent.putExtra(SendWithAppSrcServices.TEXT_CONTENT, getWeiboTextContent());
-						startService(intent);
-						finish();
-					}else {
-			    		String charSequence = getWeiboTextContent();
-			    		if (send.size() > 0) {
-			    			executeTask(charSequence,send.get(0));
-						}else {
-							executeTask(charSequence,null);
-						}
-					}
-			    }
-			} else {
-			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-			}
-		} else if (id == R.id.smileImgButton) {
-			imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-		} else if (id == R.id.imageButton1) {
-			Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
-			startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
-		} 
-		
+        if (id == R.id.menu_topic) {
+            insertTopic();
+        } else if (id == R.id.menu_at) {
+            Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccessTokenHack());
+            startActivityForResult(intent, AT_USER);
+        } else if (id == R.id.sendWeiBoBtn) {
+            if (isMoreThan140()) {
+                Toast.makeText(getApplicationContext(), R.string.weibo_text_large_error, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+                if (checkDataEmpty()) {
+                    mEmptyToast.show();
+                } else {
+
+                    ArrayList<String> send = SendImgData.getInstance().getSendImgs();
+
+                    if (send.size() > 1) {
+                        Intent intent = new Intent(getApplicationContext(), SendWithAppSrcServices.class);
+                        intent.putExtra(SendWithAppSrcServices.APP_SRC, getWeiba());
+                        intent.putExtra(SendWithAppSrcServices.TEXT_CONTENT, getWeiboTextContent());
+                        startService(intent);
+                        finish();
+                    } else {
+                        String charSequence = getWeiboTextContent();
+                        if (send.size() > 0) {
+                            executeTask(charSequence, send.get(0));
+                        } else {
+                            executeTask(charSequence, null);
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+            }
+        } else if (id == R.id.smileImgButton) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+        } else if (id == R.id.imageButton1) {
+            Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
+            startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
+        }
+
     }
 
     protected void executeTask(String contentString, String picPath) {
@@ -433,7 +432,7 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         intent.putExtra(Constants.TOKEN, mAccountBean.getAccess_token());
         if (picPath != null) {
             intent.putExtra("picPath", picPath);
-		}
+        }
         intent.putExtra(Constants.ACCOUNT, mAccountBean);
         intent.putExtra("content", contentString);
 //        intent.putExtra("geo", null);
@@ -441,7 +440,6 @@ public class WriteWeiboWithAppSrcActivity extends BaseLoginActivity implements L
         startService(intent);
         finish();
     }
-    
 
 
     @Override

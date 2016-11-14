@@ -11,17 +11,17 @@ import android.support.v7.widget.Toolbar;
 public class HotHuaTiActivity extends ToolBarAppCompatActivity {
 
     private Toolbar mToolbar;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	// TODO Auto-generated method stub
-    	super.onCreate(savedInstanceState);
-    	 setContentView(R.layout.hot_huati_activity_layout);
-         mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
-         
-         buildContent();
-         
-         disPlayHomeAsUp(mToolbar);
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.hot_huati_activity_layout);
+        mToolbar = (Toolbar) findViewById(R.id.hotWeiboToolbar);
+
+        buildContent();
+
+        disPlayHomeAsUp(mToolbar);
     }
 
     private void buildContent() {
@@ -30,7 +30,7 @@ public class HotHuaTiActivity extends ToolBarAppCompatActivity {
             public void run() {
                 if (getSupportFragmentManager().findFragmentByTag(HotHuaTiViewPagerFragment.class.getName()) == null) {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.hotWeiboContent, new HotHuaTiViewPagerFragment(),HotHuaTiViewPagerFragment.class.getName())
+                            .replace(R.id.hotWeiboContent, new HotHuaTiViewPagerFragment(), HotHuaTiViewPagerFragment.class.getName())
                             .commitAllowingStateLoss();
                     getSupportFragmentManager().executePendingTransactions();
                 }

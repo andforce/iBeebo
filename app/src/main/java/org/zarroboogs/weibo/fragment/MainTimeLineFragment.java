@@ -409,7 +409,7 @@ public class MainTimeLineFragment extends AbsTimeLineFragment<MessageListBean> i
         bilateral.setIdstr("1");
         bilateral.setName(getString(R.string.bilateral));
         bilateral.setMember_count(0);
-        name.add( bilateral);
+        name.add(bilateral);
 
 
         name.addAll(list);

@@ -4,20 +4,20 @@ import org.json.*;
 
 
 public class MediaInfo {
-	
+
     private String h5Url;
     private String streamUrl;
     private String name;
     private String streamUrlHd;
     private double duration;
-    
-    
-	public MediaInfo () {
-		
-	}	
-        
-    public MediaInfo (JSONObject json) {
-    
+
+
+    public MediaInfo() {
+
+    }
+
+    public MediaInfo(JSONObject json) {
+
         this.h5Url = json.optString("h5_url");
         this.streamUrl = json.optString("stream_url");
         this.name = json.optString("name");
@@ -25,7 +25,7 @@ public class MediaInfo {
         this.duration = json.optDouble("duration");
 
     }
-    
+
     public String getH5Url() {
         return this.h5Url;
     }
@@ -67,5 +67,4 @@ public class MediaInfo {
     }
 
 
-    
 }

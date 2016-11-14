@@ -1,7 +1,6 @@
 package org.zarroboogs.weibo.widget.galleryview;
 
 
-
 import java.io.File;
 import java.util.List;
 
@@ -46,12 +45,12 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
 
     private List<String> mNinePics;
 
-    
+
     public static final String IMG_LIST = "img_list";
     public static final String IMG_ID = "img_id";
 
     private Toolbar mToolbar;
-    
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -63,10 +62,10 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
         setContentView(R.layout.weibo_single_gallery_activity);
 
         mToolbar = (Toolbar) findViewById(R.id.selectImgBar);
-        
+
         mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-" + (mPicId + 1));
-        
-        
+
+
         mViewPager = (ViewPager) findViewById(R.id.weibo_nine_pic_gallery);
 
         mPhotoViewAdapter = new WeiboGalleryPhotoViewAdapter(getApplicationContext(), mViewPager);
@@ -80,32 +79,34 @@ public class ViewPagerActivity extends AbstractViewPagerActivity implements OnVi
             mPhotoViewAdapter.setNinePics(mNinePics);
             addGalleryViewActionBar(mPhotoViewAdapter);
         }
-        
+
         disPlayHomeAsUp(mToolbar);
-        
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	// TODO Auto-generated method stub
-		if(item.getItemId() == R.id.delete_image){
-			if (mNinePics != null && !mNinePics.isEmpty()) {
-				SendImgData.getInstance().removeSendImg(mNinePics.remove(mViewPager.getCurrentItem()));
-					mPhotoViewAdapter.setNinePics(mNinePics);
-					mPhotoViewAdapter.notifyDataSetChanged();
-			}
-			if (mNinePics != null && mNinePics.isEmpty()) {
-				mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-0");
-			}
-		}
-    	return super.onOptionsItemSelected(item);
+        // TODO Auto-generated method stub
+        if (item.getItemId() == R.id.delete_image) {
+            if (mNinePics != null && !mNinePics.isEmpty()) {
+                SendImgData.getInstance().removeSendImg(mNinePics.remove(mViewPager.getCurrentItem()));
+                mPhotoViewAdapter.setNinePics(mNinePics);
+                mPhotoViewAdapter.notifyDataSetChanged();
+            }
+            if (mNinePics != null && mNinePics.isEmpty()) {
+                mToolbar.setTitle(getResources().getString(R.string.pref_pic_category_title) + "-0");
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	// TODO Auto-generated method stub
-    	getMenuInflater().inflate(R.menu.select_image_action_menu, menu);
-    	return super.onCreateOptionsMenu(menu);
+        // TODO Auto-generated method stub
+        getMenuInflater().inflate(R.menu.select_image_action_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub

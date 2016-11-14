@@ -141,10 +141,10 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
     private AtomicInteger finishedWatcher;
 
     private TimeLinePosition position;
-    
+
     private Toolbar mUserToolbar;
 
-    public static UserInfoFragment newInstance(Toolbar toolbar,UserBean userBean, String token) {
+    public static UserInfoFragment newInstance(Toolbar toolbar, UserBean userBean, String token) {
         UserInfoFragment fragment = new UserInfoFragment(userBean, token, toolbar);
         fragment.setArguments(new Bundle());
         return fragment;
@@ -274,19 +274,19 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
         return result;
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
         super.onCreateOptionsMenu(menu, inflater);
 
-    	if (TextUtils.equals(userBean.getId(),BeeboApplication.getInstance().getAccountBean().getUid())) {
-    		inflater.inflate(R.menu.actionbar_menu_newuserinfofragment_main_page, menu);
+        if (TextUtils.equals(userBean.getId(), BeeboApplication.getInstance().getAccountBean().getUid())) {
+            inflater.inflate(R.menu.actionbar_menu_newuserinfofragment_main_page, menu);
             MenuItem edit = menu.findItem(R.id.menu_edit);
             edit.setVisible(false);
             editMyProFile(menu);
-		}else {
-			inflater.inflate(R.menu.actionbar_menu_infofragment, menu);
+        } else {
+            inflater.inflate(R.menu.actionbar_menu_infofragment, menu);
             if (userBean.isFollowing()) {
                 menu.findItem(R.id.menu_follow).setVisible(false);
                 menu.findItem(R.id.menu_unfollow).setVisible(true);
@@ -302,7 +302,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
             } else {
                 menu.findItem(R.id.menu_remove_fan).setVisible(false);
             }
-		}
+        }
 
     }
 
@@ -485,8 +485,8 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         final int width = Utility.getMaxLeftWidthOrHeightImageViewCanRead(height);
         String picPath = userBean.getCover_image();
         if (TextUtils.isEmpty(picPath)) {
-			picPath = "http://img.t.sinajs.cn/t5/skin/public/profile_cover/062.jpg";
-		}
+            picPath = "http://img.t.sinajs.cn/t5/skin/public/profile_cover/062.jpg";
+        }
         blur.setAlpha(0f);
         blur.setOriImageUrl(picPath);
         ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>();
@@ -539,7 +539,7 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
 
     @SuppressLint("ValidFragment")
     public UserInfoFragment(UserBean userBean, String token, Toolbar toolbar) {
-    	this.mUserToolbar = toolbar;
+        this.mUserToolbar = toolbar;
         this.userBean = userBean;
         this.token = token;
     }
@@ -579,35 +579,35 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         }
 
         super.onActivityCreated(savedInstanceState);
-        
-    }
-    
-	public boolean editMyFileOnItemClick() {
-		if (isMyself() && isOpenedFromMainPage()) {
-		    Intent intent = new Intent(getActivity(), EditMyProfileActivity.class);
-		    intent.putExtra(Constants.USERBEAN, BeeboApplication.getInstance().getAccountBean().getInfo());
-		    startActivity(intent);
-		    return true;
-		} else {
-		    return false;
-		}
-	}
-	
-	public void refreshMyProFile() {
-		startRefreshMenuAnimation();
-		finishedWatcher = new AtomicInteger(3);
-		fetchLastestUserInfoFromServer();
-		fetchTopicInfoFromServer();
-		loadNewMsg();
-	}
-	
 
-	public void editMyProFile(Menu menu) {
-		MenuItem edit = menu.findItem(R.id.menu_edit);
-		edit.setVisible(BeeboApplication.getInstance().getAccountBean().isBlack_magic());
-		refreshItem = menu.findItem(R.id.menu_refresh_my_profile);
-	}
-    
+    }
+
+    public boolean editMyFileOnItemClick() {
+        if (isMyself() && isOpenedFromMainPage()) {
+            Intent intent = new Intent(getActivity(), EditMyProfileActivity.class);
+            intent.putExtra(Constants.USERBEAN, BeeboApplication.getInstance().getAccountBean().getInfo());
+            startActivity(intent);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void refreshMyProFile() {
+        startRefreshMenuAnimation();
+        finishedWatcher = new AtomicInteger(3);
+        fetchLastestUserInfoFromServer();
+        fetchTopicInfoFromServer();
+        loadNewMsg();
+    }
+
+
+    public void editMyProFile(Menu menu) {
+        MenuItem edit = menu.findItem(R.id.menu_edit);
+        edit.setVisible(BeeboApplication.getInstance().getAccountBean().isBlack_magic());
+        refreshItem = menu.findItem(R.id.menu_refresh_my_profile);
+    }
+
     private void fetchTopicInfoFromServer() {
         topicListTask = new TopicListTask();
         topicListTask.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
@@ -730,7 +730,6 @@ public class UserInfoFragment extends AbsTimeLineFragment<MessageListBean> imple
         Utility.stopListViewScrollingAndScrollToTop(getListView());
     }
 
-   
 
     private void startRefreshMenuAnimation() {
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

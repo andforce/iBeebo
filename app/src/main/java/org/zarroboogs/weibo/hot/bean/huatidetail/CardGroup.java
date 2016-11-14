@@ -1,10 +1,11 @@
 package org.zarroboogs.weibo.hot.bean.huatidetail;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class CardGroup {
-	
+
     private Mblog mblog;
     private String titleSub;
     private String desc1;
@@ -17,14 +18,14 @@ public class CardGroup {
     private double cardType;
     private String itemid;
     private double showType;
-    
-    
-	public CardGroup () {
-		
-	}	
-        
-    public CardGroup (JSONObject json) {
-    
+
+
+    public CardGroup() {
+
+    }
+
+    public CardGroup(JSONObject json) {
+
         this.mblog = new Mblog(json.optJSONObject("mblog"));
         this.titleSub = json.optString("title_sub");
         this.desc1 = json.optString("desc1");
@@ -39,8 +40,7 @@ public class CardGroup {
                     this.buttons.add(new Buttons(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("buttons");
             if (null != item) {
                 this.buttons.add(new Buttons(item));
@@ -57,7 +57,7 @@ public class CardGroup {
         this.showType = json.optDouble("show_type");
 
     }
-    
+
     public Mblog getMblog() {
         return this.mblog;
     }
@@ -155,5 +155,4 @@ public class CardGroup {
     }
 
 
-    
 }

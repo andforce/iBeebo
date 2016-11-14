@@ -30,7 +30,7 @@ public class HttpUtility {
     }
 
     public boolean executeUploadTask(String url, Map<String, String> param, String path, String imageParamName,
-            FileUploaderHttpHelper.ProgressListener listener)
+                                     FileUploaderHttpHelper.ProgressListener listener)
             throws WeiboException {
         return !Thread.currentThread().isInterrupted()
                 && new JavaHttpUtility().doUploadFile(url, param, path, imageParamName, listener);

@@ -5,30 +5,30 @@ import android.os.Parcelable;
 
 public class HotPrivacyBean implements Parcelable {
 
-//  "privacy": {
+    //  "privacy": {
 //  "mobile": 0
 //},
-	private int mobile = 0;
-	
-	
-	public int getMobile() {
-		return mobile;
-	}
+    private int mobile = 0;
 
-	public void setMobile(int mobile) {
-		this.mobile = mobile;
-	}
 
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int getMobile() {
+        return mobile;
+    }
 
-	@Override
-	public void writeToParcel(Parcel arg0, int arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setMobile(int mobile) {
+        this.mobile = mobile;
+    }
+
+    @Override
+    public int describeContents() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel arg0, int arg1) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

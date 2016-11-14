@@ -1,10 +1,11 @@
 package org.zarroboogs.weibo.hot.bean.hotweibo;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class Cards {
-	
+
     private double displayArrow;
     private Mblog mblog;
     private String openurl;
@@ -20,14 +21,14 @@ public class Cards {
     private double showType;
     private String weiboNeed;
     private double col;
-    
-    
-	public Cards () {
-		
-	}	
-        
-    public Cards (JSONObject json) {
-    
+
+
+    public Cards() {
+
+    }
+
+    public Cards(JSONObject json) {
+
         this.displayArrow = json.optDouble("display_arrow");
         this.mblog = new Mblog(json.optJSONObject("mblog"));
         this.openurl = json.optString("openurl");
@@ -45,8 +46,7 @@ public class Cards {
                     this.cardGroup.add(new CardGroup(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("card_group");
             if (null != item) {
                 this.cardGroup.add(new CardGroup(item));
@@ -67,8 +67,7 @@ public class Cards {
                     this.group.add(new Group(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("group");
             if (null != item) {
                 this.group.add(new Group(item));
@@ -81,7 +80,7 @@ public class Cards {
         this.col = json.optDouble("col");
 
     }
-    
+
     public double getDisplayArrow() {
         return this.displayArrow;
     }
@@ -203,5 +202,4 @@ public class Cards {
     }
 
 
-    
 }

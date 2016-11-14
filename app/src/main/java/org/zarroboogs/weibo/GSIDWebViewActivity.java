@@ -35,14 +35,15 @@ public class GSIDWebViewActivity extends AbstractAppActivity implements IWeiboCl
 
     private AccountBean mAccountBean;
 
-    private InjectJS mInjectJS ;
+    private InjectJS mInjectJS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_layout);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.webAuthToolbar);
-        
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -54,8 +55,8 @@ public class GSIDWebViewActivity extends AbstractAppActivity implements IWeiboCl
                 finish();
             }
         });
-        
-        
+
+
         mAccountBean = getIntent().getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
         if (mAccountBean == null) {
             mAccountBean = BeeboApplication.getInstance().getAccountBean();
@@ -78,9 +79,9 @@ public class GSIDWebViewActivity extends AbstractAppActivity implements IWeiboCl
 
     public void initView() {
         mWebView = (WebView) findViewById(R.id.webview);
-        
+
         mInjectJS = new InjectJS(mWebView);
-        
+
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.setHorizontalScrollBarEnabled(false);
         mWebView.requestFocus();
@@ -96,24 +97,25 @@ public class GSIDWebViewActivity extends AbstractAppActivity implements IWeiboCl
 
     }
 
-    class JSCallBack extends JSCallJavaInterface{
+    class JSCallBack extends JSCallJavaInterface {
 
-		@Override
-		public void onJSCallJava(String... arg0) {
-			DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
-			DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
-		}
-    	
+        @Override
+        public void onJSCallJava(String... arg0) {
+            DevLog.printLog("onJSCallJava Uname", "" + arg0[0]);
+            DevLog.printLog("onJSCallJava Upassword", "" + arg0[1]);
+        }
+
     }
+
     public void initData() {
         WeiboWebViewClient mWeiboWebViewClient = new WeiboWebViewClient();
         mWebView.setWebViewClient(mWeiboWebViewClient);
-        
-        mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value","loginPassword.value");
+
+        mInjectJS.addJSCallJavaInterface(new JSCallBack(), "loginName.value", "loginPassword.value");
         //<a href="javascript:;" class="btn btnRed" id = "loginAction">登录</a>
         //<a href="javascript:doAutoLogIn();" class="btn btnRed" id="loginAction">登录</a>
-        mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>", 
-        		"<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
+        mInjectJS.replaceDocument("<a href=\"javascript:;\" class=\"btn btnRed\" id = \"loginAction\">登录</a>",
+                "<a href=\"javascript:doAutoLogIn();\" class=\"btn btnRed\" id = \"loginAction\">登录</a>");
         mInjectJS.removeDocument("<a href=\"javascript:history.go(-1);\" class=\"close\">关闭</a>");
         mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fm.weibo.cn\">注册帐号</a><a href=\"http://m.weibo.cn/setting/forgotpwd?vt=4\">忘记密码</a>");
 
@@ -123,17 +125,17 @@ public class GSIDWebViewActivity extends AbstractAppActivity implements IWeiboCl
         mInjectJS.removeDocument("使用其他方式登录");
         mInjectJS.removeDocument("<a href=\"http://m.weibo.cn/reg/index?&vt=4&wm=3349&backURL=http%3A%2F%2Fm.weibo.cn\">注册帐号</a><a href=\"https://passport.weibo.cn/forgot/forgot?entry=wapsso&from=0\">忘记密码</a>");
         mInjectJS.injectUrl(SeniorUrl.SeniorUrl_SeniorLogin, new AssertLoader(this).loadJs("inject.js"), "gb2312");
-        
+
 
         mInjectJS.setOnLoadListener(new OnLoadListener() {
-			
-			@Override
-			public void onLoad() {
-				if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
-					mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(),mAccountBean.getPwd());
-				}
-			}
-		});
+
+            @Override
+            public void onLoad() {
+                if (mAccountBean != null && !TextUtils.isEmpty(mAccountBean.getUname()) && !TextUtils.isEmpty(mAccountBean.getPwd())) {
+                    mInjectJS.exeJsFunctionWithParam("fillAccount", mAccountBean.getUname(), mAccountBean.getPwd());
+                }
+            }
+        });
     }
 
 
@@ -179,18 +181,18 @@ public class GSIDWebViewActivity extends AbstractAppActivity implements IWeiboCl
 
         String uid = "";
         String gsid = "";
-        
+
         if (!TextUtils.isEmpty(cookie)) {
             String[] cookies = cookie.split("; ");
             for (String string : cookies) {
                 String oneLine = Uri.decode(Uri.decode(string));
-                
+
                 if (oneLine.contains("SUB=")) {
-					DevLog.printLog("GSID", "" + oneLine);
-					gsid = oneLine.split("SUB=")[1];
-				}
-                
-                if (oneLine.contains("SSOLoginState")){
+                    DevLog.printLog("GSID", "" + oneLine);
+                    gsid = oneLine.split("SUB=")[1];
+                }
+
+                if (oneLine.contains("SSOLoginState")) {
                     uid = oneLine.split("=")[1];
                     DevLog.printLog("GSID-UID", uid);
                 }
@@ -202,7 +204,7 @@ public class GSIDWebViewActivity extends AbstractAppActivity implements IWeiboCl
             manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(), AccountTable.COOKIE, pubCookie);
             manager.updateAccount(AccountTable.ACCOUNT_TABLE, mAccountBean.getUid(), AccountTable.GSID, gsid);
             BeeboApplication.getInstance().updateAccountBean();
-            
+
             finish();
         } else if (!TextUtils.isEmpty(uid)) {
             Toast.makeText(getApplicationContext(), "请登录昵称是[" + mAccountBean.getUsernick() + "]的微博！", Toast.LENGTH_LONG)

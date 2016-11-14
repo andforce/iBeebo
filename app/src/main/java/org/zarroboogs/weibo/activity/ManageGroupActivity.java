@@ -115,11 +115,11 @@ public class ManageGroupActivity extends AbstractAppActivity {
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int itemId = item.getItemId();
-			if (itemId == R.id.menu_add) {
-				AddGroupDialog dialog = new AddGroupDialog();
-				dialog.setTargetFragment(ManageGroupFragment.this, 0);
-				dialog.show(getFragmentManager(), "");
-			}
+            if (itemId == R.id.menu_add) {
+                AddGroupDialog dialog = new AddGroupDialog();
+                dialog.setTargetFragment(ManageGroupFragment.this, 0);
+                dialog.show(getFragmentManager(), "");
+            }
 
             return true;
         }
@@ -209,35 +209,35 @@ public class ManageGroupActivity extends AbstractAppActivity {
                 SparseBooleanArray positions = null;
                 ArrayList<String> checkedIdstrs = null;
                 int itemId = item.getItemId();
-				if (itemId == R.id.menu_modify_group_name) {
-					positions = getListView().getCheckedItemPositions();
-					checkedIdstrs = new ArrayList<String>();
-					String oriName = null;
-					for (int i = 0; i < positions.size(); i++) {
-					    if (positions.get(positions.keyAt(i))) {
-					        oriName = group.getLists().get(positions.keyAt(i)).getName();
-					        checkedIdstrs.add(group.getLists().get(positions.keyAt(i)).getIdstr());
-					    }
-					}
-					ModifyGroupDialog modifyGroupDialog = new ModifyGroupDialog(oriName, checkedIdstrs.get(0));
-					modifyGroupDialog.setTargetFragment(ManageGroupFragment.this, 0);
-					modifyGroupDialog.show(getFragmentManager(), "");
-					mode.finish();
-					return true;
-				} else if (itemId == R.id.menu_remove) {
-					positions = getListView().getCheckedItemPositions();
-					checkedIdstrs = new ArrayList<String>();
-					for (int i = 0; i < positions.size(); i++) {
-					    if (positions.get(positions.keyAt(i))) {
-					        checkedIdstrs.add(group.getLists().get(positions.keyAt(i)).getIdstr());
-					    }
-					}
-					RemoveGroupDialog removeGroupDialog = new RemoveGroupDialog(checkedIdstrs);
-					removeGroupDialog.setTargetFragment(ManageGroupFragment.this, 0);
-					removeGroupDialog.show(getFragmentManager(), "");
-					mode.finish();
-					return true;
-				}
+                if (itemId == R.id.menu_modify_group_name) {
+                    positions = getListView().getCheckedItemPositions();
+                    checkedIdstrs = new ArrayList<String>();
+                    String oriName = null;
+                    for (int i = 0; i < positions.size(); i++) {
+                        if (positions.get(positions.keyAt(i))) {
+                            oriName = group.getLists().get(positions.keyAt(i)).getName();
+                            checkedIdstrs.add(group.getLists().get(positions.keyAt(i)).getIdstr());
+                        }
+                    }
+                    ModifyGroupDialog modifyGroupDialog = new ModifyGroupDialog(oriName, checkedIdstrs.get(0));
+                    modifyGroupDialog.setTargetFragment(ManageGroupFragment.this, 0);
+                    modifyGroupDialog.show(getFragmentManager(), "");
+                    mode.finish();
+                    return true;
+                } else if (itemId == R.id.menu_remove) {
+                    positions = getListView().getCheckedItemPositions();
+                    checkedIdstrs = new ArrayList<String>();
+                    for (int i = 0; i < positions.size(); i++) {
+                        if (positions.get(positions.keyAt(i))) {
+                            checkedIdstrs.add(group.getLists().get(positions.keyAt(i)).getIdstr());
+                        }
+                    }
+                    RemoveGroupDialog removeGroupDialog = new RemoveGroupDialog(checkedIdstrs);
+                    removeGroupDialog.setTargetFragment(ManageGroupFragment.this, 0);
+                    removeGroupDialog.show(getFragmentManager(), "");
+                    mode.finish();
+                    return true;
+                }
                 return false;
             }
 

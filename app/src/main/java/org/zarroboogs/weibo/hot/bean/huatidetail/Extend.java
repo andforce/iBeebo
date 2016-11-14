@@ -4,22 +4,22 @@ import org.json.*;
 
 
 public class Extend {
-	
+
     private Privacy privacy;
     private String mbprivilege;
-    
-    
-	public Extend () {
-		
-	}	
-        
-    public Extend (JSONObject json) {
-    
+
+
+    public Extend() {
+
+    }
+
+    public Extend(JSONObject json) {
+
         this.privacy = new Privacy(json.optJSONObject("privacy"));
         this.mbprivilege = json.optString("mbprivilege");
 
     }
-    
+
     public Privacy getPrivacy() {
         return this.privacy;
     }
@@ -37,5 +37,4 @@ public class Extend {
     }
 
 
-    
 }

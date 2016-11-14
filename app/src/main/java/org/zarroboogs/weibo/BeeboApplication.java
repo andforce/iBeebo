@@ -121,8 +121,8 @@ public final class BeeboApplication extends Application {
         });
     }
 
-    public void updateAccountBean(){
-    	String id = SettingUtils.getDefaultAccountId();
+    public void updateAccountBean() {
+        String id = SettingUtils.getDefaultAccountId();
         if (!TextUtils.isEmpty(id)) {
             accountBean = AccountDao.getAccount(id);
         } else {
@@ -132,6 +132,7 @@ public final class BeeboApplication extends Application {
             }
         }
     }
+
     public AccountBean getAccountBean() {
         if (accountBean == null) {
             String id = SettingUtils.getDefaultAccountId();
@@ -188,7 +189,7 @@ public final class BeeboApplication extends Application {
             return "";
         }
     }
-    
+
     public String getAccessTokenHack() {
         if (getAccountBean() != null) {
             return getAccountBean().getAccess_token_hack();
@@ -226,7 +227,6 @@ public final class BeeboApplication extends Application {
             }
         };
     }
-
 
 
     public boolean checkUserIsLogin() {

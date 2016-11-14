@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="V1.02-2014.10.22" versioncode="2">
+    <release
+        version="V1.02-2014.10.22"
+        versioncode="2">
         <change>基于四次元开发</change>
         <change>每个账户由于自定义尾巴功能，需要登录2次，不是BUG</change>
         <change>支持转发，自定义尾巴</change>
     </release>
 
 
-    <release version="V1.03-2014.10.26" versioncode="3">
+    <release
+        version="V1.03-2014.10.26"
+        versioncode="3">
         <change>添加图片水印</change>
         <change>如果升级时候出现异常，请完全卸载重新安装</change>
     </release>
 
-    <release version="V1.031-2014.11.1" versioncode="4">
+    <release
+        version="V1.031-2014.11.1"
+        versioncode="4">
         <change>对源代码进行完全开源</change>
         <change>添加发图水印开关以及设置</change>
         <change>添加对崩溃信息的收集</change>
@@ -20,12 +26,16 @@
         <change>调整了设置的层次</change>
     </release>
 
-    <release version="V1.04-2014.11.16" versioncode="7">
+    <release
+        version="V1.04-2014.11.16"
+        versioncode="7">
         <change>修正Android5.0下gif黑屏崩溃问题</change>
         <change>添加发现版本自动升级功能</change>
     </release>
 
-    <release version="V2.0.0-2014.12.22" versioncode="9">
+    <release
+        version="V2.0.0-2014.12.22"
+        versioncode="9">
         <change>去掉二次登陆</change>
         <change>修改UI</change>
         <change>改名为：Beebo</change>
@@ -34,7 +44,9 @@
         <change>还有一些小细节，忘记了</change>
     </release>
 
-    <release version="v2.3.0(beta)" versioncode="19">
+    <release
+        version="v2.3.0(beta)"
+        versioncode="19">
         <change>适配5.0虚拟按键</change>
         <change>修正5.0下拉没声音的问题</change>
         <change>优化发微博逻辑</change>
@@ -44,7 +56,9 @@
         <change>修改部分图标</change>
     </release>
 
-    <release version="v2.3.3" versioncode="21">
+    <release
+        version="v2.3.3"
+        versioncode="21">
         <change>添加点赞功能</change>
         <change>修正分组展开难的问题</change>
         <change>更换图标</change>
@@ -52,24 +66,34 @@
         <change>修正Beebo+点设置崩溃问题</change>
     </release>
 
-    <release version="v2.3.4" versioncode="23">
+    <release
+        version="v2.3.4"
+        versioncode="23">
         <change>修复带图微博无法发送的BUG</change>
     </release>
 
-    <release version="v2.3.5" versioncode="24">
+    <release
+        version="v2.3.5"
+        versioncode="24">
         <change>修复无法登陆问题</change>
     </release>
 
-    <release version="v2.3.6" versioncode="25">
+    <release
+        version="v2.3.6"
+        versioncode="25">
         <change>修改登陆方式为网页授权</change>
     </release>
 
-    <release version="v2.3.7" versioncode="26">
+    <release
+        version="v2.3.7"
+        versioncode="26">
         <change>添加评论并转发和转发并评论</change>
         <change>添加部分页面Title</change>
     </release>
 
-    <release version="v2.4.0" versioncode="27">
+    <release
+        version="v2.4.0"
+        versioncode="27">
         <change>添加热门话题</change>
         <change>添加热门微博</change>
         <change>添加车模热图</change>
@@ -79,7 +103,9 @@
         <change>其他一些小细节优化</change>
     </release>
 
-    <release version="v2.4.1" versioncode="28">
+    <release
+        version="v2.4.1"
+        versioncode="28">
         <change>添加了很多热门微博分类</change>
         <change>添加了很多热门话题分类</change>
         <change>修复车模热图崩溃问题</change>
@@ -88,11 +114,15 @@
         <change>其他一些小细节优化</change>
     </release>
 
-    <release version="v2.4.3" versioncode="30">
+    <release
+        version="v2.4.3"
+        versioncode="30">
         <change>修正切换尾巴崩溃</change>
     </release>
 
-    <release version="v3.0.0" versioncode="32">
+    <release
+        version="v3.0.0"
+        versioncode="32">
         <change>Beebo正式改名为iBeebo</change>
         <change>不再提供改变尾巴功能</change>
         <change>添加通知中心页面</change>
@@ -108,7 +138,9 @@
         <change>其他性能方面的优化</change>
     </release>
 
-    <release version="v3.1.0" versioncode="35">
+    <release
+        version="v3.1.0"
+        versioncode="35">
         <change>更换全新图标</change>
         <change>修正搜索问题</change>
         <change>浏览方式设置</change>
@@ -122,18 +154,24 @@
         <change>修正其他崩溃问题</change>
     </release>
 
-    <release version="v3.1.2" versioncode="37">
+    <release
+        version="v3.1.2"
+        versioncode="37">
         <change>修正热门微博空白问题</change>
         <change>修正热门话题崩溃问题</change>
     </release>
 
-    <release version="v3.1.3" versioncode="38">
+    <release
+        version="v3.1.3"
+        versioncode="38">
         <change>修正热门微博空白问题</change>
         <change>修正热门话题崩溃问题</change>
         <change>去掉3.1.2Root授权</change>
         <change>增加【点赞】功能，无需Root</change>
     </release>
-    <release version="v3.1.4" versioncode="39">
+    <release
+        version="v3.1.4"
+        versioncode="39">
         <change>修改左侧抽屉背景</change>
         <change>更换下拉刷新样式</change>
         <change>修正点击头像崩溃</change>
@@ -144,7 +182,9 @@
         <change>修正头像不清晰</change>
         <change>修正其他一些崩溃问题</change>
     </release>
-    <release version="v3.1.5" versioncode="40">
+    <release
+        version="v3.1.5"
+        versioncode="40">
         <change>修正搜索点击头像崩溃</change>
         <change>修正发微博出现表情输入框被挡住问题</change>
         <change>修正64位机器点击授权崩溃</change>
@@ -152,7 +192,8 @@
         <change>修正点击热门话题崩溃</change>
     </release>
     <release
-        version="v3.2.2" versioncode="43">
+        version="v3.2.2"
+        versioncode="43">
         <change>最低支持到android4.4，不再向下兼容</change>
         <change>添加许多表情支持</change>
         <change>减小Apk体积</change>

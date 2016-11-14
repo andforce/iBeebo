@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">iBeebo</string>
-    
+
     <string name="private_message_list">"私信对话"</string>
     <string name="action_settings">设置</string>
     <string name="img_folder_name">文件名称</string>
@@ -374,7 +374,7 @@
     <string name="pref_open_source_license_title">开源协议</string>
     <string name="pref_special_thanks">特别感谢</string>
     <string name="pref_special_thanks_summary">"@欺凌君，给起得新名字：Beebo"</string>
-    
+
     <string name="pref_special_thanks_new_icon">"@法国老破鞋，给新绘制3.1.0之前的图标"</string>
 
     <string name="pref_special_thanks_new_icon_suanshuangde">"@酸爽的，给新绘制的3.1.0图标"</string>
@@ -401,11 +401,11 @@
     <string name="weibo_text_large_error">字数超出限制</string>
 
     <string name="select_img_title">选取图片</string>
-    
-   	<string name="delete_image">删除</string>
-   	<string name="left_drawer_hotweibo">热门微博</string>
-   	<string name="left_drawer_hothuati">热门话题</string>
-   	<string name="username">UserName</string>
+
+    <string name="delete_image">删除</string>
+    <string name="left_drawer_hotweibo">热门微博</string>
+    <string name="left_drawer_hothuati">热门话题</string>
+    <string name="username">UserName</string>
     <string name="oauth_normal_title">普通授权</string>
     <string name="oauth_senior_title">进阶授权</string>
 </resources>

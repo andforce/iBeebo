@@ -4,8 +4,8 @@ import org.json.*;
 
 public class PicInfos {
 
-	public PicInfos() {
+    public PicInfos() {
 
-	}
+    }
 
 }

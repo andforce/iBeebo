@@ -60,7 +60,6 @@ public class CommentsTimeLineByIdDao {
     }
 
 
-
     public CommentListBean getGSONMsgList() throws WeiboException {
 
         String url = WeiBoURLs.COMMENTS_TIMELINE_BY_MSGID;

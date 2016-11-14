@@ -9,4 +9,4 @@
         android:duration="1000"
         android:repeatCount="infinite"
         android:repeatMode="restart"
-        />
+    />

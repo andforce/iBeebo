@@ -4,24 +4,24 @@ import org.json.*;
 
 
 public class Group {
-	
+
     private String scheme;
     private String pic;
     private String titleSub;
-    
-    
-	public Group () {
-		
-	}	
-        
-    public Group (JSONObject json) {
-    
+
+
+    public Group() {
+
+    }
+
+    public Group(JSONObject json) {
+
         this.scheme = json.optString("scheme");
         this.pic = json.optString("pic");
         this.titleSub = json.optString("title_sub");
 
     }
-    
+
     public String getScheme() {
         return this.scheme;
     }
@@ -47,5 +47,4 @@ public class Group {
     }
 
 
-    
 }

@@ -51,7 +51,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements  OnClickListener, OnItemClickListener {
+public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements OnClickListener, OnItemClickListener {
 
     public static final int AT_USER = 0x1000;
     public static final String TAG = "RepostWeiboMainActivity ";
@@ -70,8 +70,8 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     private CheckBox mComments;
 
     public static Intent startBecauseSendFailed(Context context, AccountBean accountBean, String content,
-            MessageBean oriMsg, RepostDraftBean repostDraftBean,
-            String failedReason) {
+                                                MessageBean oriMsg, RepostDraftBean repostDraftBean,
+                                                String failedReason) {
         Intent intent = new Intent(context, RepostWeiboWithAppSrcActivity.class);
         intent.setAction(WriteRepostActivity.ACTION_SEND_FAILED);
         intent.putExtra(Constants.ACCOUNT, accountBean);
@@ -81,7 +81,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         intent.putExtra("repostDraftBean", repostDraftBean);
         return intent;
     }
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,8 +95,8 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         keyboardLayout.setOnKeyboardStateListener(new OnKeyboardStateChangeListener() {
             @Override
             public void onKeyBoardShow(int height) {
-                if (isSmileClicked){
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mEditPicScrollView.getLayoutParams();
+                if (isSmileClicked) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mEditPicScrollView.getLayoutParams();
                     params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
                     mEditPicScrollView.requestLayout();
 
@@ -105,7 +105,7 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
             @Override
             public void onKeyBoardHide() {
-                if (isSmileClicked){
+                if (isSmileClicked) {
                     showViewWithAnim(mSmileyPicker);
                 }
             }
@@ -143,12 +143,12 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
 
         Intent intent = getIntent();
         if (WriteRepostActivity.ACTION_SEND_FAILED.equals(intent.getAction())) {
-			mAccountBean = intent.getParcelableExtra(Constants.ACCOUNT);
-			mEditText.setText(intent.getStringExtra("content"));
-			msg = intent.getParcelableExtra("oriMsg");
-		}else {
-	        handleNormalOperation(intent);
-		}
+            mAccountBean = intent.getParcelableExtra(Constants.ACCOUNT);
+            mEditText.setText(intent.getStringExtra("content"));
+            msg = intent.getParcelableExtra("oriMsg");
+        } else {
+            handleNormalOperation(intent);
+        }
 
 
     }
@@ -192,11 +192,12 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         }
     };
 
-    public boolean isMoreThan140(){
+    public boolean isMoreThan140() {
         String charSequence = mEditText.getText().toString();
         int count = Utility.length(charSequence);
         return count > 140;
     }
+
     public static int calculateWeiboLength(CharSequence c) {
 
         int len = 0;
@@ -234,17 +235,17 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     @Override
     public void onBackPressed() {
         // TODO Auto-generated method stub
-        if (mSmileyPicker.isShown()){
+        if (mSmileyPicker.isShown()) {
             removeViewWithAnim(mSmileyPicker);
-        }else{
+        } else {
             super.onBackPressed();
         }
 
     }
 
-    private void removeViewWithAnim(View view){
-        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF,0, Animation.RELATIVE_TO_SELF, 1);
+    private void removeViewWithAnim(View view) {
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1);
         animation.setDuration(200);
         animation.setFillAfter(true);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -295,28 +296,28 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-		if (id == R.id.menu_topic) {
-			insertTopic();
-		} else if (id == R.id.menu_at) {
-			Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccountBean().getAccess_token());
-			startActivityForResult(intent, AT_USER);
-		} else if (id == R.id.sendWeiBoBtn) {
-			if (isMoreThan140()) {
-				Toast.makeText(getApplicationContext(), "字数超出限制", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
-				repostWeibo();
-			} else {
-			    Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
-			}
-		} else if (id == R.id.smileImgButton) {
+        if (id == R.id.menu_topic) {
+            insertTopic();
+        } else if (id == R.id.menu_at) {
+            Intent intent = AtUserActivity.atUserIntent(this, BeeboApplication.getInstance().getAccountBean().getAccess_token());
+            startActivityForResult(intent, AT_USER);
+        } else if (id == R.id.sendWeiBoBtn) {
+            if (isMoreThan140()) {
+                Toast.makeText(getApplicationContext(), "字数超出限制", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (WeiBaNetUtils.isNetworkAvaliable(getApplicationContext())) {
+                repostWeibo();
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.net_not_avaliable, Toast.LENGTH_SHORT).show();
+            }
+        } else if (id == R.id.smileImgButton) {
             // show or hide Keyboard
             isSmileClicked = true;
 
             if (keyboardLayout.getKeyBoardHelper().isKeyboardShow()) {
 
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mEditPicScrollView.getLayoutParams();
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mEditPicScrollView.getLayoutParams();
                 params.height = mEditPicScrollView.getHeight();
                 mEditPicScrollView.requestLayout();
 
@@ -325,35 +326,35 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
             } else {
                 keyboardLayout.getKeyBoardHelper().showKeyboard(mEditText);
             }
-		} else if (id == R.id.imageButton1) {
-			Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
-			startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
-		} else {
-		}
+        } else if (id == R.id.imageButton1) {
+            Intent mIntent = new Intent(getApplicationContext(), ImgFileListActivity.class);
+            startActivityForResult(mIntent, ImgFileListActivity.REQUEST_CODE);
+        } else {
+        }
 
     }
-    
+
     protected void repostWeibo() {
-        	if (Constants.isEnableAppsrc) {
-                Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, RepostWithAppSrcServices.class);
-                
-                intent.putExtra(RepostWithAppSrcServices.IS_COMMENT, mComments.isChecked());
-                intent.putExtra(RepostWithAppSrcServices.TEXT_CONTENT,getRepostTextContent());
-                intent.putExtra(RepostWithAppSrcServices.APP_SRC, getWeiba());
-                intent.putExtra(RepostWithAppSrcServices.WEIBO_MID, msg.getId());
-                startService(intent);
-                finish();
-			}else {
-	            String is_comment = mComments.isChecked() ? "" :  RepostNewMsgDao.ENABLE_COMMENT;
-	            Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, SendRepostService.class);
-	            intent.putExtra("oriMsg", msg);
-	            intent.putExtra("content", getRepostTextContent());
-	            intent.putExtra("is_comment", is_comment);
-	            intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
-	            intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
-	            startService(intent);
-	            finish();
-			}
+        if (Constants.isEnableAppsrc) {
+            Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, RepostWithAppSrcServices.class);
+
+            intent.putExtra(RepostWithAppSrcServices.IS_COMMENT, mComments.isChecked());
+            intent.putExtra(RepostWithAppSrcServices.TEXT_CONTENT, getRepostTextContent());
+            intent.putExtra(RepostWithAppSrcServices.APP_SRC, getWeiba());
+            intent.putExtra(RepostWithAppSrcServices.WEIBO_MID, msg.getId());
+            startService(intent);
+            finish();
+        } else {
+            String is_comment = mComments.isChecked() ? "" : RepostNewMsgDao.ENABLE_COMMENT;
+            Intent intent = new Intent(RepostWeiboWithAppSrcActivity.this, SendRepostService.class);
+            intent.putExtra("oriMsg", msg);
+            intent.putExtra("content", getRepostTextContent());
+            intent.putExtra("is_comment", is_comment);
+            intent.putExtra(Constants.TOKEN, BeeboApplication.getInstance().getAccessToken());
+            intent.putExtra(Constants.ACCOUNT, BeeboApplication.getInstance().getAccountBean());
+            startService(intent);
+            finish();
+        }
     }
 
     class WeiBaCacheFile implements FilenameFilter {
@@ -380,13 +381,13 @@ public class RepostWeiboWithAppSrcActivity extends BaseLoginActivity implements 
         mEditText.setSelection(0);
     }
 
-	private String getRepostTextContent() {
-		String text = mEditText.getText().toString();
+    private String getRepostTextContent() {
+        String text = mEditText.getText().toString();
         if (TextUtils.isEmpty(text)) {
             text = "转发微博";
         }
         return text;
-	}
+    }
 
     Handler mHandler = new Handler() {
 

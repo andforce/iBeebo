@@ -246,20 +246,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             deleteAllTable(db);
             onCreate(db);
         }
-        
+
         if (oldVersion <= 37) {
-        	deleteAllTable(db);
+            deleteAllTable(db);
             onCreate(db);
-		}
+        }
         if (oldVersion <= 38) {
-        	deleteAllTable(db);
+            deleteAllTable(db);
             onCreate(db);
-		}
-    	DevLog.printLog("ACCOUNT_onUpgrade", "old: " + oldVersion + "   new: " + newVersion );
+        }
+        DevLog.printLog("ACCOUNT_onUpgrade", "old: " + oldVersion + "   new: " + newVersion);
         if (oldVersion <= 39) {
-        	deleteAllTable(db);
+            deleteAllTable(db);
             onCreate(db);
-		}
+        }
 
         if (oldVersion <= 41) {
             deleteAllTable(db);

@@ -132,7 +132,6 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
     }
 
 
-
     // weibo image widgets and its forward weibo image widgets are the same
     private ViewHolder buildHolder(View convertView) {
         ViewHolder holder = new ViewHolder();
@@ -159,11 +158,11 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         holder.timeline_pic = ViewUtility.findViewById(convertView, R.id.timeline_pic_iv);
         holder.cmmentsReply = ViewUtility.findViewById(convertView, R.id.replyIV);
         holder.source = ViewUtility.findViewById(convertView, R.id.source);
-        
+
         holder.comment_source = ViewUtility.findViewById(convertView, R.id.comment_source);
-        
+
         holder.popupMenuIb = ViewUtility.findViewById(convertView, R.id.popupMenuIb);
-        
+
         return holder;
     }
 
@@ -271,7 +270,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         }
     }
 
-    public Fragment getFragment(){
+    public Fragment getFragment() {
         return fragment;
     }
 
@@ -298,7 +297,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         buildAvatar(view.getImageView(), user);
     }
 
-    protected void buildAvatar(ImageView view,  final UserBean user) {
+    protected void buildAvatar(ImageView view, final UserBean user) {
         String image_url = user.getAvatar_large();
         if (!TextUtils.isEmpty(image_url)) {
             view.setVisibility(View.VISIBLE);
@@ -427,7 +426,7 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
 
             String avatar = SettingUtils.getEnableBigPic() ? msg.getOriginal_pic() : msg.getThumbnail_pic();
 
-            ImageLoader.load(getFragment(), avatar,view.getImageView());
+            ImageLoader.load(getFragment(), avatar, view.getImageView());
 
         } else {
             view.setVisibility(View.GONE);
@@ -473,9 +472,9 @@ public abstract class AbstractAppListAdapter<T extends DataItem> extends BaseAda
         ImageView timeline_pic;
 
         ImageButton cmmentsReply;
-        
+
         ImageButton popupMenuIb;
-        
+
         TextView comment_source;
     }
 

@@ -50,14 +50,14 @@ public class TimeLineUtility {
     }
 
 
-    private static String formatLink(String ori){
+    private static String formatLink(String ori) {
         String format = "<a href=\"%s\">超链接</a>";
 
         Pattern pattern = WeiboPatterns.WEB_URL;
         Matcher matcher = pattern.matcher(ori);
         String result = ori;
 
-        while (matcher.find()){
+        while (matcher.find()) {
             int start = matcher.start();
             int end = matcher.end();
             String replaced = ori.substring(start, end);
@@ -118,7 +118,7 @@ public class TimeLineUtility {
             bean.getRetweeted_status().getSourceString();
         }
     }
-    
+
     private static SpannableString buildOriWeiboSpannalString(MessageBean oriMsg) {
         String name = "";
         UserBean oriUser = oriMsg.getUser();
@@ -240,8 +240,8 @@ public class TimeLineUtility {
     }
 
     public static boolean haveFilterWord(MessageBean content, List<String> keywordFilter, List<String> userFilter,
-            List<String> topicFilter,
-            List<String> sourceFilter) {
+                                         List<String> topicFilter,
+                                         List<String> sourceFilter) {
 
         // if this message is sent myself, ignore it;
         if (content.getUser().getId().equals(BeeboApplication.getInstance().getCurrentAccountId())) {
@@ -324,20 +324,20 @@ public class TimeLineUtility {
     }
 
 
-
     public static final Pattern EMOTION_URL = Pattern.compile("\\[(\\S+?)\\]");
-    private static void addEmotions( SpannableString value) {
-    // Paint.FontMetrics fontMetrics = mEditText.getPaint().getFontMetrics();
-    // int size = (int)(fontMetrics.descent-fontMetrics.ascent);
+
+    private static void addEmotions(SpannableString value) {
+        // Paint.FontMetrics fontMetrics = mEditText.getPaint().getFontMetrics();
+        // int size = (int)(fontMetrics.descent-fontMetrics.ascent);
         int size = 50;
 
         Map<String, Integer> smiles = SmileyMap.getInstance().getSmiles();
-        Resources resources =  BeeboApplication.getAppContext().getResources();
+        Resources resources = BeeboApplication.getAppContext().getResources();
 
         Matcher localMatcher = EMOTION_URL.matcher(value);
         while (localMatcher.find()) {
             String key = localMatcher.group(0);
-            if (smiles.containsKey(key)){
+            if (smiles.containsKey(key)) {
                 int k = localMatcher.start();
                 int m = localMatcher.end();
                 if (m - k < 8) {

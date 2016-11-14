@@ -140,7 +140,7 @@ public class SimpleTextNotificationService extends NotificationServiceHelper {
         Intent broadcastIntent = new Intent(RESET_UNREAD_MENTIONS_WEIBO_ACTION);
 
         PendingIntent deletedPendingIntent = PendingIntent.getBroadcast(BeeboApplication.getInstance(), accountBean.getUid()
-                .hashCode(), broadcastIntent,
+                        .hashCode(), broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setDeleteIntent(deletedPendingIntent);
 

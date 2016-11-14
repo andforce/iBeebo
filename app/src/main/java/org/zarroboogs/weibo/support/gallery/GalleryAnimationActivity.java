@@ -33,7 +33,7 @@ import java.util.HashMap;
 
 public class GalleryAnimationActivity extends FragmentActivity {
 
-	public static final String TAG = "GalleryAnimationActivity_";
+    public static final String TAG = "GalleryAnimationActivity_";
 
     private ArrayList<AnimationRect> rectList;
 
@@ -55,14 +55,14 @@ public class GalleryAnimationActivity extends FragmentActivity {
         intent.putExtra("rect", rectList);
         intent.putExtra("position", initPosition);
         if (isFromHotWeibo != null && isFromHotWeibo.length > 0) {
-        	intent.putExtra("isFromHotWeibo", isFromHotWeibo[0]);
-		}else {
-	        intent.putExtra("isFromHotWeibo", false);
-		}
+            intent.putExtra("isFromHotWeibo", isFromHotWeibo[0]);
+        } else {
+            intent.putExtra("isFromHotWeibo", false);
+        }
 
         return intent;
     }
-    
+
     public static Intent newIntent(HotMblogBean msg, ArrayList<AnimationRect> rectList, int initPosition) {
         Intent intent = new Intent(BeeboApplication.getInstance(), GalleryAnimationActivity.class);
         intent.putExtra("msg", msg);
@@ -70,8 +70,8 @@ public class GalleryAnimationActivity extends FragmentActivity {
         intent.putExtra("position", initPosition);
         return intent;
     }
-    
-    
+
+
     public static Intent newIntent(ArrayList<String> lPics, ArrayList<AnimationRect> rectList, int initPosition) {
         Intent intent = new Intent(BeeboApplication.getInstance(), GalleryAnimationActivity.class);
         intent.putStringArrayListExtra("pics", lPics);
@@ -92,21 +92,21 @@ public class GalleryAnimationActivity extends FragmentActivity {
         setContentView(R.layout.galleryactivity_animation_layout);
 
         boolean isModel = getIntent().getBooleanExtra("hot_model", false);
-        
+
         if (isModel) {
 
             ArrayList<String> tmp = getIntent().getStringArrayListExtra("pics");
             urls.addAll(tmp);
-		}else {
-	        MessageBean msg = getIntent().getParcelableExtra("msg");
-	        ArrayList<String> tmp = msg.getHotThumbnailPicUrls();
-	        if (tmp.isEmpty()) {
-				tmp = msg.getThumbnailPicUrls();
-			}
-	        for (int i = 0; i < tmp.size(); i++) {
-	            urls.add(tmp.get(i).replace("thumbnail", "large").replace("webp180", "large"));
-	        }
-		}
+        } else {
+            MessageBean msg = getIntent().getParcelableExtra("msg");
+            ArrayList<String> tmp = msg.getHotThumbnailPicUrls();
+            if (tmp.isEmpty()) {
+                tmp = msg.getThumbnailPicUrls();
+            }
+            for (int i = 0; i < tmp.size(); i++) {
+                urls.add(tmp.get(i).replace("thumbnail", "large").replace("webp180", "large"));
+            }
+        }
         rectList = getIntent().getParcelableArrayListExtra("rect");
 
         boolean disableHardwareLayerType = false;

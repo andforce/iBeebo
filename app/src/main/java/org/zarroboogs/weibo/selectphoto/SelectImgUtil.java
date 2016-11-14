@@ -35,7 +35,7 @@ public class SelectImgUtil {
         };
         String orderBy = MediaStore.Images.Media.DATE_TAKEN + " DESC";
         Cursor cursor = context.getContentResolver().query(uri, proj, null, null, orderBy);
-        if (cursor == null){
+        if (cursor == null) {
             return null;
         }
         while (cursor.moveToNext()) {

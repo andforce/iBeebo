@@ -13,12 +13,12 @@ import org.zarroboogs.weibo.fragment.AtUserFragment;
 public class AtUserActivity extends AbstractAppActivity {
 
     public static final String TOKEN_HACK = "token_hack";
-    
+
     public static Intent atUserIntent(Activity activity, String token) {
-		Intent intent = new Intent(activity, AtUserActivity.class);
-		intent.putExtra(TOKEN_HACK, token);
-		return intent;
-	}
+        Intent intent = new Intent(activity, AtUserActivity.class);
+        intent.putExtra(TOKEN_HACK, token);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class AtUserActivity extends AbstractAppActivity {
             getFragmentManager().beginTransaction()
                     .replace(R.id.at_content_frame, new AtUserFragment(token, mAtUserToolBar)).commit();
         }
-        
+
         disPlayHomeAsUp(mAtUserToolBar);
     }
 

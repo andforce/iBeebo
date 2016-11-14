@@ -438,7 +438,7 @@ public class Utility {
     }
 
     public static Uri getLatestCameraPicture(Activity activity) {
-        String[] projection = new String[] {
+        String[] projection = new String[]{
                 MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA,
                 MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, MediaStore.Images.ImageColumns.DATE_TAKEN,
                 MediaStore.Images.ImageColumns.MIME_TYPE
@@ -716,7 +716,7 @@ public class Utility {
     }
 
     public static void setListViewSelectionFromTop(final ListView listView, final int positionAfterRefresh, final int top,
-            final Runnable runnable) {
+                                                   final Runnable runnable) {
         listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -849,11 +849,11 @@ public class Utility {
                                     BeeboApplication.getInstance().tokenExpiredDialogIsShowing = false;
                                 }
                             }).setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                @Override
-                                public void onCancel(DialogInterface dialog) {
-                                    // do nothing
-                                }
-                            }).show();
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            // do nothing
+                        }
+                    }).show();
                     BeeboApplication.getInstance().tokenExpiredDialogIsShowing = true;
                 }
             });
@@ -988,9 +988,8 @@ public class Utility {
     }
 
 
-
     public static void unregisterReceiverIgnoredReceiverNotRegisteredException(Context context,
-            RecordOperationAppBroadcastReceiver broadcastReceiver) {
+                                                                               RecordOperationAppBroadcastReceiver broadcastReceiver) {
         if (broadcastReceiver == null || broadcastReceiver.hasUnRegistered() || !broadcastReceiver.hasRegistered()) {
             return;
         }
@@ -1003,8 +1002,8 @@ public class Utility {
     }
 
     public static void registerReceiverIgnoredReceiverHasRegisteredHereException(Context context,
-            RecordOperationAppBroadcastReceiver broadcastReceiver,
-            IntentFilter intentFilter) {
+                                                                                 RecordOperationAppBroadcastReceiver broadcastReceiver,
+                                                                                 IntentFilter intentFilter) {
         if (broadcastReceiver == null || broadcastReceiver.hasRegistered() || intentFilter == null) {
             return;
         }
@@ -1026,9 +1025,9 @@ public class Utility {
         BitmapFactory.decodeFile(path, options);
         String type = options.outMimeType;
 
-        MediaScannerConnection.scanFile(BeeboApplication.getInstance(), new String[] {
+        MediaScannerConnection.scanFile(BeeboApplication.getInstance(), new String[]{
                 path
-        }, new String[] {
+        }, new String[]{
                 type
         }, null);
 
@@ -1058,24 +1057,24 @@ public class Utility {
         view.draw(c);
         return b;
     }
-    
-    public static void printLongLog(String tagString, String log){
-    	if (TextUtils.isEmpty(log)) {
-			Log.d(tagString, log);
-		}else {
-			if (log.length() > 3000) {
-				int len = log.length();
-				int devideNumber = len / 3000;
-				
-				int j = 0;
-				for (int i = 0; i < devideNumber; i++) {
-					Log.d(tagString, log.substring(j, j + 3000));
-					j += 3000;
-				}
-				Log.d(tagString, log.substring(j, log.length()));
-			}else {
-				Log.d(tagString, log);
-			}
-		}
+
+    public static void printLongLog(String tagString, String log) {
+        if (TextUtils.isEmpty(log)) {
+            Log.d(tagString, log);
+        } else {
+            if (log.length() > 3000) {
+                int len = log.length();
+                int devideNumber = len / 3000;
+
+                int j = 0;
+                for (int i = 0; i < devideNumber; i++) {
+                    Log.d(tagString, log.substring(j, j + 3000));
+                    j += 3000;
+                }
+                Log.d(tagString, log.substring(j, log.length()));
+            } else {
+                Log.d(tagString, log);
+            }
+        }
     }
 }

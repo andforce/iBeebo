@@ -1,10 +1,11 @@
 package org.zarroboogs.weibo.hot.bean.hotweibo;
 
 import org.json.*;
+
 import java.util.ArrayList;
 
 public class CardlistInfo {
-	
+
     private String pageType;
     private String sharedText;
     private ArrayList<CardlistMenus> cardlistMenus;
@@ -18,14 +19,14 @@ public class CardlistInfo {
     private String sharedTextQrcode;
     private double showStyle;
     private String titleTop;
-    
-    
-	public CardlistInfo () {
-		
-	}	
-        
-    public CardlistInfo (JSONObject json) {
-    
+
+
+    public CardlistInfo() {
+
+    }
+
+    public CardlistInfo(JSONObject json) {
+
         this.pageType = json.optString("page_type");
         this.sharedText = json.optString("shared_text");
 
@@ -39,8 +40,7 @@ public class CardlistInfo {
                     this.cardlistMenus.add(new CardlistMenus(item));
                 }
             }
-        }
-        else {
+        } else {
             JSONObject item = json.optJSONObject("cardlist_menus");
             if (null != item) {
                 this.cardlistMenus.add(new CardlistMenus(item));
@@ -59,7 +59,7 @@ public class CardlistInfo {
         this.titleTop = json.optString("title_top");
 
     }
-    
+
     public String getPageType() {
         return this.pageType;
     }
@@ -165,5 +165,4 @@ public class CardlistInfo {
     }
 
 
-    
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp" >
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
 
     <TextView
         android:id="@+id/time"
@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:text="12:00"
         android:textColor="?android:textColorTertiary"
-        android:textSize="10sp" />
+        android:textSize="10sp"/>
 
     <org.zarroboogs.weibo.widget.TimeLineAvatarImageView
         android:id="@+id/avatar"
@@ -25,7 +25,7 @@
         android:layout_marginRight="3dp"
         android:layout_marginTop="5dp"
         android:clickable="true"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
         android:layout_toRightOf="@id/avatar"
         android:background="@drawable/other_dm_item_selector"
         android:padding="8dp"
-        tools:ignore="RtlHardcoded" >
+        tools:ignore="RtlHardcoded">
 
         <TextView
             android:id="@+id/content"
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="content"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
     </RelativeLayout>
 
 </RelativeLayout>

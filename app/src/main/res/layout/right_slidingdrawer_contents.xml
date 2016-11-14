@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
     <org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout
         android:id="@+id/rightMenuGroupSRL"
@@ -19,6 +19,6 @@
             android:overScrollMode="never"
             android:scrollingCache="true"
             android:smoothScrollbar="true"
-            android:visibility="visible" />
+            android:visibility="visible"/>
     </org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout>
 </RelativeLayout>

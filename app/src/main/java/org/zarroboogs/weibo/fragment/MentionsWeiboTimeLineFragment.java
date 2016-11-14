@@ -448,17 +448,17 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
 
     private class RefreshReCmtCountTask extends MyAsyncTask<Void, List<MessageReCmtCountBean>, List<MessageReCmtCountBean>> {
 
-    	private List<String> msgIds;
-    	private String mToken ;
+        private List<String> msgIds;
+        private String mToken;
 
-    	
+
         public RefreshReCmtCountTask(String token) {
-			super();
-			// TODO Auto-generated constructor stub
-			mToken = token;
-		}
+            super();
+            // TODO Auto-generated constructor stub
+            mToken = token;
+        }
 
-		@Override
+        @Override
         protected void onPreExecute() {
             super.onPreExecute();
             msgIds = new ArrayList<String>();
@@ -519,12 +519,12 @@ public class MentionsWeiboTimeLineFragment extends AbsTimeLineFragment<MessageLi
             }
         }.executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
     }
-    
+
     @Override
     protected void onNewMsgLoaderFailedCallback(WeiboException exception) {
-    	if (exception.getError().trim().equals("用户请求超过上限")) {
-    		token = accountBean.getAccess_token_hack();
-		}
-    	Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
+        if (exception.getError().trim().equals("用户请求超过上限")) {
+            token = accountBean.getAccess_token_hack();
+        }
+        Toast.makeText(getActivity(), exception.getError(), Toast.LENGTH_SHORT).show();
     }
 }

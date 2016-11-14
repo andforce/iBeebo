@@ -4,24 +4,24 @@ import org.json.*;
 
 
 public class CardlistMenus {
-	
+
     private String name;
     private String type;
     private Params params;
-    
-    
-	public CardlistMenus () {
-		
-	}	
-        
-    public CardlistMenus (JSONObject json) {
-    
+
+
+    public CardlistMenus() {
+
+    }
+
+    public CardlistMenus(JSONObject json) {
+
         this.name = json.optString("name");
         this.type = json.optString("type");
         this.params = new Params(json.optJSONObject("params"));
 
     }
-    
+
     public String getName() {
         return this.name;
     }
@@ -47,5 +47,4 @@ public class CardlistMenus {
     }
 
 
-    
 }

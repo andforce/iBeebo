@@ -73,14 +73,14 @@ public class MessageBean extends DataItem implements Parcelable {
     private List<HotWeiboPicInfos> pic_infos = new ArrayList<>();
 
     public List<HotWeiboPicInfos> getPic_infos() {
-		return pic_infos;
-	}
+        return pic_infos;
+    }
 
-	public void setPic_infos(List<HotWeiboPicInfos> pic_infos) {
-		this.pic_infos = pic_infos;
-	}
+    public void setPic_infos(List<HotWeiboPicInfos> pic_infos) {
+        this.pic_infos = pic_infos;
+    }
 
-	public static class PicUrls implements Parcelable {
+    public static class PicUrls implements Parcelable {
 
         public String thumbnail_pic;
 
@@ -121,7 +121,7 @@ public class MessageBean extends DataItem implements Parcelable {
         dest.writeString(idstr);
         dest.writeString(text);
         dest.writeString(source);
-        dest.writeBooleanArray(new boolean[] {
+        dest.writeBooleanArray(new boolean[]{
                 this.favorited
         });
         dest.writeString(truncated);
@@ -146,7 +146,7 @@ public class MessageBean extends DataItem implements Parcelable {
 
         dest.writeTypedList(pic_urls);
         dest.writeStringList(pic_ids);
-        
+
         dest.writeTypedList(pic_infos);
 
     }
@@ -188,10 +188,10 @@ public class MessageBean extends DataItem implements Parcelable {
 
             messageBean.pic_ids = new ArrayList<String>();
             in.readStringList(messageBean.pic_ids);
-            
+
             messageBean.pic_infos = new ArrayList<HotWeiboPicInfos>();
             in.readTypedList(messageBean.pic_infos, HotWeiboPicInfos.CREATOR);
-            
+
             return messageBean;
         }
 
@@ -429,8 +429,8 @@ public class MessageBean extends DataItem implements Parcelable {
     private ArrayList<String> middleUrls = new ArrayList<String>();
 
     private ArrayList<String> highUrls = new ArrayList<String>();
-    
-    
+
+
     public ArrayList<String> getThumbnailPicUrls() {
         if (thumbnaiUrls.size() > 0) {
             return thumbnaiUrls;
@@ -493,7 +493,6 @@ public class MessageBean extends DataItem implements Parcelable {
         return value;
     }
 
-    
 
     public ArrayList<String> getHotThumbnailPicUrls() {
         if (thumbnaiUrls.size() > 0) {
@@ -501,8 +500,8 @@ public class MessageBean extends DataItem implements Parcelable {
         }
         ArrayList<String> value = new ArrayList<String>();
         for (HotWeiboPicInfos infos : pic_infos) {
-        	value.add(infos.getThumbnail().getUrl());
-		}
+            value.add(infos.getThumbnail().getUrl());
+        }
         this.thumbnaiUrls.addAll(value);
         return value;
     }
@@ -513,8 +512,8 @@ public class MessageBean extends DataItem implements Parcelable {
         }
         ArrayList<String> value = new ArrayList<String>();
         for (HotWeiboPicInfos infos : pic_infos) {
-        	value.add(infos.getBmiddle().getUrl());
-		}
+            value.add(infos.getBmiddle().getUrl());
+        }
         this.middleUrls.addAll(value);
         return value;
     }
@@ -527,8 +526,8 @@ public class MessageBean extends DataItem implements Parcelable {
         ArrayList<String> value = new ArrayList<String>();
 
         for (HotWeiboPicInfos infos : pic_infos) {
-        	value.add(infos.getOriginal().getUrl());
-		}
+            value.add(infos.getOriginal().getUrl());
+        }
         this.highUrls.addAll(value);
 
         return value;

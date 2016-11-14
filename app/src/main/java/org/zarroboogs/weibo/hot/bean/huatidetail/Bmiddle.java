@@ -4,20 +4,20 @@ import org.json.*;
 
 
 public class Bmiddle {
-	
+
     private double height;
     private String type;
     private String url;
     private double width;
     private double cutType;
-    
-    
-	public Bmiddle () {
-		
-	}	
-        
-    public Bmiddle (JSONObject json) {
-    
+
+
+    public Bmiddle() {
+
+    }
+
+    public Bmiddle(JSONObject json) {
+
         this.height = json.optDouble("height");
         this.type = json.optString("type");
         this.url = json.optString("url");
@@ -25,7 +25,7 @@ public class Bmiddle {
         this.cutType = json.optDouble("cut_type");
 
     }
-    
+
     public double getHeight() {
         return this.height;
     }
@@ -67,5 +67,4 @@ public class Bmiddle {
     }
 
 
-    
 }

@@ -4,20 +4,20 @@ import org.json.*;
 
 
 public class Apps {
-	
+
     private String openurl;
     private String title;
     private double count;
     private String type;
     private String scheme;
-    
-    
-	public Apps () {
-		
-	}	
-        
-    public Apps (JSONObject json) {
-    
+
+
+    public Apps() {
+
+    }
+
+    public Apps(JSONObject json) {
+
         this.openurl = json.optString("openurl");
         this.title = json.optString("title");
         this.count = json.optDouble("count");
@@ -25,7 +25,7 @@ public class Apps {
         this.scheme = json.optString("scheme");
 
     }
-    
+
     public String getOpenurl() {
         return this.openurl;
     }
@@ -67,5 +67,4 @@ public class Apps {
     }
 
 
-    
 }

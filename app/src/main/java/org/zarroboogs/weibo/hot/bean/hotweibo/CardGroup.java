@@ -4,7 +4,7 @@ import org.json.*;
 
 
 public class CardGroup {
-	
+
     private String itemid;
     private String scheme;
     private double cardType;
@@ -13,14 +13,14 @@ public class CardGroup {
     private String title;
     private String cardTypeName;
     private double showType;
-    
-    
-	public CardGroup () {
-		
-	}	
-        
-    public CardGroup (JSONObject json) {
-    
+
+
+    public CardGroup() {
+
+    }
+
+    public CardGroup(JSONObject json) {
+
         this.itemid = json.optString("itemid");
         this.scheme = json.optString("scheme");
         this.cardType = json.optDouble("card_type");
@@ -31,7 +31,7 @@ public class CardGroup {
         this.showType = json.optDouble("show_type");
 
     }
-    
+
     public String getItemid() {
         return this.itemid;
     }
@@ -97,5 +97,4 @@ public class CardGroup {
     }
 
 
-    
 }

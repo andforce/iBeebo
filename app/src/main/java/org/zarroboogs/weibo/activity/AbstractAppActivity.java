@@ -53,24 +53,25 @@ public class AbstractAppActivity extends ToolBarAppCompatActivity {
 
     }
 
-    public void disPlayHomeAsUp(int toolbarId){
-    	Toolbar toolbar = ViewUtility.findViewById(this, toolbarId);
-    	disPlayHomeAsUp(toolbar);
+    public void disPlayHomeAsUp(int toolbarId) {
+        Toolbar toolbar = ViewUtility.findViewById(this, toolbarId);
+        disPlayHomeAsUp(toolbar);
     }
-	public void disPlayHomeAsUp(Toolbar toolbar) {
-		if (toolbar != null) {
-			setSupportActionBar(toolbar);
-	        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	        toolbar.setNavigationOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					finish();
-				}
-			});
-		}
-	}
+
+    public void disPlayHomeAsUp(Toolbar toolbar) {
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    finish();
+                }
+            });
+        }
+    }
 
     public AsyncHttpRequest getAsyncHttpClient() {
         if (mAsyncHttoClient == null) {

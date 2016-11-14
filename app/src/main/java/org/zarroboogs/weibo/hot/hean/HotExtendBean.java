@@ -3,45 +3,45 @@ package org.zarroboogs.weibo.hot.hean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class HotExtendBean implements Parcelable{
+public class HotExtendBean implements Parcelable {
 
-//	"extend": {
+    //	"extend": {
 //    "privacy": {
 //        "mobile": 0
 //    },
 //    "mbprivilege": "0000000000000000000000000000000000000000000000000000000000010000"
 //},
 //	
-	private HotPrivacyBean privacy = null;
-	private String mbprivilege = "";
-	
-	
-	public HotPrivacyBean getPrivacy() {
-		return privacy;
-	}
+    private HotPrivacyBean privacy = null;
+    private String mbprivilege = "";
 
-	public void setPrivacy(HotPrivacyBean privacy) {
-		this.privacy = privacy;
-	}
 
-	public String getMbprivilege() {
-		return mbprivilege;
-	}
+    public HotPrivacyBean getPrivacy() {
+        return privacy;
+    }
 
-	public void setMbprivilege(String mbprivilege) {
-		this.mbprivilege = mbprivilege;
-	}
+    public void setPrivacy(HotPrivacyBean privacy) {
+        this.privacy = privacy;
+    }
 
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public String getMbprivilege() {
+        return mbprivilege;
+    }
 
-	@Override
-	public void writeToParcel(Parcel arg0, int arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setMbprivilege(String mbprivilege) {
+        this.mbprivilege = mbprivilege;
+    }
+
+    @Override
+    public int describeContents() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel arg0, int arg1) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

@@ -132,7 +132,7 @@ public class ImageUtility {
     }
 
     public static Bitmap getMiddlePictureInTimeLine(String url, int reqWidth, int reqHeight,
-            FileDownloaderHttpHelper.DownloadListener downloadListener)
+                                                    FileDownloaderHttpHelper.DownloadListener downloadListener)
             throws WeiboException {
         try {
 
@@ -241,7 +241,7 @@ public class ImageUtility {
     }
 
     public static Bitmap getRoundedCornerPic(String url, int reqWidth, int reqHeight, FileLocationMethod method,
-            FileDownloaderHttpHelper.DownloadListener downloadListener) throws WeiboException {
+                                             FileDownloaderHttpHelper.DownloadListener downloadListener) throws WeiboException {
         try {
 
             if (!FileManager.isExternalStorageMounted()) {
@@ -426,7 +426,7 @@ public class ImageUtility {
     }
 
     public static Bitmap getMiddlePictureInBrowserMSGActivity(String url, FileLocationMethod method,
-            FileDownloaderHttpHelper.DownloadListener downloadListener) {
+                                                              FileDownloaderHttpHelper.DownloadListener downloadListener) {
 
         try {
 
@@ -455,8 +455,8 @@ public class ImageUtility {
     }
 
     public static String getLargePictureWithoutRoundedCorner(String url,
-            FileDownloaderHttpHelper.DownloadListener downloadListener,
-            FileLocationMethod fileLocationMethod) {
+                                                             FileDownloaderHttpHelper.DownloadListener downloadListener,
+                                                             FileLocationMethod fileLocationMethod) {
 
         String absoluteFilePath = FileManager.getFilePathFromUrl(url, fileLocationMethod);
 
@@ -700,7 +700,7 @@ public class ImageUtility {
     }
 
     public static boolean getBitmapFromNetWork(String url, String path,
-            FileDownloaderHttpHelper.DownloadListener downloadListener) {
+                                               FileDownloaderHttpHelper.DownloadListener downloadListener) {
         for (int i = 0; i < 3; i++) {
             if (HttpUtility.getInstance().executeDownloadTask(url, path, downloadListener)) {
                 return true;
@@ -757,7 +757,7 @@ public class ImageUtility {
         height = (int) (min * actualHeight);
         width = (int) (min * actualWidth);
 
-        return new int[] {
+        return new int[]{
                 width, height
         };
     }

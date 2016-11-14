@@ -43,7 +43,7 @@ public class ImageLoader {
         manager(fragment).load(string).placeholder(R.color.image_loader_place_holder).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(imageView);
     }
 
-    public static void loadBitmap(Fragment fragment, String string, final ImageView imageView){
+    public static void loadBitmap(Fragment fragment, String string, final ImageView imageView) {
         manager(fragment.getContext()).load(string).asBitmap().listener(new RequestListener<String, Bitmap>() {
             @Override
             public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {

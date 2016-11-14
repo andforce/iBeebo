@@ -108,8 +108,8 @@ public class SendWeiboService extends Service {
         StatusDraftBean statusDraftBean;
 
         public WeiboSendTask(int lastNotificationId, String token, AccountBean account, String picPath, String content,
-                GeoBean geoBean,
-                StatusDraftBean statusDraftBean) {
+                             GeoBean geoBean,
+                             StatusDraftBean statusDraftBean) {
             this.lastNotificationId = lastNotificationId;
             this.token = token;
             this.account = account;

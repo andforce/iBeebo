@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:padding="10dp"
-    android:layout_height="match_parent" >
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/filephoto_imgview"
@@ -11,7 +11,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/imgbg" />
+        android:src="@drawable/imgbg"/>
 
     <RelativeLayout
         android:layout_alignTop="@id/filephoto_imgview"
@@ -21,7 +21,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/filephoto_imgview"
         android:gravity="left|center_vertical"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/filename_textview"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@string/img_folder_name"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:layout_toRightOf="@id/filename_textview"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:text="@string/img_number"
             android:textColor="#8B7D7B"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </RelativeLayout>
 
 </RelativeLayout>

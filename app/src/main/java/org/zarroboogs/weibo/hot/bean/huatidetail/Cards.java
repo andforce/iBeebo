@@ -3,7 +3,7 @@ package org.zarroboogs.weibo.hot.bean.huatidetail;
 import java.util.ArrayList;
 
 public class Cards {
-	
+
     private double displayArrow;
     private String buttontitle;
     private ArrayList<String> hideOids;
@@ -21,13 +21,13 @@ public class Cards {
     private String openurl;
     private String appid;
     private double showType;
-    
-    
-	public Cards () {
-		
-	}	
-        
-    
+
+
+    public Cards() {
+
+    }
+
+
     public double getDisplayArrow() {
         return this.displayArrow;
     }
@@ -165,5 +165,4 @@ public class Cards {
     }
 
 
-    
 }

@@ -155,9 +155,9 @@ public class BigPicContainerFragment extends Fragment {
             }
             getChildFragmentManager().beginTransaction().replace(R.id.child, fragment).commitAllowingStateLoss();
 
-            DevLog.printLog("isThisBitmapTooLargeToRead","不大能显示");
+            DevLog.printLog("isThisBitmapTooLargeToRead", "不大能显示");
         } else {
-            DevLog.printLog("isThisBitmapTooLargeToRead","图片太大不能显示");
+            DevLog.printLog("isThisBitmapTooLargeToRead", "图片太大不能显示");
             LargePictureFragment fragment = LargePictureFragment.newInstance(path, animateIn);
             getChildFragmentManager().beginTransaction().replace(R.id.child, fragment).commitAllowingStateLoss();
         }
